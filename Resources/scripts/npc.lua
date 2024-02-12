@@ -42,6 +42,72 @@ function objects.BlueFairyNPC:initialize()
 	
 end
 
+--------------------------------------------------------------------------------
+
+objects.MeilingGuard = class("MeilingGuard")
+
+objects.MeilingGuard.states = {
+	meiling1 = 'look_around',
+	meiling2 = 'loop_path',
+	meiling3 = 'scan_path',
+	meiling4 = 'scan_path',
+	meiling5 = 'scan_path',
+	meiling6 = 'scan_path',
+	meiling7 = 'loop_path'
+}
+
+objects.MeilingGuard.angular_speed = math.pi * 0.5
+
+function objects.MeilingGuard:init(super)
+	self.super = super
+end
+
+function objects.MeilingGuard:initialize(super)
+	if self.super.name == '' then
+		app.log('Un-named guard!')
+		return
+	end
+
+	local s = self.states[self.super.name]
+	if not s then
+		app.log(string.format("Guard %s does not have a state defined.", self.super.name))
+		return
+	end
+	
+	local f = self[s]
+	if not f then
+		app.log(string.format("Unknown state function %s!", s))
+		return
+	end
+	
+	f(self)
+end
+
+function objects.MeilingGuard:update(super)
+	if self.func then
+		self.func:update()
+	end
+end
+
+function objects.MeilingGuard:look_around(super)
+	self.func = ai.LookAround.create(self.super:getAsObject(), self.angular_speed)
+end
+
+function objects.MeilingGuard:loop_path(super)
+	local p = self.super.space:getPath(self.super.name)
+	if not p then
+		app.log(string.format("Unknown path %s!", self.super.name))
+		return
+	end
+	
+	self.func = ai.FollowPathKinematic.create(self.super:getAsObject(), p)
+end
+
+--function objects.MeilingGuard:scan_path(super)
+--end
+
+--------------------------------------------------------------------------------
+
 objects.Patchouli2 = class("Patchouli")
 
 objects.Patchouli2.numShelfs = 8

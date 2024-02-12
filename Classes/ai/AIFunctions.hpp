@@ -241,6 +241,30 @@ protected:
 	bool stopForObstacle = false;
 };
 
+class FollowPathKinematic : public Function {
+public:
+	FollowPathKinematic(
+        GObject* object,
+        shared_ptr<const Path> path
+    );
+	inline virtual ~FollowPathKinematic() {}
+
+    void setSegment(size_t idx1, size_t idx2);
+    void nextSegment();
+
+    virtual void init();
+	virtual void update();
+	FuncGetName(FollowPathKinematic)
+protected:
+	shared_ptr<const Path> path;
+    SpaceVect currentSegmentStart;
+    SpaceVect currentSegmentDisplacementNormal;
+    SpaceFloat d = 0.0;
+    SpaceFloat currentSegmentLength = 0.0;
+    int idx1 = 0;
+    int idx2 = 1;
+};
+
 class Wait : public Function {
 public:
     Wait(GObject* object, SpaceFloat duration);

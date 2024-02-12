@@ -169,6 +169,19 @@ void GScene::loadMapObjects(const TMXTiledMap& map, IntVec2 offset)
     }
 }
 
+const ValueVector& getPoints(const ValueMap& map, const string& name)
+{
+    auto it1 = map.find("polylinePoints");
+    auto it2 = map.find("points");
+    
+    if(it1 != map.end())
+        return it1->second.asValueVector();
+    else if(it2 != map.end())
+        return it2->second.asValueVector();
+    else
+        logAndThrowError("Error parsing path object %s!", name);
+}
+
 void GScene::loadPaths(const TMXTiledMap& map, IntVec2 offset)
 {
 	Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
@@ -185,7 +198,7 @@ void GScene::loadPaths(const TMXTiledMap& map, IntVec2 offset)
 		ValueMap asMap = value.asValueMap();
 
 		string name = asMap.at("name").asString();
-		ValueVector points = asMap.at("polylinePoints").asValueVector();
+		const ValueVector& points = getPoints(asMap, name);
 		SpaceVect origin(asMap.at("x").asFloat(), asMap.at("y").asFloat());
 
 		for(auto const& point: points)

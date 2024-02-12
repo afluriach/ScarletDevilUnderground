@@ -569,6 +569,57 @@ void FollowPath::update()
 	}
 }
 
+FollowPathKinematic::FollowPathKinematic(
+    GObject* object,
+    shared_ptr<const Path> path
+) :
+	Function(object),
+	path(path)
+{
+    if(path->size() < 2){
+        log1("Invalid path size of %d", path->size());
+    }
+}
+
+void FollowPathKinematic::setSegment(size_t idx1, size_t idx2)
+{
+    this->idx1 = idx1;
+    this->idx2 = idx2;
+    
+    SpaceVect disp = (*path)[idx2] - (*path)[idx1];
+    currentSegmentStart = (*path)[idx1];
+    currentSegmentLength = disp.length();
+    currentSegmentDisplacementNormal = disp.normalize();
+    d = 0.0;
+    
+    object->setDirection(toDirection(ai::directionToTarget(object, (*path)[idx2])));
+}
+
+void FollowPathKinematic::nextSegment()
+{
+    if(idx2 == path->size() - 1)
+        setSegment(path->size() - 1, 0);
+    else if(idx1 == path->size() - 1)
+        setSegment(0,1);
+    else
+        setSegment(idx1 + 1, idx2 + 1);
+}
+
+void FollowPathKinematic::init()
+{
+    setSegment(0, 1);
+}
+
+void FollowPathKinematic::update()
+{
+    SpaceFloat speed = object->getMaxSpeed();
+    d += speed * app::params.secondsPerFrame;
+    object->setPos(currentSegmentStart + currentSegmentDisplacementNormal*d);
+    
+    if(d >= currentSegmentLength)
+        nextSegment();
+}
+
 Wander::Wander(GObject* object, SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist) :
 	Function(object),
 	minWait(minWait),

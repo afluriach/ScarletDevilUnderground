@@ -68,6 +68,12 @@ namespace Lua{
 		);
 		evade["create"] = &create<ai::Evade, GType>;
 
+		auto look_around = _ai.new_usertype<ai::LookAround>(
+			"LookAround",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		look_around["create"] = &create<ai::LookAround, SpaceFloat>;
+
 		auto flank = _ai.new_usertype<ai::Flank>(
 			"Flank",
 			sol::base_classes, sol::bases<ai::Function>()
@@ -121,6 +127,12 @@ namespace Lua{
 		follow_path["create"] = &create<ai::FollowPath, shared_ptr<const Path>, bool, bool>;
         addFuncSame(follow_path, pathToTarget);
         addFuncSame(follow_path, pathToPoint);
+
+		auto follow_path_kinematic = _ai.new_usertype<ai::FollowPathKinematic>(
+			"FollowPathKinematic",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		follow_path_kinematic["create"] = &create<ai::FollowPathKinematic, shared_ptr<const Path>>;
 
 		auto lookTowardsFire = _ai.new_usertype<ai::LookTowardsFire>(
 			"LookTowardsFire",

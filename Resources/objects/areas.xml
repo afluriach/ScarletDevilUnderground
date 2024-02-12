@@ -4,6 +4,8 @@
 	<mansion_f1 map="overworld/mansion_f1" ambient_light="0.7,0.7,0.7"/>
 	<mansion_f2 map="overworld/mansion_f2" ambient_light="0.875,0.75,0.75"/>
 
+	<mansion_outside1 map="overworld/mansion_outside1" ambient_light="0.875,0.75,0.75"/>
+
 	<clearing map="overworld/clearing" ambient_light="0.875,0.875,0.875"/>
 
 	<graveyard map="overworld/graveyard"/>

@@ -201,8 +201,8 @@ void LoadProfileDetailMenu::loadProfile()
 const string SceneSelect::title = "Scene Select";
 
 const vector<string> SceneSelect::entries = {
-	"Collect",
-	"Stalker Room",
+	"library2",
+	"mansion_outside1",
 	"Wander",
 	"Facer Floor",
 	"Sakuya Room",
@@ -215,8 +215,8 @@ const vector<string> SceneSelect::entries = {
 };
 
 const vector<zero_arity_function> SceneSelect::entryActions = {
-	{ sceneLaunchAdapterByName("Collect") },
-	{ sceneLaunchAdapterByName("StalkerRoom") },
+	{ sceneLaunchAdapterByName("library2") },
+	{ sceneLaunchAdapterByName("mansion_outside1") },
 	{ sceneLaunchAdapterByName("Wander") },
 	{ sceneLaunchAdapterByName("FacerFloor") },
 	{ sceneLaunchAdapterByName("SakuyaRoom") },

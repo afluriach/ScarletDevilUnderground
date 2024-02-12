@@ -63,6 +63,11 @@
 		</dialogs>	
 	</Meiling1>
 	
+	<MeilingGuard
+		sprite="meiling"
+		mass="0.0"
+	/>
+	
 	<Patchouli
 		sprite="patchouli"
 		mass="-1.0"

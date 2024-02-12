@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="72" height="24" tilewidth="128" tileheight="128" infinite="0" nextlayerid="12" nextobjectid="96">
+ <properties>
+  <property name="ambient_light" value="224,224,224"/>
+ </properties>
+ <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="../grass-floor.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="dirt path horizontal" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../dirt path horizontal.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="6" name="tree" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="../tree.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="10" name="dirt path vertical" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../dirt path vertical.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="11" name="fence" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="../fence.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="15" name="block_wall" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../block_wall.png" width="128" height="128"/>
+ </tileset>
+ <layer id="1" name="grass" width="72" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzt0bERgDAQwLAPsP/MZACo5SKFTwN4zcy1W8dP791z/FX/qav/1NV/6uo/dfWfuvpPXf2nrv5TV/+pq//U1X/q6j919Z+6+k9d/aeu/lNX/6mr/9TVf+rqP3X1n7r6T90XRyAQ4Q==
+  </data>
+ </layer>
+ <layer id="2" name="mansion_wall" width="72" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzt0MEJAAAIA7Fu4P7buoMfBRO4f2klqQdNbe++/g8AAAAAAMA1Dc+4Bs0=
+  </data>
+ </layer>
+ <layer id="3" name="gate" width="72" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzt0LEJADAMA0H3gew/bjYQgRQO+A7Ui6+aaXcf+Jw+mT6ZPtltnzV0AAAAAACvDkwOAvE=
+  </data>
+ </layer>
+ <layer id="6" name="trees1" width="72" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztl9EKwyAMRfu0rf//w+uLMKSJuZJbb7sckBAQsfYYdduKM15He6+ehDCfo+2rJyFM+eNT/viUPz7NH2udstZP5T+g82j9rX2Wtf9U9jE6D9Sflo9idBwrZ8H2p+WjGB3Hylmw/RmR5U/UU9Tn2f5Z9SfLn6inqM+z/dnn1FPrD8q/1R+Uu9Qf9HvU/GHXn1+8u4nq+cXCWwNv7dTOLxaz/lisuj9fWX8i/lisuj9fWX88UH9YqLzve1B/WKi873v686viecze70+LX6nkEC0=
+  </data>
+ </layer>
+ <objectgroup id="8" name="walls">
+  <object id="76" x="0" y="2816" width="9216" height="256"/>
+  <object id="77" x="8960" y="0" width="256" height="2816"/>
+  <object id="78" x="7936" y="0" width="128" height="640"/>
+  <object id="79" x="0" y="640" width="7936" height="128"/>
+  <object id="80" x="0" y="768" width="256" height="1536"/>
+  <object id="81" x="768" y="2048" width="256" height="768"/>
+  <object id="82" x="768" y="768" width="256" height="768"/>
+  <object id="83" x="1280" y="1024" width="1280" height="256"/>
+  <object id="84" x="1280" y="2304" width="1280" height="256"/>
+  <object id="85" x="2304" y="1280" width="256" height="1024"/>
+  <object id="86" x="3072" y="768" width="256" height="1792"/>
+  <object id="87" x="4096" y="1024" width="256" height="1792"/>
+  <object id="88" x="4608" y="1280" width="2560" height="256"/>
+  <object id="89" x="4608" y="1792" width="2560" height="256"/>
+  <object id="90" x="4608" y="2304" width="2560" height="256"/>
+  <object id="92" x="8064" y="1920" width="512" height="512"/>
+  <object id="93" x="7424" y="768" width="256" height="1792"/>
+  <object id="94" x="7680" y="1280" width="1024" height="256"/>
+ </objectgroup>
+ <objectgroup id="10" name="paths">
+  <object id="65" name="meiling7" x="7872" y="1728">
+   <polygon points="0,0 0,896 896,896 896,0"/>
+  </object>
+  <object id="67" name="meiling2" x="3456" y="2688">
+   <polygon points="0,0 0,-1792 512,-1792 512,0"/>
+  </object>
+  <object id="72" name="meiling3" x="7296" y="1152">
+   <polyline points="0,0 -2816,0"/>
+  </object>
+  <object id="73" name="meiling4" x="4480" y="1664">
+   <polyline points="0,0 2816,0"/>
+  </object>
+  <object id="74" name="meiling5" x="7296" y="2176">
+   <polyline points="0,0 -2816,0"/>
+  </object>
+  <object id="75" name="meiling6" x="4480" y="2688">
+   <polyline points="0,0 2816,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="objects">
+  <object id="58" name="end" type="Door" x="8064" y="0" width="896" height="256">
+   <properties>
+    <property name="dest" value="start"/>
+    <property name="dest_map" value="mansion_outside2"/>
+    <property name="dir" value="down"/>
+    <property name="path" value="true"/>
+   </properties>
+  </object>
+  <object id="62" name="start" type="Door" x="0" y="2304" width="256" height="512">
+   <properties>
+    <property name="dest" value=""/>
+    <property name="dest_map" value=""/>
+    <property name="dir" value="right"/>
+    <property name="path" value="true"/>
+   </properties>
+  </object>
+  <object id="60" name="meiling7" type="MeilingGuard" x="7808" y="1664" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="68" name="meiling4" type="MeilingGuard" x="4416" y="1600" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="70" name="meiling5" type="MeilingGuard" x="7232" y="2112" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="71" name="meiling6" type="MeilingGuard" x="4416" y="2624" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="69" name="meiling3" type="MeilingGuard" x="7232" y="1088" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="64" name="meiling1" type="MeilingGuard" x="1728" y="1728" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="66" name="meiling2" type="MeilingGuard" x="3392" y="2624" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="11" name="waypoints">
+  <object id="95" name="player_start" x="448" y="2496" width="128" height="128"/>
+ </objectgroup>
+</map>
