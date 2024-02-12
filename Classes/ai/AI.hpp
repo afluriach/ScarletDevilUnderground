@@ -38,11 +38,12 @@ public:
 	GSpace* getSpace() const;
 	GObject* getObject() const;
 	physics_context* getPhys() const;
+ 
+    bool isActive() const;
+    bool isCompleted() const;
 
 	inline virtual void onEnter() {}
 	inline virtual void update() { }
-	inline virtual bool isActive() { return false; }
-	inline virtual bool isCompleted() { return false; }
 	inline virtual void onExit() {}
 
     inline virtual string getName() const {return "Function";}

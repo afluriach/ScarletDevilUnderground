@@ -41,3 +41,72 @@ function objects.BlueFairyNPC:initialize()
 	app.log("BlueFairy:initialize ")
 	
 end
+
+objects.Patchouli2 = class("Patchouli")
+
+objects.Patchouli2.numShelfs = 8
+objects.Patchouli2.minWait = 3
+objects.Patchouli2.maxWait = 6
+
+function objects.Patchouli2:init(super)
+	self.super = super
+end
+
+function objects.Patchouli2:initialize()
+	self.points = {}
+	
+	for i=1,self.numShelfs do
+		local name = 'bookshelf' .. i
+		local bookshelf = self.super.space:getObject(name)
+		
+		table.insert(self.points, ai.getHorizontalAdjacentTiles(bookshelf))
+	end
+	
+	self:waiting()
+end
+
+function objects.Patchouli2:moving()
+	self.state = 'moving'
+	self.func = nil
+	
+	while not self.func do
+		self.func = ai.FollowPath.pathToPoint(
+			self.super:getAsObject(),
+			self:getRandomPoint()
+		)
+	end
+end
+
+function objects.Patchouli2:waiting()
+	self.state = 'waiting'
+	self.func = ai.Wait.create(
+		self.super:getAsObject(),
+		self:getRandomWait()
+	)
+end
+
+function objects.Patchouli2:getRandomPoint()
+	local shelf = self.super.space:getRandomInt(1, self.numShelfs)
+	local pv = self.points[shelf]
+	return pv[self.super.space:getRandomInt(1,#pv)]
+end
+
+function objects.Patchouli2:getRandomWait()
+	return self.super.space:getRandomFloat(
+		self.minWait,
+		self.maxWait
+	)
+end
+
+function objects.Patchouli2:update()
+	
+	if self.func:isCompleted() then
+		if self.state == 'moving' then
+			self:waiting()
+		else
+			self:moving()
+		end
+	end
+
+	self.func:update()
+end

@@ -11,6 +11,9 @@
 		friction="0.5"
 		layers="eyeLevelHeight"
 	/>
+	<Bookshelf
+		mass="-1.0"
+	/>
 	<Desk
 		cls="auto"
 		sprite="desk"

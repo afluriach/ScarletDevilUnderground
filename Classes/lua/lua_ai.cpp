@@ -36,6 +36,8 @@ namespace Lua{
 			ai::Function::autoUpdateFunction(result);
 			return result;
 		};
+  
+        _ai["getHorizontalAdjacentTiles"]  = &ai::getHorizontalAdjacentTiles;
 
 		#define _cls ai::Function
 		auto func = _ai.new_usertype<ai::Function>(
@@ -104,12 +106,21 @@ namespace Lua{
 			&create<ai::Wander>,
 			&create<ai::Wander, SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
 		);
+  
+        auto wait = _ai.new_usertype<ai::Wait>(
+			"Wait",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+        wait["create"] = &create<ai::Wait, SpaceFloat>;
 
+        #define _cls ai::FollowPath
 		auto follow_path = _ai.new_usertype<ai::FollowPath>(
 			"FollowPath",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
 		follow_path["create"] = &create<ai::FollowPath, Path, bool, bool>;
+        addFuncSame(follow_path, pathToTarget);
+        addFuncSame(follow_path, pathToPoint);
 
 		auto lookTowardsFire = _ai.new_usertype<ai::LookTowardsFire>(
 			"LookTowardsFire",

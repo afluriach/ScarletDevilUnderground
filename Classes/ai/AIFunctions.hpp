@@ -141,7 +141,6 @@ public:
 	Evade(GObject* object, GType type);
 
 	virtual void update();
-	inline virtual bool isActive() { return active; }
 
 	FuncGetName(Evade)
 protected:
@@ -212,13 +211,11 @@ public:
 
 	MoveToPoint(GObject* object, SpaceVect target);
     
-	virtual inline bool isCompleted() const { return arrived; }
 	virtual void update();
 
     FuncGetName(MoveToPoint)
 protected:
     SpaceVect target;
-	bool arrived = false;
 };
 
 class FollowPath : public Function {
@@ -227,11 +224,14 @@ public:
 		GObject* object,
 		gobject_ref target
 	);
+	static local_shared_ptr<FollowPath> pathToPoint(
+		GObject* object,
+		SpaceVect point
+	);
 
 	FollowPath(GObject* object, Path path, bool loop, bool stopForObstacle);
 	inline virtual ~FollowPath() {}
 
-	virtual inline bool isCompleted() const { return completed; }
 	virtual void update();
 	FuncGetName(FollowPath)
 protected:
@@ -239,7 +239,17 @@ protected:
 	size_t currentTarget = 0;
 	bool loop = false;
 	bool stopForObstacle = false;
-	bool completed = false;
+};
+
+class Wait : public Function {
+public:
+    Wait(GObject* object, SpaceFloat duration);
+    
+    virtual void update();
+    FuncGetName(FollowPath)
+protected:
+    SpaceFloat duration;
+    SpaceFloat t = 0.0;
 };
 
 class Wander : public Function {

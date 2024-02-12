@@ -32,4 +32,12 @@ physics_context* Function::getPhys() const {
 	return object->space->physicsContext.get();
 }
 
+bool Function::isActive() const {
+    return _state == state::active;
+}
+
+bool Function::isCompleted() const{
+    return _state == state::completed;
+}
+
 }//end NS

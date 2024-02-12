@@ -82,6 +82,12 @@
 		</dialogs>
 	</Patchouli>
 	
+	<Patchouli2
+		sprite="patchouli"
+		mass="40.0"
+	>
+	</Patchouli2>
+	
 	<SakuyaNPC
 		sprite="sakuya"
 		ai_package="sakuya_npc"

@@ -218,6 +218,26 @@ bool isObstacleBetweenTarget(const GObject* agent, const GObject* target)
 	);
 }
 
+vector<SpaceVect> getHorizontalAdjacentTiles(GObject* object)
+{
+    SpaceVect center = object->getPos();
+    SpaceVect dim = object->getDimensions();
+    vector<SpaceVect> result(dim.y*2);
+
+    SpaceFloat leftCol = center.x - dim.x/2 - 0.5;
+    SpaceFloat rightCol = center.x + dim.x/2 + 0.5;
+    SpaceFloat top = center.y + dim.y/2;
+
+    for(int i = 0; i < dim.y; ++i){
+        result.push_back(SpaceVect(leftCol, top - i));
+    }
+    for(int i = 0; i < dim.y; ++i){
+        result.push_back(SpaceVect(rightCol, top - i));
+    }
+    
+    return result;
+}
+
 SpaceVect compute_seek(const GObject* agent, SpaceVect target)
 {
 	SpaceVect displacement = target - agent->getPos();

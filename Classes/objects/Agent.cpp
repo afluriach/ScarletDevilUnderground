@@ -677,8 +677,6 @@ void Agent::updateState()
     case agent_state::sprinting:
         applyDesiredMovement(std::get<sprint_data>(stateData).sprintDirection);
     
-        log1("sprint time: %d", (*this)[Attribute::sprintTime]);
-    
         if(timeInState > (*this)[Attribute::sprintTime])
             setState(agent_state::sprintRecovery);
     break;

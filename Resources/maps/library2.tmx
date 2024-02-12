@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="128" tileheight="128" infinite="0" nextlayerid="7" nextobjectid="58">
+ <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="scarlet carpet texture.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="2" name="bookshelf" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="book_shelf.png" width="128" height="128"/>
+ </tileset>
+ <layer id="1" name="floor" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKH7/qWXY6Dgqqmqqqqqqqqqqi8fP34JAQ==
+  </data>
+ </layer>
+ <layer id="4" name="wall_tiles" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt1EEKwCAMRNHg/Q/Ro3bVjRRbWnDyk/mQhSDyFsERcQz4BLRO/vnu7rP99ttvP9WfMfu12a/Nfm32a+vkv+7uHvvz1slP3x+6P2Od/PT9ofszZr82+7XN/q//wN2bf/6Vp/eq+mlV89P3h+6nVc1P3x+6n1YV/8sJ0SxdJ14rcJg=
+  </data>
+ </layer>
+ <objectgroup id="2" name="objects">
+  <object id="6" name="patchouli" type="Patchouli2" x="896" y="384" width="128" height="128"/>
+  <object id="7" name="player" type="Player" x="3136" y="5888" width="128" height="128"/>
+  <object id="35" name="bookshelf1" type="Bookshelf" x="1280" y="384" width="256" height="896"/>
+  <object id="36" name="bookshelf2" type="Bookshelf" x="1792" y="384" width="256" height="896"/>
+  <object id="38" name="bookshelf3" type="Bookshelf" x="2304" y="384" width="256" height="896"/>
+  <object id="39" name="bookshelf4" type="Bookshelf" x="2816" y="384" width="256" height="896"/>
+  <object id="40" name="bookshelf5" type="Bookshelf" x="3328" y="384" width="256" height="896"/>
+  <object id="41" name="bookshelf6" type="Bookshelf" x="3840" y="384" width="256" height="896"/>
+  <object id="42" name="bookshelf7" type="Bookshelf" x="4352" y="384" width="256" height="896"/>
+  <object id="43" name="bookshelf8" type="Bookshelf" x="4864" y="384" width="256" height="896"/>
+ </objectgroup>
+ <objectgroup id="6" name="areas" visible="0">
+  <object id="10" name="bookshelfArea16" x="1152" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="13" name="bookshelfArea15" x="1664" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="14" name="bookshelfArea14" x="2176" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="15" name="bookshelfArea13" x="2688" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="16" name="bookshelfArea12" x="3200" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="17" name="bookshelfArea11" x="3712" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="18" name="bookshelfArea10" x="4224" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="19" name="bookshelfArea9" x="4736" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="12" name="bookshelfArea8" x="1536" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="20" name="bookshelfArea7" x="2048" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="21" name="bookshelfArea6" x="2560" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="22" name="bookshelfArea5" x="3072" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="23" name="bookshelfArea4" x="3584" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="24" name="bookshelfArea3" x="4096" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="25" name="bookshelfArea2" x="4608" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="26" name="bookshelfArea1" x="5120" y="384" width="128" height="896">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="walls">
+  <object id="27" type="Wall" x="0" y="0" width="6144" height="128"/>
+  <object id="28" type="Wall" x="6016" y="128" width="128" height="6016"/>
+  <object id="31" type="Wall" x="128" y="6016" width="5888" height="128"/>
+  <object id="32" type="Wall" x="0" y="128" width="128" height="6016"/>
+  <object id="44" type="Wall" x="1280" y="2560" width="3840" height="256"/>
+  <object id="45" type="Wall" x="1280" y="3072" width="3840" height="256"/>
+  <object id="46" type="Wall" x="1280" y="3584" width="3840" height="256"/>
+  <object id="48" type="Wall" x="384" y="4480" width="896" height="256"/>
+  <object id="49" type="Wall" x="384" y="4992" width="896" height="256"/>
+  <object id="50" type="Wall" x="384" y="5504" width="896" height="256"/>
+  <object id="51" type="Wall" x="2560" y="4480" width="1280" height="256"/>
+  <object id="52" type="Wall" x="2560" y="4992" width="1280" height="256"/>
+  <object id="53" type="Wall" x="2560" y="5504" width="1280" height="256"/>
+  <object id="55" type="Wall" x="5120" y="4480" width="640" height="256"/>
+  <object id="56" type="Wall" x="5120" y="4992" width="640" height="256"/>
+  <object id="57" type="Wall" x="5120" y="5504" width="640" height="256"/>
+ </objectgroup>
+</map>

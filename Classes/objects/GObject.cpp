@@ -33,6 +33,7 @@ GObject::GObject(
 	local_shared_ptr<object_properties> props
 ) :
 	props(props),
+    name(params.name),
 	space(space),
 	uuid(id),
 	type(phys.type),
@@ -188,7 +189,7 @@ gobject_ref GObject::getRef() const
 
 string GObject::getName() const
 {
-	return space->getObjectName(uuid);
+	return name;
 }
 
 string GObject::getTypeIndexName() const

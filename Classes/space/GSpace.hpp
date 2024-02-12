@@ -351,7 +351,7 @@ protected:
 	list<pair<GObject*, ActionGeneratorType>, local_allocator<pair<GObject*, ActionGeneratorType>>> toRemoveWithAnimation;
 
 	unordered_map<ObjectIDType, GObject*> objByUUID;
-	boost::bimap<string, ObjectIDType> objectNames;
+    unordered_map<string, GObject*> objByName;
 	unordered_map<type_index, unordered_set<GObject*>> objByType;
 	
 	set<GObject*> updateObjects;

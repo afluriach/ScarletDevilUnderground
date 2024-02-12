@@ -508,9 +508,7 @@ MoveToPoint::MoveToPoint(GObject* object, SpaceVect target) :
 
 void MoveToPoint::update()
 {
-	if (!arrived) {
-		arrived = moveToPoint(object, target, arrivalMargin, false);
-	}
+    bool arrived = moveToPoint(object, target, arrivalMargin, false);
 	
 	if (arrived)
         _state = state::completed;
@@ -524,9 +522,16 @@ local_shared_ptr<FollowPath> FollowPath::pathToTarget(
 		return nullptr;
 	}
 
+    return pathToPoint(object, target.get()->getPos());
+}
+
+local_shared_ptr<FollowPath> FollowPath::pathToPoint(
+    GObject* object,
+    SpaceVect point
+){
 	Path path = object->getSpace()->pathToTile(
 		toIntVector(object->getPos()),
-		toIntVector(target.get()->getPos())
+		toIntVector(point)
 	);
 
 	if (path.empty()) {
@@ -640,6 +645,21 @@ void Wander::update()
 void Wander::reset()
 {
 	moveFunction.reset();
+}
+
+Wait::Wait(GObject* object, SpaceFloat duration) :
+    Function(object),
+    duration(duration)
+{
+}
+
+void Wait::update()
+{
+    timerIncrement(t);
+    ai::applyDesiredVelocity(object, SpaceVect::zero, object->getMaxAcceleration());
+    
+    if(t >= duration)
+        _state = state::completed;
 }
 
 FireAtTarget::FireAtTarget(GObject* object, gobject_ref target) :

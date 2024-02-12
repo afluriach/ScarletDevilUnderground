@@ -380,6 +380,7 @@ public:
 
 	//END SPELLS
 
+    const string name;
 	GSpace *const space;
 	const ObjectIDType uuid;
 
