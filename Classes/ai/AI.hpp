@@ -45,6 +45,10 @@ public:
 	inline virtual void onEnter() {}
 	inline virtual void update() { }
 	inline virtual void onExit() {}
+ 
+    void runEnter();
+    void runUpdate();
+    void runExit();
 
     inline virtual string getName() const {return "Function";}
     

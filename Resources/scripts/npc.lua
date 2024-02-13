@@ -85,7 +85,7 @@ end
 
 function objects.MeilingGuard:update(super)
 	if self.func then
-		self.func:update()
+		self.func:runUpdate()
 	end
 end
 
@@ -100,7 +100,7 @@ function objects.MeilingGuard:loop_path(super)
 		return
 	end
 	
-	self.func = ai.FollowPathKinematic.create(self.super:getAsObject(), p)
+	self.func = ai.FollowPathKinematic.create(self.super:getAsObject(), p, true)
 end
 
 --function objects.MeilingGuard:scan_path(super)
@@ -136,7 +136,7 @@ function objects.Patchouli2:moving()
 	self.func = nil
 	
 	while not self.func do
-		self.func = ai.FollowPath.pathToPoint(
+		self.func = ai.FollowPathKinematic.pathToPoint(
 			self.super:getAsObject(),
 			self:getRandomPoint()
 		)
@@ -174,5 +174,5 @@ function objects.Patchouli2:update()
 		end
 	end
 
-	self.func:update()
+	self.func:runUpdate()
 end

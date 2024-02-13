@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Bullet.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "LuaAPI.hpp"

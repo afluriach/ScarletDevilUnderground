@@ -380,7 +380,7 @@ Flank::Flank(
 {
 }
 
-void Flank::init()
+void Flank::onEnter()
 {
 }
 
@@ -524,9 +524,24 @@ local_shared_ptr<FollowPath> FollowPath::pathToPoint(
 	);
 
 	if (!path) {
-		log2("%s (%u) no path to target", object->getName(), object->getUUID());
+		log1("%s: no path to target", object->toString());
 		return nullptr;
 	}
+    else if(path->size() < 2){
+        log0("Invalid path!");
+    }
+    else{
+        auto const& p = path->at(0);
+        auto const& q = path->at(path->size() - 1);
+        if constexpr(logPathfinding){
+            log5(
+                "%s: pathfinding from %.2f,%.2f to %.2f,%.2f",
+                object->toString(),
+                p.x, p.y,
+                q.x, q.y
+            );
+        }
+    }
 
 	return make_local_shared<FollowPath>(
 		object,
@@ -558,12 +573,50 @@ void FollowPath::update()
 	}
 }
 
+local_shared_ptr<FollowPathKinematic> FollowPathKinematic::pathToPoint(
+    GObject* object,
+    SpaceVect point
+){
+	auto path = object->getSpace()->pathToTile(
+		toIntVector(object->getPos()),
+		toIntVector(point)
+	);
+
+	if (!path) {
+		log1("%s: no path to target", object->toString());
+		return nullptr;
+	}
+    else if(path->size() < 2){
+        log0("Invalid path!");
+    }
+    else{
+        auto const& p = path->at(0);
+        auto const& q = path->at(path->size() - 1);
+        if constexpr(logPathfinding){
+            log5(
+                "%s: pathfinding from %.2f,%.2f to %.2f,%.2f",
+                object->toString(),
+                p.x, p.y,
+                q.x, q.y
+            );
+        }
+    }
+
+	return make_local_shared<FollowPathKinematic>(
+		object,
+		path,
+		false
+	);
+}
+
 FollowPathKinematic::FollowPathKinematic(
     GObject* object,
-    shared_ptr<const Path> path
+    shared_ptr<const Path> path,
+    bool loop
 ) :
 	Function(object),
-	path(path)
+	path(path),
+    loop(loop)
 {
     if(path->size() < 2){
         log1("Invalid path size of %d", path->size());
@@ -586,21 +639,30 @@ void FollowPathKinematic::setSegment(size_t idx1, size_t idx2)
 
 void FollowPathKinematic::nextSegment()
 {
-    if(idx2 == path->size() - 1)
-        setSegment(path->size() - 1, 0);
-    else if(idx1 == path->size() - 1)
+    if(idx2 == path->size() - 1){
+        if(loop)
+            setSegment(path->size() - 1, 0);
+        else
+            _state = state::completed;
+    }
+    else if(idx1 == path->size() - 1){
         setSegment(0,1);
-    else
+    }
+    else{
         setSegment(idx1 + 1, idx2 + 1);
+    }
 }
 
-void FollowPathKinematic::init()
+void FollowPathKinematic::onEnter()
 {
     setSegment(0, 1);
 }
 
 void FollowPathKinematic::update()
 {
+    if(_state == state::completed)
+        return;
+
     SpaceFloat speed = object->getMaxSpeed();
     d += speed * app::params.secondsPerFrame;
     object->setPos(currentSegmentStart + currentSegmentDisplacementNormal*d);
@@ -750,7 +812,7 @@ ThrowBombs::ThrowBombs(
 {
 }
 
-void ThrowBombs::init()
+void ThrowBombs::onEnter()
 {
 	countdown = getInterval();
 }

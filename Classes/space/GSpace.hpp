@@ -287,7 +287,7 @@ public:
     FloorSegment* floorPointQuery(SpaceVect pos);
 	Pitfall* pitfallPointQuery(SpaceVect pos);
 
-    inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
+    inline const boost::dynamic_bitset<>* getNavMask() const { return navMask;}
 //END NAVIGATION    
 
 	audio_context* audioContext;

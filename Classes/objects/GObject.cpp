@@ -132,11 +132,11 @@ string GObject::toString() const
 	s << getTypeIndexName() << ":" << uuid;
 
 	if (_cls.size() > 0) {
-		s << "(" << _cls << ")";
+		s << ":" << _cls << ":";
 	}
 
 	if (name.size() > 0) {
-		s << "\"" << name << "\"";
+		s << ":" << name;
 	}
 
 	return s.str();

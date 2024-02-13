@@ -46,13 +46,13 @@ namespace Lua{
 			"space", sol::property(&ai::Function::getSpace)
 		);
 
-		addFuncSame(func, onEnter);
-		addFuncSame(func, update);
 		addFuncSame(func, isActive);
 		addFuncSame(func, isCompleted);
-		addFuncSame(func, onExit);
-
 		addFuncSame(func, getName);
+
+		addFuncSame(func, runEnter);
+		addFuncSame(func, runUpdate);
+		addFuncSame(func, runExit);
 
 		func["makeNullShared"] = []() -> local_shared_ptr<ai::Function> {
 			return nullptr;
@@ -128,11 +128,13 @@ namespace Lua{
         addFuncSame(follow_path, pathToTarget);
         addFuncSame(follow_path, pathToPoint);
 
+        #define _cls ai::FollowPathKinematic
 		auto follow_path_kinematic = _ai.new_usertype<ai::FollowPathKinematic>(
 			"FollowPathKinematic",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		follow_path_kinematic["create"] = &create<ai::FollowPathKinematic, shared_ptr<const Path>>;
+		follow_path_kinematic["create"] = &create<ai::FollowPathKinematic, shared_ptr<const Path>, bool>;
+        addFuncSame(follow_path_kinematic, pathToPoint);
 
 		auto lookTowardsFire = _ai.new_usertype<ai::LookTowardsFire>(
 			"LookTowardsFire",

@@ -89,7 +89,7 @@
 	
 	<Patchouli2
 		sprite="patchouli"
-		mass="40.0"
+		mass="0.0"
 	>
 	</Patchouli2>
 	

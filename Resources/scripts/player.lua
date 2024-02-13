@@ -9,5 +9,5 @@ function objects.Player:initialize()
 end
 
 function objects.Player:update()
-	self.controlFunction:update()
+	self.controlFunction:runUpdate()
 end

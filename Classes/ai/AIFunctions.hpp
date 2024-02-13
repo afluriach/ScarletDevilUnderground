@@ -168,7 +168,7 @@ public:
 		SpaceFloat wallMargin
 	);
 
-	virtual void init();
+	virtual void onEnter();
 	virtual void update();
 	FuncGetName(Flank);
 
@@ -243,16 +243,22 @@ protected:
 
 class FollowPathKinematic : public Function {
 public:
+	static local_shared_ptr<FollowPathKinematic> pathToPoint(
+		GObject* object,
+		SpaceVect point
+	);
+
 	FollowPathKinematic(
         GObject* object,
-        shared_ptr<const Path> path
+        shared_ptr<const Path> path,
+        bool loop
     );
 	inline virtual ~FollowPathKinematic() {}
 
     void setSegment(size_t idx1, size_t idx2);
     void nextSegment();
 
-    virtual void init();
+    virtual void onEnter();
 	virtual void update();
 	FuncGetName(FollowPathKinematic)
 protected:
@@ -263,6 +269,7 @@ protected:
     SpaceFloat currentSegmentLength = 0.0;
     int idx1 = 0;
     int idx2 = 1;
+    bool loop;
 };
 
 class Wait : public Function {
@@ -327,7 +334,7 @@ public:
 		SpaceFloat baseInterval
 	);
 
-	virtual void init();
+	virtual void onEnter();
 	virtual void update();
 
 	SpaceFloat getInterval();

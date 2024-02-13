@@ -360,9 +360,9 @@ GType parseType(string s);
 //For now, multilayer physics is not being used.
 enum class PhysicsLayers{
 	none = 0,
+	belowFloor = 1,
 	//For objects which are in/on the floor, including the floor itself
 	//(FloorSegment), and objects touching the floor.
-	belowFloor = 1,
 	floor = 2, 
     ground = 4,
     eyeLevel = 8,

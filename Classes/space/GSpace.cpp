@@ -478,6 +478,10 @@ void GSpace::processAdditions()
 		if (isTrackedType(typeid(*obj))) {
 			objByType[typeid(*obj)].insert(obj);
 		}
+  
+        if (obj->getMass() < 0.0 && bitwise_and_bool(obj->getCrntLayers(), PhysicsLayers::ground)){
+            addNavObstacle(obj->getPos(), obj->getDimensions());
+        }
 
         objByUUID[obj->uuid] = obj;
         objByName[obj->name] = obj;
@@ -562,7 +566,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 		objByType[typeid(*obj)].erase(obj);
 	}
     
-	if (obj->getMass() <= 0.0 && (obj->getType() == GType::environment || obj->getType() == GType::wall)) {
+	if (obj->getMass() < 0.0 && bitwise_and_bool(obj->getCrntLayers(), PhysicsLayers::ground)){
 		removeNavObstacle(obj->getPos(), obj->getDimensions());
 	}
 
@@ -1065,11 +1069,11 @@ shared_ptr<const Path> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 		return nullptr;
 	}
 
+    result.push_back(toSpaceVectWithCentering(begin));
 	result.push_back(toSpaceVectWithCentering(tileCoords[0]));
-	result.push_back(toSpaceVectWithCentering(tileCoords[1]));
-	SpaceVect direction = toSpaceVectWithCentering(tileCoords[1]) - toSpaceVectWithCentering(tileCoords[0]);
+	SpaceVect direction = toSpaceVectWithCentering(tileCoords[0]) - toSpaceVectWithCentering(begin);
 
-	for_irange(i, 2, tileCoords.size())
+	for_irange(i, 1, tileCoords.size())
 	{
 		SpaceVect crntTile = toSpaceVectWithCentering(tileCoords[i]);
 		SpaceVect crntDirection = crntTile - result.back();

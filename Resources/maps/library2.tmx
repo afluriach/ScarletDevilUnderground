@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="128" tileheight="128" infinite="0" nextlayerid="7" nextobjectid="58">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="58">
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="scarlet carpet texture.png" width="128" height="128"/>
  </tileset>
@@ -18,7 +18,6 @@
  </layer>
  <objectgroup id="2" name="objects">
   <object id="6" name="patchouli" type="Patchouli2" x="896" y="384" width="128" height="128"/>
-  <object id="7" name="player" type="Player" x="3136" y="5888" width="128" height="128"/>
   <object id="35" name="bookshelf1" type="Bookshelf" x="1280" y="384" width="256" height="896"/>
   <object id="36" name="bookshelf2" type="Bookshelf" x="1792" y="384" width="256" height="896"/>
   <object id="38" name="bookshelf3" type="Bookshelf" x="2304" y="384" width="256" height="896"/>
@@ -27,6 +26,9 @@
   <object id="41" name="bookshelf6" type="Bookshelf" x="3840" y="384" width="256" height="896"/>
   <object id="42" name="bookshelf7" type="Bookshelf" x="4352" y="384" width="256" height="896"/>
   <object id="43" name="bookshelf8" type="Bookshelf" x="4864" y="384" width="256" height="896"/>
+ </objectgroup>
+ <objectgroup id="7" name="waypoints">
+  <object id="7" name="player_start" x="3136" y="5888" width="128" height="128"/>
  </objectgroup>
  <objectgroup id="6" name="areas" visible="0">
   <object id="10" name="bookshelfArea16" x="1152" y="384" width="128" height="896">
