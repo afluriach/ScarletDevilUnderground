@@ -149,6 +149,7 @@ protected:
 
 	//objects in this layer are Wall type by default
 	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
+	void loadDoors(const TMXTiledMap& map, IntVec2 offset);
 
 	//data that is loaded to GSpace for AI use
 	void loadPaths(const TMXTiledMap& map, IntVec2 offset);

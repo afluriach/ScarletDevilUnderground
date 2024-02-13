@@ -10,6 +10,7 @@
 
 #include "AI.hpp"
 #include "Bullet.hpp"
+#include "Enemy.hpp"
 #include "EnvironmentObject.hpp"
 #include "graphics_types.h"
 #include "LuaAPI.hpp"
@@ -211,7 +212,8 @@ namespace Lua{
 		);
 
 		auto npc = _state.new_usertype<NPC>("NPC", sol::base_classes, sol::bases<GObject, Agent>());
-#define _cls NPC
+
+		auto enemy = _state.new_usertype<Enemy>("Enemy", sol::base_classes, sol::bases<GObject, Agent>());
 
 		auto player = _state.new_usertype<Player>("Player", sol::base_classes, sol::bases<GObject, Agent>());
 #define _cls Player

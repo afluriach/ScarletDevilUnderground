@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="68" tilewidth="128" tileheight="128" nextobjectid="307">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="51" height="68" tilewidth="128" tileheight="128" infinite="0" nextlayerid="10" nextobjectid="307">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -9,22 +9,22 @@
  <tileset firstgid="9" name="stone" tilewidth="128" tileheight="128" tilecount="9" columns="3">
   <image source="stone3.png" width="384" height="384"/>
  </tileset>
- <layer name="floor" width="51" height="68">
+ <layer id="1" name="floor" width="51" height="68">
   <data encoding="base64" compression="zlib">
    eJzt0bENw0AAA7FvnGT/iePeC5wMFsL14nXO+dy7XtDvvd9LWviTC5eVFv7kwmWlhT+5cFlp4U8uXFZa+JMLl5UW/uTCZaWFP7lwWWnhTy5cVlr4kwuXlRb+5MJlpYU/uXBZaeFPLlxWWviTC5eVFv7kwmWlhT+5cFlp4U8uXFZa+JPLs38ttlft
   </data>
  </layer>
- <layer name="stone_path" width="51" height="68">
+ <layer id="2" name="stone_path" width="51" height="68">
   <data encoding="base64" compression="zlib">
    eJzt2TEKwzAQAEG1wZjY//+sSZcHyPJiZuBqablKaAwAWG+PzHZ36EL70xeYSEuTliYtTVqatDRpadLSNKPlM55/h/3mnNBit01amrQ0aWnS0qSlSUuTlqbv8Kf170271dKkpUlLk5YmLU1amrQ0aWnS0qSlSUvTm1qORedcysIHXw==
   </data>
  </layer>
- <layer name="wall_tiles" width="51" height="68">
+ <layer id="3" name="wall_tiles" width="51" height="68">
   <data encoding="base64" compression="zlib">
    eJzt2TEKAkEQRNFW9/5nNjDoTAamR0r2fdhIeFiySeNVVY/N5woydnoyGAwGI8ZIKeX3YDAYDMbHeG0+vzJqwUi6o759XovGTknvGIPBYNzdSCnl92AwGAzG3A2Ucs9N3UAp99xOSe8Yg8Fg3N2YKGULg8FgMP7rf7EaMFa+x0QT91xKE+9HSrZ0tpzJls6WM9nS2XImWzpbzmRLl7Rl4hab6A0oxgYU
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="4" name="floor">
   <object id="204" type="GrassFloor" x="2304" y="6656" width="896" height="1920"/>
   <object id="205" type="GrassFloor" x="3328" y="6656" width="896" height="1920"/>
   <object id="206" type="GrassFloor" x="3328" y="4480" width="896" height="1920"/>
@@ -65,7 +65,7 @@
   <object id="241" type="StoneFloor" x="2304" y="1024" width="1920" height="128"/>
   <object id="242" type="StoneFloor" x="1024" y="1024" width="1024" height="128"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="5" name="walls">
   <object id="92" x="0" y="0" width="128" height="2176"/>
   <object id="93" x="128" y="6400" width="2048" height="128"/>
   <object id="94" x="6400" y="0" width="128" height="2176"/>
@@ -136,92 +136,11 @@
   <object id="176" x="0" y="2176" width="128" height="2176"/>
   <object id="177" x="0" y="4352" width="128" height="2176"/>
  </objectgroup>
- <objectgroup name="objects">
+ <objectgroup id="6" name="objects">
   <object id="131" type="Goal" x="1024" y="1024" width="128" height="128"/>
-  <object id="142" name="player" type="Player" x="3200" y="8448" width="128" height="128"/>
   <object id="179" type="Bat" x="3200" y="5376" width="128" height="128"/>
   <object id="180" type="Bat" x="3712" y="4992" width="128" height="128"/>
   <object id="181" type="Bat" x="2944" y="4992" width="128" height="128"/>
-  <object id="185" name="door-1a" type="Door" x="3200" y="6528" width="128" height="128">
-   <properties>
-    <property name="dir" value="down"/>
-   </properties>
-  </object>
-  <object id="186" name="door-1b" type="Door" x="3200" y="6400" width="128" height="128">
-   <properties>
-    <property name="dir" value="up"/>
-   </properties>
-  </object>
-  <object id="188" name="door-2a" type="Door" x="2176" y="5376" width="128" height="128">
-   <properties>
-    <property name="dir" value="right"/>
-   </properties>
-  </object>
-  <object id="189" name="door-2b" type="Door" x="2048" y="5376" width="128" height="128">
-   <properties>
-    <property name="dir" value="left"/>
-   </properties>
-  </object>
-  <object id="190" name="door-3b" type="Door" x="1024" y="4224" width="128" height="128">
-   <properties>
-    <property name="dir" value="up"/>
-   </properties>
-  </object>
-  <object id="191" name="door-3a" type="Door" x="1024" y="4352" width="128" height="128">
-   <properties>
-    <property name="dir" value="down"/>
-   </properties>
-  </object>
-  <object id="193" name="door-4a" type="Door" x="2048" y="3200" width="128" height="128">
-   <properties>
-    <property name="dir" value="left"/>
-   </properties>
-  </object>
-  <object id="194" name="door-4b" type="Door" x="2176" y="3200" width="128" height="128">
-   <properties>
-    <property name="dir" value="right"/>
-   </properties>
-  </object>
-  <object id="195" name="door-5a" type="Door" x="4224" y="3200" width="128" height="128">
-   <properties>
-    <property name="dir" value="left"/>
-   </properties>
-  </object>
-  <object id="196" name="door-5b" type="Door" x="4352" y="3200" width="128" height="128">
-   <properties>
-    <property name="dir" value="right"/>
-   </properties>
-  </object>
-  <object id="197" name="door-6b" type="Door" x="5376" y="2048" width="128" height="128">
-   <properties>
-    <property name="dir" value="up"/>
-   </properties>
-  </object>
-  <object id="199" name="door-6a" type="Door" x="5376" y="2176" width="128" height="128">
-   <properties>
-    <property name="dir" value="down"/>
-   </properties>
-  </object>
-  <object id="200" name="door-7b" type="Door" x="4224" y="1024" width="128" height="128">
-   <properties>
-    <property name="dir" value="left"/>
-   </properties>
-  </object>
-  <object id="201" name="door-7a" type="Door" x="4352" y="1024" width="128" height="128">
-   <properties>
-    <property name="dir" value="right"/>
-   </properties>
-  </object>
-  <object id="202" name="door-8b" type="Door" x="2048" y="1024" width="128" height="128">
-   <properties>
-    <property name="dir" value="left"/>
-   </properties>
-  </object>
-  <object id="203" name="door-8a" type="Door" x="2176" y="1024" width="128" height="128">
-   <properties>
-    <property name="dir" value="right"/>
-   </properties>
-  </object>
   <object id="182" name="rumia" type="Rumia1" x="3200" y="1024" width="128" height="128"/>
   <object id="244" name="batModeSpell" type="Item" x="1280" y="1024" width="128" height="128">
    <properties>
@@ -252,7 +171,7 @@
   <object id="272" type="Headstone" x="4736" y="4736" width="256" height="256"/>
   <object id="273" type="Headstone" x="5888" y="4736" width="256" height="256"/>
   <object id="274" type="Headstone" x="4736" y="5888" width="256" height="256"/>
-  <object id="279" type="DestructibleHeadstone" x="5312" y="5312" width="256" height="256" />
+  <object id="279" type="DestructibleHeadstone" x="5312" y="5312" width="256" height="256"/>
   <object id="280" name="stamina_upgrade" type="stamina_upgrade" x="5376" y="5376" width="128" height="128"/>
   <object id="281" type="Torch" x="2944" y="7552" width="128" height="128">
    <properties>
@@ -355,7 +274,92 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="rooms">
+ <objectgroup id="8" name="waypoints">
+  <object id="142" name="player_start" x="3200" y="8448" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="9" name="doors">
+  <object id="185" name="door-1a" type="Door" x="3200" y="6528" width="128" height="128">
+   <properties>
+    <property name="dir" value="down"/>
+   </properties>
+  </object>
+  <object id="186" name="door-1b" type="Door" x="3200" y="6400" width="128" height="128">
+   <properties>
+    <property name="dir" value="up"/>
+   </properties>
+  </object>
+  <object id="188" name="door-2a" type="Door" x="2176" y="5376" width="128" height="128">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="189" name="door-2b" type="Door" x="2048" y="5376" width="128" height="128">
+   <properties>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
+  <object id="190" name="door-3b" type="Door" x="1024" y="4224" width="128" height="128">
+   <properties>
+    <property name="dir" value="up"/>
+   </properties>
+  </object>
+  <object id="191" name="door-3a" type="Door" x="1024" y="4352" width="128" height="128">
+   <properties>
+    <property name="dir" value="down"/>
+   </properties>
+  </object>
+  <object id="193" name="door-4a" type="Door" x="2048" y="3200" width="128" height="128">
+   <properties>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
+  <object id="194" name="door-4b" type="Door" x="2176" y="3200" width="128" height="128">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="195" name="door-5a" type="Door" x="4224" y="3200" width="128" height="128">
+   <properties>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
+  <object id="196" name="door-5b" type="Door" x="4352" y="3200" width="128" height="128">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="197" name="door-6b" type="Door" x="5376" y="2048" width="128" height="128">
+   <properties>
+    <property name="dir" value="up"/>
+   </properties>
+  </object>
+  <object id="199" name="door-6a" type="Door" x="5376" y="2176" width="128" height="128">
+   <properties>
+    <property name="dir" value="down"/>
+   </properties>
+  </object>
+  <object id="200" name="door-7b" type="Door" x="4224" y="1024" width="128" height="128">
+   <properties>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
+  <object id="201" name="door-7a" type="Door" x="4352" y="1024" width="128" height="128">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="202" name="door-8b" type="Door" x="2048" y="1024" width="128" height="128">
+   <properties>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
+  <object id="203" name="door-8a" type="Door" x="2176" y="1024" width="128" height="128">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="rooms">
   <properties>
    <property name="boss" value="rumia"/>
   </properties>

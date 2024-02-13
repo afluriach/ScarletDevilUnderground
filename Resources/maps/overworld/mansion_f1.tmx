@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="31" height="25" tilewidth="128" tileheight="128" nextobjectid="53">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="31" height="25" tilewidth="128" tileheight="128" infinite="0" nextlayerid="7" nextobjectid="53">
  <properties>
   <property name="ambient_light" value="180,180,180"/>
  </properties>
@@ -9,17 +9,17 @@
  <tileset firstgid="2" name="block_wall" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../block_wall.png" width="128" height="128"/>
  </tileset>
- <layer name="floor" width="31" height="25">
+ <layer id="1" name="floor" width="31" height="25">
   <data encoding="base64" compression="zlib">
    eJxjYMANGKmAyQWjdo/aPWo35XZTw/xRPIpH8ShGx/gArc0ftXvU7lG7aWs3ABlPAig=
   </data>
  </layer>
- <layer name="wall_tiles" width="31" height="25">
+ <layer id="2" name="wall_tiles" width="31" height="25">
   <data encoding="base64" compression="zlib">
    eJxjYMANmKiAyQWU6KVU/6jdo3YPF7vR8yKpeZdS9QMBRu0eOPsHyt6RbPdA5W9CbqMEDOYyddTuUbsHi920bJ8DAEFOAQc=
   </data>
  </layer>
- <objectgroup name="walls">
+ <objectgroup id="3" name="walls">
   <object id="14" x="896" y="0" width="128" height="1152"/>
   <object id="15" x="1024" y="1024" width="896" height="128"/>
   <object id="16" x="2048" y="1024" width="1024" height="128"/>
@@ -40,10 +40,34 @@
   <object id="40" x="2944" y="2176" width="128" height="896"/>
   <object id="41" x="3840" y="1664" width="128" height="384"/>
  </objectgroup>
- <objectgroup name="objects">
+ <objectgroup id="4" name="objects">
   <properties>
    <property name="dir" value="up"/>
   </properties>
+  <object id="26" name="practice_room" type="Sign" x="2112" y="1152" width="128" height="128"/>
+  <object id="43" name="sakuya" type="SakuyaNPC" x="1920" y="1536" width="128" height="128"/>
+  <object id="44" type="FairyMaid" x="896" y="1280" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="wander"/>
+   </properties>
+  </object>
+  <object id="45" type="FairyMaid" x="896" y="1792" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="wander"/>
+   </properties>
+  </object>
+  <object id="46" type="FairyMaid" x="2944" y="1280" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="wander"/>
+   </properties>
+  </object>
+  <object id="47" type="FairyMaid" x="2944" y="1792" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="wander"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="doors">
   <object id="21" name="door1" type="Door" x="384" y="1024" width="128" height="128">
    <properties>
     <property name="dest" value="door1"/>
@@ -76,7 +100,6 @@
     <property name="stairs" value="true"/>
    </properties>
   </object>
-  <object id="26" name="practice_room" type="Sign" x="2112" y="1152" width="128" height="128"/>
   <object id="42" name="door5" type="Door" x="3840" y="1536" width="128" height="128">
    <properties>
     <property name="dest" value="mansion_door"/>
@@ -84,29 +107,8 @@
     <property name="dir" value="left"/>
    </properties>
   </object>
-  <object id="43" name="sakuya" type="SakuyaNPC" x="1920" y="1536" width="128" height="128"/>
-  <object id="44" type="FairyMaid" x="896" y="1280" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="wander"/>
-   </properties>
-  </object>
-  <object id="45" type="FairyMaid" x="896" y="1792" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="wander"/>
-   </properties>
-  </object>
-  <object id="46" type="FairyMaid" x="2944" y="1280" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="wander"/>
-   </properties>
-  </object>
-  <object id="47" type="FairyMaid" x="2944" y="1792" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="wander"/>
-   </properties>
-  </object>
  </objectgroup>
- <objectgroup name="floor">
+ <objectgroup id="5" name="floor">
   <object id="50" type="MansionFloor" x="1024" y="128" width="1920" height="1024"/>
   <object id="51" type="MansionFloor" x="128" y="1152" width="3712" height="896"/>
   <object id="52" type="MansionFloor" x="1024" y="2048" width="1920" height="1024"/>

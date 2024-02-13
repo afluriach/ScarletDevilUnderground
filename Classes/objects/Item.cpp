@@ -13,12 +13,12 @@
 #include "Player.hpp"
 #include "value_map.hpp"
 
-ObjectGeneratorType Item::create(GSpace* space, string items, SpaceVect pos)
+Item* Item::create(GSpace* space, string items, SpaceVect pos)
 {
 	vector<string> tokens;
 	string actual;
 	if (items.empty())
-		return GObject::null_object_factory();
+		return nullptr;
 
 	tokens = splitString(items, ",");
 
@@ -33,7 +33,7 @@ ObjectGeneratorType Item::create(GSpace* space, string items, SpaceVect pos)
 	auto props = app::getItem(actual);
 	object_params attr(pos);
 
-	return GObject::make_object_factory<Item>(attr, props);
+	return space->createObject<Item>(attr, props);
 }
 
 Item::Item(

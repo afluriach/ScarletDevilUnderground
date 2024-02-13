@@ -22,8 +22,6 @@
 #include "SpellDescriptor.hpp"
 #include "value_map.hpp"
 
-unordered_map<type_index, string> GObject::typeNameMap;
-
 GObject::GObject(
 	GSpace* space,
 	ObjectIDType id,
@@ -99,76 +97,6 @@ bool GObject::conditionalLoad(GSpace* space, local_shared_ptr<object_properties>
 	return true;
 }
 
-GObject* GObject::constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args )
-{
-	auto it1 = objectInfo.find(type);
-	auto it2 = namedObjectTypes.find(type);
-
-	if (it1 != objectInfo.end()) {
-		AdapterType adapter = it1->second.consAdapter;
-        return adapter(space, id, args);
-    }
-	else if (it2 != namedObjectTypes.end()) {
-		AdapterType adapter = it2->second;
-		return adapter(space, id, args);
-	}
-    else{
-        log1("Unknown object type %s!", type.c_str());
-        return nullptr;
-    }
-}
-
-ObjectGeneratorType GObject::factoryMethodByType(const string& type, const ValueMap& args)
-{
-	return [type,args](GSpace* space, ObjectIDType id) -> GObject* {
-		return constructByType(space, id, type, args);
-	};
-}
-
-const GObject::object_info* GObject::getObjectInfo(string name)
-{
-	auto it = objectInfo.find(name);
-	if (it != objectInfo.end())
-		return &it->second;
-	else
-		return nullptr;
-}
-
-bool GObject::isValidObjectType(string typeName)
-{
-	auto it1 = objectInfo.find(typeName);
-	auto it2 = namedObjectTypes.find(typeName);
-
-	return it1 != objectInfo.end() || it2 != namedObjectTypes.end();
-}
-
-const GObject::object_info* GObject::getObjectInfo(type_index t)
-{
-	auto it = typeNameMap.find(t);
-	if (it != typeNameMap.end())
-		return getObjectInfo(it->second);
-	else
-		return nullptr;
-}
-
-type_index GObject::getTypeIndex(string name)
-{
-	const object_info* info = getObjectInfo(name);
-
-	if (info)
-		return info->type;
-	else
-		return typeid(GObject);
-}
-
-void GObject::initNameMap()
-{
-	for (auto entry : objectInfo)
-	{
-		typeNameMap.insert_or_assign(entry.second.type, entry.first);
-	}
-}
-
 local_shared_ptr<object_properties> GObject::getProps() const {
     return props;
 }
@@ -193,7 +121,7 @@ string GObject::getName() const
 
 string GObject::getTypeIndexName() const
 {
-	return getOrDefault<type_index, string>(typeNameMap, typeid(*this), "GObject");
+    return typeid(*this).name();
 }
 
 string GObject::toString() const

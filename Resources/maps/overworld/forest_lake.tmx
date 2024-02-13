@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="128" tileheight="128" nextobjectid="105">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="128" tileheight="128" infinite="0" nextlayerid="10" nextobjectid="105">
  <properties>
   <property name="ambient_light" value="255,255,255"/>
  </properties>
@@ -18,32 +18,32 @@
  <tileset firstgid="15" name="dirt path vertical" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../dirt path vertical.png" width="128" height="128"/>
  </tileset>
- <layer name="water" width="64" height="48">
+ <layer id="1" name="water" width="64" height="48">
   <data encoding="base64" compression="zlib">
    eJzl0LERADAIxLBvIdl/XthCBYVPvStJb3XUt/3D6v9a/V+r/2v1f63+r9X/tfq/Vv/X6v9a/V+r/2v1f63+r9X/tfq/Vv/X6v9a/V+r/2v1f63+r9X/tfq/Vv/X6v9a/V+r/2v1f63+r9X/tfq/Vv/X6v9a/V+r/2v1f63+r9X/tfq/Vv/X6v9a/V+r/2v1f63+r9X/tQPQ5X4B
   </data>
  </layer>
- <layer name="grass_floor" width="64" height="48">
+ <layer id="2" name="grass_floor" width="64" height="48">
   <data encoding="base64" compression="zlib">
    eJzt1tEKgCAMRmEr3/+Z83qokOF+x84H0VVgnLEqBQAAAAAAAIDa1a7b3DN52lXNPRP6x+5v290fn4/e37ar2uO4+9s/Ovrv79/bkRF35arejoy4K1fRn/6Z++80mq0sRrOVBf39+8/2mffsKfrPvmfes0d/+tPft8Hs3b3/6RQNTpp/xRlOmn/65+6vcFJ/BY/+LwaKAo0=
   </data>
  </layer>
- <layer name="path v" width="64" height="48">
+ <layer id="3" name="path v" width="64" height="48">
   <data encoding="base64" compression="zlib">
    eJztzzENAAAMw7AyGH+2I1Gpj40gSQAAAAAAAAAAAAAAaLt1wJj/vgdrxAAu
   </data>
  </layer>
- <layer name="bridge_floor" width="64" height="48">
+ <layer id="4" name="bridge_floor" width="64" height="48">
   <data encoding="base64" compression="zlib">
    eJzt2MsNgCAQQEEa0P7LtQET/gjrTOLNsD64qCkBAAAAM1wLrntZzVqlXfpjit5/6nOPMqr/1H3Uv9c6q+nfa50Wb+9jpfdF6O+hP7Zcn/72b74TRD/fHP2x5tTS/2/OP9acWtH6Z/7D7pm96/kDAHztAXDdBkI=
   </data>
  </layer>
- <layer name="wall_tiles" width="64" height="48">
+ <layer id="5" name="wall_tiles" width="64" height="48">
   <data encoding="base64" compression="zlib">
    eJztzzEKwCAQRUGbJN7/xCEgaBOrRIs/AwsuFvpKAQAAAAAAAADIdO7+wAZ1OOvPo7/Tn0d/pz/P6v7ZG3Vy95f0/muYxP7V9L9L6T/ajJ79q/4b+aIBEQ==
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="6" name="floor">
   <object id="79" type="GrassFloor" x="1280" y="4224" width="768" height="1664"/>
   <object id="80" type="BridgeFloor" x="2048" y="4864" width="2944" height="128"/>
   <object id="81" type="GrassFloor" x="4992" y="4608" width="1024" height="1536"/>
@@ -64,7 +64,7 @@
   <object id="100" type="GrassFloor" x="5376" y="2432" width="640" height="640"/>
   <object id="101" type="Pitfall" x="0" y="0" width="8192" height="6144"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="7" name="walls">
   <object id="70" x="4992" y="5376" width="128" height="640"/>
   <object id="71" x="4992" y="6016" width="384" height="128"/>
   <object id="73" x="5760" y="6016" width="256" height="128"/>
@@ -73,13 +73,16 @@
   <object id="77" x="1536" y="5632" width="384" height="128"/>
   <object id="78" x="1792" y="4224" width="128" height="1408"/>
  </objectgroup>
- <objectgroup name="objects">
+ <objectgroup id="8" name="objects">
   <object id="62" type="Block" x="6912" y="4224" width="128" height="128"/>
   <object id="63" type="Block" x="6912" y="2304" width="128" height="128"/>
   <object id="64" name="mushroom3" type="Mushroom" x="6528" y="3456" width="128" height="128"/>
   <object id="65" type="BlueFairyNPC" x="7296" y="3712" width="128" height="128"/>
   <object id="67" name="mushroom2" type="Mushroom" x="4608" y="2432" width="128" height="128"/>
   <object id="68" name="mushroom1" type="Mushroom" x="1600" y="5440" width="128" height="128"/>
+  <object id="104" name="agility_upgrade" type="agility_upgrade" x="5632" y="2688" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="9" name="doors">
   <object id="69" name="forest_path" type="Door" x="5376" y="6016" width="384" height="128">
    <properties>
     <property name="dest" value="forest_lake_path"/>
@@ -88,6 +91,5 @@
     <property name="path" value="true"/>
    </properties>
   </object>
-  <object id="104" name="agility_upgrade" type="agility_upgrade" x="5632" y="2688" width="128" height="128"/>
  </objectgroup>
 </map>

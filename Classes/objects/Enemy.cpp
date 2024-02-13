@@ -70,7 +70,7 @@ void Enemy::onRemove()
 {
 	Agent::onRemove();
 	if(!props->collectible.empty()){
-		space->createObject( Item::create(space, props->collectible, getPos()) );
+		Item::create(space, props->collectible, getPos());
 	}
     App::getCrntState()->registerEnemyDefeated(getClsName());
 }

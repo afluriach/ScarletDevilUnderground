@@ -343,9 +343,6 @@ void App::loadObjects()
 {
 	GSpace::loadScriptVM();
 
-	GObject::initObjectInfo();
-	GObject::initNameMap();
-
 	app::loadSprites();
 	app::loadLights();
 

@@ -24,62 +24,22 @@ struct parametric_motion
 	parametric_type parametric_move = parametric_type::none;
 };
 
+typedef function<GObject*(GSpace*, ObjectIDType, const object_params& params, local_shared_ptr<object_properties> props)> PropsAdapter;
+
 class GObject
 {
 public:
 	friend class GSpace;
 	friend class Spell;
 
-	typedef function<GObject*(GSpace*, ObjectIDType, const ValueMap&) > AdapterType;
-
-	struct object_info
-	{
-		AdapterType consAdapter;
-		type_index type;
-	};
-
-    static constexpr bool logCreateObjects = false;
+    static const unordered_map<type_index, PropsAdapter> propsAdapters;
 	static const unordered_set<type_index> trackedTypes;
-	//Map each class name to a constructor adapter function.
-	static unordered_map<string, object_info> objectInfo;
-	//Map named object subtypes to the function that creates the corresponding object.
-	static unordered_map<string, AdapterType> namedObjectTypes;
-	static unordered_map<type_index, string> typeNameMap;
 
 	static const float objectFadeInTime;
 	static const float objectFadeOutTime;
 	static const GLubyte objectFadeOpacity;
 
     static bool conditionalLoad(GSpace* space, local_shared_ptr<object_properties> props, const object_params& params);
-	static GObject* constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args);
-	static ObjectGeneratorType factoryMethodByType(const string& type, const ValueMap& args);
-	static bool isValidObjectType(string typeName);
-	static const object_info* getObjectInfo(string name);
-	static const object_info* getObjectInfo(type_index t);
-	static type_index getTypeIndex(string name);
-	static void initNameMap();
-	static void initObjectInfo();
-
-	template<class ObjectCls, typename... ConsArgs, typename... Params>
-	static inline GObject* create(GSpace* space, ObjectIDType id, Params... params)
-	{
-		return allocator_new<ObjectCls>(space,id,std::forward<ConsArgs>(params)...);
-	}
-
-	template<class ObjectCls, typename... ConsArgs>
-	static inline ObjectGeneratorType make_object_factory(ConsArgs... args)
-	{
-		return [args...](GSpace* space, ObjectIDType id) -> GObject* {
-			return create<ObjectCls, ConsArgs...>(space, id, args...);
-		};
-	}
-
-	static inline ObjectGeneratorType null_object_factory()
-	{
-		return[](GSpace* space, ObjectIDType id)->GObject* {
-			return nullptr;
-		};
-	}
 
 	template<typename... Args>
 	inline void runMethodIfAvailable(string name, Args... args)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="200">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="200">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
  </tileset>
@@ -9,23 +9,23 @@
  <tileset firstgid="9" name="stone" tilewidth="128" tileheight="128" tilecount="9" columns="3">
   <image source="../stone3.png" width="384" height="384"/>
  </tileset>
- <layer name="floor" width="51" height="51">
+ <layer id="1" name="floor" width="51" height="51">
   <data encoding="base64" compression="zlib">
    eJzt0csJwDAQQ0Ff8um/4rgH2yCFWVjeXTNGxl3z78Wm3DP/XWzKceFy+rhwOX1cuJw+LlxOH5f/uuzYI6U79khpwp5cuLQ0YU8uXFqasCcXLi1N2JMLl5Ym7MmFS0sT9uTCpaUJe3Lh0tKEPblwaekHM34zNA==
   </data>
  </layer>
- <layer name="stone_path" width="51" height="51">
+ <layer id="2" name="stone_path" width="51" height="51">
   <data encoding="base64" compression="zlib">
    eJzt1zsKgDAQANHU/sD7X9bGAwiOOuA82DbskDQZI0mS/5q/XgC0fr0AqBanWpxqcarFqRanWpxqcSJalvOcOzMBZ+xAC6H34VSLUy1OtTjV4lSLUy1OtfCIvxgx29OhF1nuhVCLUy1OtTi91XIA6a0Fog==
   </data>
  </layer>
- <layer name="wall_tiles" width="51" height="51">
+ <layer id="3" name="wall_tiles" width="51" height="51">
   <data encoding="base64" compression="zlib">
    eJztl8EKgDAMxaru/79ZRaTHDtrqQxPoTcMydqmZBuOYJTkqjOT/a8kpaqDFoaUHWhxaeqDFoaUHWhxaeqDFUWrZgom+OVsqdqAnHDbpyHDfBw4cOHDgeN+hgsp94MCBAweOyxHtQNHMOKzAMXMOpT2q4hwZlN4YDhw4cPzdoYLKfeDAgQMHju/tYjv7xAQ+
   </data>
  </layer>
- <objectgroup name="floor"/>
- <objectgroup name="walls">
+ <objectgroup id="4" name="floor"/>
+ <objectgroup id="5" name="walls">
   <object id="93" x="128" y="6400" width="2048" height="128"/>
   <object id="94" x="6400" y="0" width="128" height="2176"/>
   <object id="101" x="2048" y="2304" width="128" height="896"/>
@@ -68,15 +68,7 @@
   <object id="181" x="3328" y="4352" width="1024" height="128"/>
   <object id="182" x="3328" y="4224" width="1024" height="128"/>
  </objectgroup>
- <objectgroup name="objects">
-  <object id="121" name="entrance" type="Door" x="3200" y="6400" width="128" height="128">
-   <properties>
-    <property name="dest" value="to_inner_area"/>
-    <property name="dest_map" value="graveyard"/>
-    <property name="dir" value="up"/>
-    <property name="path" value="true"/>
-   </properties>
-  </object>
+ <objectgroup id="6" name="objects">
   <object id="185" x="2816" y="4992" width="256" height="256"/>
   <object id="186" x="3456" y="5632" width="256" height="256"/>
   <object id="187" x="3456" y="4992" width="256" height="256"/>
@@ -96,5 +88,15 @@
   <object id="197" type="GhostFairyNPC" x="5376" y="3200" width="128" height="128"/>
   <object id="198" type="GhostFairyNPC" x="1024" y="3200" width="128" height="128"/>
   <object id="199" name="attack_speed_upgrade" type="attack_speed_upgrade" x="5376" y="1024" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="7" name="doors">
+  <object id="121" name="entrance" type="Door" x="3200" y="6400" width="128" height="128">
+   <properties>
+    <property name="dest" value="to_inner_area"/>
+    <property name="dest_map" value="graveyard"/>
+    <property name="dir" value="up"/>
+    <property name="path" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

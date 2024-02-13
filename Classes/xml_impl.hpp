@@ -17,16 +17,6 @@ namespace app {
     extern const unordered_map<string, spell_parser> spellParsers;
     extern const unordered_map<string, effect_parser> effectParsers;
 
-    GObject::AdapterType objectAdapter(local_shared_ptr<agent_properties> props); //NO-OP
-    GObject::AdapterType objectAdapter(local_shared_ptr<bomb_properties> props); //NO-OP
-    GObject::AdapterType objectAdapter(local_shared_ptr<bullet_properties> props); //NO-OP
-    GObject::AdapterType objectAdapter(local_shared_ptr<effectarea_properties> props);
-    GObject::AdapterType objectAdapter(local_shared_ptr<enemy_properties> props);
-    GObject::AdapterType objectAdapter(local_shared_ptr<npc_properties> props);
-    GObject::AdapterType objectAdapter(local_shared_ptr<item_properties> props);
-    GObject::AdapterType objectAdapter(local_shared_ptr<floorsegment_properties> props);
-    GObject::AdapterType objectAdapter(local_shared_ptr<environment_object_properties> props);
-
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<object_properties> result);
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<environment_object_properties> result);
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<effectarea_properties> result);
@@ -183,11 +173,6 @@ namespace app {
 
             if (parseObject(crnt, object)) {
                 app::objects.insert_or_assign(crnt->Name(), object);
-
-                auto adapter = objectAdapter(object);
-                if (adapter) {
-                    GObject::namedObjectTypes.insert_or_assign(crnt->Name(),adapter);
-                }
             }
             else {
                 log2("%s : %s failed to load!", filename, crnt->Name());

@@ -9,16 +9,13 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
-#define OBJS_FROM_ARB \
-    GObject* a = static_cast<GObject*>(arb->body_a_private->data); \
-    GObject* b = static_cast<GObject*>(arb->body_b_private->data);
-
 template<class D>
 constexpr bool isObjectCls() {
 	return is_base_of<GObject, D>();
 }
 
 #define assert_gobject(cls) static_assert( isObjectCls<cls>(),"Not a GObject type!");
+typedef pair<object_params, local_shared_ptr<object_properties>> object_generator;
 
 class GSpace
 {
@@ -26,7 +23,6 @@ public:
 	friend class GScene;
 	friend class physics_context;
 	friend class PhysicsImpl;
-	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
 	static void loadScriptVM();
     static GSpace* getCrntSpace();
@@ -73,25 +69,26 @@ public:
 
 	void addDynamicLoadObject(const ValueMap& obj);
 	gobject_ref createDynamicObject(const string& name);
-	const ValueMap* getDynamicObject(const string& name) const;
+	const object_generator* getDynamicObject(const string& name) const;
+    GObject* createObject(const object_params& params, local_shared_ptr<object_properties> props);
 	gobject_ref createObject(const ValueMap& obj);
-	gobject_ref createObject(ObjectGeneratorType factory);
-	gobject_ref createBullet(
+	Bullet* createBullet(
 		const object_params& params,
 		const bullet_attributes& attributes,
 		local_shared_ptr<bullet_properties> props
 	);
         
 	template<class C, typename... Args>
-	inline gobject_ref createObject(Args... args) {
-		return createObject(GObject::make_object_factory<C>(args...));
+	inline C* createObject(Args... args) { 
+        C* obj = new C(this, nextObjUUID++, args...);
+        addObject(obj);
+		return obj;
 	}
 
 	bool isTrackedType(type_index t) const;
     bool isValid(unsigned int uuid) const;
 	bool isFutureObject(ObjectIDType uuid) const;
     inline int getObjectCount() const { return objByUUID.size();}
-	unsigned int getAndIncrementObjectUUID();
 
     gobject_ref getObjectRef(const string& name) const;
     gobject_ref getObjectRef(unsigned int uuid) const;
@@ -218,6 +215,7 @@ public:
 	ControlInfo getControlInfo() const;
 	void setControlInfo(ControlInfo info);
 private:
+    void addObject(GObject* obj);
     void processRemovals();
     void initObjects();
     void processRemoval(GObject* obj, bool removeSprite);
@@ -333,10 +331,8 @@ protected:
 	unsigned int nextObjUUID = 1;
 	unsigned int lastAddedUUID = 0;
 
-	//"Objects" which have been queued for addition. The generator function, when added, is also
-	//paired to a UUID, i.e. the UUID is actually determined when the object generator is added,
-	//so that a ref can be returned in the same frame.
-	vector<generator_pair> toAdd;
+	//Objects which have been queued for addition.
+	vector<GObject*> toAdd;
 	//Messages for objects that have been queued for addition on the next frame. 
 	//These will be run right after init is run for recently created objects.
 	vector<zero_arity_function> initMessages;
@@ -357,7 +353,7 @@ protected:
 	set<GObject*> updateObjects;
 	set<RadarSensor*> radarSensors;
 	unordered_map<int, RoomSensor*> roomSensors;
-	unordered_map<string, ValueMap> dynamicLoadObjects;
+	unordered_map<string, object_generator> dynamicLoadObjects;
 //NAVIGATION
 	void unmarkObstacleTile(int x, int y);
 	void markObstacleTile(int x, int y);

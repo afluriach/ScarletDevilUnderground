@@ -12,7 +12,7 @@
 class Item : public GObject
 {
 public:
-	static ObjectGeneratorType create(GSpace* space, string items, SpaceVect pos);
+	static Item* create(GSpace* space, string items, SpaceVect pos);
 
 	Item(GSpace* space, ObjectIDType id, const object_params& params, local_shared_ptr<item_properties> props);
 	~Item();

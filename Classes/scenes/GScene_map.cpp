@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "AreaSensor.hpp"
+#include "Door.hpp"
 #include "functional.hpp"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
@@ -112,6 +113,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	loadWaypoints(*tileMap, mapEntry.second);
 	loadAreas(*tileMap, mapEntry.second);
 	loadFloorSegments(*tileMap, mapEntry.second);
+    loadDoors(*tileMap, mapEntry.second);
 	loadSensors(*tileMap, mapEntry.second);
 	loadMapObjects(*tileMap, mapEntry.second);
 	loadDynamicLoadObjects(*tileMap, mapEntry.second);
@@ -264,8 +266,15 @@ void GScene::loadFloorSegments(const TMXTiledMap& map, IntVec2 offset)
 	for (const Value& obj : floor->getObjects())
 	{
 		ValueMap objAsMap = obj.asValueMap();
-		convertToUnitSpace(objAsMap, offset);
-		gspace->createObject(objAsMap);
+        string type = objAsMap.at("type").asString();
+        auto props = app::getFloor(type);
+        if(props){
+            convertToUnitSpace(objAsMap, offset);
+            gspace->createObject<FloorSegment>(objAsMap, props);
+        }
+        else{
+            log1("Unknown floor type %s!", type);
+        }
 	}
 }
 
@@ -343,20 +352,32 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 	for(const Value& obj: walls->getObjects())
 	{
 		ValueMap objAsMap = obj.asValueMap();
-		objAsMap.insert_or_assign("type", "Wall");
-
 		convertToUnitSpace(objAsMap, offset);
 		gspace->createObject<Wall>(objAsMap);
 	}
 }
 
+void GScene::loadDoors(const TMXTiledMap& map, IntVec2 offset)
+{
+	TMXObjectGroup* walls = map.getObjectGroup("doors");
+	if (!walls)
+		return;
+
+	for(const Value& obj: walls->getObjects())
+	{
+		ValueMap objAsMap = obj.asValueMap();
+		convertToUnitSpace(objAsMap, offset);
+		gspace->createObject<Door>(objAsMap);
+	}
+}
+
 void GScene::loadRoomFromMap(const SpaceRect& mapBounds, int roomID, const ValueMap& properties)
 {
-	gspace->createObject(GObject::make_object_factory<RoomSensor>(
+	gspace->createObject<RoomSensor>(
 		SpaceRect(mapBounds.center, mapBounds.dimensions - SpaceVect(1.0, 1.0)),
 		roomID,
 		properties
-	));
+	);
 }
 
 void GScene::loadRoomsLayer(const TMXTiledMap& map)
@@ -370,11 +391,11 @@ void GScene::loadRoomsLayer(const TMXTiledMap& map)
 		ValueMap objAsMap = obj.asValueMap();
 		SpaceRect area = getUnitspaceRectangle(objAsMap, make_pair(0,0));
 
-		gspace->createObject(GObject::make_object_factory<RoomSensor>(
+		gspace->createObject<RoomSensor>(
 			SpaceRect(area.center,area.dimensions - SpaceVect(1.0, 1.0)),
 			objAsMap.at("name").asInt(),
 			objAsMap
-		));
+		);
 
 		mapAreas.push_back(area);
 		gspace->addMapArea(area);

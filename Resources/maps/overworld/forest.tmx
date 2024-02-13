@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="64" height="37" tilewidth="128" tileheight="128" nextobjectid="128">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="64" height="37" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="128">
  <properties>
   <property name="ambient_light" value="192,192,192"/>
  </properties>
@@ -12,23 +12,23 @@
  <tileset firstgid="9" name="dirt path vertical" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../dirt path vertical.png" width="128" height="128"/>
  </tileset>
- <layer name="grass_floor" width="64" height="37">
+ <layer id="1" name="grass_floor" width="64" height="37">
   <data encoding="base64" compression="zlib">
    eJztlksOwCAIBW3t/c/cdufC4AdBHjKJeRvTGkfBlHTI33iYicz1jZuZyIR/fP85zXvw4n/Wgwf/P978r/DS482q/xVeeryd7p+inK+Nln+Kcr72+tH9c9d3uv8a0ueBylEk/id9HkZ9UIR/+/4l8VD/OSDUf8u5655byd37vzvj/uu9/yT6A0L/b32XA0L/l3wfIPiXrA/hH6f+W/R/ev23fr9bIPmXIPyH/9X9v4a2V2toe7VG+Pfp/wViDw0I
   </data>
  </layer>
- <layer name="path v" width="64" height="37">
+ <layer id="2" name="path v" width="64" height="37">
   <data encoding="base64" compression="zlib">
    eJzt2DERAAAIAzFW/BvGAht3NFHQX1sFsNPXA47pz6YfAAAAAAD+Sf+/9WfTn+1b/wBCygBk
   </data>
  </layer>
- <layer name="wall_tiles" width="64" height="37">
+ <layer id="3" name="wall_tiles" width="64" height="37">
   <data encoding="base64" compression="zlib">
    eJztmdEOwiAMRXkR/f8v1j0swQak9LalICchWTKonGhbNlPyIX/GExwrk8H1L5VdzOP4Y0Twvx0kezn+GMffBkkPkqyJ6o/uq8e970dncOdo4+XP2cOMHF/dHzlX5rSHv5RrrXWuRffXjkm5nLg9AvXn5AKd34vpiYa/xnzt77/X15C8W8HfkpYPzQXOHIt3DTP9Odce/Q997yOpZ1H8PYnoP1r/RkeZw1H9LeHU8F/Xnuc/i1qL+o/ElFD61+Kiv48yJlIXWzFRaP2v3UcY9Yl2/t3dn9b/2n2Elg/tEa35nuc/6/yXnP89+1+t3/yTvwXcft7KhZ38JWuPv+zdBHeNhz/y/DDyOSUR/o/z5Ph/c/z34A3MYwpN
   </data>
  </layer>
- <objectgroup name="floor"/>
- <objectgroup name="walls">
+ <objectgroup id="4" name="floor"/>
+ <objectgroup id="5" name="walls">
   <object id="63" x="1280" y="4224" width="128" height="512"/>
   <object id="65" x="0" y="4096" width="1408" height="128"/>
   <object id="66" x="0" y="3456" width="128" height="640"/>
@@ -85,7 +85,7 @@
   <object id="123" x="6528" y="1792" width="128" height="768"/>
   <object id="124" x="6272" y="2560" width="384" height="128"/>
  </objectgroup>
- <objectgroup name="objects">
+ <objectgroup id="6" name="objects">
   <object id="52" name="mushroom3" type="Mushroom" x="320" y="3776" width="128" height="128"/>
   <object id="53" name="blueFairy3" type="BlueFairyNPC" x="3072" y="3200" width="128" height="128">
    <properties>
@@ -112,6 +112,9 @@
     <property name="level" value="2"/>
    </properties>
   </object>
+  <object id="126" name="mp_upgrade" type="mp_upgrade" x="5120" y="512" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="7" name="doors">
   <object id="61" name="clearing_path" type="Door" x="1408" y="4480" width="384" height="256">
    <properties>
     <property name="dest" value="forest_path"/>
@@ -120,6 +123,5 @@
     <property name="path" value="true"/>
    </properties>
   </object>
-  <object id="126" name="mp_upgrade" type="mp_upgrade" x="5120" y="512" width="128" height="128"/>
  </objectgroup>
 </map>

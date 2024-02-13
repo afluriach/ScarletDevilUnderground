@@ -269,6 +269,9 @@ void GSpace::addDynamicLoadObject(const ValueMap& obj)
 {
 	string name = obj.at("name").asString();
 	string type = obj.at("type").asString();
+ 
+    object_params params(obj);
+    auto props = app::getObjectProps(type);
 
 	if (name.empty()) {
 		log0("Un-named dynamic load object");
@@ -276,14 +279,14 @@ void GSpace::addDynamicLoadObject(const ValueMap& obj)
 	else if (type.empty()) {
 		log0("Un-typed dynamic load object");
 	}
-	else if (!GObject::isValidObjectType(type)) {
+	else if (!props) {
 		log1("Dynamic load object with unknown type %s.", type.c_str());
 	}
 	else if (dynamicLoadObjects.find(name) != dynamicLoadObjects.end()) {
 		log1("Dynamic load object name %s already used.", name.c_str());
 	}
 	else {
-		dynamicLoadObjects.insert_or_assign(name, obj);
+		dynamicLoadObjects.insert_or_assign(name, pair(params, props));
 	}
 }
 
@@ -291,7 +294,7 @@ gobject_ref GSpace::createDynamicObject(const string& name)
 {
 	auto it = dynamicLoadObjects.find(name);
 	if (it != dynamicLoadObjects.end()) {
-		return createObject(it->second);
+        return createObject(it->second.first, it->second.second);
 	}
 	else {
 		log1("Unknown dynamic load object name %s.", name.c_str());
@@ -299,7 +302,7 @@ gobject_ref GSpace::createDynamicObject(const string& name)
 	}
 }
 
-const ValueMap* GSpace::getDynamicObject(const string& name) const
+const object_generator* GSpace::getDynamicObject(const string& name) const
 {
 	auto it = dynamicLoadObjects.find(name);
 	if (it != dynamicLoadObjects.end())
@@ -311,26 +314,42 @@ const ValueMap* GSpace::getDynamicObject(const string& name) const
 gobject_ref GSpace::createObject(const ValueMap& obj)
 {
 	string type = getStringOrDefault(obj, "type", "");
-	gobject_ref result = createObject(GObject::factoryMethodByType(type, obj));
+    auto props = app::getObjectProps(type);
+    object_params params(obj);
+    
+    if(!props){
+        log1("Unknown object type %s!", type);
+        return gobject_ref();
+    }
 
-	return result;
+    return createObject(params, props);
 }
 
-gobject_ref GSpace::createObject(ObjectGeneratorType generator)
-{
-	ObjectIDType id = getAndIncrementObjectUUID();
-
-    toAdd.push_back(make_pair(generator,id));
-
-	return gobject_ref(this,id);
-}
-
-gobject_ref GSpace::createBullet(
+Bullet* GSpace::createBullet(
 	const object_params& params,
 	const bullet_attributes& attributes,
 	local_shared_ptr<bullet_properties> props
 ) {
 	return createObject<Bullet>(params, attributes, props);
+}
+
+GObject* GSpace::createObject(const object_params& params, local_shared_ptr<object_properties> props)
+{
+    if(!GObject::conditionalLoad(this, props, params))
+        return nullptr;
+
+    object_properties* objProps = props.get();
+    auto it = GObject::propsAdapters.find(typeid(*objProps));
+
+    if(it != GObject::propsAdapters.end()){
+        GObject* obj = it->second(this, nextObjUUID++, params, props);
+        addObject(obj);
+        return obj;
+    }
+    else{
+        log1("Unknown properties type %s.", typeid(*objProps).name());
+        return nullptr;
+    }
 }
 
 void GSpace::addSpatialSound(GObject* sourceObj, ALuint soundSource)
@@ -440,15 +459,8 @@ bool GSpace::isFutureObject(ObjectIDType uuid) const
 
 void GSpace::processAdditions()
 {
-    for(const generator_pair& generator: toAdd)
+    for(GObject* obj : toAdd)
     {
-		GObject* obj = generator.first(this, generator.second);
-
-		if (!obj)
-			continue;
-
-		lastAddedUUID = generator.second;
-
         if(objByUUID.find(obj->uuid) != objByUUID.end()){
             log1("Object UUID is not unique: %s", obj->toString());
             allocator_delete(obj);
@@ -523,6 +535,13 @@ void GSpace::setBulletBodiesVisible(bool b)
 	{
 		ref.getAs<Bullet>()->setBodyVisible(b);
 	}
+}
+
+void GSpace::addObject(GObject* obj)
+{
+    if(obj){
+        toAdd.push_back(obj);
+    }
 }
 
 void GSpace::processRemoval(GObject* obj, bool _removeSprite)
@@ -634,11 +653,6 @@ ControlInfo GSpace::getControlInfo() const {
 
 void GSpace::setControlInfo(ControlInfo info) {
 	controlInfo = info;
-}
-
-unsigned int GSpace::getAndIncrementObjectUUID()
-{
-	return nextObjUUID++;
 }
 
 gobject_ref GSpace::createAreaSensor(

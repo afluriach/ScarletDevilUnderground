@@ -40,8 +40,10 @@ namespace app {
 	local_shared_ptr<bullet_properties> getBullet(const string& name);
 	const MagicEffectDescriptor* getEffect(const string& name);
 	local_shared_ptr<firepattern_properties> getFirePattern(const string& name);
+	local_shared_ptr<floorsegment_properties> getFloor(const string& name);
 	local_shared_ptr<item_properties> getItem(const string& name);
 	shared_ptr<LightArea> getLight(const string& name);
+    local_shared_ptr<object_properties> getObjectProps(const string& name);
 	local_shared_ptr<agent_properties> getPlayer(const string& name);
 	const SpellDesc* getSpell(const string& name);
 	shared_ptr<sprite_properties> getSprite(const string& name);

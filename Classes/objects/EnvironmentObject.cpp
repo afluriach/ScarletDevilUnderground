@@ -16,8 +16,8 @@
 EnvironmentObject::EnvironmentObject(
 	GSpace* space,
 	ObjectIDType id,
-	local_shared_ptr<environment_object_properties> props,
-    const object_params& params
+    const object_params& params,
+    local_shared_ptr<environment_object_properties> props
 ) :
 	GObject(
 		space,

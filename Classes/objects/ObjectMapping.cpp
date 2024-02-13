@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "AreaSensor.hpp"
+#include "Bomb.hpp"
 #include "Bullet.hpp"
 #include "Door.hpp"
 #include "EffectArea.hpp"
@@ -18,79 +18,7 @@
 #include "Item.hpp"
 #include "NPC.hpp"
 #include "Player.hpp"
-#include "value_map.hpp"
 #include "Wall.hpp"
-
-make_static_member_detector(properName)
-
-//Adapters for mapping the name of a class to a factory adapter.
-template <typename T>
-GObject::AdapterType consAdapter()
-{
-    return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		return allocator_new<T>(space,id,args);
-	};
-}
-
-GObject::AdapterType itemAdapter()
-{
-    return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		object_params params(args);
-		string typeName = getStringOrDefault(args, "item", "");
-		auto itemProps = app::getItem(typeName);
-
-		if (!itemProps) {
-			log1("Unknown Item type: %s", typeName);
-		}
-
-		if (!itemProps || !GObject::conditionalLoad(space, itemProps, params))
-			return nullptr;
-        else
-			return allocator_new<Item>(space, id, params, itemProps);
-    };
-}
-
-template <class C>
-GObject::object_info makeObjectInfo(GObject::AdapterType adapter)
-{
-	return GObject::object_info{
-		adapter,
-		type_index(typeid(C))
-	};
-}
-
-#define entry(name,cls) {name, makeObjectInfo<cls>(consAdapter<cls>())}
-//To make an entry where the name matches the class
-#define entry_same(cls) entry(#cls, cls)
-
-#define no_adapter_entry(name) {#name, makeObjectInfo<name>(nullptr)}
-
-unordered_map<string, GObject::object_info> GObject::objectInfo;
-unordered_map<string, GObject::AdapterType> GObject::namedObjectTypes;
-
-void GObject::initObjectInfo()
-{
-	objectInfo = {
-
-	no_adapter_entry(AreaSensor),
-	no_adapter_entry(AreaSensorImpl),
-	no_adapter_entry(Bullet),
-	entry_same(Door),
-	no_adapter_entry(EffectArea),
-	no_adapter_entry(Enemy),
-	no_adapter_entry(EnvironmentObject),
-	no_adapter_entry(FloorSegment),
-	entry_same(HiddenSubroomSensor),
-	{"Item", makeObjectInfo<Item>(itemAdapter())},
-	no_adapter_entry(NPC),
-	entry_same(Pitfall),
-	no_adapter_entry(Player),
-	no_adapter_entry(RoomSensor),
-	no_adapter_entry(Wall),
-
-	};
-
-}
 
 const unordered_set<type_index> GObject::trackedTypes = {
 	typeid(Bullet),
@@ -104,4 +32,29 @@ const unordered_set<type_index> GObject::trackedTypes = {
 	typeid(Wall),
 };
 
-#define _nameTypeEntry(cls) {#cls, typeid(cls)}
+typedef function<GObject*(GSpace*, ObjectIDType, const object_params& params, local_shared_ptr<object_properties> props)> PropsAdapter;
+
+template<typename T, typename P>
+PropsAdapter objectAdapter()
+{
+    return [](
+        GSpace* space,
+        ObjectIDType id,
+        const object_params& params,
+        local_shared_ptr<object_properties> props
+    ) -> GObject* {
+        auto p = props.downcast<P>();
+        return allocator_new<T>(space, id, params, p);
+    };
+}
+
+#define entry(prop,obj) { typeid(prop), objectAdapter<obj,prop>() }
+
+const unordered_map<type_index, PropsAdapter> GObject::propsAdapters = {
+    entry(bomb_properties, Bomb),
+    entry(effectarea_properties, EffectArea),
+    entry(enemy_properties, Enemy),
+    entry(environment_object_properties, EnvironmentObject),
+    entry(item_properties, Item),
+    entry(npc_properties, NPC)
+};

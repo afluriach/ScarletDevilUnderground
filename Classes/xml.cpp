@@ -157,6 +157,11 @@ local_shared_ptr<firepattern_properties> getFirePattern(const string& name)
 	return getOrDefault(firePatterns, name);
 }
 
+local_shared_ptr<floorsegment_properties> getFloor(const string& name)
+{
+    return getObjectProperties<floorsegment_properties>(name);
+}
+
 local_shared_ptr<item_properties> getItem(const string& name)
 {
 	return getObjectProperties<item_properties>(name);
@@ -165,6 +170,11 @@ local_shared_ptr<item_properties> getItem(const string& name)
 shared_ptr<LightArea> getLight(const string& name)
 {
 	return getOrDefault(lights, name);
+}
+
+local_shared_ptr<object_properties> getObjectProps(const string& name)
+{
+    return getOrDefault(objects, name);
 }
 
 local_shared_ptr<agent_properties> getPlayer(const string& name)

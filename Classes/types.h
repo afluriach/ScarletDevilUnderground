@@ -16,9 +16,11 @@ class Bomb;
 class Bullet;
 class Door;
 class EffectArea;
+class EnvironmentObject;
 class Enemy;
 class FloorSegment;
 class GObject;
+class Item;
 class NPC;
 class Pitfall;
 class Player;
@@ -109,7 +111,6 @@ typedef list<GObject*, local_allocator<GObject*>> object_list;
 typedef function<void(void)> zero_arity_function;
 typedef function<void(const vector<string>&)> InterfaceFunction;
 
-typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
 typedef function<local_shared_ptr<FirePattern>(Agent*)> FirePatternGeneratorType;
 //
