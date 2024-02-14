@@ -317,11 +317,9 @@ void GScene::loadSubrooms(const TMXTiledMap& map, IntVec2 offset)
 		ValueMap objAsMap = obj.asValueMap();
 		SpaceRect area = getUnitspaceRectangle(objAsMap, offset);
 
-		objAsMap.insert_or_assign("type", "HiddenSubroomSensor");
 		objAsMap.insert_or_assign("id", to_int(graphicsContext->roomMasks.size()));
-
 		convertToUnitSpace(objAsMap, offset);
-		gspace->createObject(objAsMap);
+		gspace->createObject<HiddenSubroomSensor>(objAsMap);
 
 		DrawNode* dn = DrawNode::create();
 

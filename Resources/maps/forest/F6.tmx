@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="33" height="21" tilewidth="128" tileheight="128" nextobjectid="128">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="33" height="21" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="128">
  <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../dirt1.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
   <image source="../forest_dirt_wall.png" width="512" height="128"/>
  </tileset>
- <layer name="floor" width="33" height="21">
+ <layer id="1" name="floor" width="33" height="21">
   <data encoding="base64" compression="zlib">
    eJztlOEKwCAIhM16/2dePzq4HWwUaP1JEMtBnl+zYmbevQTGVavdW3Bctcj+L4fL4XL4jo3W2NfhLt89iQPORX3WhXyRfQYHZeHEQDVkcUAd5N3efSPPejI48Jp1cP+sZ9dcoCb/n7vfB52NrLn4M72H6P5nOPC88r3s5MBzksljhgP8BAdo1XfzxFywjgfK4gUn
   </data>
  </layer>
- <layer name="wall_tiles" width="33" height="21">
+ <layer id="2" name="wall_tiles" width="33" height="21">
   <data encoding="base64" compression="zlib">
    eJxjZ2BgYCcCMxCpDqaWFMBGhh58gGPUDaNuGHXDoHUDseUIO1T9QIfDqBto6wZWPBjdvoEIh1E3jLph1A3EuwFffoZhBiLVkeMGAO0tAw0=
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="3" name="floor">
   <object id="110" type="GrassFloor" x="128" y="128" width="2560" height="2432"/>
   <object id="125" type="GrassFloor" x="2688" y="1152" width="1408" height="384">
    <properties>
@@ -29,10 +29,22 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="subrooms">
+ <objectgroup id="4" name="subrooms">
   <object id="127" x="2688" y="1024" width="1536" height="1664"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="7" name="doors">
+  <object id="108" name="door-f6-south" type="Door" x="1280" y="2560" width="128" height="128">
+   <properties>
+    <property name="dir" value="up"/>
+   </properties>
+  </object>
+  <object id="109" name="door-f6-north" type="Door" x="1280" y="0" width="128" height="128">
+   <properties>
+    <property name="dir" value="down"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="walls">
   <object id="112" x="0" y="0" width="1280" height="128"/>
   <object id="113" x="1408" y="0" width="1280" height="128"/>
   <object id="114" x="2560" y="128" width="128" height="1152"/>
@@ -66,16 +78,5 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="objects">
-  <object id="108" name="door-f6-south" type="Door" x="1280" y="2560" width="128" height="128">
-   <properties>
-    <property name="dir" value="up"/>
-   </properties>
-  </object>
-  <object id="109" name="door-f6-north" type="Door" x="1280" y="0" width="128" height="128">
-   <properties>
-    <property name="dir" value="down"/>
-   </properties>
-  </object>
- </objectgroup>
+ <objectgroup id="6" name="objects"/>
 </map>

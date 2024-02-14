@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="61">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="61">
  <properties>
   <property name="ambient_light" value="112,112,112"/>
  </properties>
@@ -9,20 +9,20 @@
  <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
   <image source="../forest_dirt_wall.png" width="512" height="128"/>
  </tileset>
- <layer name="floor" width="17" height="17">
+ <layer id="1" name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJx9k0EOxCAMAwnJ/9+8PRRpNDV7sKAljh0Saq01D/pBPdgvCuiw3y/vxI4456yB859n1Bysx9PGWkGTfjvsqc86K3DmD5/c8826ecZ6N+JZH2su6bp+xgxgz6X4Clzn913c+jjSqPXtEetuad76wZy8G3qzb/duFONY8ybw00zRuzkpV4Jz+L009Fi378tz5L6lOU56XOnP2rfcaU4c4/nf2NP30fwBQNICwg==
   </data>
  </layer>
- <layer name="wall_tiles" width="17" height="17">
+ <layer id="2" name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjZ2BgYKcQszFQBjhGzRi0ZlADDBa/jJpBGzNYKcQA0/UBkg==
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="3" name="floor">
   <object id="35" type="GrassFloor" x="128" y="128" width="1920" height="1920"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="4" name="walls">
   <object id="27" x="2048" y="0" width="128" height="1024"/>
   <object id="28" x="128" y="2048" width="2048" height="128"/>
   <object id="29" x="0" y="1152" width="128" height="1024"/>
@@ -30,17 +30,7 @@
   <object id="32" x="0" y="0" width="128" height="1024"/>
   <object id="49" x="128" y="0" width="1920" height="128"/>
  </objectgroup>
- <objectgroup name="objects">
-  <object id="42" name="door-f1-west" type="Door" x="0" y="1024" width="128" height="128">
-   <properties>
-    <property name="dir" value="right"/>
-   </properties>
-  </object>
-  <object id="43" name="door-f1-east" type="Door" x="2048" y="1024" width="128" height="128">
-   <properties>
-    <property name="dir" value="left"/>
-   </properties>
-  </object>
+ <objectgroup id="5" name="objects">
   <object id="52" name="fairy1-1" type="Fairy1" x="1024" y="768" width="128" height="128">
    <properties>
     <property name="ai_package" value="circle_around_point"/>
@@ -70,7 +60,19 @@
   <object id="59" type="magic2" x="256" y="1792" width="128" height="128"/>
   <object id="60" type="magic2" x="1792" y="1792" width="128" height="128"/>
  </objectgroup>
- <objectgroup name="waypoints">
+ <objectgroup id="6" name="waypoints">
   <object id="54" name="fairy1-1" x="1024" y="1024" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="7" name="doors">
+  <object id="42" name="door-f1-west" type="Door" x="0" y="1024" width="128" height="128">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="43" name="door-f1-east" type="Door" x="2048" y="1024" width="128" height="128">
+   <properties>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

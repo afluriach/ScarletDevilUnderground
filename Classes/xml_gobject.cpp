@@ -242,7 +242,7 @@ namespace app {
 	{
 		parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
 
-		if (result->dimensions.x == 0.0) {
+		if (result->dimensions.isZero()) {
 			result->dimensions.x = Agent::defaultSize;
 		}
 
@@ -293,7 +293,7 @@ namespace app {
 			tinyxml2::XMLElement* d = elem->FirstChildElement();
 			d != nullptr;
 			d = d->NextSiblingElement()
-			) {
+        ) {
 			string condition;
 			string effect;
 			getStringAttr(d, "condition", &condition);

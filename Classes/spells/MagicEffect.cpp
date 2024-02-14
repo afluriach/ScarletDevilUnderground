@@ -94,7 +94,7 @@ void MagicEffect::remove()
     //so it doesn't run exit() when it didn't run init()
     if(crntState == state::created)
         crntState = state::expired;
-    //don't want exit() to run an extra time, since it has already run.
+    //don't want exit() to run an extra time, if it has already run.
     else if(crntState != state::expired)
         crntState = state::ending;
 }

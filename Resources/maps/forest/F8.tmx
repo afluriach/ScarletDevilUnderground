@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="43" height="38" tilewidth="128" tileheight="128" nextobjectid="183">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="43" height="38" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="183">
  <properties>
   <property name="trap_doors" value="door-f8-south door-f8-east"/>
  </properties>
@@ -9,21 +9,21 @@
  <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
   <image source="../forest_dirt_wall.png" width="512" height="128"/>
  </tileset>
- <layer name="floor" width="43" height="38">
+ <layer id="1" name="floor" width="43" height="38">
   <data encoding="base64" compression="zlib">
    eJzt0MENwCAMBEGHpP+aoQQ/cDDSrHS6/4yIeNbGBf+tvZd8By+uXLly5cqVK1euXLly5cqVK1euZ39HGZcuZVy6xLUmrjVxrekv1wk02wzh
   </data>
  </layer>
- <layer name="wall_tiles" width="43" height="38">
+ <layer id="2" name="wall_tiles" width="43" height="38">
   <data encoding="base64" compression="zlib">
    eJztlMEKgDAMQ3tx7v+/WC9eQnEKy7pAHvQgwfrYMC0iToHp97TQwK4c0PVIJjbJ0bXDu3jmlbldOTm6YqfhrspcuQd2RtnV/TonV3LF52oX9+t67MrB/crJ7crJ3a8c7Mrhcc167e+8MWP/6BtfGd0N/t+V2JWDXTnYlYOSa9bZjB6/AF6pCdg=
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="3" name="floor">
   <object id="165" type="GrassFloor" x="128" y="128" width="5248" height="3456"/>
   <object id="166" type="GrassFloor" x="2304" y="3584" width="896" height="1152"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="4" name="walls">
   <object id="135" x="384" y="1536" width="640" height="640"/>
   <object id="136" x="1408" y="1536" width="640" height="640"/>
   <object id="137" x="2432" y="1536" width="640" height="640"/>
@@ -50,7 +50,7 @@
   <object id="163" x="2176" y="3712" width="128" height="1152"/>
   <object id="164" x="2304" y="4736" width="384" height="128"/>
  </objectgroup>
- <objectgroup name="objects">
+ <objectgroup id="7" name="doors">
   <object id="153" name="door-f8-south" type="Door" x="2688" y="4736" width="128" height="128">
    <properties>
     <property name="dir" value="up"/>
@@ -61,6 +61,8 @@
     <property name="dir" value="left"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup id="5" name="objects">
   <object id="172" name="blueFairy8-1" type="BlueFairy" x="1152" y="256" width="128" height="128">
    <properties>
     <property name="ai_package" value="blue_fairy_follow_path"/>
@@ -85,7 +87,7 @@
   <object id="181" type="GreenFairy2" x="4736" y="3328" width="128" height="128"/>
   <object id="182" type="GreenFairy2" x="4736" y="1280" width="128" height="128"/>
  </objectgroup>
- <objectgroup name="paths">
+ <objectgroup id="6" name="paths">
   <object id="168" name="blueFairy8-1" x="1216" y="320">
    <polyline points="0,0 0,3072 3072,3072 3072,0"/>
   </object>

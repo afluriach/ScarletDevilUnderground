@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="23" tilewidth="128" tileheight="128" nextobjectid="52">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="23" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="52">
  <tileset firstgid="1" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../grass-floor.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
   <image source="../forest_dirt_wall.png" width="512" height="128"/>
  </tileset>
- <layer name="floor" width="17" height="23">
+ <layer id="1" name="floor" width="17" height="23">
   <data encoding="base64" compression="zlib">
    eJydlAEKQyEMQ9X2/mfeBoa9hTjwF0SHTZqa/o2Ro9+r9pp7vw3h5ubrBxxr47U/4WB96bmNhg6db0NY7qeQZuld4/sGWhXO5BYHMbqr8etv2x1rUrM0Lewz1KTeCmfWZ58zYPoPnlj9Zt+8Y78L+e4JPV7Gzf59Jtrq0y/mz4B1fn+Lk49tNTg3yeeymic/yMm3oTbX7d615Xiu4zrg00xRu2MSV1rO4d9LoR779vfyOXLf0hynetypz2ufuNOceI7Pv/+30vNP3gvWxQMO
   </data>
  </layer>
- <layer name="wall_tiles" width="17" height="23">
+ <layer id="2" name="wall_tiles" width="17" height="23">
   <data encoding="base64" compression="zlib">
    eJxjYMAO2KEYnU0KYEPjc4yaQbQZ7HgwserQ7SMVcIyaMWjNoAYYLH4ZNYM2ZrBSiAGL1wHf
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="3" name="floor">
   <object id="35" type="GrassFloor" x="128" y="896" width="1920" height="1920"/>
   <object id="51" type="GrassFloor" x="896" y="0" width="384" height="896"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="4" name="walls">
   <object id="26" x="768" y="0" width="256" height="128"/>
   <object id="27" x="2048" y="768" width="128" height="1024"/>
   <object id="28" x="128" y="2816" width="2048" height="128"/>
@@ -33,8 +33,8 @@
   <object id="49" x="128" y="768" width="768" height="128"/>
   <object id="50" x="1280" y="768" width="768" height="128"/>
  </objectgroup>
- <objectgroup name="objects">
-  <object id="37" name="player" type="Player" x="1024" y="1792" width="128" height="128"/>
+ <objectgroup id="5" name="objects"/>
+ <objectgroup id="6" name="doors">
   <object id="42" name="door-f0-west" type="Door" x="0" y="1792" width="128" height="128">
    <properties>
     <property name="dir" value="right"/>
@@ -50,5 +50,8 @@
     <property name="dir" value="down"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup id="7" name="waypoints">
+  <object id="37" name="player_start" x="1024" y="1792" width="128" height="128"/>
  </objectgroup>
 </map>

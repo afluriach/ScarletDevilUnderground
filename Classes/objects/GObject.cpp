@@ -42,9 +42,24 @@ GObject::GObject(
 	active(params.active),
 	hidden(params.hidden)
 {
-	dimensions = params.dimensions.isZero() ? 
-		(props ? props->dimensions : SpaceVect::zero) : 
-		params.dimensions;
+    if(!props){
+        log1("%s: object properties is null!", toString());
+    }
+    else if(props->dimensions.isZero() && params.dimensions.isZero()){
+        log1("No valid dimensions to use!", toString());
+    }
+    
+    if(params.dimensions.isZero()){
+        log1("%s: object params dimensions are zero!", toString());
+    }
+    
+    if(props && !props->dimensions.isZero()){
+        dimensions = props->dimensions;
+    }
+    else{
+        dimensions = params.dimensions;
+    }
+
 	initializeBody();
 
 	if (body) {
@@ -106,7 +121,7 @@ string GObject::getProperName() const {
 }
 
 string GObject::getClsName() const {
-    return props ? props->clsName : "";
+    return props ? props->clsName : "undefined";
 }
 
 gobject_ref GObject::getRef() const
@@ -552,7 +567,7 @@ SpaceRect GObject::getBoundingBox() const
 {
 	return SpaceRect(
 		getPos(),
-		dimensions.x == 0 ? SpaceVect(dimensions.x, dimensions.x) : dimensions
+		dimensions.y == 0.0 ? SpaceVect(dimensions.x, dimensions.x) : dimensions
 	);
 }
 

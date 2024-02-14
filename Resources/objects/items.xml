@@ -10,6 +10,11 @@
         dialog="book_acquired"
     />
     
+    <ForestKey
+		name="Forest Key"
+		sprite="key"
+	/>
+    
 	<MapFragment
 		cls="auto"
 		name="Map Fragment"
