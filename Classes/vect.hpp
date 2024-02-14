@@ -125,6 +125,10 @@ public:
 	static bool fuzzyMatch(SpaceVect v1, SpaceVect v2);
 
     static const SpaceVect zero;
+    static const SpaceVect up;
+    static const SpaceVect down;
+    static const SpaceVect left;
+    static const SpaceVect right;
     static const SpaceVect unit_square;
 };
 

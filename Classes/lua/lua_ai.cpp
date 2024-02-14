@@ -37,8 +37,6 @@ namespace Lua{
 			return result;
 		};
   
-        _ai["getHorizontalAdjacentTiles"]  = &ai::getHorizontalAdjacentTiles;
-
 		#define _cls ai::Function
 		auto func = _ai.new_usertype<ai::Function>(
 			"Function",

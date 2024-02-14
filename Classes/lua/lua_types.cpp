@@ -28,6 +28,17 @@ namespace Lua{
 				enum_entry(GraphicsLayer, overhead)
 			}
 		);
+  
+  		auto direction = _state.new_enum<Direction, true>(
+			"Direction",
+			{
+                enum_entry(Direction, none),
+                enum_entry(Direction, right),
+                enum_entry(Direction, up),
+                enum_entry(Direction, left),
+                enum_entry(Direction, down)
+            }
+        );
 
 		auto gtype = _state.new_enum<GType, true>(
 			"GType",

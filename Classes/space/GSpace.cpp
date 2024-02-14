@@ -642,6 +642,14 @@ int GSpace::getRandomInt(int min, int max) {
 	return randomInt(randomEngine);
 }
 
+bool GSpace::getRandomBool(){
+    return getRandomBool(0.5f);
+}
+
+bool GSpace::getRandomBool(float probability){
+    return getRandomFloat() < probability;
+}
+
 vector<int> GSpace::getRandomShuffle(int n) {
 	vector<int> result;
 
@@ -1065,7 +1073,7 @@ shared_ptr<const Path> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 		getSize()
 	);
 
-	if (tileCoords.size() < 2) {
+	if (tileCoords.size() < 1) {
 		return nullptr;
 	}
 

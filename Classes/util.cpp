@@ -29,6 +29,43 @@ Direction toDirection(SpaceVect v)
     return angleToDirection(toCocos(v).getAngle());
 }
 
+bool isValidDirection(Direction d)
+{
+    return
+        d == Direction::up ||
+        d == Direction::down ||
+        d == Direction::left ||
+        d == Direction::right
+    ;
+}
+
+Direction invertDirection(Direction d)
+{
+    Direction result = Direction::none;
+    
+    switch(d)
+    {
+        case Direction::up:
+            result = Direction::down;
+        break;
+        case Direction::down:
+            result = Direction::up;
+        break;
+        case Direction::left:
+            result = Direction::right;
+        break;
+        case Direction::right:
+            result = Direction::left;
+        break;
+    }
+    
+    if(result == Direction::none){
+        log1("Invalid direction %d provided!", to_int(d));
+    }
+    
+    return result;
+}
+
 //round to nearest primary direction
 Direction angleToDirection(SpaceFloat a)
 {
@@ -85,6 +122,52 @@ string floatToRoundedString(float val, float denom)
 {
 	float roundedVal = floor(val * denom) / denom;
 	return boost::lexical_cast<string>(roundedVal);
+}
+
+vector<SpaceVect> getPoints(SpaceVect start, SpaceVect dir, int count)
+{
+    vector<SpaceVect> result;
+
+    for(int i = 0; i < count; ++i){
+        result.push_back(start + dir*i);
+    }
+    
+    return result;
+}
+
+vector<SpaceVect> getAdjacentTiles(GObject* object, Direction direction)
+{
+    if(!isValidDirection(direction)){
+        log1("Invalid Direction %d!", to_int(direction));
+        return vector<SpaceVect>();
+    }
+
+    SpaceVect center = object->getPos();
+    SpaceVect dim = object->getDimensions();
+    
+    //rows if up/down, columns if left/right
+    SpaceVect dir;
+    int count;
+    SpaceFloat multX = direction == Direction::right ? 1.0 : -1.0;
+    SpaceFloat multY = direction == Direction::up ? 1.0 : -1.0;
+    
+    if(direction == Direction::up || direction == Direction::down){
+        dir = SpaceVect::right;
+        count = dim.x;
+    }
+    else{
+        dir = SpaceVect::up;
+        count = dim.y;
+    }
+    
+    return getPoints(
+        SpaceVect(
+            center.x + multX*dim.x/2 + 0.5,
+            center.y + multY*dim.y/2 + 0.5
+        ),
+        dir,
+        count
+    );
 }
 
 bool isNumeric(char c)

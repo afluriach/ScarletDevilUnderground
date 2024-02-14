@@ -32,10 +32,15 @@ SpaceFloat dirToPhysicsAngle(Direction d);
 SpaceVect dirToVector(Direction d);
 //Cannot be overloaded since it is exposed in the Lua API.
 Direction toDirection(SpaceVect);
+bool isValidDirection(Direction d);
+Direction invertDirection(Direction d);
 Direction angleToDirection(SpaceFloat a);
 Direction stringToDirection(string str);
 string directionToString(Direction d);
 string floatToRoundedString(float val, float denom);
+
+vector<SpaceVect> getPoints(SpaceVect start, SpaceVect dir, int count);
+vector<SpaceVect> getAdjacentTiles(GObject* object, Direction direction);
 
 bool isNumeric(char c);
 int getIntSuffix(const string& name);

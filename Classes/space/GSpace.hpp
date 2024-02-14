@@ -209,6 +209,9 @@ public:
 	float getRandomFloat(float min, float max);
 	//Generate [min,max]
 	int getRandomInt(int min, int max);
+    bool getRandomBool();
+    //probability of getting a true result.
+    bool getRandomBool(float probability);
 	//Generate the numbers [0,N) in a random order
 	vector<int> getRandomShuffle(int n);
 

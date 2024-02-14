@@ -119,13 +119,15 @@ function objects.Patchouli2:init(super)
 end
 
 function objects.Patchouli2:initialize()
-	self.points = {}
+	self.pointsL = {}
+	self.pointsR = {}
 	
 	for i=1,self.numShelfs do
 		local name = 'bookshelf' .. i
 		local bookshelf = self.super.space:getObject(name)
 		
-		table.insert(self.points, ai.getHorizontalAdjacentTiles(bookshelf))
+		table.insert(self.pointsL, util.getAdjacentTiles(bookshelf, Direction.left))
+		table.insert(self.pointsR, util.getAdjacentTiles(bookshelf, Direction.right))
 	end
 	
 	self:waiting()
@@ -134,6 +136,12 @@ end
 function objects.Patchouli2:moving()
 	self.state = 'moving'
 	self.func = nil
+	
+	if self.super.space:getRandomBool() then
+		self.dir = Direction.right
+	else
+		self.dir = Direction.left
+	end
 	
 	while not self.func do
 		self.func = ai.FollowPathKinematic.pathToPoint(
@@ -153,8 +161,12 @@ end
 
 function objects.Patchouli2:getRandomPoint()
 	local shelf = self.super.space:getRandomInt(1, self.numShelfs)
-	local pv = self.points[shelf]
-	return pv[self.super.space:getRandomInt(1,#pv)]
+	if self.dir == Direction.right then
+		self.pv = self.pointsR[shelf]
+	else
+		self.pv =self.pointsL[shelf]
+	end
+	return self.pv[self.super.space:getRandomInt(1,#self.pv)]
 end
 
 function objects.Patchouli2:getRandomWait()
@@ -168,6 +180,7 @@ function objects.Patchouli2:update()
 	
 	if self.func:isCompleted() then
 		if self.state == 'moving' then
+			self.super:setDirection(util.invertDirection(self.dir))
 			self:waiting()
 		else
 			self:moving()

@@ -31,8 +31,6 @@ bool isLineOfSight(const GObject* agent, const GObject* target);
 bool isObstacle(const GObject* agent, SpaceVect target);
 bool isObstacleBetweenTarget(const GObject* agent, const GObject* target);
 
-vector<SpaceVect> getHorizontalAdjacentTiles(GObject* object);
-
 array<SpaceFloat, 8> wallFeeler8(const GObject* agent, SpaceFloat distance);
 array<SpaceFloat, 4> obstacleFeelerQuad(const GObject* agent, SpaceFloat distance);
 array<SpaceFloat, 8> obstacleFeeler8(const GObject* agent, SpaceFloat distance);

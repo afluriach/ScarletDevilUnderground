@@ -149,6 +149,7 @@ namespace Lua{
 		addFuncSame(gobject, getPos);
 		addFuncSame(gobject, getVel);
 		addFuncSame(gobject, rotate);
+        addFuncSame(gobject, setDirection);
 		addFuncSame(gobject, setAngle);
 		addFuncSame(gobject, setAngularVel);
 		addFuncSame(gobject, setPos);

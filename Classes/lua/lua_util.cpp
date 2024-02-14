@@ -36,6 +36,7 @@ void Inst::addUtil()
 	};
  
     cFuncSame(util, canonicalAngle);
+    cFuncSame(util, invertDirection);
 
 	util["isinf"] = &std::isinf<double>;
 #ifdef _WIN32
@@ -47,6 +48,9 @@ void Inst::addUtil()
 	cFuncSame(util, getIntOrDefault);
 	cFuncSame(util, getFloatOrDefault);
 	cFuncSame(util, getBoolOrDefault);
+
+	cFuncSame(util, getPoints);
+	cFuncSame(util, getAdjacentTiles);
 
 	cFuncSame(util, explosion);
 	cFuncSame(util, radialDamageArea);

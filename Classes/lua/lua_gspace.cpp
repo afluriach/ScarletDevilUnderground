@@ -80,6 +80,10 @@ namespace Lua{
 			static_cast<void(GSpace::*)(GObject*)>(&GSpace::removeObject)
 		);
 		addFuncSame(gspace, getRandomInt);
+        gspace["getRandomBool"] = sol::overload(
+			static_cast<bool(GSpace::*)()>(&GSpace::getRandomBool),
+			static_cast<bool(GSpace::*)(float)>(&GSpace::getRandomBool)
+		);
 		gspace["getRandomFloat"] = sol::overload(
 			static_cast<float(GSpace::*)()>(&GSpace::getRandomFloat),
 			static_cast<float(GSpace::*)(float, float)>(&GSpace::getRandomFloat)

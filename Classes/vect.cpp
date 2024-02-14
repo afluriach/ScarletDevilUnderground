@@ -249,9 +249,12 @@ SpaceVect SpaceVect::forAngle(SpaceFloat a) {
 	return SpaceVect(cos(a), sin(a));
 }
     
-const SpaceVect SpaceVect::zero = SpaceVect(0.0f,0.0f);
-const SpaceVect SpaceVect::unit_square = SpaceVect(1.0f,1.0f);
-
+const SpaceVect SpaceVect::zero = SpaceVect(0.0,0.0);
+const SpaceVect SpaceVect::up = SpaceVect(0.0,1.0);
+const SpaceVect SpaceVect::down = SpaceVect(0.0,-1.0);
+const SpaceVect SpaceVect::left = SpaceVect(-1.0,0.0);
+const SpaceVect SpaceVect::right = SpaceVect(1.0,0.0);
+const SpaceVect SpaceVect::unit_square = SpaceVect(1.0,1.0);
 
 std::ostream& operator<<(std::ostream& out, const SpaceVect& vec)
 {

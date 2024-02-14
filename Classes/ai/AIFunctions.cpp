@@ -524,7 +524,11 @@ local_shared_ptr<FollowPath> FollowPath::pathToPoint(
 	);
 
 	if (!path) {
-		log1("%s: no path to target", object->toString());
+		log5("%s: no path to target, (%.2f,%.2f), (%.2f,%.2f)",
+            object->toString(),
+            object->getPos().x, object->getPos().y,
+            point.x, point.y
+        );
 		return nullptr;
 	}
     else if(path->size() < 2){
@@ -583,7 +587,11 @@ local_shared_ptr<FollowPathKinematic> FollowPathKinematic::pathToPoint(
 	);
 
 	if (!path) {
-		log1("%s: no path to target", object->toString());
+		log5("%s: no path to target, (%.2f,%.2f), (%.2f,%.2f)",
+            object->toString(),
+            object->getPos().x, object->getPos().y,
+            point.x, point.y
+        );
 		return nullptr;
 	}
     else if(path->size() < 2){
