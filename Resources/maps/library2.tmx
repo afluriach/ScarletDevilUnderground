@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="58">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="60">
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="scarlet carpet texture.png" width="128" height="128"/>
  </tileset>
@@ -17,15 +17,29 @@
   </data>
  </layer>
  <objectgroup id="2" name="objects">
-  <object id="6" name="patchouli" type="Patchouli2" x="896" y="384" width="128" height="128"/>
-  <object id="35" name="bookshelf1" type="Bookshelf" x="1280" y="384" width="256" height="896"/>
-  <object id="36" name="bookshelf2" type="Bookshelf" x="1792" y="384" width="256" height="896"/>
-  <object id="38" name="bookshelf3" type="Bookshelf" x="2304" y="384" width="256" height="896"/>
-  <object id="39" name="bookshelf4" type="Bookshelf" x="2816" y="384" width="256" height="896"/>
-  <object id="40" name="bookshelf5" type="Bookshelf" x="3328" y="384" width="256" height="896"/>
-  <object id="41" name="bookshelf6" type="Bookshelf" x="3840" y="384" width="256" height="896"/>
-  <object id="42" name="bookshelf7" type="Bookshelf" x="4352" y="384" width="256" height="896"/>
-  <object id="43" name="bookshelf8" type="Bookshelf" x="4864" y="384" width="256" height="896"/>
+  <object id="6" name="patchouli_a" type="Patchouli2A" x="896" y="384" width="128" height="128"/>
+  <object id="58" name="patchouli_c" type="Patchouli2C" x="1024" y="3712" width="128" height="128"/>
+  <object id="59" name="patchouli_b" type="Patchouli2B" x="1408" y="5120" width="128" height="128"/>
+  <object id="35" name="bookshelfA1" type="Bookshelf" x="1280" y="384" width="256" height="896"/>
+  <object id="36" name="bookshelfA2" type="Bookshelf" x="1792" y="384" width="256" height="896"/>
+  <object id="38" name="bookshelfA3" type="Bookshelf" x="2304" y="384" width="256" height="896"/>
+  <object id="39" name="bookshelfA4" type="Bookshelf" x="2816" y="384" width="256" height="896"/>
+  <object id="40" name="bookshelfA5" type="Bookshelf" x="3328" y="384" width="256" height="896"/>
+  <object id="41" name="bookshelfA6" type="Bookshelf" x="3840" y="384" width="256" height="896"/>
+  <object id="42" name="bookshelfA7" type="Bookshelf" x="4352" y="384" width="256" height="896"/>
+  <object id="43" name="bookshelfA8" type="Bookshelf" x="4864" y="384" width="256" height="896"/>
+  <object id="48" name="bookshelfB9" type="Bookshelf" x="384" y="4480" width="896" height="256"/>
+  <object id="49" name="bookshelfB8" type="Bookshelf" x="384" y="4992" width="896" height="256"/>
+  <object id="50" name="bookshelfB7" type="Bookshelf" x="384" y="5504" width="896" height="256"/>
+  <object id="51" name="bookshelfB6" type="Bookshelf" x="2560" y="4480" width="1280" height="256"/>
+  <object id="52" name="bookshelfB5" type="Bookshelf" x="2560" y="4992" width="1280" height="256"/>
+  <object id="53" name="bookshelfB4" type="Bookshelf" x="2560" y="5504" width="1280" height="256"/>
+  <object id="55" name="bookshelfB3" type="Bookshelf" x="5120" y="4480" width="640" height="256"/>
+  <object id="56" name="bookshelfB2" type="Bookshelf" x="5120" y="4992" width="640" height="256"/>
+  <object id="57" name="bookshelfB1" type="Bookshelf" x="5120" y="5504" width="640" height="256"/>
+  <object id="44" name="bookshelfC3" type="Bookshelf" x="1280" y="2560" width="3840" height="256"/>
+  <object id="45" name="bookshelfC2" type="Bookshelf" x="1280" y="3072" width="3840" height="256"/>
+  <object id="46" name="bookshelfC1" type="Bookshelf" x="1280" y="3584" width="3840" height="256"/>
  </objectgroup>
  <objectgroup id="7" name="waypoints">
   <object id="7" name="player_start" x="3136" y="5888" width="128" height="128"/>
@@ -117,17 +131,5 @@
   <object id="28" type="Wall" x="6016" y="128" width="128" height="6016"/>
   <object id="31" type="Wall" x="128" y="6016" width="5888" height="128"/>
   <object id="32" type="Wall" x="0" y="128" width="128" height="6016"/>
-  <object id="44" type="Wall" x="1280" y="2560" width="3840" height="256"/>
-  <object id="45" type="Wall" x="1280" y="3072" width="3840" height="256"/>
-  <object id="46" type="Wall" x="1280" y="3584" width="3840" height="256"/>
-  <object id="48" type="Wall" x="384" y="4480" width="896" height="256"/>
-  <object id="49" type="Wall" x="384" y="4992" width="896" height="256"/>
-  <object id="50" type="Wall" x="384" y="5504" width="896" height="256"/>
-  <object id="51" type="Wall" x="2560" y="4480" width="1280" height="256"/>
-  <object id="52" type="Wall" x="2560" y="4992" width="1280" height="256"/>
-  <object id="53" type="Wall" x="2560" y="5504" width="1280" height="256"/>
-  <object id="55" type="Wall" x="5120" y="4480" width="640" height="256"/>
-  <object id="56" type="Wall" x="5120" y="4992" width="640" height="256"/>
-  <object id="57" type="Wall" x="5120" y="5504" width="640" height="256"/>
  </objectgroup>
 </map>

@@ -108,26 +108,22 @@ end
 
 --------------------------------------------------------------------------------
 
-objects.Patchouli2 = class("Patchouli")
-
-objects.Patchouli2.numShelfs = 8
-objects.Patchouli2.minWait = 3
-objects.Patchouli2.maxWait = 6
+objects.Patchouli2 = class("Patchouli2")
 
 function objects.Patchouli2:init(super)
 	self.super = super
 end
 
 function objects.Patchouli2:initialize()
-	self.pointsL = {}
-	self.pointsR = {}
+	self.pointsA = {}
+	self.pointsB = {}
 	
 	for i=1,self.numShelfs do
-		local name = 'bookshelf' .. i
+		local name = self.target .. i
 		local bookshelf = self.super.space:getObject(name)
 		
-		table.insert(self.pointsL, util.getAdjacentTiles(bookshelf, Direction.left))
-		table.insert(self.pointsR, util.getAdjacentTiles(bookshelf, Direction.right))
+		table.insert(self.pointsA, util.getAdjacentTiles(bookshelf, self.direction))
+		table.insert(self.pointsB, util.getAdjacentTiles(bookshelf, util.invertDirection(self.direction)))
 	end
 	
 	self:waiting()
@@ -138,9 +134,11 @@ function objects.Patchouli2:moving()
 	self.func = nil
 	
 	if self.super.space:getRandomBool() then
-		self.dir = Direction.right
+		self.dir = self.direction
+		self.pv = self.pointsA
 	else
-		self.dir = Direction.left
+		self.dir = util.invertDirection(self.direction)
+		self.pv = self.pointsB
 	end
 	
 	while not self.func do
@@ -160,13 +158,9 @@ function objects.Patchouli2:waiting()
 end
 
 function objects.Patchouli2:getRandomPoint()
-	local shelf = self.super.space:getRandomInt(1, self.numShelfs)
-	if self.dir == Direction.right then
-		self.pv = self.pointsR[shelf]
-	else
-		self.pv =self.pointsL[shelf]
-	end
-	return self.pv[self.super.space:getRandomInt(1,#self.pv)]
+	local shelfIdx = self.super.space:getRandomInt(1, self.numShelfs)
+	local shelf = self.pv[shelfIdx]
+	return shelf[self.super.space:getRandomInt(1,#shelf)]
 end
 
 function objects.Patchouli2:getRandomWait()
@@ -189,3 +183,24 @@ function objects.Patchouli2:update()
 
 	self.func:runUpdate()
 end
+
+objects.Patchouli2A = objects.Patchouli2:extend("Patchouli2A")
+objects.Patchouli2A.target = "bookshelfA"
+objects.Patchouli2A.numShelfs = 8
+objects.Patchouli2A.minWait = 3.0
+objects.Patchouli2A.maxWait = 6.0
+objects.Patchouli2A.direction = Direction.right
+
+objects.Patchouli2B = objects.Patchouli2:extend("Patchouli2B")
+objects.Patchouli2B.target = "bookshelfB"
+objects.Patchouli2B.numShelfs = 9
+objects.Patchouli2B.minWait = 1.0
+objects.Patchouli2B.maxWait = 10.0
+objects.Patchouli2B.direction = Direction.up
+
+objects.Patchouli2C = objects.Patchouli2:extend("Patchouli2C")
+objects.Patchouli2C.target = "bookshelfC"
+objects.Patchouli2C.numShelfs = 3
+objects.Patchouli2C.minWait = 0.333
+objects.Patchouli2C.maxWait = 0.666
+objects.Patchouli2C.direction = Direction.up

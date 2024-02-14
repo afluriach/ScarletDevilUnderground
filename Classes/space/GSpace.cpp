@@ -1065,6 +1065,19 @@ bool GSpace::isObstacleTile(int x, int y) const
 shared_ptr<const Path> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 {
 	vector<SpaceVect> result;
+ 
+    if(isObstacleTile(begin.first, begin.second)){
+        log2("Begin point (%d,%d) is an obstacle tile!", begin.first, begin.second);
+        return nullptr;
+    }
+    if(isObstacleTile(end.first, end.second)){
+        log2("End point (%d,%d) is an obstacle tile!", end.first, end.second);
+        return nullptr;
+    }
+    if(begin.first == end.first && begin.second == end.second){
+        log0("Start and end point are the same!");
+        return nullptr;
+    }
 
 	vector<pair<int, int>> tileCoords = graph::gridAStar(
 		*navMask,

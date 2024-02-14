@@ -135,6 +135,28 @@ vector<SpaceVect> getPoints(SpaceVect start, SpaceVect dir, int count)
     return result;
 }
 
+vector<SpaceVect> getRow(SpaceFloat row, SpaceFloat start, SpaceFloat last)
+{
+    vector<SpaceVect> result;
+
+    for(SpaceFloat col = start; col <= last; col += 1.0){
+        result.push_back(SpaceVect(col, row));
+    }
+    
+    return result;
+}
+
+vector<SpaceVect> getColumn(SpaceFloat column, SpaceFloat start, SpaceFloat last)
+{
+    vector<SpaceVect> result;
+
+    for(SpaceFloat row = start; row <= last; row += 1.0){
+        result.push_back(SpaceVect(column, row));
+    }
+    
+    return result;
+}
+
 vector<SpaceVect> getAdjacentTiles(GObject* object, Direction direction)
 {
     if(!isValidDirection(direction)){
@@ -145,29 +167,23 @@ vector<SpaceVect> getAdjacentTiles(GObject* object, Direction direction)
     SpaceVect center = object->getPos();
     SpaceVect dim = object->getDimensions();
     
-    //rows if up/down, columns if left/right
-    SpaceVect dir;
-    int count;
-    SpaceFloat multX = direction == Direction::right ? 1.0 : -1.0;
-    SpaceFloat multY = direction == Direction::up ? 1.0 : -1.0;
+    //the tiles that the object occupies
+    SpaceFloat startCol = center.x - dim.x/2 + 0.5;
+    SpaceFloat endCol = center.x + dim.x/2 - 0.5;
+    SpaceFloat startRow = center.y - dim.y/2 + 0.5;
+    SpaceFloat endRow = center.y + dim.y/2 - 0.5;
     
-    if(direction == Direction::up || direction == Direction::down){
-        dir = SpaceVect::right;
-        count = dim.x;
+    switch(direction)
+    {
+    case Direction::up:
+        return getRow(endRow + 1.0, startCol, endCol);
+    case Direction::down:
+        return getRow(startRow - 1.0, startCol, endCol);
+    case Direction::left:
+        return getColumn(startCol - 1.0, startRow, endRow);
+    case Direction::right:
+        return getColumn(endCol + 1.0, startRow, endRow);
     }
-    else{
-        dir = SpaceVect::up;
-        count = dim.y;
-    }
-    
-    return getPoints(
-        SpaceVect(
-            center.x + multX*dim.x/2 + 0.5,
-            center.y + multY*dim.y/2 + 0.5
-        ),
-        dir,
-        count
-    );
 }
 
 bool isNumeric(char c)

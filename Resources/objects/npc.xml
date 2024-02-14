@@ -87,11 +87,18 @@
 		</dialogs>
 	</Patchouli>
 	
-	<Patchouli2
+	<Patchouli2A
 		sprite="patchouli"
 		mass="0.0"
-	>
-	</Patchouli2>
+	/>
+	<Patchouli2B
+		sprite="patchouli"
+		mass="0.0"
+	/>
+	<Patchouli2C
+		sprite="patchouli"
+		mass="0.0"
+	/>
 	
 	<SakuyaNPC
 		sprite="sakuya"
