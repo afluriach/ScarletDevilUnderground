@@ -1306,6 +1306,8 @@
 		DABC9FAA19E7DFA900FA252C /* CCClippingRectangleNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DABC9FA719E7DFA900FA252C /* CCClippingRectangleNode.cpp */; };
 		DABC9FAB19E7DFA900FA252C /* CCClippingRectangleNode.h in Headers */ = {isa = PBXBuildFile; fileRef = DABC9FA819E7DFA900FA252C /* CCClippingRectangleNode.h */; };
 		DABC9FAC19E7DFA900FA252C /* CCClippingRectangleNode.h in Headers */ = {isa = PBXBuildFile; fileRef = DABC9FA819E7DFA900FA252C /* CCClippingRectangleNode.h */; };
+		E26255392B7ED4D4007113CA /* b2AnyPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E26255382B7ED4D4007113CA /* b2AnyPtr.h */; };
+		E262553A2B7ED4D4007113CA /* b2AnyPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E26255382B7ED4D4007113CA /* b2AnyPtr.h */; };
 		E26485E91C6EC375008E2D81 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E26485E81C6EC375008E2D81 /* libsqlite3.a */; };
 		E2B2E2391FE33D2A00D99D27 /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = E2B2E1FC1FE33D2A00D99D27 /* lapi.c */; };
 		E2B2E23A1FE33D2A00D99D27 /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = E2B2E1FC1FE33D2A00D99D27 /* lapi.c */; };
@@ -2190,6 +2192,7 @@
 		DA8C62A119E52C6400000516 /* ioapi_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi_mem.h; sourceTree = "<group>"; };
 		DABC9FA719E7DFA900FA252C /* CCClippingRectangleNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCClippingRectangleNode.cpp; sourceTree = "<group>"; };
 		DABC9FA819E7DFA900FA252C /* CCClippingRectangleNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCClippingRectangleNode.h; sourceTree = "<group>"; };
+		E26255382B7ED4D4007113CA /* b2AnyPtr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = b2AnyPtr.h; sourceTree = "<group>"; };
 		E26485E81C6EC375008E2D81 /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = ../external/sqlite3/libraries/mac/libsqlite3.a; sourceTree = "<group>"; };
 		E2B2E1FC1FE33D2A00D99D27 /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lapi.c; path = ../lua/lapi.c; sourceTree = "<group>"; };
 		E2B2E1FD1FE33D2A00D99D27 /* lapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lapi.h; path = ../lua/lapi.h; sourceTree = "<group>"; };
@@ -3438,6 +3441,7 @@
 		46A168CD1807AF9C005B8026 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				E26255382B7ED4D4007113CA /* b2AnyPtr.h */,
 				E2CE0ECC24F1A13800CCE130 /* b2Filter.cpp */,
 				E2CE0ECD24F1A13900CCE130 /* b2Filter.h */,
 				46A168CE1807AF9C005B8026 /* b2BlockAllocator.cpp */,
@@ -4063,6 +4067,7 @@
 				1A5701F9180BCBAD0088DEC7 /* CCMenu.h in Headers */,
 				50ABBD401925AB0000A911A9 /* CCMath.h in Headers */,
 				15AE1A9319AAD40300C27E9E /* b2WheelJoint.h in Headers */,
+				E26255392B7ED4D4007113CA /* b2AnyPtr.h in Headers */,
 				15AE1A3119AAD3D500C27E9E /* b2ChainShape.h in Headers */,
 				1A5701FD180BCBAD0088DEC7 /* CCMenuItem.h in Headers */,
 				1A570204180BCBD40088DEC7 /* CCClippingNode.h in Headers */,
@@ -4671,6 +4676,7 @@
 				50ABBE5C1925AB6F00A911A9 /* CCEventKeyboard.h in Headers */,
 				50ABC01C1926664800A911A9 /* CCSAXParser.h in Headers */,
 				503DD8F11926736A00CD74DD /* OpenGL_Internal-ios.h in Headers */,
+				E262553A2B7ED4D4007113CA /* b2AnyPtr.h in Headers */,
 				50ABBDAA1925AB4100A911A9 /* CCRenderCommand.h in Headers */,
 				B63990CF1A490AFE00B07923 /* CCAsyncTaskPool.h in Headers */,
 				15AE1BC319AADFFB00C27E9E /* cocos-ext.h in Headers */,

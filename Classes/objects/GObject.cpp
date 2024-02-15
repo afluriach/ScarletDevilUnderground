@@ -627,7 +627,7 @@ void GObject::initializeBody()
 			getFullType(),
 			getLayers(),
 			getSensor(),
-			make_any<GObject*>(this)
+			any_ptr::create<GObject>(this)
 		);
 	}
 	else
@@ -639,7 +639,7 @@ void GObject::initializeBody()
 			getFullType(),
 			getLayers(),
 			getSensor(),
-			make_any<GObject*>(this)
+			any_ptr::create<GObject>(this)
 		);
 	}
 }

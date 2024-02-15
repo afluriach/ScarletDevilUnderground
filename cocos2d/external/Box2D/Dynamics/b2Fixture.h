@@ -19,8 +19,7 @@
 #ifndef B2_FIXTURE_H
 #define B2_FIXTURE_H
 
-#include <any>
-
+#include <Box2D/Common/b2AnyPtr.h>
 #include <Box2D/Common/b2Filter.h>
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Collision/b2Collision.h>
@@ -50,7 +49,7 @@ struct b2FixtureDef
 	const b2Shape* shape;
 
 	/// Use this to store application specific fixture data.
-	std::any userData;
+	any_ptr userData;
 
 	/// The friction coefficient, usually in the range [0,1].
 	float32 friction;
@@ -127,29 +126,22 @@ public:
 	b2Fixture* GetNext();
 	const b2Fixture* GetNext() const;
 
-	/// Get the user data that was assigned in the fixture definition. Use this to
-	/// store your application specific data.
-	std::any GetUserData() const;
+	any_ptr GetUserData() const;
 
     template<typename T>
     T* GetCastUserData() noexcept
     {
-        std::any* ptr = &m_userData;
-        T* result = std::any_cast<T>(ptr);
-        return result;
-    }
-
-    /// If the userdata is a pointer (most likely), skip the extra
-    /// layer of indirection and just return the ptr or null
-    template<typename T>
-    T* GetCastUserDataPtr() noexcept
-    {
-        T** result = GetCastUserData<T*>();
-        return result ? *result : nullptr;
+		return m_userData.get<T>();
     }
 
 	/// Set the user data. Use this to store your application specific data.
-	void SetUserData(std::any);
+	void SetUserDataAny(any_ptr);
+
+	template<typename T>
+    void SetUserData(T* data) noexcept
+    {
+		m_userData.set<T>(data);
+    }
 
 	/// Test a point for containment in this fixture.
 	/// @param p a point in world coordinates.
@@ -239,7 +231,7 @@ protected:
 
 	bool m_isSensor;
 
-	std::any m_userData;
+	any_ptr m_userData;
 };
 
 inline b2Shape::Type b2Fixture::GetType() const
@@ -277,12 +269,12 @@ inline const b2Filter& b2Fixture::GetFilterData() const
 	return m_filter;
 }
 
-inline std::any b2Fixture::GetUserData() const
+inline any_ptr b2Fixture::GetUserData() const
 {
 	return m_userData;
 }
 
-inline void b2Fixture::SetUserData(std::any data)
+inline void b2Fixture::SetUserDataAny(any_ptr data)
 {
 	m_userData = data;
 }

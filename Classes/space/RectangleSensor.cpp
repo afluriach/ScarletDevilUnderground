@@ -30,7 +30,7 @@ RectangleSensor::RectangleSensor(
 		GType::agentSensor,
 		PhysicsLayers::all,
 		true,
-		make_any<Sensor*>(this)
+		any_ptr::create<Sensor>(this)
 	);
 }
 

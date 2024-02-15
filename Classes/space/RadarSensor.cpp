@@ -31,7 +31,7 @@ RadarSensor::RadarSensor(
 		GType::agentSensor,
 		PhysicsLayers::all,
 		true,
-		make_any<Sensor*>(this)
+		any_ptr::create<Sensor>(this)
 	);
 
 	emplaceIfEmpty(visibleObjectsByType, GType::bomb);

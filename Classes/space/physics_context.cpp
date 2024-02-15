@@ -18,7 +18,7 @@ pair<b2Body*, b2Fixture*> physics_context::createCircleBody(
     GType type,
     PhysicsLayers layers,
     bool sensor,
-    std::any data
+    any_ptr data
 ){    
 	return space->physicsImpl->createCircleBody(
 		center,
@@ -39,7 +39,7 @@ pair<b2Body*, b2Fixture*> physics_context::createRectangleBody(
     GType type,
     PhysicsLayers layers,
     bool sensor,
-	std::any data
+	any_ptr data
 ){
 	return space->physicsImpl->createRectangleBody(
 		center,
@@ -189,7 +189,7 @@ GObject* physics_context::objectFeeler(const GObject * agent, SpaceVect feeler, 
 	filter.layers = to_uint(layers);
 
 	b2RayCastCallback callback = [&bestRatio, &bestResult](b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float64 fraction)-> float64 {
-        GObject* obj = fixture->GetCastUserDataPtr<GObject>();
+        GObject* obj = fixture->GetCastUserData<GObject>();
 
 		if (obj && fraction < bestRatio) {
 			bestResult = obj;
@@ -278,7 +278,7 @@ GObject * physics_context::pointQuery(SpaceVect pos, GType type, PhysicsLayers l
 	filter.layers = to_uint(layers);
 
 	b2QueryCallback callback = [type, layers, &result](b2Fixture* fixture) -> bool {
-		GObject* obj = fixture->GetCastUserDataPtr<GObject>();
+		GObject* obj = fixture->GetCastUserData<GObject>();
 		if (obj) {
 			result = obj;
 			return false;
@@ -350,7 +350,7 @@ unordered_set<GObject*> physics_context::rectangleObjectQuery(
 	filter.layers = to_uint(layers);
 
 	b2QueryCallback callback = [type, layers, &result](b2Fixture* fixture) -> bool {
-        GObject* obj = fixture->GetCastUserDataPtr<GObject>();
+        GObject* obj = fixture->GetCastUserData<GObject>();
 		if (obj) {
 			result.insert(obj);
 		}
@@ -391,7 +391,7 @@ unordered_set<GObject*> physics_context::radiusQuery(
 	filter.layers = to_uint(layers);
 
 	b2QueryCallback callback = [agent, type, layers, center, radius, &result](b2Fixture* fixture) -> bool {
-        GObject* obj = fixture->GetCastUserDataPtr<GObject>();
+        GObject* obj = fixture->GetCastUserData<GObject>();
 		if (obj && obj != agent) {
 			result.insert(obj);
 		}

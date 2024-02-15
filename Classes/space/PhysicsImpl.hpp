@@ -53,7 +53,7 @@ protected:
 		GType type,
 		PhysicsLayers layers,
 		bool sensor,
-		std::any data
+		any_ptr data
 	);
 	pair<b2Body*, b2Fixture*> createRectangleBody(
 		const SpaceVect& center,
@@ -62,7 +62,7 @@ protected:
 		GType type,
 		PhysicsLayers layers,
 		bool sensor,
-		std::any data
+		any_ptr data
 	);
 
 	bool isValidType(GType) const;

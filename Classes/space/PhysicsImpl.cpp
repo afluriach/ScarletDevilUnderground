@@ -23,8 +23,8 @@ void sensorEnd(Sensor* radar, GObject* target, b2Contact* arb);
 template<typename T, typename U>
 pair<T*, U*> getCastObjects(b2Contact* contact)
 {
-	GObject* a = contact->GetFixtureA()->GetCastUserDataPtr<GObject>();
-	GObject* b = contact->GetFixtureB()->GetCastUserDataPtr<GObject>();
+	GObject* a = contact->GetFixtureA()->GetCastUserData<GObject>();
+	GObject* b = contact->GetFixtureB()->GetCastUserData<GObject>();
 
 	return make_pair(
 		dynamic_cast<T*>(a),
@@ -34,8 +34,8 @@ pair<T*, U*> getCastObjects(b2Contact* contact)
 
 pair<GObject*, GObject*> getObjects(b2Contact* contact)
 {
-	GObject* a = contact->GetFixtureA()->GetCastUserDataPtr<GObject>();
-	GObject* b = contact->GetFixtureB()->GetCastUserDataPtr<GObject>();;
+	GObject* a = contact->GetFixtureA()->GetCastUserData<GObject>();
+	GObject* b = contact->GetFixtureB()->GetCastUserData<GObject>();;
 
 	return make_pair(a, b);
 }
@@ -125,13 +125,13 @@ PhysicsImpl::contact_func makeSensorHandler(PhysicsImpl::sensor_func f, PhysicsI
 		auto crntTypes = getFixtureTypes(contact);
 
 		if (types == crntTypes) {
-			auto sensor = contact->GetFixtureA()->GetCastUserDataPtr<Sensor>();
-			auto object = contact->GetFixtureB()->GetCastUserDataPtr<GObject>();
+			auto sensor = contact->GetFixtureA()->GetCastUserData<Sensor>();
+			auto object = contact->GetFixtureB()->GetCastUserData<GObject>();
 			f(sensor, object, contact);
 		}
 		else if (isReverseMatch(crntTypes, types)) {
-			auto sensor = contact->GetFixtureB()->GetCastUserDataPtr<Sensor>();
-			auto object = contact->GetFixtureA()->GetCastUserDataPtr<GObject>();
+			auto sensor = contact->GetFixtureB()->GetCastUserData<Sensor>();
+			auto object = contact->GetFixtureA()->GetCastUserData<GObject>();
 			f(sensor, object, contact);
 		}
 	};
@@ -235,7 +235,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	GType type,
 	PhysicsLayers layers,
 	bool sensor,
-	std::any data
+	any_ptr data
 ) {
 	if (radius <= 0.0) {
 		log0("invalid radius!");
@@ -288,7 +288,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	GType type,
 	PhysicsLayers layers,
 	bool sensor,
-	std::any data
+	any_ptr data
 ) {
 
 	if (dim.x <= 0.0 || dim.y <= 0.0) {
