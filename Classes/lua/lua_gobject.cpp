@@ -12,6 +12,7 @@
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "EnvironmentObject.hpp"
+#include "FloorSegment.hpp"
 #include "graphics_types.h"
 #include "LuaAPI.hpp"
 #include "Item.hpp"
@@ -19,6 +20,7 @@
 #include "NPC.hpp"
 #include "Player.hpp"
 #include "SpellDescriptor.hpp"
+#include "Wall.hpp"
 
 namespace Lua{
     
@@ -52,6 +54,7 @@ namespace Lua{
 			rw_prop(object_params, angularVel),
 			rw_prop(object_params, dimensions),
 			rw_prop(object_params, name),
+			get_prop(object_params, args),
 			rw_prop(object_params, hidden),
 			rw_prop(object_params, active)
 		);
@@ -234,9 +237,19 @@ namespace Lua{
 			sol::base_classes, sol::bases<GObject>()
 		);
 
+		auto floor = _state.new_usertype<FloorSegment>(
+			"FloorSegment",
+			sol::base_classes, sol::bases<GObject>()
+		);
+
 #define _cls Item
 		auto item = _state.new_usertype<Item>(
 			"Item",
+			sol::base_classes, sol::bases<GObject>()
+		);
+		
+		auto wall = _state.new_usertype<Wall>(
+			"Wall",
 			sol::base_classes, sol::bases<GObject>()
 		);
 	}

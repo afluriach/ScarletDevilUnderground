@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="48">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="7" nextobjectid="48">
  <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../grey stone wall grain.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="mine floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../mine floor.png" width="256" height="256"/>
  </tileset>
- <layer name="floor" width="17" height="17">
+ <layer id="1" name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYANiVjJpEGAHYg4KaXLtR6ZH3THqjlF30NcdDBS6AwQAPlgHKg==
   </data>
  </layer>
- <layer name="wall_tiles" width="17" height="17">
+ <layer id="2" name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYARiJjJpEGBmoAywIJlFLmAadQdN3EENMJzCY9QdqO6A0cxk0iAAABKHAJY=
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="3" name="floor">
   <object id="35" type="MineFloor" x="0" y="128" width="2176" height="1920"/>
+ </objectgroup>
+ <objectgroup id="4" name="walls">
+  <object id="26" x="0" y="0" width="2048" height="128"/>
+  <object id="27" x="2048" y="0" width="128" height="1024"/>
+  <object id="28" x="128" y="2048" width="2048" height="128"/>
+  <object id="29" x="0" y="1152" width="128" height="1024"/>
+  <object id="31" x="2048" y="1152" width="128" height="896"/>
+  <object id="32" x="0" y="128" width="128" height="896"/>
+ </objectgroup>
+ <objectgroup id="5" name="objects">
+  <object id="38" type="Scorpion1" x="256" y="256" width="128" height="128"/>
+  <object id="39" type="Scorpion1" x="1792" y="256" width="128" height="128"/>
+  <object id="40" type="Scorpion1" x="1792" y="1792" width="128" height="128"/>
+  <object id="41" type="Scorpion1" x="256" y="1792" width="128" height="128"/>
   <object id="42" type="torchYellow" x="1024" y="256" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
@@ -49,19 +63,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="walls">
-  <object id="26" x="0" y="0" width="2048" height="128"/>
-  <object id="27" x="2048" y="0" width="128" height="1024"/>
-  <object id="28" x="128" y="2048" width="2048" height="128"/>
-  <object id="29" x="0" y="1152" width="128" height="1024"/>
-  <object id="31" x="2048" y="1152" width="128" height="896"/>
-  <object id="32" x="0" y="128" width="128" height="896"/>
- </objectgroup>
- <objectgroup name="objects">
-  <object id="37" name="player" type="Player" x="1024" y="1024" width="128" height="128"/>
-  <object id="38" type="Scorpion1" x="256" y="256" width="128" height="128"/>
-  <object id="39" type="Scorpion1" x="1792" y="256" width="128" height="128"/>
-  <object id="40" type="Scorpion1" x="1792" y="1792" width="128" height="128"/>
-  <object id="41" type="Scorpion1" x="256" y="1792" width="128" height="128"/>
+ <objectgroup id="6" name="waypoints">
+  <object id="37" name="player_start" x="1024" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

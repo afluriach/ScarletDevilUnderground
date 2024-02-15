@@ -336,6 +336,10 @@ namespace app {
 
 		getNumericAttr(elem, "traction", &result->traction);
 
+		result->touchDamage.damageOverTime = true;
+		result->touchDamage.type = DamageType::floor;
+		getDamageInfo(elem, &result->touchDamage);
+
 		getNumericAttr(elem, "pressurePlate", &result->pressurePlate);
 
 		return true;

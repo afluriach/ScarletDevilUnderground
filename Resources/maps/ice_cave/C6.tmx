@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="57">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="6" nextobjectid="57">
  <tileset firstgid="1" name="ice_wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../ice_wall.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="dark_ice_floor" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../dark_ice.png" width="128" height="128"/>
  </tileset>
- <layer name="floor" width="17" height="17">
+ <layer id="1" name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYANiVjJpEGBnoAywQ82jBLCOuoMkd7ASwMS4g5AZMEyJO2D6iXUHPjXEugMXIMcdlIQHLjPo4Q5kPfjcAQKUlh8A0FQChA==
   </data>
  </layer>
- <layer name="wall_tiles" width="17" height="17">
+ <layer id="2" name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYARiJjJpEGBmoAywIJlFLmAadcegdAfDIHHHYAmP4eYOGM2MgyZGHgAUfwCU
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="3" name="floor">
   <object id="38" type="Pitfall" x="128" y="128" width="768" height="1792"/>
   <object id="39" type="Pitfall" x="1920" y="128" width="128" height="896"/>
   <object id="40" type="Pitfall" x="896" y="128" width="1024" height="768"/>
@@ -24,13 +24,13 @@
   <object id="42" type="Pitfall" x="1280" y="1280" width="256" height="768"/>
   <object id="44" type="Pitfall" x="1536" y="1280" width="512" height="256"/>
   <object id="47" type="IceFloor" x="1536" y="1536" width="512" height="512"/>
-  <object id="48" type="IceFloor" x="896" y="896" width="384" height="384"/>
-  <object id="49" type="IceFloor" x="896" y="1280" width="384" height="640"/>
-  <object id="50" type="IceFloor" x="1280" y="896" width="640" height="384"/>
+  <object id="48" type="IceDamageFloor" x="896" y="896" width="384" height="384"/>
+  <object id="49" type="IceDamageFloor" x="896" y="1280" width="384" height="640"/>
+  <object id="50" type="IceDamageFloor" x="1280" y="896" width="640" height="384"/>
   <object id="53" type="IceFloor" x="1024" y="1920" width="256" height="256"/>
   <object id="54" type="IceFloor" x="1920" y="1024" width="256" height="256"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="4" name="walls">
   <object id="26" x="0" y="0" width="2048" height="128"/>
   <object id="27" x="2048" y="0" width="128" height="1024"/>
   <object id="28" x="128" y="2048" width="896" height="128"/>
@@ -38,7 +38,7 @@
   <object id="30" x="1152" y="2048" width="1024" height="128"/>
   <object id="31" x="2048" y="1152" width="128" height="896"/>
  </objectgroup>
- <objectgroup name="objects">
+ <objectgroup id="5" name="objects">
   <object id="55" name="door-c6-south" type="Door" x="1024" y="2048" width="128" height="128">
    <properties>
     <property name="dir" value="up"/>

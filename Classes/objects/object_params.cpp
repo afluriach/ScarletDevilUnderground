@@ -11,6 +11,19 @@
 //#include "object_params.hpp"
 #include "value_map.hpp"
 
+//Args that are already included in object_params.
+const unordered_set<string> object_params::includedArgs = {
+	"name",
+	"type",
+	"dim_x",
+	"dim_y",
+	"pos_x",
+	"pos_y",
+	"direction",
+	"hidden",
+	"active",
+};
+
 object_params::object_params(
 	const SpaceVect& pos,
 	SpaceFloat angle
@@ -53,6 +66,13 @@ object_params::object_params(const ValueMap& args) :
 	Direction dir = getDirectionOrDefault(args, Direction::none);
 	if (dir != Direction::none) {
 		angle = dirToPhysicsAngle(dir);
+	}
+	
+	//Put additional args, that are not included in object_params, in the args map.
+	for(auto const& entry : args){
+		auto it = includedArgs.find(entry.first);
+		if(it == includedArgs.end())
+			this->args.insert(pair(entry.first, entry.second.asString()));
 	}
 }
 

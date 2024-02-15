@@ -141,6 +141,7 @@ enum class DamageType
 	bullet = 0,
 	bomb,
 	effectArea,
+	floor,
 	touch,
 	melee,
 	wall,

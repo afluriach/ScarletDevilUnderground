@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="67">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="7" nextobjectid="67">
  <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../grey stone wall grain.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="mine floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../mine floor.png" width="256" height="256"/>
  </tileset>
- <layer name="floor" width="17" height="17">
+ <layer id="1" name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYANiVjJpEGAHYg4kGhkQI86Ow1wYIEaclYruoATA3EEJoKY70P1HKk1uusAXL+S6gxrhQQmgVbwgg6GWX7CZS2r5AQAt9wQM
   </data>
  </layer>
- <layer name="wall_tiles" width="17" height="17">
+ <layer id="2" name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYARiJjJpEGBmoAywIJlFLmAadQdN3EENMJzCY9QdqO6A0cxk0iAAABKHAJY=
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="3" name="floor">
   <object id="33" type="MineFloor" x="0" y="896" width="2176" height="384"/>
+  <object id="60" type="MineFloor" x="128" y="128" width="384" height="384"/>
+  <object id="61" type="MineFloor" x="896" y="128" width="384" height="384"/>
+  <object id="62" type="MineFloor" x="1664" y="128" width="384" height="384"/>
+  <object id="63" type="MineFloor" x="128" y="1664" width="384" height="384"/>
+  <object id="64" type="MineFloor" x="896" y="1664" width="384" height="384"/>
+  <object id="65" type="MineFloor" x="1664" y="1664" width="384" height="384"/>
+ </objectgroup>
+ <objectgroup id="6" name="pitfalls">
   <object id="37" type="Pitfall" x="128" y="512" width="384" height="384"/>
   <object id="38" type="Pitfall" x="512" y="128" width="384" height="384"/>
   <object id="39" type="Pitfall" x="512" y="512" width="384" height="384"/>
@@ -32,14 +40,8 @@
   <object id="50" type="Pitfall" x="512" y="1280" width="384" height="384"/>
   <object id="51" type="Pitfall" x="512" y="1664" width="384" height="384"/>
   <object id="52" type="Pitfall" x="128" y="1280" width="384" height="384"/>
-  <object id="60" type="MineFloor" x="128" y="128" width="384" height="384"/>
-  <object id="61" type="MineFloor" x="896" y="128" width="384" height="384"/>
-  <object id="62" type="MineFloor" x="1664" y="128" width="384" height="384"/>
-  <object id="63" type="MineFloor" x="128" y="1664" width="384" height="384"/>
-  <object id="64" type="MineFloor" x="896" y="1664" width="384" height="384"/>
-  <object id="65" type="MineFloor" x="1664" y="1664" width="384" height="384"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="4" name="walls">
   <object id="26" x="0" y="0" width="2048" height="128"/>
   <object id="27" x="2048" y="0" width="128" height="1024"/>
   <object id="28" x="128" y="2048" width="2048" height="128"/>
@@ -47,7 +49,7 @@
   <object id="31" x="2048" y="1152" width="128" height="896"/>
   <object id="32" x="0" y="128" width="128" height="896"/>
  </objectgroup>
- <objectgroup name="objects">
+ <objectgroup id="5" name="objects">
   <object id="57" name="scorpion2" type="Scorpion1" x="384" y="1024" width="128" height="128"/>
   <object id="58" name="scorpion1" type="Scorpion1" x="1024" y="1024" width="128" height="128"/>
   <object id="59" name="scorpion3" type="Scorpion1" x="1536" y="1024" width="128" height="128"/>

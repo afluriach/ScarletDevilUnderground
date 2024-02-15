@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="41">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="7" nextobjectid="41">
  <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../grey stone wall grain.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="mine floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../mine floor.png" width="256" height="256"/>
  </tileset>
- <layer name="floor" width="17" height="17">
+ <layer id="1" name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYANiVjJpEGBnwA+IkWcloIYY+VF3UN8dhAAx6WQ4hceoOzDlKS0/ADFUAdo=
   </data>
  </layer>
- <layer name="wall_tiles" width="17" height="17">
+ <layer id="2" name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYARiJhw0AxHyzAyUARYks8gFTKPuGJTuYBgk7hgs4THc3AGjmXHQxMgDAAu3AJI=
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="3" name="floor">
   <object id="35" type="MineFloor" x="1024" y="0" width="128" height="2176"/>
   <object id="36" type="MineFloor" x="1152" y="1024" width="1024" height="128"/>
+ </objectgroup>
+ <objectgroup id="6" name="pitfalls">
   <object id="38" type="Pitfall" x="128" y="128" width="896" height="1920"/>
   <object id="39" type="Pitfall" x="1152" y="128" width="896" height="896"/>
   <object id="40" type="Pitfall" x="1152" y="1152" width="896" height="896"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="4" name="walls">
   <object id="26" x="0" y="0" width="1024" height="128"/>
   <object id="27" x="2048" y="0" width="128" height="1024"/>
   <object id="28" x="128" y="2048" width="896" height="128"/>
@@ -32,5 +34,5 @@
   <object id="31" x="2048" y="1152" width="128" height="896"/>
   <object id="37" x="1152" y="0" width="896" height="128"/>
  </objectgroup>
- <objectgroup name="objects"/>
+ <objectgroup id="5" name="objects"/>
 </map>

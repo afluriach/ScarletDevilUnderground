@@ -138,6 +138,7 @@ vector<SpaceVect> getPoints(SpaceVect start, SpaceVect dir, int count)
 vector<SpaceVect> getRow(SpaceFloat row, SpaceFloat start, SpaceFloat last)
 {
     vector<SpaceVect> result;
+	result.reserve(last - start + 1);
 
     for(SpaceFloat col = start; col <= last; col += 1.0){
         result.push_back(SpaceVect(col, row));
@@ -149,6 +150,7 @@ vector<SpaceVect> getRow(SpaceFloat row, SpaceFloat start, SpaceFloat last)
 vector<SpaceVect> getColumn(SpaceFloat column, SpaceFloat start, SpaceFloat last)
 {
     vector<SpaceVect> result;
+    result.reserve(last - start + 1);
 
     for(SpaceFloat row = start; row <= last; row += 1.0){
         result.push_back(SpaceVect(column, row));

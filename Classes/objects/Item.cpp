@@ -11,7 +11,6 @@
 #include "Item.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
-#include "value_map.hpp"
 
 Item* Item::create(GSpace* space, string items, SpaceVect pos)
 {
@@ -51,7 +50,7 @@ Item::Item(
 	),
 	props(props)
 {
-    init_script_object();
+    sol::init_script_object<Item>(this, params);
 }
 
 Item::~Item()

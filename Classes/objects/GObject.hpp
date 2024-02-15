@@ -112,6 +112,7 @@ public:
 
 	string getProperName() const;
 	string getClsName() const;
+	string getScriptClsName() const;
 
 	inline virtual int getLevel() const { return 0; }
 
@@ -164,6 +165,7 @@ public:
 	void scriptInitialize();
 	bool hasMethod(const string& name);
     sol::object getScriptField(const string& name);
+    inline void _setScriptObj(sol::table obj) { scriptObj = obj; }
 
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 	inline virtual bool applyInitialSpellCost(const spell_cost& cost) { return true; }

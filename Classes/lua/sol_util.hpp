@@ -67,6 +67,24 @@ inline R runMethod(sol::table obj, const string& name, Args... args)
     throw error("lua error");
 }
 
+template<typename T>
+inline void init_script_object(T* _this, const object_params& params)
+{
+    auto objects = _this->space->scriptVM->_state["objects"];
+    string name = _this->getScriptClsName();
+    auto cls = objects[name];
+    if (cls.valid()) {
+		sol::function_result result = cls(_this, params);
+		
+		if(result.valid()){
+			_this->_setScriptObj(result);
+		}
+		if(!result.valid()){
+			printErrorMessage(_this->space->scriptVM->_state);
+		}
+    }
+}
+
 }
 
 #endif

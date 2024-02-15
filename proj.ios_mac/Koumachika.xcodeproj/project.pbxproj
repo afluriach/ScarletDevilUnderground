@@ -1495,7 +1495,7 @@
 					"$(SRCROOT)/../cocos2d/cocos/platform/mac",
 					"$(SRCROOT)/../gainput/include",
 					/Users/toni/dev/boost_1_84_0,
-					/Users/toni/dev/sol2/include,
+					"/Users/toni/dev/sol2-3.3.0/include",
 					/Users/toni/dev/libnoise/src/noise,
 					/opt/local/include,
 				);
@@ -1548,7 +1548,7 @@
 					"$(SRCROOT)/../cocos2d/cocos/platform/mac",
 					"$(SRCROOT)/../gainput/include",
 					/Users/toni/dev/boost_1_84_0,
-					/Users/toni/dev/sol2/include,
+					"/Users/toni/dev/sol2-3.3.0/include",
 					/Users/toni/dev/libnoise/src/noise,
 					/opt/local/include,
 				);

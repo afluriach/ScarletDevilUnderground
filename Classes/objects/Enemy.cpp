@@ -35,7 +35,7 @@ Enemy::Enemy(
 	if (props->firepattern.size() > 0)
 		setFirePattern(props->firepattern);
   
-    init_script_object();
+    sol::init_script_object<Enemy>(this, params);
 }
 
 Enemy::~Enemy()
@@ -68,7 +68,7 @@ bool Enemy::hit(DamageInfo damage, SpaceVect n)
 
 void Enemy::onRemove()
 {
-	Agent::onRemove();
+	GObject::onRemove();
 	if(!props->collectible.empty()){
 		Item::create(space, props->collectible, getPos());
 	}

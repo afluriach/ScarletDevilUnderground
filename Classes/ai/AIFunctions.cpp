@@ -26,8 +26,6 @@
 #include "RadarSensor.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellUtil.hpp"
-#include "sol_util.hpp"
-#include "value_map.hpp"
 
 namespace ai{
 

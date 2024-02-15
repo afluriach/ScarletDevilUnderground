@@ -9,18 +9,18 @@
 #include "Prefix.h"
 
 #include "FloorSegment.hpp"
-#include "value_map.hpp"
+#include "LuaAPI.hpp"
 
 FloorSegment::FloorSegment(
 	GSpace* space,
 	ObjectIDType id,
-	const ValueMap& args,
+	const object_params& params,
 	local_shared_ptr<floorsegment_properties> props
 ) :
 	GObject(
 		space,
 		id,
-		MapParams(),
+		params,
 		physics_params(
 			GType::floorSegment,
 			PhysicsLayers::floor,
@@ -30,14 +30,8 @@ FloorSegment::FloorSegment(
 		props
 	),
 	props(props)
-{	
-	vector<string> targetNames = splitString(getStringOrDefault(args, "target", ""), " ");
-	targets.reserve(targetNames.size());
-
-	for (string _name : targetNames)
-	{
-		targets.push_back(space->getObjectRef(_name));
-	}
+{
+	sol::init_script_object<FloorSegment>(this, params);
 }
 
 FloorSegment::~FloorSegment()
@@ -55,38 +49,12 @@ SpaceFloat FloorSegment::getTraction() const {
 
 void FloorSegment::onContact(GObject* obj)
 {
-	if (contactCount == 0) {
-		runActivate();
-	}
-
-	++contactCount;
+	runMethodIfAvailable("onContact", obj);
 }
 
 void FloorSegment::onEndContact(GObject* obj)
 {
-	if (contactCount == 1) {
-		runDeactivate();
-	}
-
-	--contactCount;
-}
-
-void FloorSegment::runActivate()
-{
-	for (gobject_ref _t : targets) {
-		if (_t.isValid()) {
-			_t.get()->activate();
-		}
-	}
-}
-
-void FloorSegment::runDeactivate()
-{
-	for (gobject_ref _t : targets) {
-		if (_t.isValid()) {
-			_t.get()->deactivate();
-		}
-	}
+	runMethodIfAvailable("onEndContact", obj);
 }
 
 Pitfall::Pitfall(

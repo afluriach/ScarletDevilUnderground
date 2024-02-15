@@ -36,6 +36,7 @@ const vector<string> GSpace::scriptFiles = {
 	"ai-packages",
 	"bullets",
     "enemy",
+    "floors",
 	"magic-effects",
 	"items",
 	"npc",

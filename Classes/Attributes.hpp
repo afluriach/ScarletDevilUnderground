@@ -83,6 +83,7 @@ enum class Attribute {
 	bulletSensitivity,
 	bombSensitivity,
 	effectAreaSensitivity,
+	floorSensitivity,
 	touchSensitivity,
 	meleeSensitivity,
 	wallSensitivity,

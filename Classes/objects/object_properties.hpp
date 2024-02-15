@@ -156,6 +156,8 @@ public:
 	string sfxRes;
 	string sprite;
 
+	DamageInfo touchDamage;
+	
 	double traction = 1.0;
 
 	bool pressurePlate = false;

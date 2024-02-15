@@ -113,6 +113,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	loadWaypoints(*tileMap, mapEntry.second);
 	loadAreas(*tileMap, mapEntry.second);
 	loadFloorSegments(*tileMap, mapEntry.second);
+	loadPitfalls(*tileMap, mapEntry.second);
     loadDoors(*tileMap, mapEntry.second);
 	loadSensors(*tileMap, mapEntry.second);
 	loadMapObjects(*tileMap, mapEntry.second);
@@ -275,6 +276,20 @@ void GScene::loadFloorSegments(const TMXTiledMap& map, IntVec2 offset)
         else{
             log1("Unknown floor type %s!", type);
         }
+	}
+}
+
+void GScene::loadPitfalls(const TMXTiledMap& map, IntVec2 offset)
+{
+	TMXObjectGroup* pitfalls = map.getObjectGroup("pitfalls");
+	if (!pitfalls)
+		return;
+
+	for (const Value& obj : pitfalls->getObjects())
+	{
+		ValueMap objAsMap = obj.asValueMap();
+		convertToUnitSpace(objAsMap, offset);
+		gspace->createObject<Pitfall>(objAsMap);
 	}
 }
 

@@ -10,7 +10,6 @@
 
 #include "FileIO.hpp"
 #include "LuaAPI.hpp"
-#include "sol_util.hpp"
 
 namespace Lua{
 

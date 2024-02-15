@@ -11,7 +11,6 @@
 #include "EnvironmentObject.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
-#include "value_map.hpp"
 
 EnvironmentObject::EnvironmentObject(
 	GSpace* space,
@@ -32,7 +31,7 @@ EnvironmentObject::EnvironmentObject(
 	),
 	props(props)
 {
-    init_script_object()
+    sol::init_script_object<EnvironmentObject>(this, params);
 }
 
 EnvironmentObject::~EnvironmentObject()

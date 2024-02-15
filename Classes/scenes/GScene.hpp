@@ -145,6 +145,7 @@ protected:
 	void loadMapObjects(const TMXTiledMap& map, IntVec2 offset);
 	//equivalent, except load "floor" layer
 	void loadFloorSegments(const TMXTiledMap& map, IntVec2 offset);
+	void loadPitfalls(const TMXTiledMap& map, IntVec2 offset);
 	void loadSensors(const TMXTiledMap& map, IntVec2 offset);
 
 	//objects in this layer are Wall type by default

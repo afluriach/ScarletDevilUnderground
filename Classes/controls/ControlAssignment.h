@@ -9,8 +9,6 @@
 #ifndef ControlAssignment_h
 #define ControlAssignment_h
 
-#include "value_map.hpp"
-
 template<typename E>
 inline void handleControlAssignment(
 	unordered_map<E,ControlActionState>& _map,

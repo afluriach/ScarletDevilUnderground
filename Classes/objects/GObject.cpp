@@ -18,9 +18,7 @@
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 #include "physics_context.hpp"
-#include "sol_util.hpp"
 #include "SpellDescriptor.hpp"
-#include "value_map.hpp"
 
 GObject::GObject(
 	GSpace* space,
@@ -42,15 +40,8 @@ GObject::GObject(
 	active(params.active),
 	hidden(params.hidden)
 {
-    if(!props){
-        log1("%s: object properties is null!", toString());
-    }
-    else if(props->dimensions.isZero() && params.dimensions.isZero()){
+    if( (!props || props->dimensions.isZero()) && params.dimensions.isZero()){
         log1("No valid dimensions to use!", toString());
-    }
-    
-    if(params.dimensions.isZero()){
-        log1("%s: object params dimensions are zero!", toString());
     }
     
     if(props && !props->dimensions.isZero()){
@@ -124,6 +115,15 @@ string GObject::getClsName() const {
     return props ? props->clsName : "undefined";
 }
 
+string GObject::getScriptClsName() const {
+    if(!props){
+		log1("%s: props is null!", toString());
+		return "";
+	}
+	
+    return !props->scriptName.empty() ? props->scriptName : props->clsName;
+}
+
 gobject_ref GObject::getRef() const
 {
 	return gobject_ref(this);
@@ -173,6 +173,9 @@ void GObject::update()
 
 void GObject::onRemove()
 {
+	if(crntFloorCenterContact)
+		crntFloorCenterContact->onEndContact(this);
+
     runMethodIfAvailable("onRemove");
 }
 
@@ -509,10 +512,6 @@ PhysicsLayers GObject::getCrntLayers() const
 void GObject::setLayers(PhysicsLayers layers)
 {
 	bodyShape->SetLayers(to_uint(layers));
-
-	if ( !bitwise_and_bool(PhysicsLayers::floor, layers) ) {
-		crntFloorCenterContact = nullptr;
-	}
 }
 
 bool GObject::isOnFloor() const
@@ -527,21 +526,33 @@ SpaceVect GObject::getFloorVelocity() const
 
 void GObject::updateFloorSegment()
 {
-	if (getMass() <= 0.0 || !isOnFloor() || dynamic_cast<FloorSegment*>(this)) {
+	if (getMass() < 0.0 || dynamic_cast<FloorSegment*>(this)) {
 		return;
 	}
 
 	SpaceVect p = getPos();
-	crntFloorCenterContact = space->floorPointQuery(p);
+	FloorSegment* newFloorCenterContact = isOnFloor() ? space->floorPointQuery(p) : nullptr;
+	
+	if(crntFloorCenterContact != newFloorCenterContact){
+		if(crntFloorCenterContact)
+			crntFloorCenterContact->onEndContact(this);
+		if(newFloorCenterContact)
+			newFloorCenterContact->onContact(this);
+	}
+	crntFloorCenterContact = newFloorCenterContact;
 
 	if (crntFloorCenterContact) {
+		DamageInfo damage = crntFloorCenterContact->getTouchDamage();
+		if(damage.isValid()){
+			hit(damage, SpaceVect::zero);
+		}
+	
 		SpaceFloat _uk = uk();
 		if (_uk > 0.0) {
 			updateFriction(_uk * crntFloorCenterContact->getTraction());
 		}
 	}
-	//If not touching any floor, check for pitfall.
-	else {
+	if(isOnFloor() && !crntFloorCenterContact) {
 		Pitfall* pitfall = space->pitfallPointQuery(p);
 		if (pitfall) pitfall->exclusiveFloorEffect(this);
 	}

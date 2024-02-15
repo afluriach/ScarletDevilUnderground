@@ -57,7 +57,7 @@ Player::Player(
 		throw runtime_error("Player created outside of PlayScene!");
 	}
  
-    init_script_object();    
+    sol::init_script_object<Player>(this, params);    
 }
 
 Player::~Player()

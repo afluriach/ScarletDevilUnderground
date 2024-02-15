@@ -126,6 +126,7 @@ typedef double SpaceFloat;
 #include "types.h"
 #include "graphics_types.h"
 #include "util.h"
+#include "sol_util.hpp"
 #include "log.hpp"
 #include "object_ref.hpp"
 #include "spell_types.hpp"

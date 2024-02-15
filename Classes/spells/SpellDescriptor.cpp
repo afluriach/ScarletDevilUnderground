@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "LuaAPI.hpp"
-#include "sol_util.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellImpl.hpp"
 

@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "physics_context.hpp"
-#include "value_map.hpp"
 #include "Wall.hpp"
 
 GType Wall::getWallType(local_shared_ptr<wall_properties> props)

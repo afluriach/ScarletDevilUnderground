@@ -157,6 +157,7 @@ AttributeArray AttributeSystem::getBlankAttributeSet()
 	result[to_size_t(Attribute::bulletSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::bombSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::effectAreaSensitivity)] = 1.0f;
+	result[to_size_t(Attribute::floorSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::touchSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::meleeSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::wallSensitivity)] = 1.0f;

@@ -11,7 +11,6 @@
 #include "Graphics.h"
 #include "LuaAPI.hpp"
 #include "SpellUtil.hpp"
-#include "value_map.hpp"
 
 namespace Lua{    
 
@@ -21,6 +20,7 @@ void Inst::addUtil()
 	_state["util"] = util;
 
     cFuncSame(util, getIntSuffix);
+	cFuncSame(util, splitString);
 
 	//Lua does not support passing primitves by reference, thus sol does not
 	//support wrapping the C++ version of these functions.
@@ -44,10 +44,6 @@ void Inst::addUtil()
 #else
 	util["isnan"] = &std::isnan<double>;
 #endif
-	cFuncSame(util, getStringOrDefault);
-	cFuncSame(util, getIntOrDefault);
-	cFuncSame(util, getFloatOrDefault);
-	cFuncSame(util, getBoolOrDefault);
 
 	cFuncSame(util, getPoints);
 	cFuncSame(util, getAdjacentTiles);

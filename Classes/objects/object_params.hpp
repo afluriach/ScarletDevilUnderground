@@ -12,6 +12,8 @@
 class object_params
 {
 public:
+	static const unordered_set<string> includedArgs;
+
 	inline object_params() {}
 	object_params(
 		const SpaceVect& pos,
@@ -33,6 +35,7 @@ public:
 	SpaceVect dimensions = SpaceVect::zero;
 
 	string name;
+	map<string,string> args;
 
 	bool hidden = false;
 	bool active = false;
@@ -43,6 +46,7 @@ public:
 	getter(SpaceFloat, angularVel);
 	getter(SpaceVect, dimensions);
 	getter(string, name);
+	inline const map<string,string>& get_args() const { return args; }
 	getter(bool, hidden);
 	getter(bool, active);
 

@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-#include "sol_util.hpp"
-
 namespace sol {
 
 bool hasMethod(sol::table obj, const string& name)

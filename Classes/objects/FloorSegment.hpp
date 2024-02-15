@@ -15,7 +15,7 @@ public:
 	FloorSegment(
 		GSpace* space,
 		ObjectIDType id,
-		const ValueMap& args,
+		const object_params& params,
 		local_shared_ptr<floorsegment_properties> props
 	);
 	virtual ~FloorSegment();
@@ -28,11 +28,10 @@ public:
 
 	void runActivate();
 	void runDeactivate();
+	
+	DamageInfo getTouchDamage() const { return props ? props->touchDamage : DamageInfo(); }
 protected:
 	local_shared_ptr<floorsegment_properties> props;
-	
-	vector<gobject_ref> targets;
-	unsigned int contactCount = 0;
 };
 
 class Pitfall : public GObject

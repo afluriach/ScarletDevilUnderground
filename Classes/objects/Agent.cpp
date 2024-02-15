@@ -29,10 +29,8 @@
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "RadarSensor.hpp"
-#include "sol_util.hpp"
 #include "SpellDescriptor.hpp"
 #include "spell_types.hpp"
-#include "value_map.hpp"
 
 const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.333f);
