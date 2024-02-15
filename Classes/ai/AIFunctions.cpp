@@ -1024,8 +1024,20 @@ void PlayerControl::checkBombControls(const ControlInfo& cs)
 
 void PlayerControl::checkItemInteraction(const ControlInfo& cs)
 {
-    if(cs.isControlActionPressed(ControlAction::interact)){
-        tryInteract();
+	timerDecrement(interactCooldown);
+	
+	GObject* interactible = getSpace()->physicsContext->interactibleObjectFeeler(
+		player,
+		player->getInteractFeeler()
+	);
+	
+	getSpace()->addHudAction(
+		&HUD::setInteractionIcon,
+		interactible && interactible->canInteract(player) ? interactible->interactionIcon(player) : ""
+	);
+
+    if(cs.isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0){
+        tryInteract(interactible);
     }
 }
 
@@ -1047,29 +1059,16 @@ void PlayerControl::applyDesiredMovement()
     player->applyDesiredMovement(desiredMoveDirection);
 }
 
-bool PlayerControl::tryInteract()
+bool PlayerControl::tryInteract(GObject* interactible)
 {
-	timerDecrement(interactCooldown);
     bool result = false;
-
-	GObject* interactible = getSpace()->physicsContext->interactibleObjectFeeler(
-		player,
-		player->getInteractFeeler()
-	);
 	
 	if(interactible && interactible->canInteract(player))
     {
-        if(interactCooldown <= 0.0){
-            interactible->interact(player);
-            interactCooldown = Player::interactCooldownTime;
-            result = true;
-        }
+		interactible->interact(player);
+		interactCooldown = Player::interactCooldownTime;
+		result = true;
     }
-
-	getSpace()->addHudAction(
-		&HUD::setInteractionIcon,
-		interactible && interactible->canInteract(player) ? interactible->interactionIcon(player) : ""
-	);
  
     return result;
 }

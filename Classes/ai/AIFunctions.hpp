@@ -366,7 +366,7 @@ public:
     void updateSpellControls(const ControlInfo& cs);
     
     void applyDesiredMovement();
-    bool tryInteract();
+    bool tryInteract(GObject* interactible);
     
     void toggleSpell();
     void stopSpell();
