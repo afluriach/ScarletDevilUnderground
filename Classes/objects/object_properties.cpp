@@ -80,3 +80,9 @@ dialog_entry::dialog_entry(
 npc_properties::~npc_properties()
 {
 }
+
+wall_properties::wall_properties()
+{}
+
+wall_properties::~wall_properties()
+{}

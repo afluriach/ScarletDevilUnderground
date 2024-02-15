@@ -12,17 +12,23 @@
 class Wall : public GObject
 {
 public: 
-	static GType getWallType(bool breakable);
+	static GType getWallType(local_shared_ptr<wall_properties> props);
 
-	MapObjCons(Wall);
-	Wall(GSpace* space, ObjectIDType id, SpaceRect rect, bool breakable = false);
+	Wall(
+		GSpace* space,
+		ObjectIDType id,
+		const object_params& params,
+		local_shared_ptr<wall_properties> props
+	);
 
 	virtual inline ~Wall() {}
 
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 	void applyBreak();
+	
+	DamageInfo getTouchDamage() const { return props ? props->touchDamage : DamageInfo(); }
 protected:
-	bool breakable;
+	local_shared_ptr<wall_properties> props;
 };
 
 #endif /* Wall_hpp */

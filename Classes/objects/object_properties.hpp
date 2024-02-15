@@ -27,7 +27,7 @@ public:
 
 	int _refcount = 0;
 
-	inline virtual type_index getType() const { return typeid(*this); }
+	inline type_index getType() const { return typeid(*this); }
 
 	getter(shared_ptr<sprite_properties>, sprite)
 	getter(shared_ptr<LightArea>, light)
@@ -63,8 +63,6 @@ public:
 
 	bool detectEssence = false;
 	bool isFlying = false;
-
-	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 class bomb_properties : public object_properties
@@ -80,8 +78,6 @@ public:
 	float cost;
 
 	DamageInfo damage;
-
-	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 class bullet_properties : public object_properties
@@ -102,8 +98,6 @@ public:
 	bool deflectBullets = false;
 
 	bullet_properties clone();
-
-	inline virtual type_index getType() const { return typeid(*this); }
 
 	getter(SpaceFloat, speed)
 	getter(DamageInfo, damage)
@@ -141,8 +135,6 @@ public:
 	string collectible;
 
 	DamageInfo touchEffect;
-
-	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 class environment_object_properties : public object_properties
@@ -154,8 +146,6 @@ public:
 	string interactionIcon;
 	PhysicsLayers layers = PhysicsLayers::none;
 	bool interactible;
-
-	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 class floorsegment_properties : public object_properties {
@@ -169,8 +159,6 @@ public:
 	double traction = 1.0;
 
 	bool pressurePlate = false;
-
-	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 class item_properties : public object_properties
@@ -182,8 +170,6 @@ public:
 	string onAcquireDialog;
 
 	bool addToInventory = true;
-
-	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 struct dialog_entry
@@ -213,8 +199,17 @@ public:
 	~npc_properties();
 
 	list<local_shared_ptr<dialog_entry>> dialogs;
+};
 
-	inline virtual type_index getType() const { return typeid(*this); }
+class wall_properties : public object_properties
+{
+public:
+	wall_properties();
+	virtual ~wall_properties();
+	
+	DamageInfo touchDamage;
+	
+	bool breakable = false;
 };
 
 #endif /* object_properties_hpp */

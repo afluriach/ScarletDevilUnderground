@@ -85,6 +85,7 @@ enum class Attribute {
 	effectAreaSensitivity,
 	touchSensitivity,
 	meleeSensitivity,
+	wallSensitivity,
 
 	iceSensitivity,
 	sunSensitivity,
@@ -121,7 +122,7 @@ public:
 	static constexpr IncidentAttributeEntry stamina = { Attribute::stamina, Attribute::maxStamina, Attribute::staminaRegen, Attribute::staminaInv, Attribute::staminaRatio };
 
 	static constexpr Attribute beginTypeSensitivity = Attribute::bulletSensitivity;
-	static constexpr Attribute lastTypeSensitivity = Attribute::meleeSensitivity;
+	static constexpr Attribute lastTypeSensitivity = Attribute::wallSensitivity;
 
 	static constexpr Attribute beginElementSensitivity = Attribute::iceSensitivity;
 	static constexpr Attribute lastElementSensitivity = Attribute::poisonSensitivity;

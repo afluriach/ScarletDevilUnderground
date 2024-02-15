@@ -350,18 +350,28 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 	for(const Value& obj: walls->getObjects())
 	{
 		ValueMap objAsMap = obj.asValueMap();
-		convertToUnitSpace(objAsMap, offset);
-		gspace->createObject<Wall>(objAsMap);
+		string type = objAsMap.at("type").asString();
+		if(type.empty()) type = "Wall";
+		auto props = app::getWall(type);
+
+		if(props){
+			convertToUnitSpace(objAsMap, offset);
+			object_params params(objAsMap);
+			gspace->createObject<Wall>(params, props);
+		}
+		else{
+			log1("Unknown Wall type %s!", type);
+		}
 	}
 }
 
 void GScene::loadDoors(const TMXTiledMap& map, IntVec2 offset)
 {
-	TMXObjectGroup* walls = map.getObjectGroup("doors");
-	if (!walls)
+	TMXObjectGroup* doors = map.getObjectGroup("doors");
+	if (!doors)
 		return;
 
-	for(const Value& obj: walls->getObjects())
+	for(const Value& obj: doors->getObjects())
 	{
 		ValueMap objAsMap = obj.asValueMap();
 		convertToUnitSpace(objAsMap, offset);

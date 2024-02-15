@@ -143,6 +143,7 @@ enum class DamageType
 	effectArea,
 	touch,
 	melee,
+	wall,
 
 	none
 };
@@ -194,6 +195,7 @@ struct DamageInfo
 	DamageInfo operator*(float rhs);
 	bool isExplosion();
 	bool isValid();
+	bool isNonzero();
 };
 
 struct effect_attributes

@@ -396,4 +396,15 @@ namespace app {
 		return true;
 	}
 
+	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<wall_properties> result)
+	{
+		parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
+		
+		getDamageInfo(elem, &result->touchDamage);
+		result->touchDamage.type = DamageType::wall;
+		
+		getNumericAttr(elem, "breakable", &result->breakable);
+		
+		return true;
+	}
 }

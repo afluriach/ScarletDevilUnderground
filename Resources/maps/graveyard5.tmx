@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" infinite="0" nextlayerid="13" nextobjectid="353">
+ <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="fence.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="dirt floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="dirt1.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="9" name="stone" tilewidth="128" tileheight="128" tilecount="9" columns="3">
+  <image source="stone3.png" width="384" height="384"/>
+ </tileset>
+ <tileset firstgid="18" name="block_wall" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="block_wall.png" width="128" height="128"/>
+ </tileset>
+ <layer id="1" name="floor" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt0bENwDAQw8BvnGT/ieMhXJAGC4G9bs3Ms7cu6Lv3XVLCn7nkYinhz1xysZTwZy65WEr4M5dcLCX8mUsulhL+zCUXSwl/5pKLpYQ/c8nFUsKfueRiKeHPXHKxlPBnLrlYSvgzl1wsJfx5qj/hREG/
+  </data>
+ </layer>
+ <layer id="2" name="stone_path" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt17sKwCAAxVDnvqD//7PO3QpNJUMOuF4MTo6RJMl6p+TsUIsBcY9aeLXwG4Ra+A1CLfwGoRZ+g1ALv0Gohd8g1PJ0jO//qA3YuIEWguVtCbU41eJUi1MtTrU41eJUi5OlhfiLEef6O/Qly7sQanGqxakWp1UtE6sACCw=
+  </data>
+ </layer>
+ <layer id="3" name="wall_tiles" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt2UEKgDAMBMCo/f+bPfiAFFrKgrOQU2EIwcviqKprcUaQsZKbwWAwGDFGSlLuwWAwGIzPeJqp5n3G6GbXHl0Hqub9VBeb3WMlSd8Yg8Fg/N1ISco9GAwGg5HVo3bskdSj/BdjMBgMRlpS7sFgMBiMc13slPECBxgFcQ==
+  </data>
+ </layer>
+ <layer id="12" name="block_wall" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt1cEJACAIAMBmcP9h+0ZEEVRg3IEI/lTEUgAAAAAAAAA4KTaCN0azzjr/aHJ0tWx+3MuqlsGPvbgXbvL3Ya4CDUgC0Q==
+  </data>
+ </layer>
+ <objectgroup id="4" name="floor" visible="0">
+  <object id="245" type="GrassFloor" x="0" y="0" width="2176" height="1024"/>
+  <object id="244" type="GrassFloor" x="0" y="5376" width="1024" height="128"/>
+  <object id="243" type="GrassFloor" x="5504" y="5376" width="1024" height="128"/>
+  <object id="242" type="StoneFloor" x="4352" y="5376" width="1152" height="128"/>
+  <object id="241" type="GrassFloor" x="2176" y="2176" width="2176" height="1024"/>
+  <object id="240" type="GrassFloor" x="0" y="3328" width="2176" height="1024"/>
+  <object id="239" type="GrassFloor" x="2176" y="1152" width="2176" height="1024"/>
+  <object id="238" type="GrassFloor" x="1152" y="1152" width="1024" height="1024"/>
+  <object id="237" type="GrassFloor" x="2176" y="0" width="2176" height="1024"/>
+  <object id="236" type="GrassFloor" x="4352" y="0" width="2176" height="1024"/>
+  <object id="235" type="GrassFloor" x="4352" y="3328" width="2176" height="1024"/>
+  <object id="234" type="GrassFloor" x="4352" y="5504" width="2176" height="1024"/>
+  <object id="233" type="GrassFloor" x="4352" y="4352" width="2176" height="1024"/>
+  <object id="231" type="GrassFloor" x="0" y="4352" width="2176" height="1024"/>
+  <object id="230" type="GrassFloor" x="0" y="5504" width="2176" height="1024"/>
+  <object id="246" type="GrassFloor" x="0" y="2176" width="1024" height="1152"/>
+  <object id="247" type="GrassFloor" x="1152" y="2176" width="1024" height="1024"/>
+  <object id="248" type="StoneFloor" x="1024" y="5376" width="1152" height="128"/>
+  <object id="249" type="StoneFloor" x="2176" y="5376" width="2176" height="128"/>
+  <object id="250" type="StoneFloor" x="1024" y="1024" width="1152" height="128"/>
+  <object id="251" type="StoneFloor" x="2176" y="1024" width="2176" height="128"/>
+  <object id="252" type="StoneFloor" x="4352" y="1024" width="1152" height="128"/>
+  <object id="253" type="StoneFloor" x="1024" y="3200" width="1152" height="128"/>
+  <object id="254" type="StoneFloor" x="1024" y="2176" width="128" height="1024"/>
+  <object id="255" type="GrassFloor" x="0" y="1024" width="1024" height="128"/>
+  <object id="256" type="GrassFloor" x="0" y="1152" width="1024" height="1024"/>
+  <object id="257" type="StoneFloor" x="1024" y="1152" width="128" height="1024"/>
+  <object id="258" type="StoneFloor" x="5376" y="1152" width="128" height="1024"/>
+  <object id="259" type="StoneFloor" x="5376" y="2176" width="128" height="1024"/>
+  <object id="260" type="StoneFloor" x="3200" y="3328" width="128" height="1024"/>
+  <object id="261" type="StoneFloor" x="3200" y="4352" width="128" height="1024"/>
+  <object id="262" type="StoneFloor" x="3200" y="5504" width="128" height="1024"/>
+  <object id="263" type="GrassFloor" x="5504" y="1024" width="1024" height="1152"/>
+  <object id="264" type="GrassFloor" x="4352" y="1152" width="1024" height="1024"/>
+  <object id="265" type="GrassFloor" x="4352" y="2176" width="1024" height="1024"/>
+  <object id="266" type="GrassFloor" x="5504" y="2176" width="1024" height="1024"/>
+  <object id="267" type="GrassFloor" x="5504" y="3200" width="1024" height="128"/>
+  <object id="268" type="StoneFloor" x="4352" y="3200" width="1152" height="128"/>
+  <object id="269" type="StoneFloor" x="2176" y="3200" width="2176" height="128"/>
+  <object id="270" type="GrassFloor" x="2176" y="3328" width="1024" height="1024"/>
+  <object id="271" type="GrassFloor" x="3328" y="3328" width="1024" height="1024"/>
+  <object id="272" type="GrassFloor" x="2176" y="5504" width="1024" height="1024"/>
+  <object id="273" type="GrassFloor" x="2176" y="4352" width="1024" height="1024"/>
+  <object id="274" type="GrassFloor" x="3328" y="4352" width="1024" height="1024"/>
+  <object id="275" type="GrassFloor" x="3328" y="5504" width="1024" height="1024"/>
+ </objectgroup>
+ <objectgroup id="10" name="doors">
+  <object id="222" name="door-6w" type="Door" x="2176" y="1024" width="128" height="128">
+   <properties>
+    <property name="door_type" value="one_way_source"/>
+   </properties>
+  </object>
+  <object id="223" name="door-8e" type="Door" x="2048" y="1024" width="128" height="128">
+   <properties>
+    <property name="door_type" value="one_way_destination"/>
+   </properties>
+  </object>
+  <object id="316" name="door-2e" type="Door" x="2048" y="3200" width="128" height="128"/>
+  <object id="317" name="door-2n" type="Door" x="1024" y="2176" width="128" height="128"/>
+  <object id="318" name="door-3w" type="Door" x="2176" y="3200" width="128" height="128"/>
+  <object id="319" name="door-3e" type="Door" x="4224" y="3200" width="128" height="128"/>
+  <object id="321" name="door-3s" type="Door" x="3200" y="4224" width="128" height="128"/>
+  <object id="322" name="door-0e" type="Door" x="4224" y="5376" width="128" height="128"/>
+  <object id="323" name="door-5w" type="Door" x="4352" y="5376" width="128" height="128"/>
+  <object id="324" name="door-0n" type="Door" x="3200" y="4352" width="128" height="128"/>
+  <object id="325" name="door-4w" type="Door" x="4352" y="3200" width="128" height="128"/>
+  <object id="326" name="door-4n" type="Door" x="5376" y="2176" width="128" height="128"/>
+  <object id="327" name="door-7s" type="Door" x="5376" y="2048" width="128" height="128"/>
+  <object id="328" name="door-7w" type="Door" x="4352" y="1024" width="128" height="128"/>
+  <object id="330" name="door-6e" type="Door" x="4224" y="1024" width="128" height="128"/>
+  <object id="331" name="door-8s" type="Door" x="1024" y="2048" width="128" height="128">
+   <properties>
+    <property name="door_type" value="one_way_destination"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="11" name="waypoints">
+  <object id="142" name="player_start" x="3200" y="6144" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="5" name="walls">
+  <object id="92" type="G5Fence" x="0" y="0" width="128" height="2176"/>
+  <object id="93" type="G5Fence" x="128" y="6400" width="2048" height="128"/>
+  <object id="94" type="G5Fence" x="6400" y="0" width="128" height="2176"/>
+  <object id="96" type="G5Fence" x="128" y="0" width="2048" height="128"/>
+  <object id="97" type="G5Fence" x="128" y="2048" width="896" height="128"/>
+  <object id="99" type="G5Fence" x="4224" y="1152" width="256" height="896"/>
+  <object id="100" type="G5Fence" x="2048" y="1152" width="128" height="896"/>
+  <object id="101" type="G5Fence" x="2048" y="2304" width="128" height="896"/>
+  <object id="102" type="G5Fence" x="2048" y="3328" width="128" height="896"/>
+  <object id="103" type="G5Fence" x="128" y="4352" width="2048" height="128"/>
+  <object id="107" type="G5Fence" x="4224" y="2304" width="128" height="896"/>
+  <object id="108" type="G5Fence" x="4224" y="3328" width="128" height="896"/>
+  <object id="109" type="G5Fence" x="4224" y="5504" width="128" height="1024"/>
+  <object id="110" type="G5Fence" x="2048" y="5504" width="128" height="896"/>
+  <object id="115" type="G5Fence" x="4224" y="128" width="128" height="896"/>
+  <object id="116" type="G5Fence" x="5504" y="2176" width="896" height="128"/>
+  <object id="117" type="G5Fence" x="2048" y="128" width="128" height="896"/>
+  <object id="118" type="G5Fence" x="2048" y="4480" width="128" height="896"/>
+  <object id="130" type="G5Fence" x="4480" y="6400" width="2048" height="128"/>
+  <object id="143" type="G5Fence" x="2176" y="0" width="2176" height="128"/>
+  <object id="144" type="G5Fence" x="4352" y="0" width="2048" height="128"/>
+  <object id="145" type="G5Fence" x="2176" y="128" width="128" height="896"/>
+  <object id="146" type="G5Fence" x="2176" y="1152" width="128" height="896"/>
+  <object id="147" type="G5Fence" x="4352" y="128" width="128" height="896"/>
+  <object id="148" type="G5Fence" x="4224" y="1152" width="128" height="896"/>
+  <object id="149" type="G5Fence" x="4352" y="1152" width="128" height="896"/>
+  <object id="150" type="G5Fence" x="128" y="2176" width="896" height="128"/>
+  <object id="151" type="G5Fence" x="2176" y="2048" width="2176" height="128"/>
+  <object id="152" type="G5Fence" x="2176" y="2176" width="2176" height="128"/>
+  <object id="153" type="G5Fence" x="4352" y="2048" width="1024" height="128"/>
+  <object id="154" type="G5Fence" x="4352" y="2176" width="1024" height="128"/>
+  <object id="155" type="G5Fence" x="4352" y="2304" width="128" height="896"/>
+  <object id="156" type="G5Fence" x="4352" y="3328" width="128" height="896"/>
+  <object id="157" type="G5Fence" x="128" y="4224" width="2048" height="128"/>
+  <object id="159" type="G5Fence" x="2176" y="2304" width="128" height="896"/>
+  <object id="160" type="G5Fence" x="2176" y="3328" width="128" height="896"/>
+  <object id="161" type="G5Fence" x="2176" y="4480" width="128" height="896"/>
+  <object id="162" type="G5Fence" x="2176" y="5504" width="128" height="896"/>
+  <object id="163" type="G5Fence" x="2176" y="6400" width="2048" height="128"/>
+  <object id="165" type="G5Fence" x="4352" y="5504" width="128" height="1024"/>
+  <object id="167" type="G5Fence" x="2176" y="4224" width="1024" height="128"/>
+  <object id="168" type="G5Fence" x="2176" y="4352" width="1024" height="128"/>
+  <object id="169" type="G5Fence" x="4352" y="4352" width="2048" height="128"/>
+  <object id="170" type="G5Fence" x="4352" y="4224" width="2048" height="128"/>
+  <object id="173" type="G5Fence" x="5504" y="2048" width="896" height="128"/>
+  <object id="174" type="G5Fence" x="6400" y="2176" width="128" height="2176"/>
+  <object id="175" type="G5Fence" x="6400" y="4352" width="128" height="2048"/>
+  <object id="176" type="G5Fence" x="0" y="2176" width="128" height="2176"/>
+  <object id="177" type="G5Fence" x="0" y="4352" width="128" height="2176"/>
+  <object id="179" type="G5Fence" x="4224" y="4480" width="128" height="896"/>
+  <object id="180" type="G5Fence" x="4352" y="4480" width="128" height="896"/>
+  <object id="181" type="G5Fence" x="3328" y="4352" width="1024" height="128"/>
+  <object id="182" type="G5Fence" x="3328" y="4224" width="1024" height="128"/>
+  <object id="185" type="G5Fence" x="1152" y="2176" width="1024" height="128"/>
+  <object id="186" type="G5Fence" x="1152" y="2048" width="1024" height="128"/>
+  <object id="347" type="KnockbackBlock" x="384" y="4736" width="1408" height="128"/>
+  <object id="348" type="KnockbackBlock" x="384" y="6016" width="1408" height="128"/>
+  <object id="349" type="KnockbackBlock" x="256" y="4992" width="128" height="896"/>
+  <object id="350" type="KnockbackBlock" x="896" y="4992" width="128" height="896"/>
+  <object id="351" type="KnockbackBlock" x="512" y="5120" width="256" height="128"/>
+  <object id="352" type="KnockbackBlock" x="512" y="5632" width="256" height="128"/>
+ </objectgroup>
+ <objectgroup id="6" name="objects">
+  <object id="131" type="Goal" x="1024" y="1024" width="128" height="128"/>
+  <object id="187" type="torchG3" x="3584" y="5760" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="188" type="torchG3" x="3584" y="4992" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="189" type="torchG3" x="2816" y="4992" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="190" type="torchG3" x="2816" y="5760" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="200" type="torchG3" x="2816" y="3584" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="201" type="torchG3" x="3584" y="3584" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="204" type="torchG3" x="3584" y="2816" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="205" type="torchG3" x="2816" y="2816" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="214" type="torchG3" x="1408" y="2816" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="215" type="torchG3" x="1408" y="3584" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="216" type="torchG3" x="640" y="2816" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="217" type="torchG3" x="640" y="3584" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="218" type="torchG3" x="1408" y="640" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="219" type="torchG3" x="1408" y="1408" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="220" type="torchG3" x="640" y="1408" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="221" type="torchG3" x="640" y="640" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="224" type="GreenFairy1" x="4992" y="2944" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="225" type="GhostFairy" x="4992" y="3456" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="226" type="GhostFairy" x="3840" y="3200" width="128" height="128"/>
+  <object id="227" type="GhostFairy" x="3200" y="3456" width="128" height="128"/>
+  <object id="228" type="GhostFairy" x="2560" y="3200" width="128" height="128"/>
+  <object id="229" name="g5_map" type="MapFragment" x="576" y="5376" width="128" height="128"/>
+  <object id="277" type="Headstone" x="4736" y="4736" width="256" height="256"/>
+  <object id="278" type="DestructibleHeadstone" x="5888" y="4736" width="256" height="256"/>
+  <object id="279" type="DestructibleHeadstone" x="5312" y="4736" width="256" height="256"/>
+  <object id="281" type="Headstone" x="4736" y="5888" width="256" height="256"/>
+  <object id="282" type="DestructibleHeadstone" x="5888" y="5888" width="256" height="256"/>
+  <object id="283" type="DestructibleHeadstone" x="5312" y="5888" width="256" height="256"/>
+  <object id="284" type="Headstone" x="5888" y="5312" width="256" height="256"/>
+  <object id="296" type="DestructibleHeadstone" x="2560" y="1536" width="256" height="256"/>
+  <object id="297" type="DestructibleHeadstone" x="3712" y="1536" width="256" height="256"/>
+  <object id="298" type="Headstone" x="3712" y="384" width="256" height="256"/>
+  <object id="299" type="Headstone" x="3136" y="384" width="256" height="256"/>
+  <object id="300" type="DestructibleHeadstone" x="2560" y="384" width="256" height="256"/>
+  <object id="301" type="Headstone" x="3136" y="1536" width="256" height="256"/>
+  <object id="302" type="DestructibleHeadstone" x="5824" y="384" width="256" height="256"/>
+  <object id="303" type="DestructibleHeadstone" x="5824" y="896" width="256" height="256"/>
+  <object id="304" type="Headstone" x="4736" y="384" width="256" height="256"/>
+  <object id="305" type="DestructibleHeadstone" x="5248" y="384" width="256" height="256"/>
+  <object id="306" type="Headstone" x="5824" y="1408" width="256" height="256"/>
+  <object id="307" type="DestructibleHeadstone" x="5824" y="2560" width="256" height="256"/>
+  <object id="308" type="DestructibleHeadstone" x="5824" y="3072" width="256" height="256"/>
+  <object id="309" type="DestructibleHeadstone" x="4736" y="3584" width="256" height="256"/>
+  <object id="310" type="DestructibleHeadstone" x="5248" y="3584" width="256" height="256"/>
+  <object id="311" type="Headstone" x="5824" y="3584" width="256" height="256"/>
+  <object id="312" type="ZombieFairy" x="1024" y="2816" width="128" height="128"/>
+  <object id="313" type="ZombieFairy" x="1408" y="3200" width="128" height="128"/>
+  <object id="314" type="ZombieFairy" x="1024" y="3200" width="128" height="128"/>
+  <object id="315" type="DarknessArea" x="0" y="2176" width="2176" height="2176"/>
+ </objectgroup>
+ <objectgroup id="7" name="spawners">
+  <object id="293" name="spawner-g5-1" x="4608" y="4608" width="128" height="128"/>
+  <object id="292" name="spawner-g5-2" x="6144" y="4608" width="128" height="128"/>
+  <object id="291" name="spawner-g5-3" x="4608" y="6144" width="128" height="128"/>
+  <object id="290" name="spawner-g5-4" x="6144" y="6144" width="128" height="128"/>
+  <object id="289" name="spawner-g5-5" x="5664" y="4800" width="128" height="128"/>
+  <object id="288" name="spawner-g5-6" x="5632" y="5376" width="128" height="128"/>
+  <object id="285" name="spawner-g5-7" x="5056" y="4800" width="128" height="128"/>
+  <object id="295" x="1024" y="5376" width="128" height="128"/>
+  <object id="332" name="spawner4-3" x="5376" y="3200" width="128" height="128"/>
+  <object id="333" name="spawner4-2" x="5632" y="2560" width="128" height="128"/>
+  <object id="334" name="spawner4-1" x="4992" y="2560" width="128" height="128"/>
+  <object id="338" x="3712" y="768" width="128" height="128"/>
+  <object id="339" x="3200" y="768" width="128" height="128"/>
+  <object id="340" x="3200" y="1280" width="128" height="128"/>
+  <object id="341" x="2560" y="768" width="128" height="128"/>
+  <object id="342" x="2560" y="1280" width="128" height="128"/>
+  <object id="343" x="3712" y="1280" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="8" name="rooms" visible="0">
+  <object id="133" name="0" x="2176" y="4352" width="2176" height="2176"/>
+  <object id="134" name="1" x="0" y="4352" width="2176" height="2176"/>
+  <object id="135" name="2" x="0" y="2183" width="2176" height="2176">
+   <properties>
+    <property name="trap_doors" value="door-2e door-2n"/>
+   </properties>
+  </object>
+  <object id="136" name="3" x="2176" y="2176" width="2176" height="2176"/>
+  <object id="137" name="4" x="4352" y="2176" width="2176" height="2176">
+   <properties>
+    <property name="trap_doors" value="door-4n"/>
+   </properties>
+  </object>
+  <object id="139" name="6" x="2176" y="0" width="2176" height="2176">
+   <properties>
+    <property name="spawn_on_clear" value="starbowBreak"/>
+   </properties>
+  </object>
+  <object id="183" name="7" x="4352" y="0" width="2176" height="2176"/>
+  <object id="184" name="8" x="0" y="0" width="2176" height="2176"/>
+  <object id="138" name="5" x="4352" y="4352" width="2176" height="2176">
+   <properties>
+    <property name="spawn_on_clear" value="shield_upgrade"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="dynamic_load">
+  <object id="335" name="starbowBreak" type="Item" x="3200" y="1024" width="128" height="128">
+   <properties>
+    <property name="item" value="StarbowBreak"/>
+   </properties>
+  </object>
+  <object id="336" name="shield_upgrade" type="shield_upgrade" x="5376" y="5376" width="128" height="128"/>
+ </objectgroup>
+</map>

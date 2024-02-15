@@ -360,6 +360,7 @@ void App::loadObjects()
 	app::loadEnemies();
 	app::loadNPCs();
 	app::loadPlayers();
+	app::loadWalls();
 
 	GSpace::playerCharacter = app::getPlayer("FlandrePC");
 }

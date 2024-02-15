@@ -88,6 +88,7 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(effectAreaSensitivity)
 	entry(touchSensitivity)
 	entry(meleeSensitivity)
+	entry(wallSensitivity)
 
 	entry(iceSensitivity)
 	entry(sunSensitivity)
@@ -158,6 +159,7 @@ AttributeArray AttributeSystem::getBlankAttributeSet()
 	result[to_size_t(Attribute::effectAreaSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::touchSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::meleeSensitivity)] = 1.0f;
+	result[to_size_t(Attribute::wallSensitivity)] = 1.0f;
 
 	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::sunSensitivity)] = 1.0f;

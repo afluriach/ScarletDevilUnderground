@@ -33,6 +33,7 @@ namespace app {
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> result);
     bool parseObject(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result);
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<item_properties> result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<wall_properties> result);
     bool parseObject(tinyxml2::XMLElement * elem, SpellDesc** result);
 
     bool autoName(tinyxml2::XMLElement* elem, string& field);

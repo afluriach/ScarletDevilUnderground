@@ -85,6 +85,11 @@ bool DamageInfo::isValid()
 	return mag > 0.0f && type != DamageType::none;
 }
 
+bool DamageInfo::isNonzero()
+{
+	return mag > 0.0f || knockback > 0.0f;
+}
+
 float app_params::getScale() const
 {
 	return 1.0f * width / app::baseWidth;

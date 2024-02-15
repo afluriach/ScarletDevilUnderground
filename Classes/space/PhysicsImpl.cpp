@@ -150,6 +150,17 @@ SpaceVect getBulletNormal(b2Contact* contact)
 	return manifold.normal * (reverse ? -1.0 : 1.0);
 }
 
+SpaceVect getAgentWallNormal(b2Contact* contact)
+{
+	unsigned int typeA = contact->GetFixtureB()->GetFilterData().categoryBits;
+	bool reverse = bitwise_and_bool(typeA, GType::wall);
+
+	b2WorldManifold manifold;
+	contact->GetWorldManifold(&manifold);
+
+	return manifold.normal * (reverse ? -1.0 : 1.0);
+}
+
 #define _getTypes() tie(typeA,typeB) = getFixtureTypes(contact)
 
 void ContactListener::BeginContact(b2Contact* contact)
@@ -441,6 +452,16 @@ void bulletWall(Bullet* _b, Wall* _w, b2Contact* contact)
 	}
 }
 
+void agentWall(Agent* a, Wall* w, b2Contact* contact)
+{
+	SpaceVect n = getAgentWallNormal(contact);
+	DamageInfo damage = w->getTouchDamage();
+	
+	if(damage.isNonzero()){
+		a->hit(damage, n);
+	}
+}
+
 void objectAreaSensorBegin(GObject* obj, AreaSensor* areaSensor, b2Contact* contact)
 {
 	areaSensor->beginContact(obj);
@@ -479,8 +500,11 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
 	_addHandlerNoEnd(playerBullet, enemyBullet, bulletBulletBegin);
 	_addHandlerNoEnd(player, item, itemBegin);
+	
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);
+	_addHandlerNoEnd(player, wall, agentWall);
+	_addHandlerNoEnd(enemy, wall, agentWall);
 
 	_addHandler(player, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
 	_addHandler(enemy, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);

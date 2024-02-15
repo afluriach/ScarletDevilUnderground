@@ -1,0 +1,5 @@
+<Walls>
+	<Wall />
+	<G5Fence damage="10" />
+	<KnockbackBlock knockback="80" />
+</Walls>

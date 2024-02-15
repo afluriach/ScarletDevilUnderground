@@ -68,6 +68,8 @@
 			<G15 tile_offset="3,0" />
 		</rooms>
 	</graveyard4>
+	
+	<graveyard5 map="auto" next="none" ambient_light="rgb:0.225,0.333,0.333" />
 
 	<forest1 next="none" >
 		<rooms size="17,17" prefix="forest/" >

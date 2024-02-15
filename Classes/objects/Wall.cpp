@@ -12,29 +12,30 @@
 #include "value_map.hpp"
 #include "Wall.hpp"
 
-GType Wall::getWallType(bool breakable)
+GType Wall::getWallType(local_shared_ptr<wall_properties> props)
 {
-	return breakable ? enum_bitwise_or(GType, wall, canDamage) : GType::wall;
+	return props && props->breakable ? enum_bitwise_or(GType, wall, canDamage) : GType::wall;
 }
 
-Wall::Wall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Wall(space, id, SpaceRect(getObjectPos(args), getObjectDimensions(args)), getBoolOrDefault(args, "breakable", false))
-{}
-
-Wall::Wall(GSpace* space, ObjectIDType id, SpaceRect rect, bool breakable) :
+Wall::Wall(
+	GSpace* space,
+	ObjectIDType id,
+	const object_params& params,
+	local_shared_ptr<wall_properties> props
+) :
 	GObject(
 		space,
 		id,
-		object_params(rect),
-		physics_params(getWallType(breakable), PhysicsLayers::all, -1.0),
-		nullptr
+		params,
+		physics_params(getWallType(props), PhysicsLayers::all, -1.0),
+		props
 	),
-	breakable(breakable)
+	props(props)
 {}
 
 bool Wall::hit(DamageInfo damage, SpaceVect n)
 {
-	if (!breakable || !damage.isExplosion()) {
+	if (!props || !props->breakable || !damage.isExplosion()) {
 		return false;
 	}
 
@@ -47,7 +48,7 @@ bool Wall::hit(DamageInfo damage, SpaceVect n)
 		typeid(Wall)
 	));
 
-	if (adj && !adj->hidden && adj->breakable) {
+	if (adj && !adj->hidden && adj->props && adj->props->breakable) {
 		adj->applyBreak();
 	}
 

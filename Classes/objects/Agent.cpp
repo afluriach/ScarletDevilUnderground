@@ -816,6 +816,11 @@ bool Agent::isEnemyBullet(Bullet* other)
 
 bool Agent::hit(DamageInfo damage, SpaceVect n)
 {
+	SpaceVect knockback = n * damage.knockback;
+	if (!knockback.isZero() ) {
+		applyImpulse(knockback);
+	}
+
 	if (attributeSystem->isNonzero(Attribute::hitProtection) || damage.mag == 0.0f)
 		return false;
 
@@ -832,12 +837,6 @@ bool Agent::hit(DamageInfo damage, SpaceVect n)
 
 	if (!damage.damageOverTime && hp > 0.0f) {
 		space->addGraphicsAction(&graphics_context::createDamageIndicator, hp, getPos());
-	}
-
-	SpaceVect knockback = n * damage.knockback;
-
-	if (!knockback.isZero() ) {
-		applyImpulse(knockback);
 	}
 
 	return true;

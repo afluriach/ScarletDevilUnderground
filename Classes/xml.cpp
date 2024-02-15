@@ -127,6 +127,11 @@ void loadPlayers()
 	loadObjectsShared<agent_properties>("objects/players.xml");
 }
 
+void loadWalls()
+{
+	loadObjectsShared<wall_properties>("objects/walls.xml");
+}
+
 void loadSprites()
 {
 	loadObjects<shared_ptr<sprite_properties>>("objects/sprites.xml", app::sprites);
@@ -180,6 +185,11 @@ local_shared_ptr<object_properties> getObjectProps(const string& name)
 local_shared_ptr<agent_properties> getPlayer(const string& name)
 {
 	return getObjectProperties<agent_properties>(name);
+}
+
+local_shared_ptr<wall_properties> getWall(const string& name)
+{
+	return getObjectProperties<wall_properties>(name);
 }
 
 const SpellDesc* getSpell(const string& name)

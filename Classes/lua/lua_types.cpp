@@ -85,6 +85,7 @@ namespace Lua{
 				enum_entry(DamageType, effectArea),
 				enum_entry(DamageType, touch),
 				enum_entry(DamageType, melee),
+				enum_entry(DamageType, wall),
 
 				enum_entry(DamageType, none)
 			}
