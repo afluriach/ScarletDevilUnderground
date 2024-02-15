@@ -156,6 +156,7 @@ objects.Launcher.fireInterval = 0.25
 function objects.Launcher:init(super)
 	self.super = super
 	self.cooldownTime = 0.0
+	self.bullet = app.getBullet('launcherBullet')
 end
 
 function objects.Launcher:update()
@@ -164,11 +165,12 @@ function objects.Launcher:update()
 	if self.super.active and self.cooldownTime <= 0.0 then
 		local pos = self.super:getPos()
 		pos = pos + SpaceVect.ray(1.0, self.super:getAngle())
+		local vel = SpaceVect.ray(self.bullet.speed, self.super:getAngle())
 		
 		self.super.space:createBullet(
-			Bullet.makeParams(pos, self.super:getAngle(), SpaceVect.new(), 0.0, SpaceVect.new()),
+			Bullet.makeParams(pos, self.super:getAngle(), vel, 0.0, SpaceVect.new()),
 			bullet_attributes.getDefault(),
-			app.getBullet('launcherBullet')
+			self.bullet
 		)
 		self.cooldownTime = self.fireInterval
 	end
