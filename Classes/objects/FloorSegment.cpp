@@ -25,7 +25,8 @@ FloorSegment::FloorSegment(
 			GType::floorSegment,
 			PhysicsLayers::floor,
 			-1.0,
-			true
+			true,
+			false
 		),
 		props
 	),
@@ -70,7 +71,8 @@ Pitfall::Pitfall(
 			GType::floorSegment,
 			PhysicsLayers::belowFloor,
 			-1.0,
-			true
+			true,
+			false
 		),
 		nullptr
 	)

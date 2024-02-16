@@ -50,8 +50,10 @@ Agent::Agent(
 		params,
 		physics_params(
 			type,
-			props->isFlying ? PhysicsLayers::flying : PhysicsLayers::onGround,
-			props->mass
+			PhysicsLayers::onGround,
+			props->mass,
+			false,
+			!props->isFlying
 		),
 		props
 	),
@@ -896,7 +898,7 @@ void Agent::updateAnimation()
 	SpaceVect dist = getVel()*app::params.secondsPerFrame;
 	bool advance = animation->accumulate(dist.length());
 
-	if (advance && isOnFloor() && crntFloorCenterContact) {
+	if (advance && isOnFloor && crntFloorCenterContact) {
 		string sfxRes = crntFloorCenterContact->getFootstepSfx();
 		if (!sfxRes.empty()) {
 			playSoundSpatial(sfxRes, 0.5f, false, -1.0f);

@@ -462,6 +462,16 @@ void agentWall(Agent* a, Wall* w, b2Contact* contact)
 	}
 }
 
+void floorObjectBegin(FloorSegment* fs, GObject* obj, b2Contact* arb)
+{
+	obj->onContactFloor(fs);
+}
+
+void floorObjectEnd(FloorSegment* fs, GObject* obj, b2Contact* arb)
+{
+	obj->onEndContactFloor(fs);
+}
+
 void objectAreaSensorBegin(GObject* obj, AreaSensor* areaSensor, b2Contact* contact)
 {
 	areaSensor->beginContact(obj);
@@ -511,6 +521,10 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandler(npc, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
 	_addHandler(environment, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
  
-    //FloorSegment doesn't collide with anything, it is accessed only by query
-    emplaceIfEmpty(collisionMasks, GType::floorSegment, to_uint(0));
+ 	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, npc, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, bomb, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, item, floorObjectBegin, floorObjectEnd);
 }

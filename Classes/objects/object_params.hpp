@@ -66,14 +66,21 @@ class physics_params
 {
 public:
 	//Create circle body with fixed radius and mass
-	physics_params(GType type, PhysicsLayers layers, SpaceFloat mass, bool sensor = false);
+	physics_params(
+		GType type,
+		PhysicsLayers layers,
+		SpaceFloat mass,
+		bool sensor,
+		bool isOnFloor
+	);
 	//Create rectangle body with fixed dimensions and mass
 
 	SpaceFloat mass;
 	GType type;
 	PhysicsLayers layers;
 
-	bool sensor;
+	bool sensor = false;
+	bool isOnFloor = true;
 };
 
 //The attributes of the creating agent that can affect this object. These are 

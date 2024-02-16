@@ -76,11 +76,18 @@ object_params::object_params(const ValueMap& args) :
 	}
 }
 
-physics_params::physics_params(GType type, PhysicsLayers layers, SpaceFloat mass, bool sensor) :
+physics_params::physics_params(
+	GType type,
+	PhysicsLayers layers,
+	SpaceFloat mass,
+	bool sensor,
+	bool isOnFloor
+) :
 	type(type),
 	layers(layers),
 	mass(mass),
-	sensor(sensor)
+	sensor(sensor),
+	isOnFloor(isOnFloor)
 {}
 
 bullet_attributes bullet_attributes::getDefault()

@@ -63,7 +63,8 @@ Bullet::Bullet(
 			attributes.type,
 			PhysicsLayers::ground,
 			0.0,
-			true
+			true,
+			false
 		),
 		props
 	),

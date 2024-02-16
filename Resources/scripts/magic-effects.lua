@@ -12,7 +12,7 @@ effects.BatTransform = class('BatTransform', {
 		a:increment(Attribute.hitProtection)		
 		a:increment(Attribute.inhibitFiring)
 		a:modifyAttribute(Attribute.agility, 1.5)
-		a:setLayers(PhysicsLayers.ground)
+		a:setIsOnFloor(false)
 	end,
 	onExit = function(self)
 		local a = self.super.agent
@@ -23,7 +23,7 @@ effects.BatTransform = class('BatTransform', {
 		a:decrement(Attribute.hitProtection)				
 		a:decrement(Attribute.inhibitFiring)
 		a:modifyAttribute(Attribute.agility, -1.5)
-		a:setLayers( PhysicsLayers.floor | PhysicsLayers.ground )
+		a:setIsOnFloor(true)
 	end
 })
 

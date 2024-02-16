@@ -20,7 +20,12 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		space,
 		id,
 		object_params(args),
-		physics_params(enum_bitwise_or(GType, environment, interactible), PhysicsLayers::all, -1.0),
+		physics_params(
+			enum_bitwise_or(GType, environment, interactible),
+			PhysicsLayers::all, -1.0,
+			false,
+			false
+		),
 		nullptr
 	)
 {

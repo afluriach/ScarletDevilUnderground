@@ -157,7 +157,11 @@ void Player::onZeroHP()
 
 void Player::onPitfall()
 {
-    GObject::onPitfall();
+	space->addGraphicsAction(
+		&graphics_context::runSpriteAction,
+		spriteID,
+		pitfallShrinkAction().generator
+	);
 
     gameOver();
 }

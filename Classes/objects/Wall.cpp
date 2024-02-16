@@ -26,7 +26,13 @@ Wall::Wall(
 		space,
 		id,
 		params,
-		physics_params(getWallType(props), PhysicsLayers::all, -1.0),
+		physics_params(
+			getWallType(props),
+			PhysicsLayers::all,
+			-1.0,
+			false,
+			false
+		),
 		props
 	),
 	props(props)

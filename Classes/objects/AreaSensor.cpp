@@ -24,7 +24,7 @@ AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		space,
 		id,
 		MapParams(),
-		physics_params(GType::areaSensor, PhysicsLayers::all, -1.0, true),
+		physics_params(GType::areaSensor, PhysicsLayers::all, -1.0, true, false),
 		nullptr
 	)
 {
@@ -40,7 +40,7 @@ AreaSensor::AreaSensor(
 		space,
 		id,
 		params,
-		physics_params(GType::areaSensor, PhysicsLayers::all, -1.0, true),
+		physics_params(GType::areaSensor, PhysicsLayers::all, -1.0, true, false),
 		props
 	)
 {

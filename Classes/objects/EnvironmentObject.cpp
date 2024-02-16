@@ -25,7 +25,9 @@ EnvironmentObject::EnvironmentObject(
 		physics_params(
 			props->interactible ? enum_bitwise_or(GType,environment,interactible) : GType::environment,
 			props->layers,
-			props->mass
+			props->mass,
+			false,
+			true
 		),
 		props
 	),

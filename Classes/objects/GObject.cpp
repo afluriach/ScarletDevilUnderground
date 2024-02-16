@@ -34,6 +34,7 @@ GObject::GObject(
 	type(phys.type),
 	layers(phys.layers),
 	sensor(phys.sensor),
+	isOnFloor(phys.isOnFloor),
 	mass(phys.mass),
 	prevPos(params.pos),
 	prevAngle(params.angle),
@@ -509,38 +510,57 @@ PhysicsLayers GObject::getCrntLayers() const
 	return static_cast<PhysicsLayers>(bodyShape->GetLayers());
 }
 
-void GObject::setLayers(PhysicsLayers layers)
+void GObject::setIsOnFloor(bool v)
 {
-	bodyShape->SetLayers(to_uint(layers));
+	if(v && !isOnFloor){
+		for(auto it = crntFloorContacts.begin(); it != crntFloorContacts.end(); ++it){
+			(*it)->onContact(this);
+		}
+	}
+	if(!v && isOnFloor){
+		for(auto it = crntFloorContacts.begin(); it != crntFloorContacts.end(); ++it){
+			(*it)->onEndContact(this);
+		}
+	}
+	
+	isOnFloor = v;
 }
 
-bool GObject::isOnFloor() const
+bool GObject::getIsOnFloor() const
 {
-	return bitwise_and(PhysicsLayers, getCrntLayers(), PhysicsLayers::floor) != PhysicsLayers::none;
+	return isOnFloor;
+}
+
+void GObject::onContactFloor(FloorSegment* fs)
+{
+	if(isOnFloor)
+		fs->onContact(this);
+
+	crntFloorContacts.push_back(fs);
+}
+
+void GObject::onEndContactFloor(FloorSegment* fs)
+{
+	if(isOnFloor)
+		fs->onEndContact(this);
+
+	crntFloorContacts.remove(fs);
 }
 
 SpaceVect GObject::getFloorVelocity() const
 {
-	return (crntFloorCenterContact && isOnFloor()) ? crntFloorCenterContact->getVel() : SpaceVect::zero;
+	return (crntFloorCenterContact && isOnFloor) ? crntFloorCenterContact->getVel() : SpaceVect::zero;
 }
 
 void GObject::updateFloorSegment()
 {
-	if (getMass() < 0.0 || dynamic_cast<FloorSegment*>(this)) {
+	if (dynamic_cast<FloorSegment*>(this)) {
 		return;
 	}
 
 	SpaceVect p = getPos();
-	FloorSegment* newFloorCenterContact = isOnFloor() ? space->floorPointQuery(p) : nullptr;
+	crntFloorCenterContact = isOnFloor ? space->floorPointQuery(p) : nullptr;
 	
-	if(crntFloorCenterContact != newFloorCenterContact){
-		if(crntFloorCenterContact)
-			crntFloorCenterContact->onEndContact(this);
-		if(newFloorCenterContact)
-			newFloorCenterContact->onContact(this);
-	}
-	crntFloorCenterContact = newFloorCenterContact;
-
 	if (crntFloorCenterContact) {
 		DamageInfo damage = crntFloorCenterContact->getTouchDamage();
 		if(damage.isValid()){
@@ -552,7 +572,7 @@ void GObject::updateFloorSegment()
 			updateFriction(_uk * crntFloorCenterContact->getTraction());
 		}
 	}
-	if(isOnFloor() && !crntFloorCenterContact) {
+	if(isOnFloor && crntFloorContacts.empty()) {
 		Pitfall* pitfall = space->pitfallPointQuery(p);
 		if (pitfall) pitfall->exclusiveFloorEffect(this);
 	}
@@ -670,7 +690,7 @@ void GObject::updateParametricMove()
 
 SpaceFloat GObject::getTraction() const
 {
-	return (crntFloorCenterContact && isOnFloor()) ? crntFloorCenterContact->getTraction() : 1.0;
+	return (crntFloorCenterContact && isOnFloor) ? crntFloorCenterContact->getTraction() : 1.0;
 }
 
 //END PHYSICS

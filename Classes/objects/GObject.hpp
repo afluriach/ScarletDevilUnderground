@@ -227,7 +227,6 @@ public:
 	bool teleport(SpaceVect pos);
 	//query if this object moving to the given position would encounter obstacle(s)
 	bool isObstacle(SpaceVect pos);
-	bool isOnFloor() const;
 	SpaceVect getFloorVelocity() const;
 	void updateFloorSegment();
 	void updateFriction(float _uk);
@@ -266,7 +265,11 @@ public:
 	void removeParametricMove();
 
 	PhysicsLayers getCrntLayers() const;
-	void setLayers(PhysicsLayers layers);
+	void setIsOnFloor(bool v);
+	bool getIsOnFloor() const;
+	
+	void onContactFloor(FloorSegment* fs);
+	void onEndContactFloor(FloorSegment* fs);
 
 	inline bool getBodySensor() { return bodyShape->IsSensor(); }
 	inline void setBodySensor(bool val) { bodyShape->SetSensor(val); }
@@ -353,6 +356,7 @@ protected:
 	bool isInFade = false;
 	bool isFrozen = false;
 	bool sensor = false;
+	bool isOnFloor = false;
 
 //logic
 	sol::table scriptObj;
@@ -374,6 +378,9 @@ protected:
 	SpaceFloat prevAngle = 0.0;
 
 	FloorSegment* crntFloorCenterContact = nullptr;
+	//Floor segments that the object is overlapping with. The start/end contact
+	//handler will be called for these when setting isOnFloor.
+	list<FloorSegment*> crntFloorContacts;
 
 //graphics
 	SpriteID spriteID = 0;

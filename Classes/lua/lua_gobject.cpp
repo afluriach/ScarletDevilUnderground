@@ -168,7 +168,8 @@ namespace Lua{
 		addFuncSame(gobject, setBodySensor);
 		addFuncSame(gobject, getBodySensor);
 		addFuncSame(gobject, launchAtTarget);
-		addFuncSame(gobject, setLayers);
+		addFuncSame(gobject, getIsOnFloor);
+		addFuncSame(gobject, setIsOnFloor);
 		addFuncSame(gobject, activate);
 		addFuncSame(gobject, deactivate);
 		addFuncSame(gobject, getActive);

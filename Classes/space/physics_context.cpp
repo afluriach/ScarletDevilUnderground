@@ -100,7 +100,7 @@ SpaceFloat physics_context::obstacleDistanceFeeler(const GObject * agent, SpaceV
 		agent->getCrntLayers()
 	);
 
-    return min(d, agent->isOnFloor() ? trapFloorDistanceFeeler(agent,_feeler) : _feeler.length());
+    return min(d, agent->getIsOnFloor() ? trapFloorDistanceFeeler(agent,_feeler) : _feeler.length());
 }
 
 SpaceFloat physics_context::obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const

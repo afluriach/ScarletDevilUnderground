@@ -45,7 +45,13 @@ Item::Item(
 		space,
 		id,
 		object_params(params.pos),
-		physics_params(GType::item, PhysicsLayers::ground, -1.0, true),
+		physics_params(
+			GType::item,
+			PhysicsLayers::ground,
+			-1.0,
+			true,
+			true
+		),
 		props
 	),
 	props(props)
