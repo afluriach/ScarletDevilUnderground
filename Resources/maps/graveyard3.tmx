@@ -163,82 +163,82 @@
  </objectgroup>
  <objectgroup id="6" name="objects">
   <object id="131" type="Goal" x="1024" y="1024" width="128" height="128"/>
-  <object id="187" type="TorchG3" x="3584" y="5760" width="128" height="128">
+  <object id="187" type="torchG3" x="3584" y="5760" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="188" type="TorchG3" x="3584" y="4992" width="128" height="128">
+  <object id="188" type="torchG3" x="3584" y="4992" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="189" type="TorchG3" x="2816" y="4992" width="128" height="128">
+  <object id="189" type="torchG3" x="2816" y="4992" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="190" type="TorchG3" x="2816" y="5760" width="128" height="128">
+  <object id="190" type="torchG3" x="2816" y="5760" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="200" type="TorchG3" x="2816" y="3584" width="128" height="128">
+  <object id="200" type="torchG3" x="2816" y="3584" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="201" type="TorchG3" x="3584" y="3584" width="128" height="128">
+  <object id="201" type="torchG3" x="3584" y="3584" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="204" type="TorchG3" x="3584" y="2816" width="128" height="128">
+  <object id="204" type="torchG3" x="3584" y="2816" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="205" type="TorchG3" x="2816" y="2816" width="128" height="128">
+  <object id="205" type="torchG3" x="2816" y="2816" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="214" type="TorchG3" x="1408" y="2816" width="128" height="128">
+  <object id="214" type="torchG3" x="1408" y="2816" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="215" type="TorchG3" x="1408" y="3584" width="128" height="128">
+  <object id="215" type="torchG3" x="1408" y="3584" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="216" type="TorchG3" x="640" y="2816" width="128" height="128">
+  <object id="216" type="torchG3" x="640" y="2816" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="217" type="TorchG3" x="640" y="3584" width="128" height="128">
+  <object id="217" type="torchG3" x="640" y="3584" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="218" type="TorchG3" x="1408" y="640" width="128" height="128">
+  <object id="218" type="torchG3" x="1408" y="640" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="219" type="TorchG3" x="1408" y="1408" width="128" height="128">
+  <object id="219" type="torchG3" x="1408" y="1408" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="220" type="TorchG3" x="640" y="1408" width="128" height="128">
+  <object id="220" type="torchG3" x="640" y="1408" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="221" type="TorchG3" x="640" y="640" width="128" height="128">
+  <object id="221" type="torchG3" x="640" y="640" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
    </properties>
