@@ -977,7 +977,7 @@ struct b2WorldQueryWrapper
 {
 	bool QueryCallback(int32 proxyId)
 	{
-		b2FixtureProxy* proxy = (b2FixtureProxy*)broadPhase->GetUserData(proxyId);
+		b2FixtureProxy* proxy = broadPhase->GetUserData(proxyId).get<b2FixtureProxy>();
 		b2Filter _filter = proxy->fixture->GetFilterData();
 		
 		if (!_filter.isQueryCollide(filter)) {

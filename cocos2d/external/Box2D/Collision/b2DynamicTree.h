@@ -21,6 +21,7 @@
 
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/Shapes/b2Shape.h>
+#include <Box2D/Common/b2AnyPtr.h>
 #include <Box2D/Common/b2GrowableStack.h>
 
 #define b2_nullNode (-1)
@@ -36,7 +37,7 @@ struct b2TreeNode
 	/// Enlarged AABB
 	b2AABB aabb;
 
-	void* userData;
+	any_ptr userData;
 
 	union
 	{
@@ -69,7 +70,7 @@ public:
 	~b2DynamicTree();
 
 	/// Create a proxy. Provide a tight fitting AABB and a userData pointer.
-	int32 CreateProxy(const b2AABB& aabb, void* userData);
+	int32 CreateProxy(const b2AABB& aabb, any_ptr userData);
 
 	/// Destroy a proxy. This asserts if the id is invalid.
 	void DestroyProxy(int32 proxyId);
@@ -82,7 +83,7 @@ public:
 
 	/// Get proxy user data.
 	/// @return the proxy user data or 0 if the id is invalid.
-	void* GetUserData(int32 proxyId) const;
+	any_ptr GetUserData(int32 proxyId) const;
 
 	/// Get the fat AABB for a proxy.
 	const b2AABB& GetFatAABB(int32 proxyId) const;
@@ -157,7 +158,7 @@ private:
 	int32 m_insertionCount;
 };
 
-inline void* b2DynamicTree::GetUserData(int32 proxyId) const
+inline any_ptr b2DynamicTree::GetUserData(int32 proxyId) const
 {
 	b2Assert(0 <= proxyId && proxyId < m_nodeCapacity);
 	return m_nodes[proxyId].userData;

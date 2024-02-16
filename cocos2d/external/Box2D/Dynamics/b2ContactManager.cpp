@@ -174,10 +174,10 @@ void b2ContactManager::FindNewContacts()
 	m_broadPhase.UpdatePairs(this);
 }
 
-void b2ContactManager::AddPair(void* proxyUserDataA, void* proxyUserDataB)
+void b2ContactManager::AddPair(any_ptr proxyUserDataA, any_ptr proxyUserDataB)
 {
-	b2FixtureProxy* proxyA = (b2FixtureProxy*)proxyUserDataA;
-	b2FixtureProxy* proxyB = (b2FixtureProxy*)proxyUserDataB;
+	b2FixtureProxy* proxyA = proxyUserDataA.get<b2FixtureProxy>();
+	b2FixtureProxy* proxyB = proxyUserDataB.get<b2FixtureProxy>();
 
 	b2Fixture* fixtureA = proxyA->fixture;
 	b2Fixture* fixtureB = proxyB->fixture;

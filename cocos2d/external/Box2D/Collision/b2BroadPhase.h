@@ -49,7 +49,7 @@ public:
 
 	/// Create a proxy with an initial AABB. Pairs are not reported until
 	/// UpdatePairs is called.
-	int32 CreateProxy(const b2AABB& aabb, void* userData);
+	int32 CreateProxy(const b2AABB& aabb, any_ptr userData);
 
 	/// Destroy a proxy. It is up to the client to remove any pairs.
 	void DestroyProxy(int32 proxyId);
@@ -65,7 +65,7 @@ public:
 	const b2AABB& GetFatAABB(int32 proxyId) const;
 
 	/// Get user data from a proxy. Returns NULL if the id is invalid.
-	void* GetUserData(int32 proxyId) const;
+	any_ptr GetUserData(int32 proxyId) const;
 
 	/// Test overlap of fat AABBs.
 	bool TestOverlap(int32 proxyIdA, int32 proxyIdB) const;
@@ -151,7 +151,7 @@ inline bool b2PairLessThan(const b2Pair& pair1, const b2Pair& pair2)
 	return false;
 }
 
-inline void* b2BroadPhase::GetUserData(int32 proxyId) const
+inline any_ptr b2BroadPhase::GetUserData(int32 proxyId) const
 {
 	return m_tree.GetUserData(proxyId);
 }
@@ -222,8 +222,8 @@ void b2BroadPhase::UpdatePairs(T* callback)
 	while (i < m_pairCount)
 	{
 		b2Pair* primaryPair = m_pairBuffer + i;
-		void* userDataA = m_tree.GetUserData(primaryPair->proxyIdA);
-		void* userDataB = m_tree.GetUserData(primaryPair->proxyIdB);
+		any_ptr userDataA = m_tree.GetUserData(primaryPair->proxyIdA);
+		any_ptr userDataB = m_tree.GetUserData(primaryPair->proxyIdB);
 
 		callback->AddPair(userDataA, userDataB);
 		++i;

@@ -33,7 +33,7 @@ public:
 	b2ContactManager();
 
 	// Broad-phase callback.
-	void AddPair(void* proxyUserDataA, void* proxyUserDataB);
+	void AddPair(any_ptr proxyUserDataA, any_ptr proxyUserDataB);
 
 	void FindNewContacts();
 

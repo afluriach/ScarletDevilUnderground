@@ -19,6 +19,7 @@
 #ifndef B2_BODY_H
 #define B2_BODY_H
 
+#include <Box2D/Common/b2AnyPtr.h>
 #include <Box2D/Common/b2Math.h>
 #include <Box2D/Collision/Shapes/b2Shape.h>
 #include <memory>
@@ -53,7 +54,7 @@ struct b2BodyDef
 	/// This constructor sets the body definition default values.
 	b2BodyDef()
 	{
-		userData = NULL;
+		//userData = NULL;
 		position.Set(0.0f, 0.0f);
 		angle = 0.0f;
 		linearVelocity.Set(0.0f, 0.0f);
@@ -116,7 +117,7 @@ struct b2BodyDef
 	bool active;
 
 	/// Use this to store application specific body data.
-	void* userData;
+	any_ptr userData;
 
 	/// Scale the gravity applied to this body.
 	float32 gravityScale;
@@ -379,10 +380,10 @@ public:
 	const b2Body* GetNext() const;
 
 	/// Get the user data pointer that was provided in the body definition.
-	void* GetUserData() const;
+	any_ptr GetUserData() const;
 
 	/// Set the user data. Use this to store your application specific data.
-	void SetUserData(void* data);
+	void SetUserData(any_ptr data);
 
 	/// Get the parent world of this body.
 	b2World* GetWorld();
@@ -475,7 +476,7 @@ private:
 
 	float32 m_sleepTime;
 
-	void* m_userData;
+	any_ptr m_userData;
 };
 
 inline b2BodyType b2Body::GetType() const
@@ -736,12 +737,12 @@ inline const b2Body* b2Body::GetNext() const
 	return m_next;
 }
 
-inline void b2Body::SetUserData(void* data)
+inline void b2Body::SetUserData(any_ptr data)
 {
 	m_userData = data;
 }
 
-inline void* b2Body::GetUserData() const
+inline any_ptr b2Body::GetUserData() const
 {
 	return m_userData;
 }

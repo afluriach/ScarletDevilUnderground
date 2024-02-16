@@ -19,6 +19,7 @@
 #ifndef B2_JOINT_H
 #define B2_JOINT_H
 
+#include <Box2D/Common/b2AnyPtr.h>
 #include <Box2D/Common/b2Math.h>
 
 class b2Body;
@@ -76,7 +77,7 @@ struct b2JointDef
 	b2JointDef()
 	{
 		type = e_unknownJoint;
-		userData = NULL;
+		//userData = NULL;
 		bodyA = NULL;
 		bodyB = NULL;
 		collideConnected = false;
@@ -86,7 +87,7 @@ struct b2JointDef
 	b2JointType type;
 
 	/// Use this to attach application specific data to your joints.
-	void* userData;
+	any_ptr userData;
 
 	/// The first attached body.
 	b2Body* bodyA;
@@ -130,10 +131,10 @@ public:
 	const b2Joint* GetNext() const;
 
 	/// Get the user data pointer.
-	void* GetUserData() const;
+	any_ptr GetUserData() const;
 
 	/// Set the user data pointer.
-	void SetUserData(void* data);
+	void SetUserData(any_ptr data);
 
 	/// Short-cut function to determine if either body is inactive.
 	bool IsActive() const;
@@ -180,7 +181,7 @@ protected:
 	bool m_islandFlag;
 	bool m_collideConnected;
 
-	void* m_userData;
+	any_ptr m_userData;
 };
 
 inline b2JointType b2Joint::GetType() const
@@ -208,12 +209,12 @@ inline const b2Joint* b2Joint::GetNext() const
 	return m_next;
 }
 
-inline void* b2Joint::GetUserData() const
+inline any_ptr b2Joint::GetUserData() const
 {
 	return m_userData;
 }
 
-inline void b2Joint::SetUserData(void* data)
+inline void b2Joint::SetUserData(any_ptr data)
 {
 	m_userData = data;
 }

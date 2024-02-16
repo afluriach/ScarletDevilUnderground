@@ -38,7 +38,7 @@ b2BroadPhase::~b2BroadPhase()
 	b2Free(m_pairBuffer);
 }
 
-int32 b2BroadPhase::CreateProxy(const b2AABB& aabb, void* userData)
+int32 b2BroadPhase::CreateProxy(const b2AABB& aabb, any_ptr userData)
 {
 	int32 proxyId = m_tree.CreateProxy(aabb, userData);
 	++m_proxyCount;
@@ -121,8 +121,8 @@ bool b2BroadPhase::QueryCallback(int32 proxyId)
 
 std::pair<b2Fixture*, int32> b2BroadPhase::GetFixture(int32 proxyID) const
 {
-	void* userData = GetUserData(proxyID);
-	b2FixtureProxy* proxy = (b2FixtureProxy*)userData;
+	any_ptr userData = GetUserData(proxyID);
+	b2FixtureProxy* proxy = userData.get<b2FixtureProxy>();
 	b2Fixture* fixture = proxy->fixture;
 	int32 index = proxy->childIndex;
 
