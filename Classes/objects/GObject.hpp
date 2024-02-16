@@ -13,10 +13,6 @@
 #define MapObjForwarding(cls) cls(space,id,args)
 #define MapObjParams() GObject(object_params(args))
 
-namespace sol{
-    void printErrorMessage(lua_State* state);
-}
-
 struct parametric_motion
 {
 	parametric_space_function parametric_f;
@@ -237,7 +233,6 @@ public:
 	SpaceFloat getMomentOfInertia() const;
 
     SpaceVect getPos() const;
-	SpaceVect getDeltaPos() const;
     void setPos(SpaceVect p);
 
     virtual void setAngle(SpaceFloat a);
@@ -376,6 +371,8 @@ protected:
 
 	SpaceVect prevPos = SpaceVect::zero;
 	SpaceFloat prevAngle = 0.0;
+	SpaceVect startingVel = SpaceVect::zero;
+	SpaceFloat startingAngularVel = 0.0;
 
 	FloorSegment* crntFloorCenterContact = nullptr;
 	//Floor segments that the object is overlapping with. The start/end contact

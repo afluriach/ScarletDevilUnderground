@@ -467,6 +467,14 @@ void GSpace::processAdditions()
             allocator_delete(obj);
             continue;
         }
+        
+		obj->initializeBody();
+
+		if (obj->body) {
+			obj->setAngle(obj->prevAngle);
+			obj->setVel(obj->startingVel);
+			obj->setAngularVel(obj->startingAngularVel);
+		}
 
 		if (!obj->body) {
 			log1("Object %s failed to load physics body!", obj->getName());

@@ -258,6 +258,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	}
 
 	body = world->CreateBody(&def);
+	body->SetUserData(data);
 
 	if (mass > 0.0) {
 		b2MassData massData{ mass,b2Vec2_zero, circleMomentOfInertia(mass,radius) };
@@ -301,6 +302,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 
 	b2BodyDef def = generateBodyDef(type, center, mass);
 	body = world->CreateBody(&def);
+	body->SetUserData(data);
 
 	if (mass > 0.0) {
 		b2MassData massData{ mass,b2Vec2_zero, rectangleMomentOfInertia(mass,dim) };

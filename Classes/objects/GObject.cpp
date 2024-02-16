@@ -20,6 +20,12 @@
 #include "physics_context.hpp"
 #include "SpellDescriptor.hpp"
 
+#define body_check() \
+	if(!body){ \
+		log1("%s doesn't have a body!", toString()); \
+		return; \
+	} \
+
 GObject::GObject(
 	GSpace* space,
 	ObjectIDType id,
@@ -38,6 +44,8 @@ GObject::GObject(
 	mass(phys.mass),
 	prevPos(params.pos),
 	prevAngle(params.angle),
+	startingVel(params.vel),
+	startingAngularVel(params.angularVel),
 	active(params.active),
 	hidden(params.hidden)
 {
@@ -51,14 +59,6 @@ GObject::GObject(
     else{
         dimensions = params.dimensions;
     }
-
-	initializeBody();
-
-	if (body) {
-		setAngle(params.angle);
-		setVel(params.vel);
-		setAngularVel(params.angularVel);
-	}
 }
 
 GObject::~GObject()
@@ -410,14 +410,15 @@ bool GObject::isObstacle(SpaceVect pos)
 }
 
 SpaceVect GObject::getPos() const {
-    return body->GetPosition();
-}
-
-SpaceVect GObject::getDeltaPos() const {
-	return getPos() - prevPos;
+	if(!body)
+		return prevPos;
+	else
+		return body->GetPosition();
 }
 
 void GObject::setPos(SpaceVect p){
+	body_check()
+
 	if (space->isInCallback()) {
 		space->addUpdateAction([this, p]()->void {
 			body->SetPosition(toBox2D(p));
@@ -429,6 +430,8 @@ void GObject::setPos(SpaceVect p){
 }
     
 void GObject::setAngle(SpaceFloat a){
+	body_check()
+
 	if (space->isInCallback()) {
 		space->addUpdateAction([this,a]()->void {
 			body->SetAngle(a - float_pi*0.5);
@@ -440,7 +443,10 @@ void GObject::setAngle(SpaceFloat a){
 }
     
 SpaceFloat GObject::getAngle() const {
-	return canonicalAngle(body->GetAngle() + float_pi*0.5);
+	if(!body)
+		return prevAngle;
+	else
+		return canonicalAngle(body->GetAngle() + float_pi*0.5);
 }
 
 void GObject::rotate(SpaceFloat a){
@@ -457,18 +463,28 @@ void GObject::setDirection(Direction d) {
 }
     
 SpaceVect GObject::getVel() const {
-    return body->GetLinearVelocity();
+	if(!body)
+		return startingVel;
+	else
+		return body->GetLinearVelocity();
 }
     
 void GObject::setVel(SpaceVect v) {
+	body_check()
+
 	body->SetLinearVelocity(toBox2D(v));
 }
 
 SpaceFloat GObject::getAngularVel() const{
-    return body->GetAngularVelocity();
+	if(!body)
+		return startingAngularVel;
+    else
+		return body->GetAngularVelocity();
 }
     
 void GObject::setAngularVel(SpaceFloat w){
+	body_check()
+
 	body->SetAngularVelocity(w);
 }
 
@@ -477,6 +493,8 @@ void GObject::applyForceForSingleFrame(SpaceVect f){
 }
 
 void GObject::applyImpulse(SpaceVect i) {
+	body_check()
+
 	if (space->isInCallback()) {
 		space->addUpdateAction([this, i]()->void {
 			body->ApplyLinearImpulseToCenter(toBox2D(i), true);
