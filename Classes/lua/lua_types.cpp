@@ -161,6 +161,7 @@ namespace Lua{
 
 				enum_entry(Attribute, agility),
                 enum_entry(Attribute, sprintCost),
+                enum_entry(Attribute, knockbackSensitivity),
     
                 enum_entry(Attribute, blockSpeedRatio),
                 enum_entry(Attribute, sprintSpeedRatio),

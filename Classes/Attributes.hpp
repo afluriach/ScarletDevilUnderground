@@ -68,6 +68,7 @@ enum class Attribute {
 
 	agility,
     sprintCost,
+    knockbackSensitivity,
  
     blockSpeedRatio,
     sprintSpeedRatio,

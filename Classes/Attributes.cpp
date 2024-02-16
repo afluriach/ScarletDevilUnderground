@@ -71,6 +71,7 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 
 	entry(agility)
     entry(sprintCost)
+    entry(knockbackSensitivity)
  
     entry(blockSpeedRatio)
     entry(sprintSpeedRatio)
@@ -154,6 +155,8 @@ AttributeArray AttributeSystem::getBlankAttributeSet()
 	result[to_size_t(Attribute::bulletSpeed)] = 1.0f;
 
 	//Sensitivity multiplier should be 1.0 by default.
+	result[to_size_t(Attribute::knockbackSensitivity)] = 1.0f;
+
 	result[to_size_t(Attribute::bulletSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::bombSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::effectAreaSensitivity)] = 1.0f;

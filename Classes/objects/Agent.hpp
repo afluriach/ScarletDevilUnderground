@@ -19,6 +19,7 @@ enum class agent_state
     powerAttack,
     sprinting,
     sprintRecovery,
+    knockback,
 };
 
 struct power_attack_data{
@@ -29,18 +30,24 @@ struct sprint_data{
     SpaceVect sprintDirection;
 };
 
-typedef variant<power_attack_data, sprint_data> state_data;
+struct knockback_data{
+	float accumulator = 0.0f;
+};
+
+typedef variant<power_attack_data, sprint_data, knockback_data> state_data;
 
 class Agent : public GObject
 {
 public:
     friend class PlayerControl;
 
-	static constexpr SpaceFloat defaultSize = 0.35;
+	static constexpr SpaceFloat defaultSize = 1.0 / 3.0;
 	static const Color4F bodyOutlineColor;
 	static const Color4F shieldConeColor;
 	static const float bodyOutlineWidth;
     static const float bombSpawnDistance;
+    static const float minKnockbackTime;
+    static const float maxKnockbackTime;
 
 	Agent(
 		GSpace* space,
@@ -118,6 +125,7 @@ public:
 	void onEndTouchAgent(Agent* other);
 	bool isEnemy(Agent* other);
 	bool isEnemyBullet(Bullet* other);
+	void applyKnockback(SpaceVect f);
 
 	inline virtual void onBulletHitTarget(Bullet* bullet, Agent* target) {}
 	virtual bool hit(DamageInfo damage, SpaceVect n);
@@ -165,6 +173,7 @@ public:
     
     void setState(agent_state newState);
     void updateState();
+    void endState();
 
     bool isShieldActive();
     bool isSprintActive();
@@ -176,6 +185,13 @@ public:
 	void setSprite(shared_ptr<sprite_properties> sprite);
 protected:
 	void updateAnimation();
+	
+	void _updateSprinting();
+	void _updateSprintRecovery();
+	void _updatePowerAttack();
+	void _updateKnockback();
+	
+	void _endPowerAttack();
  
     agent_state crntState = agent_state::none;
     SpaceFloat timeInState = 0.0;

@@ -36,6 +36,8 @@ const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.333f);
 const float Agent::bodyOutlineWidth = 4.0f;
 const float Agent::bombSpawnDistance = 1.0f;
+const float Agent::minKnockbackTime = 0.25f;
+const float Agent::maxKnockbackTime = 4.0f;
 
 Agent::Agent(
 	GSpace* space,
@@ -463,7 +465,6 @@ bool Agent::fire()
 {
     FirePattern* fp = getFirePattern();
     bool fired = false;
-    bool inhibit = isActive(Attribute::inhibitFiring);
     
     if (!fp) {
         log1("%s: Attempt to fire without FirePattern!", toString());
@@ -471,8 +472,11 @@ bool Agent::fire()
     }
 
     float fireCost = getFirePattern()->getCost();
-    
-    if(inhibit || (*this)[Attribute::stamina] < fireCost){
+	bool inhibit = isActive(Attribute::inhibitFiring);
+	bool hasEnergy = (*this)[Attribute::stamina] >= fireCost;
+	bool validState = crntState == agent_state::none;
+
+    if(inhibit || !hasEnergy || !validState){
         return false;
     }
     
@@ -573,6 +577,7 @@ bool Agent::isBombAvailable()
 {
     return
         crntBomb &&
+        (crntState == agent_state::none || crntState == agent_state::blocking) &&
         !isActive(Attribute::bombCooldown) &&
         (*this)[Attribute::mp] >= crntBomb->cost &&
         !isActive(Attribute::inhibitFiring)
@@ -663,6 +668,9 @@ void Agent::selectPrevFirePattern()
 
 void Agent::setState(agent_state newState)
 {
+	if(crntState != agent_state::none && crntState != newState)
+		endState();
+
     crntState = newState;
     timeInState = 0.0;
 }
@@ -674,27 +682,28 @@ void Agent::updateState()
     switch(crntState)
     {
     case agent_state::sprinting:
-        applyDesiredMovement(std::get<sprint_data>(stateData).sprintDirection);
-    
-        if(timeInState > (*this)[Attribute::sprintTime])
-            setState(agent_state::sprintRecovery);
+		_updateSprinting();
     break;
     case agent_state::sprintRecovery:
-        applyDesiredMovement(SpaceVect::zero);
-    
-        if(timeInState > (*this)[Attribute::sprintRecoveryTime]){
-            setState(agent_state::none);
-            setAttribute(Attribute::sprintCooldown, Attribute::sprintCooldownTime);
-        }
+		_updateSprintRecovery();
     break;
     case agent_state::powerAttack:
-        auto attack = std::get<power_attack_data>(stateData).attack;
-        if(!attack->isSpellActive())
-            setState(agent_state::none);
-        else
-            attack->runUpdate();
+		_updatePowerAttack();
+    break;
+    case agent_state::knockback:
+		_updateKnockback();
     break;
     }
+}
+
+void Agent::endState()
+{
+	switch(crntState)
+	{
+	case agent_state::powerAttack:
+		_endPowerAttack();
+	break;
+	}
 }
 
 bool Agent::isShieldActive()
@@ -814,12 +823,26 @@ bool Agent::isEnemyBullet(Bullet* other)
 	);
 }
 
+void Agent::applyKnockback(SpaceVect f)
+{
+	if(f.isZero() || getMass() <= 0.0) return;
+	
+	applyImpulse(f);
+	float knockbackTime = f.length() / getMass() * (*this)[Attribute::knockbackSensitivity];
+	
+	if(crntState != agent_state::knockback && knockbackTime >= minKnockbackTime){
+		setState(agent_state::knockback);
+		stateData = knockback_data{};
+	}
+	if(crntState == agent_state::knockback) {
+		float& accumulator = std::get<knockback_data>(stateData).accumulator;
+		accumulator += knockbackTime;
+	}
+}
+
 bool Agent::hit(DamageInfo damage, SpaceVect n)
 {
-	SpaceVect knockback = n * damage.knockback;
-	if (!knockback.isZero() ) {
-		applyImpulse(knockback);
-	}
+	applyKnockback(n * damage.knockback);
 
 	if (attributeSystem->isNonzero(Attribute::hitProtection) || damage.mag == 0.0f)
 		return false;
@@ -903,5 +926,54 @@ void Agent::updateAnimation()
 		if (!sfxRes.empty()) {
 			playSoundSpatial(sfxRes, 0.5f, false, -1.0f);
 		}
+	}
+}
+
+void Agent::_updateSprinting()
+{
+	applyDesiredMovement(std::get<sprint_data>(stateData).sprintDirection);
+
+	if(timeInState > (*this)[Attribute::sprintTime]) {
+		setState(agent_state::sprintRecovery);
+	}
+}
+
+void Agent::_updateSprintRecovery()
+{
+	applyDesiredMovement(SpaceVect::zero);
+
+	if(timeInState > (*this)[Attribute::sprintRecoveryTime]){
+		setState(agent_state::none);
+		setAttribute(Attribute::sprintCooldown, Attribute::sprintCooldownTime);
+	}
+}
+
+void Agent::_updatePowerAttack()
+{
+	auto attack = std::get<power_attack_data>(stateData).attack;
+	if(!attack->isSpellActive()) {
+		setState(agent_state::none);
+	}
+	else{
+		attack->runUpdate();
+	}
+}
+
+void Agent::_updateKnockback()
+{
+	float& accumulator = std::get<knockback_data>(stateData).accumulator;
+	timerDecrement(accumulator);
+	
+	if(accumulator <= 0.0f || timeInState >= maxKnockbackTime){
+		setState(agent_state::none);
+	}
+}
+
+void Agent::_endPowerAttack()
+{
+	auto attack = std::get<power_attack_data>(stateData).attack;
+	
+	if(attack->isSpellActive()){
+		attack->stop();
 	}
 }
