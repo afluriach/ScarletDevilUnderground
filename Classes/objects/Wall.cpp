@@ -11,9 +11,10 @@
 #include "physics_context.hpp"
 #include "Wall.hpp"
 
-GType Wall::getWallType(local_shared_ptr<wall_properties> props)
+GType Wall::getWallType(const object_params& params, local_shared_ptr<wall_properties> props)
 {
-	return props && props->breakable ? enum_bitwise_or(GType, wall, canDamage) : GType::wall;
+	bool breakable = params.getArgOrDefault("breakable", props && props->breakable);
+	return breakable ? enum_bitwise_or(GType, wall, canDamage) : GType::wall;
 }
 
 Wall::Wall(
@@ -27,7 +28,7 @@ Wall::Wall(
 		id,
 		params,
 		physics_params(
-			getWallType(props),
+			getWallType(params, props),
 			PhysicsLayers::all,
 			-1.0,
 			false,
@@ -36,11 +37,13 @@ Wall::Wall(
 		props
 	),
 	props(props)
-{}
+{
+	breakable = bitwise_and_bool(type, GType::canDamage);
+}
 
 bool Wall::hit(DamageInfo damage, SpaceVect n)
 {
-	if (!props || !props->breakable || !damage.isExplosion()) {
+	if (!breakable || !damage.isExplosion()) {
 		return false;
 	}
 
@@ -53,7 +56,7 @@ bool Wall::hit(DamageInfo damage, SpaceVect n)
 		typeid(Wall)
 	));
 
-	if (adj && !adj->hidden && adj->props && adj->props->breakable) {
+	if (adj && !adj->hidden && adj->breakable) {
 		adj->applyBreak();
 	}
 

@@ -39,6 +39,23 @@ public:
 
 	bool hidden = false;
 	bool active = false;
+	
+	template<typename T>
+	inline T getArgOrDefault(const string& name, T _default) const {
+		auto it = args.find(name);
+		T result = _default;
+		
+		if(it != args.end()){
+			try{
+				result = boost::lexical_cast<T,string>(it->second);
+			}
+			catch(boost::bad_lexical_cast ex){
+				log3("Error parsing arg %s:%s as %s", name, it->second, typeid(T).name());
+			}		
+		}
+		
+		return result;
+	}
 
 	getter(SpaceVect, pos);
 	getter(SpaceFloat, angle);

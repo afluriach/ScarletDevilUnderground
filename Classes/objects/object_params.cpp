@@ -13,6 +13,8 @@
 
 //Args that are already included in object_params.
 const unordered_set<string> object_params::includedArgs = {
+	//unused
+	"gid",
 	"name",
 	"type",
 	"dim_x",

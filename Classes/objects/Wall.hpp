@@ -12,7 +12,7 @@
 class Wall : public GObject
 {
 public: 
-	static GType getWallType(local_shared_ptr<wall_properties> props);
+	static GType getWallType(const object_params& params, local_shared_ptr<wall_properties> props);
 
 	Wall(
 		GSpace* space,
@@ -29,6 +29,7 @@ public:
 	DamageInfo getTouchDamage() const { return props ? props->touchDamage : DamageInfo(); }
 protected:
 	local_shared_ptr<wall_properties> props;
+	bool breakable = false;
 };
 
 #endif /* Wall_hpp */
