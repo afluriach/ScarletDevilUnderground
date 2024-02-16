@@ -20,6 +20,7 @@ enum class agent_state
     sprinting,
     sprintRecovery,
     knockback,
+    knockbackRecovery,
 };
 
 struct power_attack_data{
@@ -163,6 +164,7 @@ public:
     bool throwBomb(local_shared_ptr<bomb_properties> bomb, SpaceFloat speedRatio);
     
     void applyDesiredMovement(SpaceVect direction);
+    void applyStoppingForce();
     
     bool canCast(const SpellDesc* desc);
     
@@ -190,6 +192,7 @@ protected:
 	void _updateSprintRecovery();
 	void _updatePowerAttack();
 	void _updateKnockback();
+	void _updateKnockbackRecovery();
 	
 	void _endPowerAttack();
  

@@ -37,7 +37,7 @@ const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.333f);
 const float Agent::bodyOutlineWidth = 4.0f;
 const float Agent::bombSpawnDistance = 1.0f;
 const float Agent::minKnockbackTime = 0.25f;
-const float Agent::maxKnockbackTime = 4.0f;
+const float Agent::maxKnockbackTime = 1.0f;
 
 Agent::Agent(
 	GSpace* space,
@@ -610,10 +610,25 @@ bool Agent::throwBomb(local_shared_ptr<bomb_properties> bomb, SpaceFloat speedRa
 
 void Agent::applyDesiredMovement(SpaceVect direction)
 {
+	if(
+		crntState == agent_state::sprintRecovery ||
+		crntState == agent_state::knockback ||
+		crntState == agent_state::knockbackRecovery
+	){
+		return;
+	}
+
     SpaceFloat speed = getMaxSpeed() * getSpeedMultiplier();
     SpaceFloat accel = getMaxAcceleration() * getAccelMultiplier();
 
     ai::applyDesiredVelocity(this, direction*speed, accel);
+}
+
+void Agent::applyStoppingForce()
+{
+    SpaceFloat accel = getMaxAcceleration() * getAccelMultiplier();
+
+    ai::applyDesiredVelocity(this, SpaceVect::zero, accel);
 }
 
 bool Agent::canCast(const SpellDesc* spell)
@@ -693,6 +708,9 @@ void Agent::updateState()
     case agent_state::knockback:
 		_updateKnockback();
     break;
+    case agent_state::knockbackRecovery:
+		_updateKnockbackRecovery();
+	break;
     }
 }
 
@@ -940,7 +958,7 @@ void Agent::_updateSprinting()
 
 void Agent::_updateSprintRecovery()
 {
-	applyDesiredMovement(SpaceVect::zero);
+	applyStoppingForce();
 
 	if(timeInState > (*this)[Attribute::sprintRecoveryTime]){
 		setState(agent_state::none);
@@ -961,6 +979,16 @@ void Agent::_updatePowerAttack()
 
 void Agent::_updateKnockback()
 {
+	applyStoppingForce();
+
+	if(getVel() == SpaceVect::zero)
+		setState(agent_state::knockbackRecovery);
+}
+
+void Agent::_updateKnockbackRecovery()
+{
+	applyStoppingForce();
+
 	float& accumulator = std::get<knockback_data>(stateData).accumulator;
 	timerDecrement(accumulator);
 	
