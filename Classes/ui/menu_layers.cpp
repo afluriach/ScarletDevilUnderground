@@ -203,6 +203,7 @@ const string SceneSelect::title = "Scene Select";
 const vector<string> SceneSelect::entries = {
 	"library2",
 	"mansion_outside1",
+	"Stalker Room",
 	"Wander",
 	"Facer Floor",
 	"Sakuya Room",
@@ -210,13 +211,14 @@ const vector<string> SceneSelect::entries = {
 	"Library",
 	"FR1",
 	"Ice Cave",
-	"Forest",
+	
 	"Back"
 };
 
 const vector<zero_arity_function> SceneSelect::entryActions = {
 	{ sceneLaunchAdapterByName("library2") },
 	{ sceneLaunchAdapterByName("mansion_outside1") },
+	{ sceneLaunchAdapterByName("StalkerRoom") },
 	{ sceneLaunchAdapterByName("Wander") },
 	{ sceneLaunchAdapterByName("FacerFloor") },
 	{ sceneLaunchAdapterByName("SakuyaRoom") },
@@ -224,7 +226,6 @@ const vector<zero_arity_function> SceneSelect::entryActions = {
 	{ sceneLaunchAdapterByName("library") },
 	{ sceneLaunchAdapterByName("FR1") },
 	{ sceneLaunchAdapterByName("ice_cave") },
-	{ sceneLaunchAdapterByName("forest1") },
 
 	{ &App::popMenu }
 };

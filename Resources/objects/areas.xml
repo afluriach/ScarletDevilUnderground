@@ -129,4 +129,10 @@
 			<C4 tile_offset="2,2" />
 		</rooms>
 	</ice_cave>		
+	
+	<FacerFloor map="auto" />
+	<MarisaRoom map="auto" />
+	<SakuyaRoom map="auto" />
+	<StalkerRoom map="auto" />
+	<FR1 map="auto" />
 </areas>
