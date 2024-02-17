@@ -152,16 +152,6 @@ ValueVector getVector(const ValueMap& args, const string& field, int start, int 
 	return result;
 }
 
-gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const string& fieldName)
-{
-    if(args.find(fieldName) == args.end()){
-        return gobject_ref();
-    }
-    gobject_ref target = space->getObject(args.at(fieldName).asString());
-    
-    return target;
-}
-
 void convertToUnitSpace(ValueMap& arg, IntVec2 offset)
 {
     SpaceVect cornerPos(getFloat(arg, "x"), getFloat(arg, "y"));

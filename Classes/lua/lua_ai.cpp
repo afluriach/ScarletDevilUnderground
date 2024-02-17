@@ -76,7 +76,7 @@ namespace Lua{
 			"Flank",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		flank["create"] = &create<ai::Flank, gobject_ref, double, double>;
+		flank["create"] = &create<ai::Flank, GObject*, double, double>;
 
 		auto flee = _ai.new_usertype<ai::Flee>(
 			"Flee",
@@ -88,7 +88,7 @@ namespace Lua{
 			"MaintainDistance",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		maintain_distance["create"] = &create<ai::MaintainDistance, gobject_ref, SpaceFloat, SpaceFloat>;
+		maintain_distance["create"] = &create<ai::MaintainDistance, GObject*, SpaceFloat, SpaceFloat>;
 
 		auto scurry = _ai.new_usertype < ai::Scurry>(
 			"Scurry",
@@ -144,7 +144,7 @@ namespace Lua{
 			"FireAtTarget",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		fireAtTarget["create"] = &create<ai::FireAtTarget, gobject_ref>;
+		fireAtTarget["create"] = &create<ai::FireAtTarget, GObject*>;
 
 		auto fireOnStress = _ai.new_usertype<ai::FireOnStress>(
 			"FireOnStress",
@@ -156,7 +156,7 @@ namespace Lua{
 			"ThrowBombs",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		throw_bomb["create"] = &create<ai::ThrowBombs, gobject_ref, local_shared_ptr<bomb_properties>, SpaceFloat, SpaceFloat>;
+		throw_bomb["create"] = &create<ai::ThrowBombs, GObject*, local_shared_ptr<bomb_properties>, SpaceFloat, SpaceFloat>;
   
         auto player_control = _ai.new_usertype<ai::PlayerControl>(
             "PlayerControl",

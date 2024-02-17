@@ -34,8 +34,6 @@ ValueMap getMap(const ValueMap& args, const string& field);
 ValueVector getVector(const ValueMap& args, const string& field, int start);
 ValueVector getVector(const ValueMap& args, const string& field, int start, int size);
 
-gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const string& fieldName);
-
 void convertToUnitSpace(ValueMap& arg, IntVec2 offset);
 SpaceRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset);
 

@@ -150,7 +150,7 @@ public:
 
     //action interface
     bool fire();
-    bool aimAtTarget(gobject_ref target);
+    bool aimAtTarget(GObject* target);
     bool canSprint();
     void sprint(SpaceVect direction);
     bool canBlock();

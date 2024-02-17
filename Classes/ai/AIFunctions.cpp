@@ -44,7 +44,7 @@ ScriptFunction::ScriptFunction(GObject* object, GObject* target, const string& c
 {
 	Function* f_this = this;
 
-	obj = GSpace::scriptVM->_state["ai"][cls](f_this, gobject_ref(target));
+	obj = GSpace::scriptVM->_state["ai"][cls](f_this, target);
 }
 
 void ScriptFunction::onEnter()
@@ -156,7 +156,7 @@ void Seek::update()
         _state = state::completed;
 }
 
-MaintainDistance::MaintainDistance(GObject* object, gobject_ref target, SpaceFloat distance, SpaceFloat margin) :
+MaintainDistance::MaintainDistance(GObject* object, GObject* target, SpaceFloat distance, SpaceFloat margin) :
 Function(object),
 target(target),
 distance(distance),
@@ -218,7 +218,7 @@ void OccupyPoint::update()
 	}
 }
 
-OccupyMidpoint::OccupyMidpoint(GObject* object, gobject_ref target1, gobject_ref target2) :
+OccupyMidpoint::OccupyMidpoint(GObject* object, GObject* target1, GObject* target2) :
 Function(object),
 target1(target1),
 target2(target2)
@@ -367,7 +367,7 @@ void LookAround::update()
 
 Flank::Flank(
 	GObject* object,
-	gobject_ref target,
+	GObject* target,
 	SpaceFloat desiredDistance,
 	SpaceFloat wallMargin
 ) :
@@ -503,13 +503,9 @@ void MoveToPoint::update()
 
 local_shared_ptr<FollowPath> FollowPath::pathToTarget(
 	GObject* object,
-	gobject_ref target
+	GObject* target
 ){
-	if (!target.isValid()) {
-		return nullptr;
-	}
-
-    return pathToPoint(object, target.get()->getPos());
+    return pathToPoint(object, target->getPos());
 }
 
 local_shared_ptr<FollowPath> FollowPath::pathToPoint(
@@ -770,7 +766,7 @@ void Wait::update()
         _state = state::completed;
 }
 
-FireAtTarget::FireAtTarget(GObject* object, gobject_ref target) :
+FireAtTarget::FireAtTarget(GObject* object, GObject* target) :
 	AgentFunction(object),
 	target(target)
 {}
@@ -805,7 +801,7 @@ void FireOnStress::update()
 
 ThrowBombs::ThrowBombs(
 	GObject* object,
-	gobject_ref target,
+	GObject* target,
 	local_shared_ptr<bomb_properties> bombType,
 	SpaceFloat throwingSpeed,
 	SpaceFloat baseInterval

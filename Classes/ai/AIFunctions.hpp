@@ -73,7 +73,7 @@ protected:
 
 class MaintainDistance : public Function {
 public:
-    MaintainDistance(GObject* object, gobject_ref target, SpaceFloat distance, SpaceFloat margin);
+    MaintainDistance(GObject* object, GObject* target, SpaceFloat distance, SpaceFloat margin);
     
 	virtual void update();
     FuncGetName(MaintainDistance)
@@ -95,7 +95,7 @@ protected:
 
 class OccupyMidpoint : public Function {
 public:
-	OccupyMidpoint(GObject* object, gobject_ref target1, gobject_ref target2);
+	OccupyMidpoint(GObject* object, GObject* target1, GObject* target2);
 
 	virtual void update();
 
@@ -163,7 +163,7 @@ class Flank : public Function {
 public:
 	Flank(
 		GObject* object,
-		gobject_ref target,
+		GObject* target,
 		SpaceFloat desiredDistance,
 		SpaceFloat wallMargin
 	);
@@ -222,7 +222,7 @@ class FollowPath : public Function {
 public:
 	static local_shared_ptr<FollowPath> pathToTarget(
 		GObject* object,
-		gobject_ref target
+		GObject* target
 	);
 	static local_shared_ptr<FollowPath> pathToPoint(
 		GObject* object,
@@ -315,7 +315,7 @@ protected:
 
 class FireAtTarget : public AgentFunction {
 public:
-	FireAtTarget(GObject* object, gobject_ref target);
+	FireAtTarget(GObject* object, GObject* target);
 
 	virtual void update();
 
@@ -328,7 +328,7 @@ class ThrowBombs : public AgentFunction {
 public:
 	ThrowBombs(
 		GObject* object,
-		gobject_ref target,
+		GObject* target,
 		local_shared_ptr<bomb_properties> bombType,
 		SpaceFloat throwingSpeed,
 		SpaceFloat baseInterval

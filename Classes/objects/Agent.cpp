@@ -489,12 +489,9 @@ bool Agent::fire()
     return fired;
 }
 
-bool Agent::aimAtTarget(gobject_ref target)
+bool Agent::aimAtTarget(GObject* target)
 {
-    if (!target.isValid())
-        return false;
-
-    setAngle(ai::directionToTarget(this, target.get()->getPos()).toAngle());
+    setAngle(ai::directionToTarget(this, target->getPos()).toAngle());
     return true;
 }
 
