@@ -83,6 +83,7 @@ class Sensor;
 
 namespace ai {
 	class Function;
+	class StateMachine;
 }
 
 namespace Lua {

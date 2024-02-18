@@ -222,15 +222,15 @@ function objects.Torch:initializeGraphics()
 		self.super:getPos(),
 		0.5
 	)
-	self.super.space:setSpriteVisible(self.flameSpriteID, self.super:getActive())
+	self.super.space:setSpriteVisible(self.flameSpriteID, self.super.active)
 	
-	if not self.super:getActive() then
+	if not self.super.active then
 		self.super:removeLight()
 	end	
 end
 
 function objects.Torch:spriteFadeIn()
-	self.super.space:setSpriteVisible(self.flameSpriteID, true)
+	self.super.space:setSpriteVisible(self.flameSpriteID, self.super.active)
 end
 
 function objects.Torch:spriteFadeOut()

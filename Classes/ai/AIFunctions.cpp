@@ -16,7 +16,6 @@
 #include "Bullet.hpp"
 #include "FirePattern.hpp"
 #include "Graphics.h"
-#include "graphics_context.hpp"
 #include "HUD.hpp"
 #include "Inventory.hpp"
 #include "LuaAPI.hpp"

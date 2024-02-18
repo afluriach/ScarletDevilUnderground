@@ -235,6 +235,7 @@ public:
 
 	LightID addLightSource(shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle);
 	void removeLightSource(LightID id);
+	void runSpriteAction(SpriteID id, GraphicsAction action);
 
 	template<typename... Args>
 	inline void addLightmapAction(void (graphics_context::*m)(Args...), Args... args)

@@ -75,15 +75,18 @@ void Door::init()
 		}
 	}
 
-	if (locked) {
-		space->graphicsNodeAction(&Node::setColor, spriteID, Color3B::RED);
-	}
-
 	if ((doorType == door_type::one_way_destination || doorType == door_type::one_way_source) && adjacent.isValid()) {
 		space->addGraphicsAction(
 			&graphics_context::setSpriteTexture,
 			spriteID,
 			"sprites/door_oneway_" + getDoorDirectionString() + ".png"
+		);
+	}
+	else if (locked) {
+		space->addGraphicsAction(
+			&graphics_context::setSpriteTexture,
+			spriteID,
+			string("sprites/door_locked.png")
 		);
 	}
 	else if (stairs) {
@@ -138,8 +141,7 @@ bool Door::unlock(Player* p)
 bool Door::canInteract(Player* p)
 {
 	return doorType != door_type::one_way_destination &&
-		(adjacent.isValid() || !destinationMap.empty()) &&
-		(!locked || canUnlock(p) )
+		(adjacent.isValid() || !destinationMap.empty())
 	;
 }
 
@@ -148,22 +150,39 @@ void Door::interact(Player* p)
 	if (!locked) {
 		p->useDoor(this);
 	}
-	else if(locked){
+	else if(locked && canUnlock(p)){
 		unlock(p);
 		space->graphicsNodeAction(&Node::setColor, spriteID, Color3B::WHITE);
+	}
+	else{
+		if(keyItem.empty())
+			space->createDialog("dialogs/sealed_door", false);
+		else
+			space->createDialog("dialogs/cant_unlock", false);
 	}
 }
 
 string Door::interactionIcon(Player* p)
 {
-	if (stairs)
-		return "sprites/stairs.png";
-	else if (path)
-		return "sprites/dirt_path.png";
-	else if (locked)
-		return "sprites/key.png";
-	else
-		return "sprites/door.png";
+	string result;
+
+	if(locked){
+		if(canUnlock(p))
+			result = "sprites/key.png";
+		else
+			result = "sprites/door_locked.png";
+	}
+	else if (stairs) {
+		result = "sprites/stairs.png";
+	}
+	else if (path) {
+		result = "sprites/dirt_path.png";
+	}
+	else {
+		result = "sprites/door.png";
+	}
+	
+	return result;
 }
 
 void Door::activate()

@@ -153,6 +153,14 @@ void PatchConAnimation::loadAnimation(shared_ptr<sprite_properties> _sprite)
     this->setCascadeOpacityEnabled(true);
 }
 
+void PatchConAnimation::setShader(string shader)
+{
+	if(sprite)
+		sprite->setShader(shader);
+	else
+		log("Agent sprite is null!!");
+}
+
 void PatchConAnimation::setDirection(Direction dir)
 {
     direction = dir;
@@ -203,6 +211,17 @@ void AgentAnimationContext::setSprite(shared_ptr<sprite_properties> sprite)
 			&PatchConAnimation::loadAnimation,
 			spriteID,
 			sprite
+		);
+	}
+}
+
+void AgentAnimationContext::setSpriteShader(string shader)
+{
+	if (spriteID != 0) {
+		space->graphicsNodeAction(
+			&PatchConAnimation::setShader,
+			spriteID,
+			shader
 		);
 	}
 }

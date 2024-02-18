@@ -1,8 +1,8 @@
 <enemies>
 	<Bat
 		name="Bat"
+		cls="Bat"
 		sprite="bat"
-		ai_package="bat"
 		
 		mass="10"
 		viewRange="5.0"

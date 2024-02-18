@@ -78,6 +78,7 @@ public:
 	void onDetectBomb(Bomb* bomb);
 
 	virtual void onZeroHP();
+	virtual void onPitfall();
 
     void updateCombo();
 	virtual bool applyInitialSpellCost(const spell_cost& cost);
@@ -185,6 +186,7 @@ public:
 
 	void resetAnimation();
 	void setSprite(shared_ptr<sprite_properties> sprite);
+	void setSpriteShader(const string& shader);
 protected:
 	void updateAnimation();
 	

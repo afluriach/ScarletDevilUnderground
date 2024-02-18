@@ -229,6 +229,12 @@ void Agent::onDetectBullet(Bullet* bullet)
 void Agent::onZeroHP()
 {
     runMethodIfAvailable("onZeroHP");
+    space->removeObject(this);
+}
+
+void Agent::onPitfall()
+{
+	space->removeObject(this);
 }
 
 void Agent::updateCombo()
@@ -763,6 +769,13 @@ void Agent::setSprite(shared_ptr<sprite_properties> sprite)
 	}
 }
 
+void Agent::setSpriteShader(const string& shader)
+{
+	if(animation){
+		animation->setSpriteShader(shader);
+	}
+}
+
 //shield
 //1 - deflect 45deg for 10
 //2 - deflect 90deg for 10 & 45deg for 5
@@ -815,6 +828,7 @@ void Agent::onBulletCollide(Bullet* b, SpaceVect n)
 
 void Agent::onTouchAgent(Agent* other)
 {
+	runMethodIfAvailable("onTouch", other);
 	other->hit(touchEffect(), ai::directionToTarget(this, other->getPos()));
 }
 
@@ -857,6 +871,8 @@ void Agent::applyKnockback(SpaceVect f)
 
 bool Agent::hit(DamageInfo damage, SpaceVect n)
 {
+	runMethodIfAvailable("onHit", damage, n);
+
 	applyKnockback(n * damage.knockback);
 
 	if (attributeSystem->isNonzero(Attribute::hitProtection) || damage.mag == 0.0f)

@@ -179,6 +179,7 @@ namespace Lua{
 		addFuncSame(gobject, launchBullet);
 		addFuncSame(gobject, spawnBullet);
 		addFuncSame(gobject, getSpace);
+		addFuncSame(gobject, toString);
 		addFuncSame(gobject, getName);
 		addFuncSame(gobject, getClsName);
 		addFuncSame(gobject, getType);

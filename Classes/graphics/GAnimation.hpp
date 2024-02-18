@@ -58,6 +58,7 @@ public:
     static constexpr SpaceFloat midstepSize = 0.2;
     
     void loadAnimation(shared_ptr<sprite_properties> _sprite);    
+    void setShader(string shader);
 
 	void setFrame(int animFrame);
     void setDirection(Direction dir);
@@ -92,6 +93,7 @@ public:
 	);
 
 	void setSprite(shared_ptr<sprite_properties> sprite);
+	void setSpriteShader(string shader);
 	void setAngle(SpaceFloat a);
 	void setDirection(Direction d);
 	bool accumulate(SpaceFloat dx);

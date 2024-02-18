@@ -98,6 +98,7 @@ namespace Lua{
 		addFuncSame(gspace, getArea);
 
 		addFuncSame(gspace, registerRoomMapped);
+		addFuncSame(gspace, runSpriteAction)
 
 		gspace["createSprite"] = [](
 			GSpace* _this,

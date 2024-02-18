@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Graphics.h"
 #include "GScene.hpp"
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
@@ -17,6 +18,11 @@ namespace Lua{
   
 	void Inst::addScene()
 	{
+		auto graphics = _state.create_table();
+		_state["graphics"] = graphics;
+		
+		cFuncSame(graphics, pitfallShrinkAction);
+	
         auto gscene = _state.new_usertype<GScene>(
             "GScene",
             sol::no_constructor,

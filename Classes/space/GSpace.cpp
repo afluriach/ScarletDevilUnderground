@@ -1153,3 +1153,12 @@ void GSpace::removeLightSource(LightID _id)
 		_id
 	));
 }
+
+void GSpace::runSpriteAction(SpriteID id, GraphicsAction action)
+{
+	addGraphicsAction(
+		&graphics_context::runSpriteAction,
+		id,
+		action.generator
+	);
+}

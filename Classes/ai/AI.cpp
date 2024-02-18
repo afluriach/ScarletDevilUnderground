@@ -43,7 +43,7 @@ bool Function::isCompleted() const{
 void Function::runEnter()
 {
     if(_state != state::created){
-        log0("Invalid call to runEnter!");
+        log1("%s: Invalid call to runEnter!", getName());
         return;
     }
     
@@ -55,10 +55,11 @@ void Function::runUpdate()
 {
     if(_state == state::created){
         runEnter();
+        _state = state::active;
     }
 
     if(_state != state::active){
-        log0("Invalid call to runUpdate!");
+        log1("%s: Invalid call to runUpdate!", getName());
         return;
     }
     
@@ -67,13 +68,8 @@ void Function::runUpdate()
 
 void Function::runExit()
 {
-    if(_state != state::active){
-        log0("Invalid call to runUpdate!");
-        return;
-    }
-
     if(_state != state::active && _state != state::completing){
-        log0("Invalid call to runExit!");
+        log1("%s: Invalid call to runExit!", getName());
         return;
     }
     
