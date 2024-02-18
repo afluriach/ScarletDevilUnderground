@@ -45,6 +45,23 @@ bool fortifyAttribute(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result
 	return success;
 }
 
+bool scaleAttributes(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
+{
+	AttributeMap attributes;
+	bool loaded = false;
+	
+	tinyxml2::XMLElement* attributeElement = elem->FirstChildElement("attributes");
+	if (attributeElement) {
+		loaded = parseObject(attributeElement, &attributes);
+	}
+	loaded = loaded && !attributes.empty();
+	
+	if(loaded)
+		*result = new MagicEffectDescImpl<ScaleAttributes, AttributeMap>(elem->Name(), attributes);
+
+	return loaded;
+}
+
 bool drainFromMovement(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
 {
 	Attribute attr = Attribute::none;
@@ -146,6 +163,7 @@ bool scriptedEffect(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
 const unordered_map<string, effect_parser> effectParsers = {
 	{"RestoreAttribute", &restoreAttribute},
 	{"FortifyAttribute", &fortifyAttribute},
+	{"ScaleAttributes", &scaleAttributes},
 	{"DrainFromMovement", &drainFromMovement},
 	{"SetBoolAttribute", &setBoolAttribute},
 	{"ApplyDamage", &applyDamage},

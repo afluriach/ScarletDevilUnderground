@@ -53,4 +53,13 @@
 		speed="9.0"
 		bulletCount="8"
 	/>
+	
+	<SprintBoost
+		type="ApplySelfEffect"
+		effect="SprintBoost"
+		icon="sprites/agility_upgrade.png"
+		length="-1.0"
+		cost="ongoing_mp:5.0"
+	/>
+	
 </spells>

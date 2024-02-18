@@ -38,6 +38,20 @@ public:
 	const Attribute attr;
 };
 
+class ScaleAttributes : public AgentEffect
+{
+public:
+	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, durable, agent);
+
+	ScaleAttributes(effect_params params, AttributeMap scales);
+
+	virtual void init();
+	virtual void end();
+
+	const AttributeMap scales;
+	AttributeMap diff;
+};
+
 //Uses currentSpeed attribute to determine amount of movement, applied per frame.
 class DrainFromMovement : public AgentEffect
 {

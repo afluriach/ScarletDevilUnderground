@@ -415,7 +415,7 @@ SpaceFloat Agent::getSpeedMultiplier() const
 
 SpaceFloat Agent::getAccelMultiplier() const
 {
-	if (crntState == agent_state::sprinting) {
+	if (crntState == agent_state::sprinting || crntState == agent_state::sprintRecovery) {
 		return (*this)[Attribute::sprintSpeedRatio] * (*this)[Attribute::sprintSpeedRatio];
 	}
 	else {

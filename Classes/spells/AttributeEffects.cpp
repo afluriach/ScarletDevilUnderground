@@ -48,6 +48,28 @@ void FortifyAttribute::end()
 	agent->modifyAttribute(attr, -magnitude);
 }
 
+ScaleAttributes::ScaleAttributes(effect_params params, AttributeMap scales) :
+	AgentEffect(params),
+	scales(scales)
+{
+}
+
+void ScaleAttributes::init()
+{
+	for(auto entry : scales){
+		float differential = (*agent)[entry.first] * ( 1.0f - entry.second);
+		agent->setAttribute(entry.first, (*agent)[entry.first] * entry.second);
+		diff.insert(pair(entry.first, differential));
+	}
+}
+
+void ScaleAttributes::end()
+{
+	for(auto entry : diff){
+		agent->modifyAttribute(entry.first, entry.second);
+	}
+}
+
 DrainFromMovement::DrainFromMovement(effect_params params, Attribute attr) :
 	AgentEffect(params),
 	attr(attr)

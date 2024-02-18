@@ -100,4 +100,12 @@
 		class="auto"
 	/>
 	
+	<SprintBoost type="ScaleAttributes">
+		<attributes>
+			<sprintTime val="1.5" />
+			<sprintCooldownTime val="0.75" />
+			<sprintRecoveryTime val="0.75" />
+		</attributes>
+	</SprintBoost>
+	
 </effects>
