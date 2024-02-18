@@ -11,7 +11,7 @@
 
 #include "MagicEffect.hpp"
 
-class RestoreAttribute : public MagicEffect
+class RestoreAttribute : public AgentEffect
 {
 public:
 	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, immediate, agent);
@@ -25,7 +25,7 @@ public:
 	const Attribute attr;
 };
 
-class FortifyAttribute : public MagicEffect
+class FortifyAttribute : public AgentEffect
 {
 public:
 	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, durable, agent);
@@ -39,7 +39,7 @@ public:
 };
 
 //Uses currentSpeed attribute to determine amount of movement, applied per frame.
-class DrainFromMovement : public MagicEffect
+class DrainFromMovement : public AgentEffect
 {
 public:
 	static constexpr effect_flags flags = enum_bitwise_or3(effect_flags, durable, active, agent);
@@ -57,7 +57,7 @@ protected:
 };
 
 //Increments Attribute while the effect is active.
-class SetBoolAttribute : public MagicEffect
+class SetBoolAttribute : public AgentEffect
 {
 public:
 	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, durable, agent);
@@ -70,7 +70,7 @@ public:
 	const Attribute attr;
 };
 
-class ApplyDamage : public MagicEffect
+class ApplyDamage : public AgentEffect
 {
 public:
 	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, immediate, agent);
@@ -82,10 +82,10 @@ protected:
 	Element element;
 };
 
-class DamageOverTime : public MagicEffect
+class DamageOverTime : public AgentEffect
 {
 public:
-	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, durable, active);
+	static constexpr effect_flags flags = enum_bitwise_or3(effect_flags, durable, active, agent);
 
 	DamageOverTime(effect_params params, Element element);
 

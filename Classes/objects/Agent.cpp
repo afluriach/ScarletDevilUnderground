@@ -762,6 +762,11 @@ void Agent::resetAnimation()
 	}
 }
 
+shared_ptr<sprite_properties> Agent::getOriginalSprite()
+{
+	return props->sprite;
+}
+
 void Agent::setSprite(shared_ptr<sprite_properties> sprite)
 {
 	if (animation) {

@@ -10,6 +10,7 @@
 
 #include "AttributeEffects.hpp"
 #include "MagicEffect.hpp"
+#include "MagicEffectImpl.hpp"
 #include "xml_impl.hpp"
 
 namespace app {
@@ -104,6 +105,26 @@ bool damageOverTime(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
 	return success;
 }
 
+bool transformation(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
+{
+	transformation_properties props;
+	
+	getSubObject(elem, "sprite", &props.sprite, sprites, false);
+	getNumericAttr(elem, "sprite_scale", &props.sprite_scale);
+	getNumericAttr(elem, "flying", &props.flying);
+	
+	tinyxml2::XMLElement* attributes = elem->FirstChildElement("attribute_modifiers");
+	if (attributes) {
+		parseObject(attributes, &props.attribute_modifers);
+	}
+	
+	*result = new MagicEffectDescImpl<Transformation, transformation_properties>(
+		elem->Name(),
+		props
+	);
+	return true;
+}
+
 bool scriptedEffect(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
 {
 	string clsName;
@@ -129,6 +150,7 @@ const unordered_map<string, effect_parser> effectParsers = {
 	{"SetBoolAttribute", &setBoolAttribute},
 	{"ApplyDamage", &applyDamage},
 	{"DamageOverTime", &damageOverTime},
+	{"Transformation", &transformation},
 	{"ScriptedEffect", &scriptedEffect},
 };
 

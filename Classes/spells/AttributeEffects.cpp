@@ -21,7 +21,7 @@ bool RestoreAttribute::canApply(GObject* target, effect_attributes attrs, Attrib
 }
 
 RestoreAttribute::RestoreAttribute(effect_params params, Attribute attr) :
-	MagicEffect(params),
+	AgentEffect(params),
 	attr(attr)
 {
 	
@@ -33,7 +33,7 @@ void RestoreAttribute::init()
 }
 
 FortifyAttribute::FortifyAttribute(effect_params params, Attribute attr) :
-	MagicEffect(params),
+	AgentEffect(params),
 	attr(attr)
 {
 }
@@ -49,7 +49,7 @@ void FortifyAttribute::end()
 }
 
 DrainFromMovement::DrainFromMovement(effect_params params, Attribute attr) :
-	MagicEffect(params),
+	AgentEffect(params),
 	attr(attr)
 {
 	_ratio = -1.0f * app::params.secondsPerFrame * magnitude;
@@ -63,7 +63,7 @@ void DrainFromMovement::update()
 }
 
 SetBoolAttribute::SetBoolAttribute(effect_params params, Attribute attr) :
-	MagicEffect(params),
+	AgentEffect(params),
 	attr(attr)
 {
 }
@@ -79,7 +79,7 @@ void SetBoolAttribute::end()
 }
 
 ApplyDamage::ApplyDamage(effect_params params, Element element) :
-	MagicEffect(params),
+	AgentEffect(params),
 	element(element)
 {
 }
@@ -91,7 +91,7 @@ void ApplyDamage::init()
 }
 
 DamageOverTime::DamageOverTime(effect_params params, Element element) :
-	MagicEffect(params),
+	AgentEffect(params),
 	element(element)
 {
 }

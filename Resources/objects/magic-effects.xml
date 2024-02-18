@@ -53,9 +53,17 @@
 	/>
 	
 	<BatTransform
-		type="ScriptedEffect"
-		class="auto"
-	/>
+		type="Transformation"
+		sprite="flandre_bat"
+		sprite_scale="4.0"
+		flying="true"
+	>
+		<attribute_modifiers>
+			<agility val="1.5" />
+			<hitProtection val="1.0" />
+			<inhibitFiring val="1.0" />
+		</attribute_modifiers>
+	</BatTransform>
 
 	<SetInhibitFiring
 		type="SetBoolAttribute"

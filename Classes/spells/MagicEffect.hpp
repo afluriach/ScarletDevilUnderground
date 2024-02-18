@@ -47,6 +47,7 @@ public:
 	};
 
 	MagicEffect(effect_params params);
+	inline virtual ~MagicEffect() {}
 
 	GSpace* getSpace() const;
 
@@ -54,8 +55,6 @@ public:
 	bool isDurable() const;
 	bool isActive() const;
 	bool isAgentEffect() const;
-
-	inline virtual ~MagicEffect() {}
 
 	virtual void init() = 0;
 	inline virtual void update() {}
@@ -84,6 +83,15 @@ public:
 	effect_flags _flags;
 
 	int _refcount = 0;
+};
+
+class AgentEffect : public MagicEffect
+{
+public:
+	AgentEffect(effect_params params);
+	virtual ~AgentEffect();
+
+	Agent *const agent;
 };
 
 class MagicEffectDescriptor

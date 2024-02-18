@@ -62,6 +62,7 @@ public:
 	void initAttributes();
 	void applyEffects();
 	AttributeMap getBaseAttributes() const;
+	inline bool isFlyingProperty() const { return props->isFlying; }
 	virtual void init();
 	virtual void update();
 
@@ -185,6 +186,7 @@ public:
 	virtual void setDirection(Direction d);
 
 	void resetAnimation();
+	shared_ptr<sprite_properties> getOriginalSprite();
 	void setSprite(shared_ptr<sprite_properties> sprite);
 	void setSpriteShader(const string& shader);
 protected:

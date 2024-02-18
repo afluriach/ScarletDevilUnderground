@@ -99,6 +99,14 @@ void MagicEffect::remove()
         crntState = state::ending;
 }
 
+AgentEffect::AgentEffect(effect_params params) :
+	MagicEffect(params),
+	agent(dynamic_cast<Agent*>(params.target))
+{}
+
+AgentEffect::~AgentEffect()
+{}
+
 effect_flags ScriptedMagicEffect::getFlags(string clsName)
 {
 	sol::table cls = GSpace::scriptVM->_state["effects"][clsName];
