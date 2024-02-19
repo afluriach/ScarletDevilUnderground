@@ -106,7 +106,7 @@ namespace Lua{
 			GraphicsLayer layer,
 			SpaceVect pos,
 			float zoom
-			) -> SpriteID {
+		) -> SpriteID {
 			return _this->createSprite(
 				&graphics_context::createSprite,
 				string("sprites/" + sprite + ".png"),

@@ -152,6 +152,7 @@ struct CC_DLL Color4F
     static const Color4F GREEN;
     static const Color4F RED;
     static const Color4F MAGENTA;
+    static const Color4F CYAN;
     static const Color4F BLACK;
     static const Color4F ORANGE;
     static const Color4F GRAY;

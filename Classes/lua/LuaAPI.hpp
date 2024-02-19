@@ -20,6 +20,7 @@ namespace Lua
 
 	#define get_prop(cls,func) #func, sol::property(&cls::get_ ## func)
 	#define rw_prop(cls,func) #func, sol::property(&cls::get_ ## func, &cls::set_ ## func)
+	#define static_var(x) #x, sol::var(&_cls::x)
 
     //Wraps a VM instance and interfaces with it.
     class Inst

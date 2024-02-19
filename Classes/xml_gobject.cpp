@@ -340,8 +340,6 @@ namespace app {
 		result->touchDamage.type = DamageType::floor;
 		getDamageInfo(elem, &result->touchDamage);
 
-		getNumericAttr(elem, "pressurePlate", &result->pressurePlate);
-
 		return true;
 	}
 

@@ -54,12 +54,12 @@ namespace Lua{
 		auto app_consts = _state.create_table();
 		_state["app_constants"] = app_consts;
 
-		cFuncSameNS(app_consts, app, baseWidth);
-		cFuncSameNS(app_consts, app, baseHeight);
-		cFuncSameNS(app_consts, app, pixelsPerTile);
-		cFuncSameNS(app_consts, app, tilesPerPixel);
-		cFuncSameNS(app_consts, app, viewWidth);
-		cFuncSameNS(app_consts, app, Gaccel);
+		app_consts["baseWidth"] = app::baseWidth;
+		app_consts["baseHeight"] = app::baseHeight;
+		app_consts["pixelsPerTile"] = app::pixelsPerTile;
+		app_consts["tilesPerPixel"] = app::tilesPerPixel;
+		app_consts["viewWidth"] = app::viewWidth;
+		app_consts["Gaccel"] = app::Gaccel;
 
 #define _cls app_params
 		auto params = _state.new_usertype<app_params>(

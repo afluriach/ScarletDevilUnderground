@@ -298,6 +298,9 @@ public:
     virtual sprite_update updateSprite();
 	void createLight();
     void removeLight();
+    void createDrawNode(GraphicsLayer layer);
+	void clearDrawNode();
+	void drawRectangle(Vec2 ll, Vec2 ur, Color4F color);
     void setLightSourceAngle(SpaceFloat angle);
 	//If "id" is not provided, the object's defaut sprite, spriteID, will be
 	//used, assuming it is valid.

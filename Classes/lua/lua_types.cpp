@@ -218,6 +218,30 @@ namespace Lua{
 			"y", sol::property(&Vec2::getY, &Vec2::setY)
         );
 
+        vec2["scale"] = &Vec2::operator*;
+		vec2["divide"] = &Vec2::operator/;
+
+#define _cls Color4F
+        auto color4f = _state.new_usertype<Color4F>(
+			"Color4F",
+			sol::constructors<Color4F(float,float,float,float)>(),
+			"r", sol::property(&Color4F::r),
+			"g", sol::property(&Color4F::g),
+			"b", sol::property(&Color4F::b),
+			"a", sol::property(&Color4F::a),
+			
+			static_var(WHITE),
+			static_var(YELLOW),
+			static_var(BLUE),
+			static_var(GREEN),
+			static_var(RED),
+			static_var(MAGENTA),
+			static_var(CYAN),
+			static_var(BLACK),
+			static_var(ORANGE),
+			static_var(GRAY)
+        );
+        
 #define _cls SpaceVect
 		auto vect = _state.new_usertype<SpaceVect>(
 			"SpaceVect",

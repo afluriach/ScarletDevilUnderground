@@ -89,12 +89,7 @@ void Bullet::initializeGraphics()
 {
 	GObject::initializeGraphics();
 
-	drawNodeID = space->createSprite(
-		&graphics_context::createDrawNode,
-		GraphicsLayer::agentOverlay,
-		getInitialCenterPix(),
-		1.0f
-	);
+	createDrawNode(GraphicsLayer::agentOverlay);
 
 	if (dimensions.y == 0.0) {
 		space->graphicsNodeAction(

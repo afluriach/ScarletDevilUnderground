@@ -835,8 +835,6 @@ void GObject::initializeGraphics()
 	if (spriteID != 0 && _sprite.color != Color3B::BLACK && _sprite.color != Color3B::WHITE) {
 		space->graphicsNodeAction(&Node::setColor, spriteID, _sprite.color);
 	}
- 
-    runMethodIfAvailable("initializeGraphics");
 }
 
 void GObject::createLight()
@@ -853,6 +851,35 @@ void GObject::removeLight()
 		space->removeLightSource(lightID);
         lightID = 0;
 	}
+}
+
+void GObject::createDrawNode(GraphicsLayer layer)
+{
+	drawNodeID = space->createSprite(
+		&graphics_context::createDrawNode,
+		layer,
+		getInitialCenterPix(),
+		1.0f
+	);
+}
+
+void GObject::clearDrawNode()
+{
+	space->graphicsNodeAction(
+		&DrawNode::clear,
+		drawNodeID
+	);
+}
+
+void GObject::drawRectangle(Vec2 ll, Vec2 ur, Color4F color)
+{
+	space->graphicsNodeAction(
+		&DrawNode::drawSolidRect,
+		drawNodeID,
+		ll,
+		ur,
+		color
+	);
 }
 
 void GObject::setLightSourceAngle(SpaceFloat angle)

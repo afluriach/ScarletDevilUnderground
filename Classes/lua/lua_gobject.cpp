@@ -116,19 +116,20 @@ namespace Lua{
 			}
 		);
 
+		#define _cls GObject
 		auto gobject = _state.new_usertype<GObject>(
 			"GObject",
             "spriteID", sol::property(&GObject::getSpriteID),
             "lightID", sol::property(&GObject::getLightID),
 			"active", sol::property(&GObject::getActive),
+			"pos", sol::property(&GObject::getPos, &GObject::setPos),
+			"dim", sol::property(&GObject::getDimensions),
 			"level", sol::property(&GObject::getLevel),
 			"name", sol::property(&GObject::getName),
 			"id", sol::property(&GObject::getUUID),
             "props", sol::property(&GObject::getProps),
 			"space", sol::property(&GObject::getSpace)
 		);
-
-		#define _cls GObject
 
 		gobject["addGraphicsAction"] = sol::overload(
 			static_cast<void(GObject::*)(GraphicsAction)>(&GObject::addGraphicsAction),
@@ -161,6 +162,9 @@ namespace Lua{
 
 		addFuncSame(gobject, createLight);
 		addFuncSame(gobject, removeLight);
+		addFuncSame(gobject, createDrawNode);
+		addFuncSame(gobject, clearDrawNode);
+		addFuncSame(gobject, drawRectangle);
         addFuncSame(gobject, setLightSourceAngle);
 		addFuncSame(gobject, setSpriteOpacity);
 		addFuncSame(gobject, setSpriteVisible);

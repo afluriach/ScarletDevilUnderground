@@ -25,9 +25,6 @@ public:
 
 	void onContact(GObject* obj);
 	void onEndContact(GObject* obj);
-
-	void runActivate();
-	void runDeactivate();
 	
 	DamageInfo getTouchDamage() const { return props ? props->touchDamage : DamageInfo(); }
 protected:

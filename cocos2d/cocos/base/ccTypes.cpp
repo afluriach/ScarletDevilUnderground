@@ -244,6 +244,7 @@ const Color4F Color4F::GREEN  (    0,     1,     0, 1);
 const Color4F Color4F::BLUE   (    0,     0,     1, 1);
 const Color4F Color4F::RED    (    1,     0,     0, 1);
 const Color4F Color4F::MAGENTA(    1,     0,     1, 1);
+const Color4F Color4F::CYAN   (    0,     1,     1, 1);
 const Color4F Color4F::BLACK  (    0,     0,     0, 1);
 const Color4F Color4F::ORANGE (    1,  0.5f,     0, 1);
 const Color4F Color4F::GRAY   (0.65f, 0.65f, 0.65f, 1);

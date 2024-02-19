@@ -483,6 +483,7 @@ void GSpace::processAdditions()
 		}
 
         obj->initializeGraphics();
+		obj->runMethodIfAvailable("initializeGraphics");
 
 		if (isTrackedType(typeid(*obj))) {
 			objByType[typeid(*obj)].insert(obj);
@@ -495,7 +496,7 @@ void GSpace::processAdditions()
         objByUUID[obj->uuid] = obj;
         objByName[obj->name] = obj;
 
-		if (!isNoUpdateObject(obj)) {
+		if (!isNoUpdateObject(obj) || obj->hasMethod("update")) {
 			updateObjects.insert(obj);
 		}
         

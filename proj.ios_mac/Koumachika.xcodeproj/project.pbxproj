@@ -59,6 +59,8 @@
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		E20328D51BE082970069B322 /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = E20328D41BE082970069B322 /* sprites */; };
 		E20328D61BE082970069B322 /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = E20328D41BE082970069B322 /* sprites */; };
+		E204C26D2B819BEF0064C25C /* MagicEffectImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E204C26B2B8190890064C25C /* MagicEffectImpl.cpp */; };
+		E204C26E2B819BF00064C25C /* MagicEffectImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E204C26B2B8190890064C25C /* MagicEffectImpl.cpp */; };
 		E2080BC91C00486000EB78DF /* LuaAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2080BC71C00486000EB78DF /* LuaAPI.cpp */; };
 		E2080BCA1C00486000EB78DF /* LuaAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2080BC71C00486000EB78DF /* LuaAPI.cpp */; };
 		E20A7D6A1BCD205E007F1A3B /* PlayScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E20A7D681BCD205E007F1A3B /* PlayScene.cpp */; };
@@ -356,6 +358,8 @@
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		E20328D41BE082970069B322 /* sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sprites; sourceTree = "<group>"; };
+		E204C26B2B8190890064C25C /* MagicEffectImpl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MagicEffectImpl.cpp; path = spells/MagicEffectImpl.cpp; sourceTree = "<group>"; };
+		E204C26C2B8190890064C25C /* MagicEffectImpl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MagicEffectImpl.hpp; path = spells/MagicEffectImpl.hpp; sourceTree = "<group>"; };
 		E2080BC31C0047A700EB78DF /* liblua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua.a; path = "../../../dev/lua-5.3.1/src/liblua.a"; sourceTree = "<group>"; };
 		E2080BC71C00486000EB78DF /* LuaAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LuaAPI.cpp; path = ../Classes/lua/LuaAPI.cpp; sourceTree = SOURCE_ROOT; };
 		E2080BC81C00486000EB78DF /* LuaAPI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LuaAPI.hpp; path = ../Classes/lua/LuaAPI.hpp; sourceTree = SOURCE_ROOT; };
@@ -925,6 +929,8 @@
 				E26C251024E73A40004067E0 /* FirePatternMapping.cpp */,
 				E26C250924E73A3F004067E0 /* MagicEffect.cpp */,
 				E26C250324E73A3E004067E0 /* MagicEffect.hpp */,
+				E204C26B2B8190890064C25C /* MagicEffectImpl.cpp */,
+				E204C26C2B8190890064C25C /* MagicEffectImpl.hpp */,
 				E26C250524E73A3F004067E0 /* PlayerFirePattern.cpp */,
 				E26C251B24E73A41004067E0 /* PlayerFirePattern.hpp */,
 				E26C250B24E73A3F004067E0 /* spell_types.hpp */,
@@ -1251,6 +1257,7 @@
 				E26C259624E73AD8004067E0 /* GScene.cpp in Sources */,
 				E26C24FB24E739ED004067E0 /* Attributes.cpp in Sources */,
 				E26C257A24E73ABF004067E0 /* FloorSegment.cpp in Sources */,
+				E204C26D2B819BEF0064C25C /* MagicEffectImpl.cpp in Sources */,
 				E28D89851BDFE7CD00F58903 /* util.cpp in Sources */,
 				E26C24EB24E739ED004067E0 /* xml.cpp in Sources */,
 			);
@@ -1274,6 +1281,7 @@
 				E252F2B02B606B0E0014805B /* object_properties.cpp in Sources */,
 				E26C253424E73A41004067E0 /* FirePattern.cpp in Sources */,
 				E20A7D6B1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
+				E204C26E2B819BF00064C25C /* MagicEffectImpl.cpp in Sources */,
 				E26C257F24E73ABF004067E0 /* EnvironmentObject.cpp in Sources */,
 				E26C24F024E739ED004067E0 /* Resources.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,

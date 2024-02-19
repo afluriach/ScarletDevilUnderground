@@ -9,10 +9,7 @@
     <SandFloor sfx="footstep_sand" traction="0.5"/>
     <GrassFloor sfx="footstep_grass" traction="0.666667"/>
 		
-	<CavePressurePlate
-		cls="PressurePlate"
-		sfx="footstep_ice"
-		pressurePlate="true"
-	/>
+	<CavePressurePlate cls="PressurePlate" sfx="footstep_ice" />
+	<TimedSwitch cls="auto" />
 	
 </floors>

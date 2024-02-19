@@ -159,8 +159,6 @@ public:
 	DamageInfo touchDamage;
 	
 	double traction = 1.0;
-
-	bool pressurePlate = false;
 };
 
 class item_properties : public object_properties
