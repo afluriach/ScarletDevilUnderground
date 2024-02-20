@@ -148,6 +148,9 @@ namespace app {
 
 		getSubObject(elem, "light", &result->light, lights, true);
 		getSubObject(elem, "sprite", &result->sprite, sprites, true);
+		
+		getNumericAttr(elem, "autoInitLight", &result->autoInitLight);
+		getNumericAttr(elem, "autoInitSprite", &result->autoInitSprite);
 
 		return true;
 	}

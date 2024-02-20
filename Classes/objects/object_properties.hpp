@@ -24,8 +24,14 @@ public:
 	SpaceVect dimensions;
 	SpaceFloat mass = 0.0;
 	SpaceFloat friction = 0.0;
+	
+	//Whether sprite or light will automatically be created during object initialization.
+	bool autoInitLight = true;
+	bool autoInitSprite = true;
 
 	int _refcount = 0;
+
+	Color4F getLightColor() const;
 
 	inline type_index getType() const { return typeid(*this); }
 

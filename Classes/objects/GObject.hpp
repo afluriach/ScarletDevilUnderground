@@ -313,7 +313,7 @@ public:
 	void setSpriteVisible(bool val);
 	void setSpriteTexture(const string& texture);
 
-	//Create Node which graphically reprensets this object and adds it to Layer
+	//Create Node which graphically represents this object and adds it to Layer
 	virtual void initializeGraphics();
 	
 	inline SpriteID getSpriteID() const { return spriteID; }

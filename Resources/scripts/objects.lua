@@ -222,10 +222,14 @@ function objects.Torch:initializeGraphics()
 		self.super:getPos(),
 		0.5
 	)
+	self.super.space:setSpriteColor(
+		self.flameSpriteID,
+		util.toColor3B(self.super.props:getLightColor())
+	)
 	self.super.space:setSpriteVisible(self.flameSpriteID, self.super.active)
 	
-	if not self.super.active then
-		self.super:removeLight()
+	if self.super.active then
+		self.super:createLight()
 	end	
 end
 

@@ -162,7 +162,8 @@ string GObject::toString() const
 
 void GObject::init()
 {
-	createLight();
+	if(props && props->autoInitLight)
+		createLight();
 }
 
 void GObject::update()
@@ -789,15 +790,15 @@ sprite_update GObject::updateSprite()
 
 void GObject::initializeGraphics()
 {
-	auto sprite = getSprite();
-	if (!sprite)
+	if(!props || !props->autoInitSprite || !props->sprite)
 		return;
-	sprite_properties& _sprite = *sprite.get();
+
+	sprite_properties& _sprite = *props->sprite.get();
 
 	if (_sprite.filename.empty())
 		return;
 
-	float zoom = getSpriteZoom(sprite, getRadius());
+	float zoom = getSpriteZoom(props->sprite, getRadius());
 	string resPath = "sprites/" + _sprite.filename + ".png";
 	
 	rotateSprite = true;
@@ -961,9 +962,6 @@ void GObject::setSpriteTexture(const string& texture)
 		);
 	}
 }
-
-void createLight();
-void removeLight();
 
 //END GRAPHICS
 

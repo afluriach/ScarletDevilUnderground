@@ -70,6 +70,7 @@
 		cls="Torch"
 		sprite="torch"
 		light="torchDefault"
+		autoInitLight="false"
 		interactible="true"
 		interactionIcon="sprites/torch.png"
 		mass="-1.0"

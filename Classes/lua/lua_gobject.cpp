@@ -71,6 +71,8 @@ namespace Lua{
 			rw_prop(object_properties, friction)
 		);
 
+		addFuncSame(object_props, getLightColor);
+
 		auto agent_props = _state.new_usertype<agent_properties>(
 			"agent_properties",
 			sol::base_classes, sol::bases<object_properties>()
@@ -141,7 +143,6 @@ namespace Lua{
 		);
 
 		addFuncSame(gobject, playSoundSpatial);
-		addFuncSame(gobject, setSpriteZoom);
 
 		addFuncSame(gobject, teleport);
 		addFuncSame(gobject, cast);
@@ -169,6 +170,8 @@ namespace Lua{
 		addFuncSame(gobject, setSpriteOpacity);
 		addFuncSame(gobject, setSpriteVisible);
 		addFuncSame(gobject, setSpriteTexture);
+		addFuncSame(gobject, setSpriteZoom);
+
 		addFuncSame(gobject, setBodySensor);
 		addFuncSame(gobject, getBodySensor);
 		addFuncSame(gobject, launchAtTarget);

@@ -13,6 +13,16 @@ object_properties::object_properties()
 object_properties::~object_properties()
 {}
 
+Color4F object_properties::getLightColor() const
+{
+	if(!light){
+		log1("%s does not have a light source.", clsName);
+		return Color4F::BLACK;
+	}
+	
+	return light->getColor();
+}
+
 agent_properties::agent_properties()
 {}
 
