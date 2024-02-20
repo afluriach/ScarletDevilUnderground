@@ -129,6 +129,8 @@
 			<C4 tile_offset="2,2" />
 		</rooms>
 	</ice_cave>		
+
+	<cathedral map="auto" />
 	
 	<FacerFloor map="auto" />
 	<MarisaRoom map="auto" />

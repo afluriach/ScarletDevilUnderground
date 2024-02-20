@@ -203,6 +203,7 @@ const string SceneSelect::title = "Scene Select";
 const vector<string> SceneSelect::entries = {
 	"library2",
 	"mansion_outside1",
+	"cathedral",
 	"Stalker Room",
 	"Wander",
 	"Facer Floor",
@@ -218,6 +219,7 @@ const vector<string> SceneSelect::entries = {
 const vector<zero_arity_function> SceneSelect::entryActions = {
 	{ sceneLaunchAdapterByName("library2") },
 	{ sceneLaunchAdapterByName("mansion_outside1") },
+	{ sceneLaunchAdapterByName("cathedral") },
 	{ sceneLaunchAdapterByName("StalkerRoom") },
 	{ sceneLaunchAdapterByName("Wander") },
 	{ sceneLaunchAdapterByName("FacerFloor") },

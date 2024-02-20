@@ -98,3 +98,27 @@ objects.Bat = objects.Enemy:extend('Bat', {
 		self.func = ai.Flee.create(self.super:getAsObject(), self.target, 6.0)
 	end
 })
+
+--------------------------------------------------------------------------------
+
+objects.CathedralFairy = class('CathedralFairy')
+
+function objects.CathedralFairy:init(super)
+	self.super = super
+end
+
+function objects.CathedralFairy:seek()
+	self.moveFunc = ai.Seek.create(self.super:getAsObject(), self.target, true, 0.0)
+end
+
+function objects.CathedralFairy:onDetectEnemy(target)
+	self.target = target
+end
+
+function objects.CathedralFairy:update()
+	if self.moveFunc and not self.moveFunc:isCompleted() then
+		self.moveFunc:runUpdate()
+	elseif self.target then
+		self:seek()
+	end
+end

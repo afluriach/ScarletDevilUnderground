@@ -109,6 +109,22 @@
 		</attributes>
 	</ForestMarisa>
 	
+	<CathedralFairy
+		sprite="greenFairy"
+		cls="auto"
+		
+		mass="15"
+		viewRange="6.0"
+		viewAngle="0"
+
+		collectible="health1,magic1,speed1"		
+	>
+		<attributes>
+			<maxHP val="20"/>
+			<agility val="1.0"/>
+		</attributes>
+	</CathedralFairy>
+	
  	<GhostFairy
 		name="Ghost Fairy"
 
