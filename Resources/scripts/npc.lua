@@ -100,7 +100,11 @@ function objects.MeilingGuard:loop_path(super)
 		return
 	end
 	
-	self.func = ai.FollowPathKinematic.create(self.super:getAsObject(), p, true)
+	self.func = ai.FollowPathKinematic.create(
+		self.super:getAsObject(),
+		p,
+		ai.follow_path_mode.loop
+	)
 end
 
 --function objects.MeilingGuard:scan_path(super)

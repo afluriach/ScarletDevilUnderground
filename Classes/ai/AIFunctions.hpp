@@ -218,6 +218,14 @@ protected:
     SpaceVect target;
 };
 
+enum class follow_path_mode
+{
+	none = 0x0,
+	loop = 0x1,
+	scan = 0x2,
+	stopForObstacle = 0x4,
+};
+
 class FollowPath : public Function {
 public:
 	static local_shared_ptr<FollowPath> pathToTarget(
@@ -229,7 +237,7 @@ public:
 		SpaceVect point
 	);
 
-	FollowPath(GObject* object, shared_ptr<const Path> path, bool loop, bool stopForObstacle);
+	FollowPath(GObject* object, shared_ptr<const Path> path, follow_path_mode mode);
 	inline virtual ~FollowPath() {}
 
 	virtual void update();
@@ -237,8 +245,7 @@ public:
 protected:
 	shared_ptr<const Path> path;
 	size_t currentTarget = 0;
-	bool loop = false;
-	bool stopForObstacle = false;
+	follow_path_mode mode;
 };
 
 class FollowPathKinematic : public Function {
@@ -251,7 +258,7 @@ public:
 	FollowPathKinematic(
         GObject* object,
         shared_ptr<const Path> path,
-        bool loop
+        follow_path_mode mode
     );
 	inline virtual ~FollowPathKinematic() {}
 
@@ -269,7 +276,7 @@ protected:
     SpaceFloat currentSegmentLength = 0.0;
     int idx1 = 0;
     int idx2 = 1;
-    bool loop;
+    follow_path_mode mode;
 };
 
 class Wait : public Function {

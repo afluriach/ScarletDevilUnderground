@@ -186,7 +186,11 @@ end
 function ai.BlueFairy:onEnter()
 	local path = self.super.space:getPath(self.super.object.name)
 	if path then
-		self.pathFunction = ai.FollowPath.create(self.super.fsm, path, true, true)
+		self.pathFunction = ai.FollowPath.create(
+			self.super.fsm,
+			path,
+			ai.follow_path_mode.loop | ai.follow_path_mode.stopForObstacle
+		)
 		self.pathFunction:onEnter()
 	end
 	

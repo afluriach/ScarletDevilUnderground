@@ -543,26 +543,29 @@ local_shared_ptr<FollowPath> FollowPath::pathToPoint(
 	return make_local_shared<FollowPath>(
 		object,
 		path,
-		false,
-		false
+		follow_path_mode::none
 	);
 }
 
-FollowPath::FollowPath(GObject* object, shared_ptr<const Path> path, bool loop, bool stopForObstacle) :
+FollowPath::FollowPath(GObject* object, shared_ptr<const Path> path, follow_path_mode mode) :
 	Function(object),
 	path(path),
-	loop(loop),
-	stopForObstacle(stopForObstacle)
+	mode(mode)
 {}
 
 void FollowPath::update()
 {
 	if (currentTarget < path->size()) {
 		object->setAngle(angleToTarget(object, (*path)[currentTarget]));
-		bool arrived = moveToPoint(object, (*path)[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
+		bool arrived = moveToPoint(
+			object,
+			(*path)[currentTarget],
+			MoveToPoint::arrivalMargin,
+			bitwise_and_bool(mode, follow_path_mode::stopForObstacle)
+		);
 		currentTarget += arrived;
 	}
-	else if (loop && path->size() > 0) {
+	else if (bitwise_and_bool(mode, follow_path_mode::loop) && path->size() > 0) {
 		currentTarget = 0;
 	}
 	else {
@@ -606,18 +609,18 @@ local_shared_ptr<FollowPathKinematic> FollowPathKinematic::pathToPoint(
 	return make_local_shared<FollowPathKinematic>(
 		object,
 		path,
-		false
+		follow_path_mode::none
 	);
 }
 
 FollowPathKinematic::FollowPathKinematic(
     GObject* object,
     shared_ptr<const Path> path,
-    bool loop
+    follow_path_mode mode
 ) :
 	Function(object),
 	path(path),
-    loop(loop)
+    mode(mode)
 {
     if(path->size() < 2){
         log1("Invalid path size of %d", path->size());
@@ -641,7 +644,7 @@ void FollowPathKinematic::setSegment(size_t idx1, size_t idx2)
 void FollowPathKinematic::nextSegment()
 {
     if(idx2 == path->size() - 1){
-        if(loop)
+        if(bitwise_and_bool(mode, follow_path_mode::loop))
             setSegment(path->size() - 1, 0);
         else
             _state = state::completed;

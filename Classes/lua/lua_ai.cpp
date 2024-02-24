@@ -37,6 +37,16 @@ namespace Lua{
 			return result;
 		};
   
+		_ai.new_enum<ai::follow_path_mode, true>(
+			"follow_path_mode",
+			{
+				enum_entry(ai::follow_path_mode, none),
+				enum_entry(ai::follow_path_mode, loop),
+				enum_entry(ai::follow_path_mode, scan),
+				enum_entry(ai::follow_path_mode, stopForObstacle)
+			}
+		);
+		  
 		#define _cls ai::Function
 		auto func = _ai.new_usertype<ai::Function>(
 			"Function",
@@ -122,7 +132,11 @@ namespace Lua{
 			"FollowPath",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		follow_path["create"] = &create<ai::FollowPath, shared_ptr<const Path>, bool, bool>;
+		follow_path["create"] = &create<
+			ai::FollowPath,
+			shared_ptr<const Path>,
+			ai::follow_path_mode
+		>;
         addFuncSame(follow_path, pathToTarget);
         addFuncSame(follow_path, pathToPoint);
 
@@ -131,7 +145,11 @@ namespace Lua{
 			"FollowPathKinematic",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		follow_path_kinematic["create"] = &create<ai::FollowPathKinematic, shared_ptr<const Path>, bool>;
+		follow_path_kinematic["create"] = &create<
+			ai::FollowPathKinematic,
+			shared_ptr<const Path>,
+			ai::follow_path_mode
+		>;
         addFuncSame(follow_path_kinematic, pathToPoint);
 
 		auto lookTowardsFire = _ai.new_usertype<ai::LookTowardsFire>(
