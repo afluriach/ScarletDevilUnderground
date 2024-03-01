@@ -277,6 +277,7 @@ protected:
     int idx1 = 0;
     int idx2 = 1;
     follow_path_mode mode;
+    bool is_scanning = false;
 };
 
 class Wait : public Function {

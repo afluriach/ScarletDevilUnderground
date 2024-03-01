@@ -107,6 +107,20 @@ function objects.MeilingGuard:loop_path(super)
 	)
 end
 
+function objects.MeilingGuard:scan_path(super)
+	local p = self.super.space:getPath(self.super.name)
+	if not p then
+		app.log(string.format("Unknown path %s!", self.super.name))
+		return
+	end
+	
+	self.func = ai.FollowPathKinematic.create(
+		self.super:getAsObject(),
+		p,
+		ai.follow_path_mode.scan
+	)
+end
+
 --function objects.MeilingGuard:scan_path(super)
 --end
 

@@ -643,11 +643,28 @@ void FollowPathKinematic::setSegment(size_t idx1, size_t idx2)
 
 void FollowPathKinematic::nextSegment()
 {
+	if(is_scanning){
+		if(idx2 > 0){
+			setSegment(idx1 - 1, idx2 - 2);
+		}
+		else if(idx2 == 0){
+			is_scanning = false;
+			setSegment(0, 1);
+		}
+		return;
+	}
+	
     if(idx2 == path->size() - 1){
-        if(bitwise_and_bool(mode, follow_path_mode::loop))
+        if(bitwise_and_bool(mode, follow_path_mode::loop)){
             setSegment(path->size() - 1, 0);
-        else
+		}
+		else if(bitwise_and_bool(mode, follow_path_mode::scan)){
+			is_scanning = true;
+			setSegment(path->size() - 1, path->size() - 2);
+		}
+        else{
             _state = state::completed;
+		}
     }
     else if(idx1 == path->size() - 1){
         setSegment(0,1);
