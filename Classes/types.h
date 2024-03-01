@@ -51,6 +51,7 @@ class GAnimation;
 class graphics_context;
 class GScene;
 class HUD;
+class InventoryInfo;
 class LightArea;
 class LuaShell;
 class MapMenu;
@@ -163,6 +164,20 @@ enum class Element
 };
 
 extern const boost::bimap<Element, string> elementNameMap;
+
+enum class item_type
+{
+	none = 0,
+	spellcard,
+	firepattern,
+	key,
+	collectible,
+	upgrade,
+	map,
+	misc,
+};
+
+extern const boost::bimap<item_type, string> itemTypeNameMap;
 
 struct DamageInfo
 {

@@ -54,6 +54,7 @@ public:
 
 	map<string, int> attributes;
 	map<Attribute, float> attributeUpgrades;
+	map<string, float> itemDrops;
 	map<string, unsigned int> itemRegistry;
 	map<string, unsigned int> enemiesDefeated;
 
@@ -113,6 +114,7 @@ public:
 	void subtractAttribute(string name, int val);
     
     void registerEnemyDefeated(string t);
+	bool accumulateItemDrop(string t, float p);
 };
 
 #endif /* GState_hpp */

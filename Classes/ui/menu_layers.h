@@ -187,7 +187,7 @@ protected:
 
 };
 
-class InventoryInfo : public Node
+class InventoryInfo : public MenuLayer
 {
 public:
 	InventoryInfo();

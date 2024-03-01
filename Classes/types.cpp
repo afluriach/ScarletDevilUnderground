@@ -34,6 +34,19 @@ const boost::bimap<Element, string> elementNameMap = boost::assign::list_of<boos
 	entry(none)
 ;
 
+#define entry(x) (item_type::x, #x)
+const boost::bimap<item_type, string> itemTypeNameMap =
+	boost::assign::list_of<boost::bimap<item_type, string>::relation>()
+	entry(none)
+	entry(spellcard)
+	entry(firepattern)
+	entry(key)
+	entry(collectible)
+	entry(upgrade)
+	entry(map)
+	entry(misc)
+;
+
 DamageInfo DamageInfo::bomb(float mag)
 {
 	return DamageInfo(mag, DamageType::bomb);

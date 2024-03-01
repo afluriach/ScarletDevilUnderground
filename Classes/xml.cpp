@@ -244,21 +244,7 @@ bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute*
 
 bool getElementAttr(tinyxml2::XMLElement* elem, const string& name, Element* result)
 {
-	string elementStr;
-	getStringAttr(elem, name, &elementStr);
-	if (elementStr.size() > 0) {
-		auto it = elementNameMap.right.find(elementStr);
-
-		if (it != elementNameMap.right.end()) {
-			*result = it->second;
-			return true;
-		}
-		else {
-			log0("Unknown Element: " + elementStr);
-		}
-	}
-
-	return false;
+	return getEnumAttr(elem, name, elementNameMap, result);
 }
 
 bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result)

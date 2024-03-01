@@ -20,7 +20,10 @@ enum class ControlAction
     menu_back,
     menuUp,
     menuDown,
+    menuLeft,
+    menuRight,
 	map_menu,
+	inventory_menu,
 
     dialog_skip,
     interact,

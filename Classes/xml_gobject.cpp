@@ -274,13 +274,45 @@ namespace app {
 
 		return true;
 	}
+	
+	bool parseItemDrops(tinyxml2::XMLElement* elem, map<string,float>& result)
+	{
+		if (!elem) return false;
+
+		for (
+			tinyxml2::XMLElement* d = elem->FirstChildElement();
+			d != nullptr;
+			d = d->NextSiblingElement()
+        ){
+			string item = d->Name();
+			float p = 0.0f;
+			getNumericAttr(d, "p", &p);
+			
+			if(!app::getItem(item)){
+				log1("Unknown item drop %s!", item);
+				return false;
+			}
+			if(p <= 0.0f){
+				log1("Invalid item drop p for %s", item);
+				return false;
+			}
+			
+			result.insert(pair(item, p));
+		}
+		
+		return true;
+	}
 
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<enemy_properties> result)
 	{
 		parseObject(elem, static_cast<local_shared_ptr<agent_properties>>(result));
 
 		getStringAttr(elem, "firepattern", &result->firepattern);
-		getStringAttr(elem, "collectible", &result->collectible);
+		
+		tinyxml2::XMLElement* itemDrops = elem->FirstChildElement("item_drop");
+		if (itemDrops) {
+			parseItemDrops(itemDrops, result->itemDrops);
+		}
 
 		getDamageInfo(elem, &result->touchEffect);
 		result->touchEffect.type = DamageType::touch;
@@ -395,7 +427,7 @@ namespace app {
 		}
 
 		getStringAttr(elem, "dialog", &result->onAcquireDialog);
-
+		getEnumAttr(elem, "type", itemTypeNameMap, &result->itemType);
 		getNumericAttr(elem, "addToInventory", &result->addToInventory);
 
 		return true;

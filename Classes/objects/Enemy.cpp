@@ -66,13 +66,27 @@ bool Enemy::hit(DamageInfo damage, SpaceVect n)
 	return true;
 }
 
+void Enemy::onZeroHP()
+{
+	Agent::onZeroHP();
+	applyItemDrops();
+}
+
 void Enemy::onRemove()
 {
 	GObject::onRemove();
-	if(!props->collectible.empty()){
-		Item::create(space, props->collectible, getPos());
-	}
     App::getCrntState()->registerEnemyDefeated(getClsName());
+}
+
+void Enemy::applyItemDrops()
+{
+	if(!props) return;
+
+	for(auto entry : props->itemDrops){
+		bool spawn = App::getCrntState()->accumulateItemDrop(entry.first, entry.second);
+		if(spawn)
+			Item::create(space, entry.first, getPos());
+	}
 }
 
 DamageInfo Enemy::touchEffect() const{

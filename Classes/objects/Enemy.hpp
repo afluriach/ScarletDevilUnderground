@@ -21,10 +21,11 @@ public:
 
 	~Enemy();
 
+	virtual void onZeroHP();
 	virtual void onRemove();
-
+	void applyItemDrops();
+	
 	void runDamageFlicker();
-
 	virtual DamageInfo touchEffect() const;
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 protected:

@@ -77,9 +77,9 @@ objects.Upgrade.info = {
 	mp_upgrade = { Attribute.maxMP, 25.0 },
 	stamina_upgrade = { Attribute.maxStamina, 25.0 },
 	agility_upgrade = { Attribute.agility, 1.0 },
+	shield_upgrade = { Attribute.shieldLevel, 1.0 },
 	attack_upgrade = { Attribute.attack, 0.25 },
 	attack_speed_upgrade = { Attribute.attackSpeed, 0.25 },
-	shield_upgrade = { Attribute.shieldLevel, 0.25 },
 	bullet_speed_upgrade = { Attribute.bulletSpeed, 0.5 }
 }
 

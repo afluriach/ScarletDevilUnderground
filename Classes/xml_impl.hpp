@@ -267,6 +267,31 @@ namespace app {
         }
         return false;
     }
+    
+    template<typename E>
+	bool getEnumAttr(
+		tinyxml2::XMLElement* elem,
+		const string& name,
+		const boost::bimap<E,string>& bimap,
+		E* result
+	){
+		string str;
+		getStringAttr(elem, name, &str);
+		if (str.size() > 0) {
+			auto it = bimap.right.find(str);
+
+			if (it != bimap.right.end()) {
+				*result = it->second;
+				return true;
+			}
+			else {
+				log2("Unknown %s: %s", typeid(E).name(), str);
+			}
+		}
+
+		return false;
+	}
+	
 }
 
 #endif 

@@ -176,3 +176,18 @@ void GState::registerEnemyDefeated(string t)
     emplaceIfEmpty(enemiesDefeated, t, to_uint(0));
     ++enemiesDefeated.at(t);
 }
+
+bool GState::accumulateItemDrop(string t, float p)
+{
+	bool spawned = false;
+
+	emplaceIfEmpty(itemDrops, t, 0.0f);
+	itemDrops.at(t) += p;
+	
+	if(itemDrops.at(t) >= 1.0f){
+		spawned = true;
+		itemDrops.at(t) -= 1.0f;
+	}
+	
+	return spawned;
+}

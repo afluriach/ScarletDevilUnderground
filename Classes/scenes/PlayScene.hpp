@@ -34,6 +34,10 @@ public:
 	void onMapPressed();
 	void enterMap();
 	void exitMap();
+	
+	void onInventoryPressed();
+	void enterInventoryMenu();
+	void exitInventoryMenu();
 
 	void enterWorldSelect();
 	void exitWorldSelect();
@@ -51,6 +55,7 @@ public:
     HUD* hud = nullptr;
 	PauseMenu* pauseMenu = nullptr;
 	MapMenu* mapMenu = nullptr;
+	InventoryInfo* inventoryMenu = nullptr;
 
 private:    
     void addHUD();

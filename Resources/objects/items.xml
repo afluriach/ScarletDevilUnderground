@@ -1,33 +1,39 @@
 <items>
     <ForestBook1
 		name="Forest Book"
+		type="misc"
         sprite="forestBook"
         dialog="book_acquired"
     />
     <GraveyardBook1
 		name="Graveyard Book"
+		type="misc"
         sprite="graveyardBook"
         dialog="book_acquired"
     />
     
     <ForestKey
 		name="Forest Key"
+		type="key"
 		sprite="key"
 	/>
     
 	<MapFragment
 		cls="auto"
 		name="Map Fragment"
+		type="map"
 		sprite="mapFragment"
 		addToInventory="false"
 	/>
 
 	<Mushroom
 		name="Forest Mushroom"
+		type="misc"
 		sprite="mushroom"
 	/>
 	
     <Spellcard
+    	type="spellcard"
         sprite="spellcard"
         light="spellcard"
 		cls="auto"
@@ -39,6 +45,7 @@
     <starbowBreak base="Spellcard" name="Starbow Break" /> 
     
 	<Upgrade
+		type="upgrade"
 		cls="auto"
 		radius="0.75"
 		addToInventory="false"
@@ -53,15 +60,15 @@
 	<shield_upgrade base="Upgrade" sprite="auto" />
 	<bullet_speed_upgrade base="Upgrade" sprite="auto" />
 
-	<health1 sprite="auto" cls="Collectible" />
-	<health2 sprite="auto" cls="Collectible" />
-	<health3 sprite="auto" cls="Collectible" />
+	<health1 type="collectible" sprite="auto" cls="Collectible" />
+	<health2 type="collectible" sprite="auto" cls="Collectible" />
+	<health3 type="collectible" sprite="auto" cls="Collectible" />
 
-	<magic1 sprite="auto" cls="Collectible" />
-	<magic2 sprite="auto" cls="Collectible" />
-	<magic3 sprite="auto" cls="Collectible" />
+	<magic1 type="collectible" sprite="auto" cls="Collectible" />
+	<magic2 type="collectible" sprite="auto" cls="Collectible" />
+	<magic3 type="collectible" sprite="auto" cls="Collectible" />
 
-	<speed1 sprite="auto" cls="Collectible" />
-	<speed2 sprite="auto" cls="Collectible" />
+	<speed1 type="collectible" sprite="auto" cls="Collectible" />
+	<speed2 type="collectible" sprite="auto" cls="Collectible" />
 
 </items>

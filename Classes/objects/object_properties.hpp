@@ -138,9 +138,8 @@ public:
 	inline enemy_properties() {}
 
 	string firepattern;
-	string collectible;
-
 	DamageInfo touchEffect;
+	map<string, float> itemDrops;
 };
 
 class environment_object_properties : public object_properties
@@ -174,6 +173,7 @@ public:
     virtual ~item_properties();
 
 	string onAcquireDialog;
+	item_type itemType = item_type::none;
 
 	bool addToInventory = true;
 };

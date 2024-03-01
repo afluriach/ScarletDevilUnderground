@@ -8,15 +8,18 @@
 		viewRange="5.0"
 		viewAngle="0"
 
-		collectible="health1,magic1"		
 		isFlying="true"
 		
 		damage="5.0"
 	>
 		<attributes>
-			<maxHP val="50"/>
+			<maxHP val="10"/>
 			<agility val="2.0"/>
 		</attributes>
+		<item_drop>
+			<health1 p="0.25" />
+			<magic1 p="0.25" />
+		</item_drop>
 	</Bat>
 
 	<BlueFairy
@@ -31,7 +34,6 @@
 		viewAngle="90"
 
 		damage="5.0"
-		collectible="health1,magic1"		
 	>
 		<attributes>
 			<shieldLevel val="1"/>
@@ -46,6 +48,10 @@
 			<bulletSensitivity val="0.75"/>
 			<meleeSensitivity val="0.75"/>
 		</attributes>
+		<item_drop>
+			<health1 p="0.33" />
+			<magic1 p="0.33" />
+		</item_drop>
 	</BlueFairy>
 	
 	<Facer
@@ -70,14 +76,16 @@
 		mass="40"
 		viewRange="6"
 		viewAngle="0"
-
-		collectible="health1,magic1"		
 	>
 		<attributes>
 			<maxHP val="30"/>
 			<maxSpeed val="3.0"/>
 			<maxAcceleration val="4.5"/>
 		</attributes>
+		<item_drop>
+			<health1 p="0.25" />
+			<magic1 p="0.2" />
+		</item_drop>
 	</Fairy1>
 	
 	<Follower
@@ -116,8 +124,6 @@
 		mass="15"
 		viewRange="6.0"
 		viewAngle="0"
-
-		collectible="health1,magic1,speed1"		
 	>
 		<attributes>
 			<maxHP val="20"/>
@@ -135,8 +141,6 @@
 		mass="10"
 		viewRange="3"
 		viewAngle="0"
-
-		collectible="health1,magic1"		
 	>
 		<attributes>
 			<maxHP val="75"/>
@@ -162,13 +166,17 @@
 		viewAngle="0"
 
 		damage="3.0"
-		collectible="health1,magic1,speed1"		
 	>
 		<attributes>
 			<maxHP val="60"/>
 			<agility val="3.0"/>
 			<stressFromHits val="0.5"/>
 		</attributes>
+		<item_drop>
+			<health1 p="0.25" />
+			<magic1 p="0.25" />
+		</item_drop>
+
 	</GreenFairy1>
 
 	<GreenFairy2
@@ -183,13 +191,16 @@
 		viewAngle="0"
 
 		damage="6.0"
-		collectible="health2,magic2,speed2"		
 	>
 		<attributes>
 			<maxHP val="90"/>
 			<agility val="4.0"/>
 			<stressFromHits val="0.5"/>
 		</attributes>
+		<item_drop>
+			<health2 p="0.2" />
+			<magic2 p="0.2" />
+		</item_drop>
 	</GreenFairy2>
 
 	<IceFairy
@@ -202,8 +213,6 @@
 		mass="40"
 		viewRange="6.0"
 		viewAngle="45"
-
-		collectible="magic2"		
 	>
 		<attributes>
 			<maxHP val="15"/>
@@ -223,8 +232,6 @@
 		mass="25"
 		viewRange="7.5"
 		viewAngle="0"
-
-		collectible="health2,magic2"		
 	>
 		<attributes>
 			<maxHP val="120"/>
@@ -235,6 +242,10 @@
 			<bulletSensitivity val="0.75"/>
 			<meleeSensitivity val="1.25"/>
 		</attributes>
+		<item_drop>
+			<health2 p="0.25" />
+			<magic2 p="0.25" />
+		</item_drop>
 	</RedFairy>
 	
 	<PatchouliEnemy
@@ -244,8 +255,6 @@
 		ai_package="patchouli_enemy"
 		
 		mass="-1.0"
-		
-		collectible="magic2"
 	>
 		<attributes>
 			<maxHP val="300"/>
@@ -265,8 +274,6 @@
 		mass="40"
 		viewRange="5.0"
 		viewAngle="0.0"
-		
-		collectible="magic2"
 	>
 		<attributes>
 			<maxHP val="100"/>
@@ -346,13 +353,16 @@
 
 		damage="5"
 		element="poison"
-		collectible="health1,magic1"		
 	>
 		<attributes>
 			<maxHP val="25"/>
 			<maxSpeed val="2.0"/>
 			<maxAcceleration val="6.0"/>
 		</attributes>
+		<item_drop>
+			<health1 p="0.25" />
+			<magic1 p="0.25" />
+		</item_drop>
 	</Scorpion1>
 
 	<Scorpion2
@@ -366,13 +376,16 @@
 
 		damage="15"
 		element="poison"
-		collectible="health2,magic2"		
 	>
 		<attributes>
 			<maxHP val="50"/>
 			<maxSpeed val="3.0"/>
 			<maxAcceleration val="9.0"/>
 		</attributes>
+		<item_drop>
+			<health2 p="0.25" />
+			<magic2 p="0.25" />
+		</item_drop>
 	</Scorpion2>
 
 	<Slime1
@@ -386,7 +399,6 @@
 		viewAngle="45"
 
 		damage="5"
-		collectible="health1,magic1"		
 	>
 		<attributes>
 			<maxHP val="15"/>
@@ -406,7 +418,6 @@
 		viewAngle="45"
 
 		damage="15"
-		collectible="health2,magic2"
 	>
 		<attributes>
 			<maxHP val="50"/>
@@ -422,8 +433,6 @@
 		mass="40"
 		viewRange="6.0"
 		viewAngle="0"
-
-		collectible="magic1"
 		
 		detectEssence="true"
 	>
@@ -465,7 +474,6 @@
 
 		damage="20"
 		element="darkness"
-		collectible="health2,magic2"
 	>
 		<attributes>
 			<maxHP val="120"/>
@@ -473,6 +481,10 @@
 			<maxAcceleration val="10.0"/>
 			<darknessSensitivity val="0.0"/>
 		</attributes>
+		<item_drop>
+			<health2 p="0.25" />
+			<magic2 p="0.25" />
+		</item_drop>
 	</ZombieFairy>
 	
 <!-- 	<t

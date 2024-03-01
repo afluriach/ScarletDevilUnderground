@@ -25,6 +25,7 @@ const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister:
 	key_action_2(KEY_E,menu_select,interact),
 	key_action_2(KEY_X,dialog_skip, center_look),
 	key_action_1(KEY_M,map_menu),
+	key_action_1(KEY_I,inventory_menu),
 
 	key_action_1(KEY_1, spell_previous),
 	key_action_1(KEY_2, spell_next),
@@ -37,13 +38,13 @@ const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister:
 
 	key_action_2(KEY_W,move_up,menuUp),
 	key_action_2(KEY_S, move_down, menuDown),
-	key_action_1(KEY_A, move_left),
-	key_action_1(KEY_D, move_right),
+	key_action_2(KEY_A, move_left, menuLeft),
+	key_action_2(KEY_D, move_right, menuRight),
 
 	key_action_2(KEY_UP_ARROW, aim_up,menuUp),
 	key_action_2(KEY_DOWN_ARROW, aim_down,menuDown),
-	key_action_1(KEY_LEFT_ARROW, aim_left),
-	key_action_1(KEY_RIGHT_ARROW, aim_right),
+	key_action_2(KEY_LEFT_ARROW, aim_left, menuLeft),
+	key_action_2(KEY_RIGHT_ARROW, aim_right, menuRight),
 
 	key_action_1(KEY_Z, fire_mode),
 
@@ -153,6 +154,7 @@ const unordered_map<string, ControlAction> ControlRegister::actionNameMap = {
 	entry(menu_select),
 	entry(menu_back),
 	entry(map_menu),
+	entry(inventory_menu),
 
 	entry(dialog_skip),
 	entry(interact),
@@ -210,8 +212,8 @@ const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::def
 	button_action_1(PadButtonY, power_attack),
 
 	button_action_1(PadButtonUp, fire_pattern_next),
-	button_action_1(PadButtonLeft, spell_previous),
-	button_action_1(PadButtonRight, spell_next),
+	button_action_2(PadButtonLeft, spell_previous, menuLeft),
+	button_action_2(PadButtonRight, spell_next, menuRight),
 	button_action_1(PadButtonDown, fire_pattern_previous),
 
 	button_action_1(PadButtonL3, center_look),

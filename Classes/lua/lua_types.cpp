@@ -103,6 +103,20 @@ namespace Lua{
 				enum_entry(Element, none)
 			}
 		);
+		
+		auto itemtype = _state.new_enum<item_type, true>(
+			"item_type",
+			{
+				enum_entry(item_type, none),
+				enum_entry(item_type, spellcard),
+				enum_entry(item_type, firepattern),
+				enum_entry(item_type, key),
+				enum_entry(item_type, collectible),
+				enum_entry(item_type, upgrade),
+				enum_entry(item_type, map),
+				enum_entry(item_type, misc)
+			}
+		);
 
 		auto _attr = _state.new_enum <Attribute, true>(
 			"Attribute",

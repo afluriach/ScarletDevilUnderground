@@ -47,6 +47,13 @@ GScene(props, start)
 			this->onPausePressed();
 		}
     );
+    
+	control_listener->addPressListener(
+        ControlAction::inventory_menu,
+        [this]()-> void {
+			this->onInventoryPressed();
+		}
+    );
 
 	control_listener->addPressListener(
 		ControlAction::map_menu,
@@ -128,7 +135,6 @@ void PlayScene::onMapPressed()
 	else
 		enterMap();
 }
-
 
 void PlayScene::enterPause()
 {
@@ -221,6 +227,42 @@ void PlayScene::exitMap()
 {
 	popMenu();
 	mapMenu = nullptr;
+	resumeAnimations();
+#if use_sound
+	App::audioContext->resumeSounds();
+#endif
+	setPaused(false);
+	isShowingMenu = false;
+}
+
+void PlayScene::onInventoryPressed()
+{
+	if (inventoryMenu)
+		exitInventoryMenu();
+	else
+		enterInventoryMenu();
+}
+
+void PlayScene::enterInventoryMenu()
+{
+	pauseAnimations();
+#if use_sound
+	App::audioContext->pauseSounds();
+#endif
+	setPaused(true);
+	isShowingMenu = true;
+
+	waitForSpaceThread();
+
+	inventoryMenu = Node::ccCreate<InventoryInfo>();
+	inventoryMenu->setPosition(app::params.width * 0.25f, app::params.height * 0.5f);
+	pushMenu(inventoryMenu);
+}
+
+void PlayScene::exitInventoryMenu()
+{
+	popMenu();
+	inventoryMenu = nullptr;
 	resumeAnimations();
 #if use_sound
 	App::audioContext->resumeSounds();
