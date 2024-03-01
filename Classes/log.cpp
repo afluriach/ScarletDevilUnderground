@@ -14,12 +14,23 @@ void LogSystem::logOutput(const string& prefix, const string& s)
 {
 	bufMutex.lock();
  
+	if(repeatCount > 0 && s != prevDebugMsg){
+		buf.push_back("    repeat x" + boost::lexical_cast<string>(repeatCount));
+		repeatCount = 0;
+	}
+ 
     if(!prefix.empty() && prefix != prevDebugPrefix){
         buf.push_back(prefix);
     }
     prevDebugPrefix = prefix;
     
-	buf.push_back(s);
+    if(s != prevDebugMsg){
+		buf.push_back(s);
+		prevDebugMsg = s;
+	}
+	else{
+		++repeatCount;
+	}
     
 	bufMutex.unlock();
 	threadCondVar.notify_one();
@@ -68,6 +79,8 @@ void LogSystem::update()
 	}
 }
 
+int LogSystem::repeatCount = 0;
+string LogSystem::prevDebugMsg;
 string LogSystem::prevDebugPrefix;
 
 mutex LogSystem::bufMutex;

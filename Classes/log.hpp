@@ -23,6 +23,8 @@ public:
 protected:
 	static void update();
  
+	static int repeatCount;
+	static string prevDebugMsg;
     static string prevDebugPrefix;
 
 	static mutex bufMutex;
