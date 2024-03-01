@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="57">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="9" nextobjectid="57">
  <tileset firstgid="1" name="ice_wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../ice_wall.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="dark_ice_floor" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../dark_ice.png" width="128" height="128"/>
  </tileset>
- <layer name="floor" width="17" height="17">
+ <layer id="1" name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYANiVjJpEGBnoAywQ81DB6xEYphabO4gxYzh7A5i9WJzB7mYAckcariDmuFBjhkjwR2kAJh+QuUDIXkAHT8EBQ==
   </data>
  </layer>
- <layer name="wall_tiles" width="17" height="17">
+ <layer id="2" name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYARiJjJpEGBmoAywIJlFLmAadQdN3EEpGG7hMeoOVHfAaGYyaRAAABbPAJg=
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="7" name="pitfalls">
   <object id="37" type="Pitfall" x="128" y="128" width="256" height="896"/>
   <object id="38" type="Pitfall" x="384" y="256" width="256" height="640"/>
   <object id="39" type="Pitfall" x="384" y="128" width="1536" height="128"/>
@@ -24,27 +24,24 @@
   <object id="41" type="Pitfall" x="128" y="1920" width="1920" height="128"/>
   <object id="42" type="Pitfall" x="384" y="1280" width="256" height="640"/>
   <object id="43" type="Pitfall" x="128" y="1152" width="256" height="768"/>
+ </objectgroup>
+ <objectgroup id="3" name="floor">
   <object id="44" type="IceFloor" x="640" y="256" width="1280" height="1664"/>
   <object id="45" type="IceFloor" x="384" y="896" width="256" height="384"/>
   <object id="46" type="IceFloor" x="0" y="1024" width="384" height="128"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="4" name="walls">
   <object id="26" x="0" y="0" width="2048" height="128"/>
   <object id="27" x="2048" y="0" width="128" height="2048"/>
   <object id="28" x="128" y="2048" width="2048" height="128"/>
   <object id="29" x="0" y="1152" width="128" height="1024"/>
   <object id="32" x="0" y="128" width="128" height="896"/>
  </objectgroup>
- <objectgroup name="objects">
+ <objectgroup id="5" name="objects">
   <object id="50" name="block4" type="Block" x="1792" y="1792" width="128" height="128"/>
   <object id="49" name="block3" type="Block" x="640" y="1792" width="128" height="128"/>
   <object id="48" name="block2" type="Block" x="640" y="256" width="128" height="128"/>
   <object id="47" name="block1" type="Block" x="1792" y="256" width="128" height="128"/>
-  <object id="55" name="door-c4-west" type="Door" x="0" y="1024" width="128" height="128">
-   <properties>
-    <property name="dir" value="right"/>
-   </properties>
-  </object>
   <object id="56" name="goal" type="Goal" x="1792" y="1024" width="128" height="128">
    <properties>
     <property name="spawn_name" value="spawn_scorpion"/>
@@ -52,7 +49,14 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="spawners">
+ <objectgroup id="8" name="doors">
+  <object id="55" name="door-c4-west" type="Door" x="0" y="1024" width="128" height="128">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="spawners">
   <object id="51" name="spawner1" x="1216" y="256" width="128" height="128"/>
   <object id="52" name="spawner2" x="1216" y="1792" width="128" height="128"/>
   <object id="53" name="spawner3" x="1216" y="1024" width="128" height="128"/>

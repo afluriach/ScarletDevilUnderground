@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="6" nextobjectid="57">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="57">
  <tileset firstgid="1" name="ice_wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../ice_wall.png" width="256" height="256"/>
  </tileset>
@@ -16,13 +16,15 @@
    eJxjYGBgYARiJjJpEGBmoAywIJlFLmAadcegdAfDIHHHYAmP4eYOGM2MgyZGHgAUfwCU
   </data>
  </layer>
- <objectgroup id="3" name="floor">
+ <objectgroup id="6" name="pitfalls">
   <object id="38" type="Pitfall" x="128" y="128" width="768" height="1792"/>
   <object id="39" type="Pitfall" x="1920" y="128" width="128" height="896"/>
   <object id="40" type="Pitfall" x="896" y="128" width="1024" height="768"/>
   <object id="41" type="Pitfall" x="128" y="1920" width="896" height="128"/>
   <object id="42" type="Pitfall" x="1280" y="1280" width="256" height="768"/>
   <object id="44" type="Pitfall" x="1536" y="1280" width="512" height="256"/>
+ </objectgroup>
+ <objectgroup id="3" name="floor">
   <object id="47" type="IceFloor" x="1536" y="1536" width="512" height="512"/>
   <object id="48" type="IceDamageFloor" x="896" y="896" width="384" height="384"/>
   <object id="49" type="IceDamageFloor" x="896" y="1280" width="384" height="640"/>
@@ -38,7 +40,7 @@
   <object id="30" x="1152" y="2048" width="1024" height="128"/>
   <object id="31" x="2048" y="1152" width="128" height="896"/>
  </objectgroup>
- <objectgroup id="5" name="objects">
+ <objectgroup id="7" name="doors">
   <object id="55" name="door-c6-south" type="Door" x="1024" y="2048" width="128" height="128">
    <properties>
     <property name="dir" value="up"/>
@@ -50,4 +52,5 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup id="5" name="objects"/>
 </map>

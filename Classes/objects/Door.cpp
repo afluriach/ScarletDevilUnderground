@@ -73,6 +73,9 @@ void Door::init()
 		) {
 			entryDirection = angleToDirection((getPos() - adjacent.get()->getPos()).toAngle());
 		}
+		else if(!adjacent.isValid()){
+			log1("Door %s: adjacent door not found!", name);
+		}
 	}
 
 	if ((doorType == door_type::one_way_destination || doorType == door_type::one_way_source) && adjacent.isValid()) {
