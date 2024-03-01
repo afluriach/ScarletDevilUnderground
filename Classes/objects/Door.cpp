@@ -26,7 +26,7 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 			false,
 			false
 		),
-		nullptr
+		app::getObjectProps("Door")
 	)
 {
 	keyItem = getStringOrDefault(args, "keyItem", "");

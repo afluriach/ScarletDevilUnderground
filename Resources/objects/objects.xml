@@ -26,6 +26,10 @@
 		sprite="headstone"
 		mass="-1.0"		
 	/>
+	<Door
+		sprite="door"
+		mass="-1.0"
+	/>
 	<Goal
 		cls="auto"
 		sprite="goal"
