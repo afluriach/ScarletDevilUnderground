@@ -62,7 +62,7 @@ function objects.MeilingGuard:init(super)
 	self.super = super
 end
 
-function objects.MeilingGuard:initialize(super)
+function objects.MeilingGuard:initialize()
 	if self.super.name == '' then
 		app.log('Un-named guard!')
 		return
@@ -83,17 +83,17 @@ function objects.MeilingGuard:initialize(super)
 	f(self)
 end
 
-function objects.MeilingGuard:update(super)
+function objects.MeilingGuard:update()
 	if self.func then
 		self.func:runUpdate()
 	end
 end
 
-function objects.MeilingGuard:look_around(super)
+function objects.MeilingGuard:look_around()
 	self.func = ai.LookAround.create(self.super:getAsObject(), self.angular_speed)
 end
 
-function objects.MeilingGuard:loop_path(super)
+function objects.MeilingGuard:follow_path(mode)
 	local p = self.super.space:getPath(self.super.name)
 	if not p then
 		app.log(string.format("Unknown path %s!", self.super.name))
@@ -103,22 +103,16 @@ function objects.MeilingGuard:loop_path(super)
 	self.func = ai.FollowPathKinematic.create(
 		self.super:getAsObject(),
 		p,
-		ai.follow_path_mode.loop
+		mode
 	)
 end
 
-function objects.MeilingGuard:scan_path(super)
-	local p = self.super.space:getPath(self.super.name)
-	if not p then
-		app.log(string.format("Unknown path %s!", self.super.name))
-		return
-	end
-	
-	self.func = ai.FollowPathKinematic.create(
-		self.super:getAsObject(),
-		p,
-		ai.follow_path_mode.scan
-	)
+function objects.MeilingGuard:loop_path()
+	self:follow_path(ai.follow_path_mode.loop)
+end
+
+function objects.MeilingGuard:scan_path()
+	self:follow_path(ai.follow_path_mode.scan)
 end
 
 --function objects.MeilingGuard:scan_path(super)
