@@ -408,6 +408,9 @@ namespace app {
 
 		getDamageInfo(elem, &result->damage);
         result->damage.type = DamageType::bomb;
+        
+        getTypeAttr(elem, "explodeOnTouch", &result->explodeOnTouch);
+        getNumericAttr(elem, "chainExplode", &result->chainExplode);
 
 		if (result->blastRadius <= 0.0f || result->fuseTime <= 0.0f) {
 			log0("bomb properties missing");

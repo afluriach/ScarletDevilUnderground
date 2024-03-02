@@ -1012,7 +1012,7 @@ Pitfall* GSpace::pitfallPointQuery(SpaceVect pos)
 {
 	return dynamic_cast<Pitfall*>(physicsContext->pointQuery(
 		pos,
-		GType::floorSegment,
+		GType::pitfall,
 		PhysicsLayers::belowFloor
 	));
 }

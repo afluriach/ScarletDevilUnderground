@@ -247,6 +247,23 @@ bool getElementAttr(tinyxml2::XMLElement* elem, const string& name, Element* res
 	return getEnumAttr(elem, name, elementNameMap, result);
 }
 
+bool getTypeAttr(tinyxml2::XMLElement* elem, const string& name, GType* result)
+{
+	string str;
+	unsigned int types = 0;
+	
+	getStringAttr(elem, name, &str);
+	vector<string> tokens = splitString(str, ",");
+	
+	for(string token : tokens){
+		//bitwise_or(GType, *result, parseType(token));
+		types |= to_uint(parseType(token));
+	}
+	
+	*result = static_cast<GType>(types);
+	return tokens.size() > 0;
+}
+
 bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result)
 {
 	const char* attr = elem->Attribute(name.c_str());

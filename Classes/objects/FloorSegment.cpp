@@ -68,7 +68,7 @@ Pitfall::Pitfall(
 		id,
 		MapParams(),
 		physics_params(
-			GType::floorSegment,
+			GType::pitfall,
 			PhysicsLayers::belowFloor,
 			-1.0,
 			true,

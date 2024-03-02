@@ -84,6 +84,11 @@ public:
 	float cost;
 
 	DamageInfo damage;
+
+	//Bomb will detonate immediately if it touches an object of this type.
+	GType explodeOnTouch = GType::none;
+	//Bomb will detonate immediately if it is hit by an explosion (from another bomb).
+	bool chainExplode = true;
 };
 
 class bullet_properties : public object_properties

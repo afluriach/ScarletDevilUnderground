@@ -63,6 +63,7 @@ namespace Lua
 				return obj.as<T>();
 			}
 			else {
+				log2("Unknown %s enum value %s!", typeid(T).name(), s);
 				return _default;
 			}
 		}

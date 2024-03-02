@@ -362,12 +362,13 @@ enum class GType{
     item = 0x200,
     npc = 0x400,
 	floorSegment = 0x800,
-	bomb = 0x1000,
+	pitfall = 0x1000,
+	bomb = 0x2000,
 
-	all = 0x1FFF,
+	all = 0x3FFF,
 
-	canDamage = 0x2000,
-	interactible = 0x4000,
+	canDamage = 0x4000,
+	interactible = 0x8000,
 };
 
 extern const GType obstacles;

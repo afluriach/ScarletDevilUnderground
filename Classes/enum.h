@@ -62,5 +62,6 @@ constexpr E enum_bitwise_or_v(E first, Params... params)
 
 #define bitwise_and_bool(a,b) static_cast<bool>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b))
 #define bitwise_and(cls,a,b) static_cast<cls>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b))
+#define bitwise_or(cls,a,b) static_cast<cls>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b))
 
 #endif enum_h

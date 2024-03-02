@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "AreaSensor.hpp"
+#include "Bomb.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "FloorSegment.hpp"
@@ -474,6 +475,11 @@ void floorObjectEnd(FloorSegment* fs, GObject* obj, b2Contact* arb)
 	obj->onEndContactFloor(fs);
 }
 
+void bombObjectBegin(Bomb* bomb, GObject* obj, b2Contact* arb)
+{
+	bomb->onTouch(obj);
+}
+
 void objectAreaSensorBegin(GObject* obj, AreaSensor* areaSensor, b2Contact* contact)
 {
 	areaSensor->beginContact(obj);
@@ -529,4 +535,16 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandler(floorSegment, bomb, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, item, floorObjectBegin, floorObjectEnd);
+
+ 	_addHandlerNoEnd(bomb, player, bombObjectBegin);
+ 	_addHandlerNoEnd(bomb, enemy, bombObjectBegin);
+ 	_addHandlerNoEnd(bomb, npc, bombObjectBegin);
+ 	_addHandlerNoEnd(bomb, playerBullet, bombObjectBegin);
+ 	_addHandlerNoEnd(bomb, enemyBullet, bombObjectBegin);
+ 	_addHandlerNoEnd(bomb, bomb, bombObjectBegin);
+ 	_addHandlerNoEnd(bomb, environment, bombObjectBegin);
+ 	_addHandlerNoEnd(bomb, wall, bombObjectBegin);
+
+	//Pitfall doesn't collide with anything, it is accessed only by query
+    emplaceIfEmpty(collisionMasks, GType::pitfall, to_uint(0));
 }

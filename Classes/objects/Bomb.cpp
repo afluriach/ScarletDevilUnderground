@@ -113,10 +113,20 @@ shared_ptr<sprite_properties> Bomb::getSprite() const {
     return props->sprite;
 }
 
+void Bomb::onTouch(GObject* other)
+{
+	if( bitwise_and_bool(props->explodeOnTouch, other->getType()) ){
+		detonate();
+	}
+}
+
 bool Bomb::hit(DamageInfo damage, SpaceVect n)
 {
-	if (damage.isExplosion()) {
+	if (damage.isExplosion() && props->chainExplode) {
 		detonate();
+	}
+	else{
+		applyImpulse(n * damage.knockback);
 	}
 
 	return damage.isExplosion();
