@@ -57,6 +57,13 @@ environment_object_properties::environment_object_properties()
 environment_object_properties::~environment_object_properties()
 {}
 
+floorsegment_properties floorsegment_properties::makeDefault()
+{
+	floorsegment_properties result;
+	result.mass = -1.0;
+	return result;
+}
+
 floorsegment_properties::floorsegment_properties()
 {}
 

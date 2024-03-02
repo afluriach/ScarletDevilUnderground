@@ -618,6 +618,7 @@ void Agent::applyDesiredMovement(SpaceVect direction)
 		crntState == agent_state::knockback ||
 		crntState == agent_state::knockbackRecovery
 	){
+		applyStoppingForce();
 		return;
 	}
 

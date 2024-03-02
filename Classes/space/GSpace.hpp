@@ -271,6 +271,7 @@ public:
 
 //BEGIN NAVIGATION
 public:
+	bool isObstacleObject(const GObject* obj) const;
     bool isObstacle(IntVec2) const;
     void addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
 	void removeNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);

@@ -278,8 +278,6 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 
 	shape = body->CreateFixture(&fixture);
 
-	checkAddNavObstacle(type, center, SpaceVect(radius*2.0, radius*2.0), mass);
-
 	return make_pair(body, shape);
 }
 
@@ -326,8 +324,6 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 
 	shape = body->CreateFixture(&fixture);
 
-	checkAddNavObstacle(type, center, dim, mass);
-
 	return make_pair(body, shape);
 }
 
@@ -359,13 +355,6 @@ b2BodyDef PhysicsImpl::generateBodyDef(GType type, SpaceVect center, SpaceFloat 
 	def.bullet = isBulletType(type);
 
 	return def;
-}
-
-void PhysicsImpl::checkAddNavObstacle(GType type, SpaceVect center, SpaceVect dim, SpaceFloat mass)
-{
-	if (mass < 0.0 && (type == GType::environment || type == GType::wall)) {
-		gspace->addNavObstacle(center, dim);
-	}
 }
 
 const bool PhysicsImpl::logPhysicsHandlers = false;

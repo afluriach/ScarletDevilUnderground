@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="7" nextobjectid="67">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="71">
  <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../grey stone wall grain.png" width="256" height="256"/>
  </tileset>
@@ -24,6 +24,24 @@
   <object id="63" type="MineFloor" x="128" y="1664" width="384" height="384"/>
   <object id="64" type="MineFloor" x="896" y="1664" width="384" height="384"/>
   <object id="65" type="MineFloor" x="1664" y="1664" width="384" height="384"/>
+  <object id="69" name="platform3" type="CavePlatform" x="128" y="512" width="384" height="384">
+   <properties>
+    <property name="path_type" value="scan"/>
+   </properties>
+  </object>
+  <object id="70" name="platform4" type="CavePlatform" x="1664" y="1280" width="384" height="384">
+   <properties>
+    <property name="path_type" value="scan"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="paths">
+  <object id="67" name="platform3" x="320" y="704">
+   <polyline points="0,0 1536,0"/>
+  </object>
+  <object id="68" name="platform4" x="1856" y="1472">
+   <polyline points="0,0 -1536,0"/>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="pitfalls">
   <object id="37" type="Pitfall" x="128" y="512" width="384" height="384"/>

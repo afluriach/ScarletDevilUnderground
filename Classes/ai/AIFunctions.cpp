@@ -632,13 +632,17 @@ void FollowPathKinematic::setSegment(size_t idx1, size_t idx2)
     this->idx1 = idx1;
     this->idx2 = idx2;
     
+    d -= currentSegmentLength;
+    
     SpaceVect disp = (*path)[idx2] - (*path)[idx1];
     currentSegmentStart = (*path)[idx1];
     currentSegmentLength = disp.length();
     currentSegmentDisplacementNormal = disp.normalize();
-    d = 0.0;
+	speed = object->getMaxSpeed();
     
     object->setAngle(angleToTarget(object, (*path)[idx2]));
+    object->setVel(currentSegmentDisplacementNormal * speed);
+	object->setPos(currentSegmentStart + currentSegmentDisplacementNormal*d);
 }
 
 void FollowPathKinematic::nextSegment()
@@ -663,6 +667,7 @@ void FollowPathKinematic::nextSegment()
 			setSegment(path->size() - 1, path->size() - 2);
 		}
         else{
+			object->setVel(SpaceVect::zero);
             _state = state::completed;
 		}
     }
@@ -684,9 +689,7 @@ void FollowPathKinematic::update()
     if(_state == state::completed)
         return;
 
-    SpaceFloat speed = object->getMaxSpeed();
     d += speed * app::params.secondsPerFrame;
-    object->setPos(currentSegmentStart + currentSegmentDisplacementNormal*d);
     
     if(d >= currentSegmentLength)
         nextSegment();

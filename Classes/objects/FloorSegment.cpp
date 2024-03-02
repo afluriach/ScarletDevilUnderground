@@ -24,7 +24,7 @@ FloorSegment::FloorSegment(
 		physics_params(
 			GType::floorSegment,
 			PhysicsLayers::floor,
-			-1.0,
+			props->mass,
 			true,
 			false
 		),
@@ -42,6 +42,10 @@ FloorSegment::~FloorSegment()
 
 string FloorSegment::getFootstepSfx() const {
 	return props->sfxRes.empty() ? "" : "sfx/" + props->sfxRes + ".wav";
+}
+
+SpaceFloat FloorSegment::getMaxSpeed() const{
+	return props->speed;
 }
 
 SpaceFloat FloorSegment::getTraction() const {

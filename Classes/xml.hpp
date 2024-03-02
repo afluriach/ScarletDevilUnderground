@@ -19,6 +19,8 @@ namespace app {
 	extern unordered_map<string, SpellDesc*> spells;
 	extern unordered_map<string, shared_ptr<sprite_properties>> sprites;
 
+	extern floorsegment_properties defaultFloorSegment;
+
 	void loadAreas();
 	void loadBombs();
 	void loadBullets();

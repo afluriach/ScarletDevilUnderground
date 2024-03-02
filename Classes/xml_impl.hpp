@@ -116,12 +116,9 @@ namespace app {
             }
             else {
                 log3("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
-
             }
-
         }
         return false;
-
     }
 
     template<typename T>
@@ -153,7 +150,7 @@ namespace app {
     }
 
     template<typename T>
-    inline void loadObjectsShared(string filename)
+    inline void loadObjectsShared(string filename, const T* _default)
     {
         tinyxml2::XMLDocument objectsDocument;
         auto error = objectsDocument.Parse(io::loadTextFile(filename).c_str());
@@ -171,7 +168,11 @@ namespace app {
             crnt = crnt->NextSiblingElement())
         {
             local_shared_ptr<T> object = make_local_shared<T>();
-            copyBaseObjectShared<T>(crnt, object);
+
+            if(!copyBaseObjectShared<T>(crnt, object) && _default){
+				*object = *_default;
+				object->_refcount = 1;
+			}
 
             if (parseObject(crnt, object)) {
                 app::objects.insert_or_assign(crnt->Name(), object);
@@ -292,7 +293,6 @@ namespace app {
 
 		return false;
 	}
-	
 }
 
 #endif 

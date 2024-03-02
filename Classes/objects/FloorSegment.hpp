@@ -20,6 +20,9 @@ public:
 	);
 	virtual ~FloorSegment();
 
+	inline virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
+	virtual SpaceFloat getMaxSpeed() const;
+
 	virtual SpaceFloat getTraction() const;
 	virtual string getFootstepSfx() const;
 

@@ -367,9 +367,8 @@ namespace app {
 		parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
 
 		getStringAttr(elem, "sfx", &result->sfxRes);
-		getStringAttr(elem, "sprite", &result->sprite);
-
 		getNumericAttr(elem, "traction", &result->traction);
+		getNumericAttr(elem, "speed", &result->speed);
 
 		result->touchDamage.damageOverTime = true;
 		result->touchDamage.type = DamageType::floor;

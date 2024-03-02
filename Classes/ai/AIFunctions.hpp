@@ -274,6 +274,7 @@ protected:
     SpaceVect currentSegmentDisplacementNormal;
     SpaceFloat d = 0.0;
     SpaceFloat currentSegmentLength = 0.0;
+    SpaceFloat speed;
     int idx1 = 0;
     int idx2 = 1;
     follow_path_mode mode;

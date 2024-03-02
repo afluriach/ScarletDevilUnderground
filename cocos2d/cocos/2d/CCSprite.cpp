@@ -170,6 +170,7 @@ bool Sprite::initWithFile(const std::string& filename)
     // don't release here.
     // when load texture failed, it's better to get a "transparent" sprite then a crashed program
     // this->release();
+    CCASSERT(0, "Sprite texture failed to load");
     return false;
 }
 

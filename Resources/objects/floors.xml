@@ -11,5 +11,21 @@
 		
 	<CavePressurePlate cls="PressurePlate" sfx="footstep_ice" />
 	<TimedSwitch cls="auto" />
+		
+	<CavePlatform
+		cls="MovingPlatform"
+		sprite="movingPlatform"
+		sfx="footstep_stone"
+		mass="0.0"
+		speed="1.0"
+	/>
+	<LakePlatform
+		cls="MovingPlatform"
+		sprite="icePlatform"
+		sfx="footstep_ice"
+		traction="0.75"
+		mass="0.0"
+		speed="1.5"
+	/>
 	
 </floors>

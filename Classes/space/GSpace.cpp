@@ -576,7 +576,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 		objByType[typeid(*obj)].erase(obj);
 	}
     
-	if (obj->getMass() < 0.0 && bitwise_and_bool(obj->getCrntLayers(), PhysicsLayers::ground)){
+	if (isObstacleObject(obj)){
 		removeNavObstacle(obj->getPos(), obj->getDimensions());
 	}
 
@@ -1037,6 +1037,11 @@ void GSpace::removeNavObstacle(const SpaceVect& center, const SpaceVect& boundin
 			unmarkObstacleTile(x, y);
 		}
 	}
+}
+
+bool GSpace::isObstacleObject(const GObject* obj) const
+{
+	return obj->getMass() < 0.0 && bitwise_and_bool(obj->getCrntLayers(), PhysicsLayers::ground);
 }
 
 bool GSpace::isObstacle(IntVec2 v) const

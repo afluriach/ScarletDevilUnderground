@@ -68,7 +68,6 @@ protected:
 	bool isValidType(GType) const;
 	b2Filter generateFilter(GType type, PhysicsLayers layers);
 	b2BodyDef generateBodyDef(GType type, SpaceVect center, SpaceFloat mass);
-	void checkAddNavObstacle(GType type, SpaceVect center, SpaceVect dim, SpaceFloat mass);
 
 	void addCollide(GType a, GType b);
 

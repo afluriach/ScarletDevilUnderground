@@ -28,6 +28,8 @@ unordered_map<string, local_shared_ptr<object_properties>> objects;
 unordered_map<string, SpellDesc*> spells;
 unordered_map<string, shared_ptr<sprite_properties>> sprites;
 
+floorsegment_properties defaultFloorSegment = floorsegment_properties::makeDefault();
+
 const vector<string> xmlErrors = boost::assign::list_of
     ("XML_NO_ERROR")
 
@@ -61,12 +63,12 @@ void loadAreas()
 
 void loadBombs()
 {
-	loadObjectsShared<bomb_properties>("objects/bombs.xml");
+	loadObjectsShared<bomb_properties>("objects/bombs.xml", nullptr);
 }
 
 void loadBullets()
 {
-	loadObjectsShared<bullet_properties>("objects/bullets.xml");
+	loadObjectsShared<bullet_properties>("objects/bullets.xml", nullptr);
 
 	auto f = GSpace::scriptVM->getFunction("loadBullets");
 	if (f) f();
@@ -74,7 +76,7 @@ void loadBullets()
 
 void loadEffectAreas()
 {
-	loadObjectsShared<effectarea_properties>("objects/effect-areas.xml");
+	loadObjectsShared<effectarea_properties>("objects/effect-areas.xml", nullptr);
 }
 
 void loadEffects()
@@ -89,12 +91,12 @@ void loadSpells()
 
 void loadEnemies()
 {
-	loadObjectsShared<enemy_properties>("objects/enemies.xml");
+	loadObjectsShared<enemy_properties>("objects/enemies.xml", nullptr);
 }
 
 void loadEnvironmentObjects()
 {
-	loadObjectsShared<environment_object_properties>("objects/objects.xml");
+	loadObjectsShared<environment_object_properties>("objects/objects.xml", nullptr);
 }
 
 void loadFirePatterns()
@@ -104,12 +106,12 @@ void loadFirePatterns()
 
 void loadFloors()
 {
-	loadObjectsShared<floorsegment_properties>("objects/floors.xml");
+	loadObjectsShared<floorsegment_properties>("objects/floors.xml", &defaultFloorSegment);
 }
 
 void loadItems()
 {
-	loadObjectsShared<item_properties>("objects/items.xml");
+	loadObjectsShared<item_properties>("objects/items.xml", nullptr);
 }
 
 void loadLights()
@@ -119,17 +121,17 @@ void loadLights()
 
 void loadNPCs()
 {
-	loadObjectsShared<npc_properties>("objects/npc.xml");
+	loadObjectsShared<npc_properties>("objects/npc.xml", nullptr);
 }
 
 void loadPlayers()
 {
-	loadObjectsShared<agent_properties>("objects/players.xml");
+	loadObjectsShared<agent_properties>("objects/players.xml", nullptr);
 }
 
 void loadWalls()
 {
-	loadObjectsShared<wall_properties>("objects/walls.xml");
+	loadObjectsShared<wall_properties>("objects/walls.xml", nullptr);
 }
 
 void loadSprites()

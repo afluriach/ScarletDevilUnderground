@@ -123,3 +123,38 @@ function objects.TimedSwitch:onEndContact(obj)
 		self:setColor(Color4F.GRAY)
 	end
 end
+
+objects.MovingPlatform = class("MovingPlatform")
+
+function objects.MovingPlatform:init(super, params)
+	self.super = super
+	self.path_type = params.args.path_type
+end
+
+function objects.MovingPlatform:initialize()
+	local p = self.super.space:getPath(self.super.name)
+	if not p then
+		app.log(string.format("Unknown path %s!", self.super.name))
+		return
+	end
+	
+	if not self.path_type then
+		app.log("No path type specified!")
+		return
+	elseif self.path_type ~= 'loop' and self.path_type ~= 'scan' then
+		app.log("Unknown path_type " .. self.path_type)
+		return
+	end
+	
+	self.pathFunc = ai.FollowPathKinematic.create(
+		self.super:getAsObject(),
+		p,
+		ai.follow_path_mode[self.path_type]
+	)
+end
+
+function objects.MovingPlatform:update()
+	if self.pathFunc then
+		self.pathFunc:runUpdate()
+	end
+end

@@ -160,15 +160,16 @@ public:
 
 class floorsegment_properties : public object_properties {
 public:
+	static floorsegment_properties makeDefault();
+
     floorsegment_properties();
     virtual ~floorsegment_properties();
     
 	string sfxRes;
-	string sprite;
 
 	DamageInfo touchDamage;
-	
 	double traction = 1.0;
+	double speed = 0.0;
 };
 
 class item_properties : public object_properties
