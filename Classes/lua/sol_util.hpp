@@ -35,8 +35,10 @@ inline void runMethodIfAvailable(sol::table obj, const string& name, Args... arg
     if (f.valid() && f.get_type() == type::function) {
 		sol::function_result result = f(obj, args...);
   
-        if(!result.valid())
+        if(!result.valid()){
             printErrorMessage(obj.lua_state());
+            throw runtime_error("lua error");
+		}
 	}
 }
 
@@ -58,13 +60,14 @@ inline R runMethod(sol::table obj, const string& name, Args... args)
     if (f.valid() && f.get_type() == type::function) {
 		sol::function_result result = f(obj, args...);
   
-        if(result.valid())
+        if(result.valid()){
             return result;
-        else
+		}
+        else{
             printErrorMessage(obj.lua_state());
+			throw runtime_error("lua error");
+		}
     }
-    
-    throw error("lua error");
 }
 
 template<typename T>
@@ -81,6 +84,7 @@ inline void init_script_object(T* _this, const object_params& params)
 		}
 		if(!result.valid()){
 			printErrorMessage(_this->space->scriptVM->_state);
+			throw runtime_error("lua error");
 		}
     }
 }

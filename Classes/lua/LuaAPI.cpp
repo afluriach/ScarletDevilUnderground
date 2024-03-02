@@ -24,6 +24,7 @@ const vector<string> Inst::luaIncludes = {
     {
 		_state.open_libraries(
 			sol::lib::base,
+			sol::lib::coroutine,
 			sol::lib::math,
 			sol::lib::string,
 			sol::lib::table,
@@ -57,6 +58,7 @@ const vector<string> Inst::luaIncludes = {
             
             log1("runString: error running Lua string: \"%s\"", str);
             sol::printErrorMessage(_state);
+            throw runtime_error("lua error");
             
             return pfr;
         };
@@ -71,6 +73,7 @@ const vector<string> Inst::luaIncludes = {
             
             log1("runFile: error running Lua file: \"%s\"", path);
             sol::printErrorMessage(_state);
+            throw runtime_error("lua error");
             
             return pfr;
         };

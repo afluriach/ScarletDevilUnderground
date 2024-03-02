@@ -46,6 +46,7 @@ public:
         if(!result.valid()){
             log1("Error running object method %s", name);
             sol::printErrorMessage(scriptObj.lua_state());
+            throw runtime_error("lua error");
         }
 	}
 
@@ -62,8 +63,8 @@ public:
 		sol::function_result result = scriptObj[name](scriptObj, args...);
   
         if(!result.valid()){
+			sol::printErrorMessage(scriptObj.lua_state());
             logAndThrowError("Lua error running method %s:", name);
-            sol::printErrorMessage(scriptObj.lua_state());
         }
         
         return result;
