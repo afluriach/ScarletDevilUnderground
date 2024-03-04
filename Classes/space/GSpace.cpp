@@ -705,7 +705,11 @@ void GSpace::addObjectAction(zero_arity_function f)
 
 void GSpace::addSceneAction(zero_arity_function f)
 {
+#if GSPACE_MULTITHREAD
 	sceneActions.push_back(f);
+#else
+	f();
+#endif
 }
 
 void GSpace::enterWorldSelect()

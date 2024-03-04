@@ -79,10 +79,12 @@ control_listener(make_unique<ControlListener>())
 GScene::~GScene()
 {
 	isExit.store(true);
-	if constexpr(GSPACE_MULTITHREAD) {
-		spaceUpdateCondition.notify_one();
-		spaceUpdateThread->join();
-	}
+
+#if GSPACE_MULTITHREAD
+	spaceUpdateCondition.notify_one();
+	spaceUpdateThread->join();
+#endif
+
 	delete gspace;
 }
 
@@ -133,10 +135,10 @@ bool GScene::init()
 
 	gspace->isMultiMap = isMultiMap();
 
-	if constexpr (GSPACE_MULTITHREAD) {
-		spaceUpdateToRun.store(false);
-		spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);
-	}
+#if GSPACE_MULTITHREAD
+	spaceUpdateToRun.store(false);
+	spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);
+#endif
 
     return true;
 }
@@ -151,13 +153,12 @@ void GScene::update(float dt)
 			info
 		));
 
-		if constexpr (GSPACE_MULTITHREAD) {
-			spaceUpdateToRun.store(true);
-			spaceUpdateCondition.notify_one();
-		}
-		else {
-			gspace->update();
-		}
+#if GSPACE_MULTITHREAD
+		spaceUpdateToRun.store(true);
+		spaceUpdateCondition.notify_one();
+#else
+		gspace->update();
+#endif
 
 		runActions();
 		checkPendingScript();
@@ -341,6 +342,7 @@ void GScene::popMenuIfNonroot()
 
 void GScene::spaceUpdateMain()
 {
+#if GSPACE_MULTITHREAD
 	while (!isExit)
 	{
 		unique_lock<mutex> mlock(spaceUpdateConditionMutex);
@@ -361,6 +363,7 @@ void GScene::spaceUpdateMain()
 			spaceUpdateCondition.notify_one();
 		}
 	}
+#endif
 }
 
 void GScene::installLuaShell()
@@ -391,13 +394,15 @@ void GScene::checkPendingScript()
 
 void GScene::waitForSpaceThread()
 {
-	if constexpr (!GSPACE_MULTITHREAD) return;
+#if GSPACE_MULTITHREAD
 
 	unique_lock<mutex> mlock(spaceUpdateConditionMutex);
 	spaceUpdateCondition.wait(
 		mlock,
 		[this]()-> bool { return !spaceUpdateToRun.load(); }
 	);
+
+#endif
 }
 
 void GScene::logPerformance()

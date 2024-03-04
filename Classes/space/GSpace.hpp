@@ -233,13 +233,6 @@ public:
 	//Since the scene controls the mapping of ID -> cocos2d::Node, these functions
 	//will call the corresponding scene method immediately to retrieve the ID.
 	//However, nextSpriteID/nextLightID is an atomic integer, so it will not use a mutex.
-
-	template<typename... Args>
-	inline void addLightmapAction(void (graphics_context::*m)(Args...), Args... args)
-	{
-		sceneActions.push_back(bind(m, graphicsContext, args...));
-	}
-
 	template<typename... Args>
 	inline void addGraphicsAction(void (graphics_context::*m)(Args...), Args... args)
 	{

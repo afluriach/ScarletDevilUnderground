@@ -186,11 +186,14 @@ protected:
 	GSpace* gspace;
 	//the scale applied to the space layer
 	float spaceZoom = 1;
+
+#if GSPACE_MULTITHREAD
 	unique_ptr<thread> spaceUpdateThread;
 	mutex spaceUpdateConditionMutex;
 	condition_variable spaceUpdateCondition;
-
 	atomic_bool spaceUpdateToRun;
+#endif
+
 	atomic_bool isPaused;
 	atomic_bool isExit;
 
