@@ -53,7 +53,7 @@ void log_print(
     T... args
 ){
 	boost::format fmt(s);
-	string result = boost::str((fmt % ... % forward<T>(args)));
+	string result = boost::str((fmt % ... % args));
 
     boost::format debugPrefix("%s:%d (%s):");
     string prefix = boost::str(
@@ -72,7 +72,7 @@ void print(
     T... args
 ){
 	boost::format fmt(s);
-	string result = boost::str((fmt % ... % forward<T>(args)));
+	string result = boost::str((fmt % ... % args));
 
 	LogSystem::logOutput("", result);
 }
@@ -83,7 +83,7 @@ void logAndThrowError(
     T... args
 ){
 	boost::format fmt(s);
-	string result = boost::str((fmt % ... % forward<T>(args)));
+	string result = boost::str((fmt % ... % args));
 
 	LogSystem::logOutput("", result);
  

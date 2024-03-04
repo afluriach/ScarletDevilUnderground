@@ -257,7 +257,7 @@ public:
 	void graphicsNodeAction(void (C::*method)(Params...), SpriteID id, Args... args)
 	{
 		sceneActions.push_back([this, id, method, args...]() -> void {
-			graphicsContext->nodeAction(id, method, args...);
+			graphicsContext->nodeAction(id, method, static_cast<decay_t<Params>>(args)...);
 		});
 	}
 

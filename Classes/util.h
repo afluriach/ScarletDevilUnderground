@@ -199,7 +199,7 @@ template<typename... T>
 string string_format(string s, T... args)
 {
 	boost::format fmt(s);
-	string result = boost::str((fmt % ... % forward<T>(args)));
+	string result = boost::str((fmt % ... % args));
 
 	return result;
 }

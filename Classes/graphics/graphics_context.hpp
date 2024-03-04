@@ -84,7 +84,7 @@ protected:
 	{
 		C* c = getSpriteAs<C>(id);
 		if (c) {
-			(c->*method)(std::forward<Params>(args)...);
+			(c->*method)(static_cast<decay_t<Params>>(args)...);
 		}
 	}
 
