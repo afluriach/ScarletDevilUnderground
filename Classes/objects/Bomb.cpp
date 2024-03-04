@@ -78,19 +78,15 @@ void Bomb::detonate()
 	if(!sfxRes.empty())
 		playSoundSpatial(getExplosionSound());
 
-	space->addGraphicsAction(
-		&graphics_context::setSpriteTexture,
-		spriteID,
-		string("sprites/explosion.png")
-	);
+	sprite.setTexture("sprites/explosion.png");
 	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / explosionSpriteRadius, false).generator);
 
-	LightID light = space->addLightSource(
+	light.createLightSource(
 		CircleLightArea::create(getBlastRadius()*1.5,Color4F::ORANGE,0.5),
 		getPos(),
 		0.0
 	);
-	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
+	light.autoremoveLightSource(1.0f);
 }
 
 DamageInfo Bomb::getDamageInfo() const {

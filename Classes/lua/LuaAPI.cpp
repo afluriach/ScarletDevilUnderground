@@ -111,6 +111,7 @@ const vector<string> Inst::luaIncludes = {
 		addApp();
 		addGObject();
 		addGSpace();
+		addGraphics();
 		addMagic();
 		addStructures();
 		addTypes();

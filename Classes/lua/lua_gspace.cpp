@@ -9,8 +9,6 @@
 #include "Prefix.h"
 
 #include "Bullet.hpp"
-#include "Graphics.h"
-#include "graphics_context.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
 
@@ -40,23 +38,6 @@ namespace Lua{
 		addFuncSame(attr, setFullHP);
 		addFuncSame(attr, setFullMP);
 		addFuncSame(attr, setFullStamina);
-
-		auto graphics = _state.create_table();
-		_state["graphics"] = graphics;
-
-		cFuncSame(graphics, indefiniteFlickerAction);
-		cFuncSame(graphics, flickerAction);
-		cFuncSame(graphics, flickerTintAction);
-		cFuncSame(graphics, comboFlickerTintAction);
-		cFuncSame(graphics, spellcardFlickerTintAction);
-		cFuncSame(graphics, darknessCurseFlickerTintAction);
-		cFuncSame(graphics, tintToAction);
-		cFuncSame(graphics, motionBlurStretch);
-		cFuncSame(graphics, bombAnimationAction);
-		cFuncSame(graphics, freezeEffectAction);
-		cFuncSame(graphics, freezeEffectEndAction);
-		cFuncSame(graphics, objectFadeOut);
-		cFuncSame(graphics, damageIndicatorAction);
 
         auto gspace = _state.new_usertype<GSpace>(
             "GSpace",
@@ -98,43 +79,6 @@ namespace Lua{
 		addFuncSame(gspace, getArea);
 
 		addFuncSame(gspace, registerRoomMapped);
-		addFuncSame(gspace, runSpriteAction)
-
-		gspace["createSprite"] = [](
-			GSpace* _this,
-			string sprite,
-			GraphicsLayer layer,
-			SpaceVect pos,
-			float zoom
-		) -> SpriteID {
-			return _this->createSprite(
-				&graphics_context::createSprite,
-				string("sprites/" + sprite + ".png"),
-				layer,
-				toCocos(pos) * app::pixelsPerTile,
-				to_float(zoom)
-			);
-		};
-		gspace["removeSprite"] = [](GSpace* _this,SpriteID id){
-			_this->addGraphicsAction(&graphics_context::removeSprite, id);
-		};
-        gspace["setSpriteVisible"] = [](GSpace* _this,SpriteID id, bool v){
-            _this->graphicsNodeAction(&Node::setVisible, id, v);
-		};
-        gspace["setSpriteColor"] = [](GSpace* _this,SpriteID id, Color3B color){
-            _this->graphicsNodeAction(&Node::setColor, id, color);
-		};
-		gspace["setRotation"] = [](
-			GSpace* _this,
-			SpriteID id,
-			SpaceFloat angle
-		) -> void {
-			_this->graphicsNodeAction(
-				&Node::setRotation,
-				id,
-				toCocosAngle(angle)
-			);
-		};
 
 		gspace["createDialog"] = sol::overload(
 			static_cast<void(GSpace::*)(string, bool)>(&GSpace::createDialog),

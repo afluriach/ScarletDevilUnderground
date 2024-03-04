@@ -300,25 +300,11 @@ public:
 	void createLight();
     void removeLight();
     void createDrawNode(GraphicsLayer layer);
-	void clearDrawNode();
-	void drawRectangle(Vec2 ll, Vec2 ur, Color4F color);
-    void setLightSourceAngle(SpaceFloat angle);
 	//If "id" is not provided, the object's defaut sprite, spriteID, will be
 	//used, assuming it is valid.
-	void addGraphicsAction(GraphicsAction action);
-	void addGraphicsAction(GraphicsAction action, SpriteID id);
-	void stopGraphicsAction(cocos_action_tag tag);
-	void stopGraphicsAction(cocos_action_tag tag, SpriteID id);
-	void setSpriteZoom(float zoom);
-	void setSpriteOpacity(unsigned char op);
-	void setSpriteVisible(bool val);
-	void setSpriteTexture(const string& texture);
 
 	//Create Node which graphically represents this object and adds it to Layer
 	virtual void initializeGraphics();
-	
-	inline SpriteID getSpriteID() const { return spriteID; }
-    LightID getLightID() const { return lightID; }
 
     //END GRAPHICS
 
@@ -347,6 +333,10 @@ public:
     const string name;
 	GSpace *const space;
 	const ObjectIDType uuid;
+
+	node_context sprite;
+	node_context drawNode;
+	node_context light;
 
 protected:
 	bool active = false;
@@ -382,11 +372,6 @@ protected:
 	//Floor segments that the object is overlapping with. The start/end contact
 	//handler will be called for these when setting isOnFloor.
 	list<FloorSegment*> crntFloorContacts;
-
-//graphics
-	SpriteID spriteID = 0;
-	SpriteID drawNodeID = 0;
-	LightID lightID = 0;
 };
 
 #endif /* GObject_hpp */

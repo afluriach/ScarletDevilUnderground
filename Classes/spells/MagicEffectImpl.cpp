@@ -17,7 +17,7 @@ Transformation::Transformation(effect_params params, transformation_properties p
 void Transformation::init()
 {
 	agent->setSprite(props.sprite);
-	agent->setSpriteZoom(props.sprite_scale);
+	agent->sprite.setScale(props.sprite_scale);
 	
 	for(auto entry : props.attribute_modifers){
 		agent->modifyAttribute(entry.first, entry.second);
@@ -29,7 +29,7 @@ void Transformation::init()
 void Transformation::end()
 {
 	agent->setSprite(agent->getOriginalSprite());
-	agent->setSpriteZoom(1.0f);
+	agent->sprite.setScale(1.0f);
 	
 	for(auto entry : props.attribute_modifers){
 		agent->modifyAttribute(entry.first, -entry.second);

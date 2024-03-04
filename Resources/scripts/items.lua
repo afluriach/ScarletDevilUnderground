@@ -63,7 +63,7 @@ function objects.Spellcard:init(super)
 end
 
 function objects.Spellcard:initialize()
-	self.super:addGraphicsAction(graphics.spellcardFlickerTintAction())
+	self.super.sprite:runAction(graphics.spellcardFlickerTintAction())
 end
 
 function objects.Spellcard:onAcquire(p)

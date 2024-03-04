@@ -103,13 +103,16 @@ void TimedLoopAnimation::loadAnimation(const string& name, int length, SpaceFloa
     setName("TimedLoopAnimation");
     sequence = AnimationSpriteSequence::loadFromRasterImage("sprites/"+name+".png", length, 1);
     frameInterval = animationInterval / length;
-    
-    sprite = Sprite::createWithSpriteFrame(sequence.frames.at(0));
-    sprite->setName("TimedLoopAnimation sprite");
-    addChild(sprite,1);
+
+	setSpriteFrame(sequence.frames.at(0));
 }
 
-void TimedLoopAnimation::update()
+bool TimedLoopAnimation::init()
+{
+	return Sprite::init();
+}
+
+void TimedLoopAnimation::update(float unused)
 {
 	timerIncrement(timeInFrame);
     
@@ -121,7 +124,12 @@ void TimedLoopAnimation::update()
         }
     }
     
-    sprite->setSpriteFrame(sequence.frames.at(crntFrame));
+    setSpriteFrame(sequence.frames.at(crntFrame));
+}
+
+bool PatchConAnimation::init()
+{
+	return Sprite::init();
 }
 
 void PatchConAnimation::loadAnimation(shared_ptr<sprite_properties> _sprite)
@@ -129,9 +137,6 @@ void PatchConAnimation::loadAnimation(shared_ptr<sprite_properties> _sprite)
 	sprite_properties _props = *_sprite.get();
 	string path = "sprites/" + _props.filename + ".png";
 	bool agentAnimation = _props.size == make_pair(3, 4);
-
-	if(sprite)
-        sprite->removeFromParent();
 
 	if (agentAnimation) {
 		walkAnimations = AnimationSpriteSequence::loadAgentAnimation(path);
@@ -146,19 +151,8 @@ void PatchConAnimation::loadAnimation(shared_ptr<sprite_properties> _sprite)
 
 	useFlipX = !agentAnimation;
 
-	sprite = Sprite::create();
-    addChild(sprite,1);
-    sprite->useAntiAliasTexture(false);
-    
-    this->setCascadeOpacityEnabled(true);
-}
-
-void PatchConAnimation::setShader(string shader)
-{
-	if(sprite)
-		sprite->setShader(shader);
-	else
-		log("Agent sprite is null!!");
+    useAntiAliasTexture(false);
+    setCascadeOpacityEnabled(true);
 }
 
 void PatchConAnimation::setDirection(Direction dir)
@@ -178,21 +172,21 @@ void PatchConAnimation::setFrame(int animFrame)
     crntFrame = animFrame;
 
 	if (direction != Direction::none){
-		sprite->setSpriteFrame(walkAnimations.at(to_size_t(direction) - 1).frames.at(animFrame));
+		setSpriteFrame(walkAnimations.at(to_size_t(direction) - 1).frames.at(animFrame));
 	}
 
 	if (useFlipX) {
-		sprite->setFlippedX(direction == Direction::left);
+		setFlippedX(direction == Direction::left);
 	}
 }
 
-SpriteID AgentAnimationContext::initializeGraphics(
+node_context AgentAnimationContext::initializeGraphics(
 	shared_ptr<sprite_properties> sprite,
 	SpaceFloat radius,
 	GraphicsLayer glayer,
 	Vec2 centerPix
 ){
-	spriteID = space->createSprite(
+	spriteContext.createNode(
 		&graphics_context::createAgentSprite,
 		sprite,
 		radius,
@@ -201,15 +195,14 @@ SpriteID AgentAnimationContext::initializeGraphics(
 	);
 
 	setDirection(startingDirection);
-	return spriteID;
+	return spriteContext;
 }
 
 void AgentAnimationContext::setSprite(shared_ptr<sprite_properties> sprite)
 {
-	if (spriteID != 0) {
-		space->graphicsNodeAction(
+	if (spriteContext) {
+		spriteContext.nodeMethod(
 			&PatchConAnimation::loadAnimation,
-			spriteID,
 			sprite
 		);
 	}
@@ -217,12 +210,8 @@ void AgentAnimationContext::setSprite(shared_ptr<sprite_properties> sprite)
 
 void AgentAnimationContext::setSpriteShader(string shader)
 {
-	if (spriteID != 0) {
-		space->graphicsNodeAction(
-			&PatchConAnimation::setShader,
-			spriteID,
-			shader
-		);
+	if (spriteContext) {
+		spriteContext.setShader(shader);
 	}
 }
 
@@ -242,7 +231,7 @@ bool AgentAnimationContext::checkAdvanceAnimation()
 	case 0:
 		if (accumulator >= stepSize)
 		{
-			space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, 1);
+			spriteContext.nodeMethod(&PatchConAnimation::setFrame, 1);
 			crntFrame = 1;
 			advance = true;
 			accumulator -= stepSize;
@@ -252,7 +241,7 @@ bool AgentAnimationContext::checkAdvanceAnimation()
 	case 2:
 		if (accumulator >= stepSize)
 		{
-			space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, 1);
+			spriteContext.nodeMethod(&PatchConAnimation::setFrame, 1);
 			crntFrame = 1;
 			advance = true;
 			accumulator -= stepSize;
@@ -263,7 +252,7 @@ bool AgentAnimationContext::checkAdvanceAnimation()
 		if (accumulator >= midstepSize)
 		{
 			crntFrame = (nextStepIsLeft ? 0 : 2);
-			space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, crntFrame);
+			spriteContext.nodeMethod(&PatchConAnimation::setFrame, crntFrame);
 			accumulator -= midstepSize;
 		}
 		break;
@@ -274,7 +263,7 @@ bool AgentAnimationContext::checkAdvanceAnimation()
 
 void AgentAnimationContext::reset()
 {
-	space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, 1);
+	spriteContext.nodeMethod(&PatchConAnimation::setFrame, 1);
 	accumulator = 0.0;
 
 	nextStepIsLeft = firstStepIsLeft;
@@ -284,12 +273,12 @@ void AgentAnimationContext::reset()
 
 void AgentAnimationContext::setAngle(SpaceFloat a)
 {
-	space->graphicsNodeAction(&PatchConAnimation::setDirection, spriteID, angleToDirection(a));
+	spriteContext.nodeMethod(&PatchConAnimation::setDirection, angleToDirection(a));
 }
 
 void AgentAnimationContext::setDirection(Direction d)
 {
 	if (d != Direction::none) {
-		space->graphicsNodeAction(&PatchConAnimation::setDirection, spriteID, d);
+		spriteContext.nodeMethod(&PatchConAnimation::setDirection, d);
 	}
 }

@@ -18,8 +18,8 @@ void graphics_context::update()
 {
 	CCRect cameraPix = scene->getCameraArea().toPixelspace();
 
-	for (GAnimation* anim : animationNodes | boost::adaptors::map_values) {
-		anim->update();
+	for (Node* anim : animationNodes | boost::adaptors::map_values) {
+		anim->update(0.0f);
 	}
 
 	for (auto it = autoremoveLightTimers.begin(); it != autoremoveLightTimers.end(); ) {
@@ -48,8 +48,9 @@ void graphics_context::update()
 		SpaceVect fieldPos = SpaceVect::ray(entry.second.radius, entry.second.crntAngle);
         double pout = lightmapPerlinNoise.noise2D(fieldPos.x, fieldPos.y);
 		double intensity = (pout + 1.0) * 0.5 * (1.0 - entry.second.baseIntensity) + entry.second.baseIntensity;
+		Node* lightNode = getLight(entry.first);
 
-		setLightSourceColor(entry.first, entry.second.baseColor * intensity);
+		lightNode->setColor(toColor3B(entry.second.baseColor * intensity));
 
 		entry.second.crntAngle += 1.0 / entry.second.cycleInterval * app::params.secondsPerFrame;
 		if (entry.second.crntAngle >= float_pi * 2.0) {
@@ -64,34 +65,19 @@ SpriteID graphics_context::getSpriteID()
 	return nextSpriteID.fetch_add(1);
 }
 
-LightID graphics_context::getLightID()
-{
-	return nextLightID.fetch_add(1);
-}
-
-Color4F graphics_context::getLightSourceColor(LightID id)
-{
-	auto it = lightmapNodes.find(id);
-	if (it != lightmapNodes.end()) {
-		if (auto cone = dynamic_cast<ConeShader*>(it->second)) {
-			return cone->getLightColor();
-		}
-		else if (auto radial = dynamic_cast<RadialGradient*>(it->second)) {
-			return radial->getColor4F();
-		}
-		else if (auto ambient = dynamic_cast<AmbientLightNode*>(it->second)) {
-			return ambient->getLightColor();
-		}
-	}
-
-	log1("light %d does not exist.", id);
-	return Color4F::BLACK;
-}
-
 Node* graphics_context::getSpriteAsNode(SpriteID id)
 {
 	auto it = graphicsNodes.find(id);
 	if (it != graphicsNodes.end()) {
+		return it->second;
+	}
+	return nullptr;
+}
+
+Node* graphics_context::getLight(SpriteID id)
+{
+	auto it = lightmapNodes.find(id);
+	if (it != lightmapNodes.end()) {
 		return it->second;
 	}
 	return nullptr;
@@ -103,7 +89,7 @@ void graphics_context::_removeSprite(SpriteID id)
 	animationNodes.erase(id);
 }
 
-void graphics_context::addPolyLightSource(LightID id, shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
+void graphics_context::addPolyLightSource(SpriteID id, shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
 {
 	if (!light) return;
 
@@ -113,7 +99,7 @@ void graphics_context::addPolyLightSource(LightID id, shared_ptr<LightArea> ligh
 	_polyAddLight<SpriteLightArea>(id, light, pos, angle);
 }
 
-void graphics_context::addLightSource(LightID id, CircleLightArea light, SpaceVect pos, SpaceFloat angle)
+void graphics_context::addLightSource(SpriteID id, CircleLightArea light, SpaceVect pos, SpaceFloat angle)
 {
 	bool mask = light.color.a < 0.0f;
 	if (mask)
@@ -140,7 +126,7 @@ void graphics_context::addLightSource(LightID id, CircleLightArea light, SpaceVe
 	lightmapNodes.insert_or_assign(id, g);
 }
 
-void graphics_context::addLightSource(LightID id, AmbientLightArea light, SpaceVect pos, SpaceFloat angle)
+void graphics_context::addLightSource(SpriteID id, AmbientLightArea light, SpaceVect pos, SpaceFloat angle)
 {
 	AmbientLightNode* node = Node::ccCreate<AmbientLightNode>(light);
 	node->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
@@ -149,7 +135,7 @@ void graphics_context::addLightSource(LightID id, AmbientLightArea light, SpaceV
 	lightmapNodes.insert_or_assign(id, node);
 }
 
-void graphics_context::addLightSource(LightID id, ConeLightArea light, SpaceVect pos, SpaceFloat angle)
+void graphics_context::addLightSource(SpriteID id, ConeLightArea light, SpaceVect pos, SpaceFloat angle)
 {
 	ConeShader* cs = Node::ccCreate<ConeShader>(
 		light.color,
@@ -167,7 +153,7 @@ void graphics_context::addLightSource(LightID id, ConeLightArea light, SpaceVect
 	lightmapNodes.insert_or_assign(id, cs);
 }
 
-void graphics_context::addLightSource(LightID id, SpriteLightArea light, SpaceVect pos, SpaceFloat angle)
+void graphics_context::addLightSource(SpriteID id, SpriteLightArea light, SpaceVect pos, SpaceFloat angle)
 {
 	Sprite* s = Sprite::create(light.texName);
 
@@ -180,7 +166,7 @@ void graphics_context::addLightSource(LightID id, SpriteLightArea light, SpaceVe
 	lightmapNodes.insert_or_assign(id, s);
 }
 
-void graphics_context::removeLightSource(LightID id)
+void graphics_context::removeLightSource(SpriteID id)
 {
 	auto it = lightmapNodes.find(id);
 	if (it != lightmapNodes.end()) {
@@ -193,42 +179,13 @@ void graphics_context::removeLightSource(LightID id)
 	lightmapNoise.erase(id);
 }
 
-void graphics_context::setLightSourcePosition(LightID id, SpaceVect pos)
-{
-	auto it = lightmapNodes.find(id);
-	if (it != lightmapNodes.end()) {
-		it->second->setPosition(toCocos(pos)*app::pixelsPerTile);
-	}
-}
-
-void graphics_context::setLightSourceAngle(LightID id, SpaceFloat a)
-{
-	auto it = lightmapNodes.find(id);
-	if (it != lightmapNodes.end()) {
-		it->second->setRotation(toCocosAngle(a));
-	}
-}
-
-void graphics_context::setLightSourceColor(LightID id, Color4F color)
-{
-	auto it = lightmapNodes.find(id);
-	if (it != lightmapNodes.end()) {
-		if (auto cone = dynamic_cast<ConeShader*>(it->second)) {
-			cone->setLightColor(color);
-		}
-		else if (auto radial = dynamic_cast<RadialGradient*>(it->second)) {
-			radial->setColor4F(color);
-		}
-	}
-}
-
-void graphics_context::setLightSourceNoise(LightID id, perlin_light_state noise)
+void graphics_context::setLightSourceNoise(SpriteID id, perlin_light_state noise)
 {
 	noise.crntAngle = noise.startAngle;
 	lightmapNoise.insert_or_assign(id, noise);
 }
 
-void graphics_context::autoremoveLightSource(LightID id, float seconds)
+void graphics_context::autoremoveLightSource(SpriteID id, float seconds)
 {
 	autoremoveLightTimers.insert_or_assign(id, seconds);
 }
@@ -348,17 +305,6 @@ void graphics_context::runSpriteAction(SpriteID id, ActionGeneratorType generato
 		node->runAction(generator());
 	}
 }
-
-void graphics_context::stopSpriteAction(SpriteID id, cocos_action_tag action)
-{
-	nodeAction(id, &Node::stopActionByTag, to_int(action));
-}
-
-void graphics_context::stopAllSpriteActions(SpriteID id)
-{
-	nodeAction(id, &Node::stopAllActions);
-}
-
 void graphics_context::removeSprite(SpriteID id)
 {
 	Node* node = getSpriteAsNode(id);
@@ -376,31 +322,6 @@ void graphics_context::removeSpriteWithAnimation(SpriteID id, ActionGeneratorTyp
 	}
 }
 
-void graphics_context::setSpriteTexture(SpriteID id, string path)
-{
-	nodeAction<Sprite, const string&>(id, &Sprite::setTexture, path);
-}
-
-void graphics_context::setSpritePosition(SpriteID id, Vec2 pos)
-{
-	nodeAction<Node, const Vec2&>(id, &Node::setPosition, pos);
-}
-
-void graphics_context::setSpriteAngle(SpriteID id, float angle)
-{
-    nodeAction<Node, float>(id, &Node::setRotation, angle);
-}
-
-void graphics_context::setSpriteZoom(SpriteID id, float zoom)
-{
-	nodeAction<Node, float>(id, &Node::setScale, zoom);
-}
-
-void graphics_context::setSpriteVisible(SpriteID id, bool v)
-{
-    nodeAction<Node, bool>(id, &Node::setVisible, v);
-}
-
 void graphics_context::spriteSpatialUpdate(vector<sprite_update> spriteUpdates)
 {
 	for (auto entry : spriteUpdates)
@@ -412,6 +333,16 @@ void graphics_context::spriteSpatialUpdate(vector<sprite_update> spriteUpdates)
 				if (entry.rotateSprite)
 					sprite->setRotation(entry.angle);
 			}
+
+			if (entry.fadeOut) {
+				sprite->stopActionByTag(to_int(cocos_action_tag::object_fade));
+				sprite->runAction(objectFadeOut(objectFadeOutTime, objectFadeOpacity).generator());
+			}
+			if (entry.fadeIn) {
+				sprite->stopActionByTag(to_int(cocos_action_tag::object_fade));
+				sprite->runAction(objectFadeOut(objectFadeInTime, 255).generator());
+			}
+
 		}
 		if (entry.drawNodeID != 0) {
 			Node* drawNode = getSpriteAsNode(entry.drawNodeID);
@@ -421,20 +352,11 @@ void graphics_context::spriteSpatialUpdate(vector<sprite_update> spriteUpdates)
 			}
 		}
 		if (entry.lightID != 0) {
-			Node* light = getOrDefault<LightID, Node*>(lightmapNodes, entry.lightID, nullptr);
+			Node* light = getOrDefault<SpriteID, Node*>(lightmapNodes, entry.lightID, nullptr);
 			if (light) {
 				light->setPosition(entry.pos);
 				light->setRotation(entry.angle);
 			}
-		}
-
-		if (entry.fadeOut) {
-			stopSpriteAction(entry.spriteID, cocos_action_tag::object_fade);
-			runSpriteAction(entry.spriteID, objectFadeOut(objectFadeOutTime, objectFadeOpacity).generator);
-		}
-		if (entry.fadeIn) {
-			stopSpriteAction(entry.spriteID, cocos_action_tag::object_fade);
-			runSpriteAction(entry.spriteID, objectFadeOut(objectFadeInTime, 255).generator);
 		}
 	}
 }
@@ -442,4 +364,192 @@ void graphics_context::spriteSpatialUpdate(vector<sprite_update> spriteUpdates)
 void graphics_context::clearSubroomMask(unsigned int roomID)
 {
 	roomMasks.at(roomID)->setVisible(false);
+}
+
+void node_context::createSprite(
+	string texture, GraphicsLayer layer,
+	Vec2 pos, float zoom
+){
+	createNode(
+		&graphics_context::createSprite,
+		texture,
+		layer,
+		pos,
+		zoom
+	);
+}
+
+void node_context::createLightSource(
+	shared_ptr<LightArea> light,
+	SpaceVect pos,
+	SpaceFloat angle
+){
+	createNode(
+		&graphics_context::addPolyLightSource,
+		light,
+		pos,
+		angle
+	);
+}
+
+void node_context::runAction(GraphicsAction action)
+{
+	if(id != 0){
+		addSceneAction(bind(
+			&graphics_context::runSpriteAction,
+			getGraphicsContext(),
+			id,
+			action.generator
+		));
+	}
+}
+
+void node_context::stopAction(cocos_action_tag tag)
+{
+	nodeMethod(&Node::stopActionByTag, to_int(tag));
+}
+
+void node_context::autoremoveLightSource(float seconds)
+{
+	addSceneAction(bind(
+		&graphics_context::autoremoveLightSource,
+		getGraphicsContext(),
+		id,
+		seconds
+	));
+}
+
+void node_context::removeWithAction(ActionGeneratorType action)
+{
+	addSceneAction(bind(
+		&graphics_context::removeSpriteWithAnimation,
+		getGraphicsContext(),
+		id,
+		action
+	));
+}
+
+void node_context::removeSprite()
+{
+	if(id != 0){
+		addSceneAction(bind(
+			&graphics_context::removeSprite,
+			getGraphicsContext(),
+			id
+		));
+	}
+	id = 0;
+}
+
+void node_context::removeLightSource()
+{
+	addSceneAction(bind(
+		&graphics_context::removeLightSource,
+		getGraphicsContext(),
+		id
+	));
+	id = 0;
+}
+
+void node_context::setVisible(bool v)
+{
+	nodeMethod(&Node::setVisible, v);
+}
+
+void node_context::setPos(SpaceVect p)
+{
+	nodeMethod<Node, const Vec2&>(&Node::setPosition, toCocos(p) * app::pixelsPerTile);
+}
+
+void node_context::setPosition(Vec2 p)
+{
+	nodeMethod<Node, const Vec2&>(&Node::setPosition, p);
+}
+
+void node_context::setAngle(SpaceFloat a)
+{
+	nodeMethod(&Node::setRotation, toCocosAngle(a));
+}
+
+void node_context::setRotation(float a)
+{
+	nodeMethod(&Node::setRotation, a);
+}
+
+void node_context::setScale(float zoom)
+{
+	nodeMethod<Node, float>(&Node::setScale, zoom);
+}
+
+void node_context::setColor(Color3B color)
+{
+	nodeMethod(&Node::setColor, color);
+}
+
+void node_context::setColor(Color4F color)
+{
+	nodeMethod(&Node::setColor, toColor3B(color));
+}
+
+void node_context::setOpacity(unsigned char op)
+{
+	nodeMethod(&Node::setOpacity, op);
+}
+
+void node_context::setTexture(string s)
+{
+	nodeMethod<Sprite, const string&>(&Sprite::setTexture, s);
+}
+
+void node_context::setShader(string s)
+{
+	nodeMethod(&Sprite::setShader, s);
+}
+
+void node_context::addSceneAction(zero_arity_function f)
+{
+	space->addSceneAction(f);
+}
+
+graphics_context* node_context::getGraphicsContext()
+{
+	return space->graphicsContext;
+}
+
+SpriteID node_context::getSpriteID()
+{
+	return space->graphicsContext->getSpriteID();
+}
+
+void node_context::clearDrawNode()
+{
+	nodeMethod(&DrawNode::clear);
+}
+
+void node_context::drawCircle(
+	Vec2 center, float radius, float angle,
+	unsigned int segments, const Color4F& color
+){
+	nodeMethod<
+		DrawNode,
+		const Vec2&, float, float,
+		unsigned int, const Color4F&
+	>(
+		&DrawNode::drawSolidCircle,
+		center,
+		radius,
+		angle,
+		segments,
+		color
+	);
+}
+
+void node_context::drawRectangle(Vec2 lowerLeft, Vec2 upperRight, Color4F color)
+{
+	nodeMethod(
+		&DrawNode::drawSolidRect,
+		lowerLeft,
+		upperRight,
+		color
+	);
 }

@@ -303,6 +303,5 @@ namespace Lua{
 			"LightArea",
             "color", sol::property(&LightArea::getColor)
 		);
-
 	}
 }

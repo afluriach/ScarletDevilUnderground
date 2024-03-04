@@ -7,7 +7,7 @@ effects.BatTransform = class('BatTransform', {
 		local a = self.super.agent
 		
 		a:setSprite(app.getSprite('flandre_bat'))
-		a:setSpriteZoom(4.0)
+		a.sprite:setScale(4.0)
 
 		a:increment(Attribute.hitProtection)		
 		a:increment(Attribute.inhibitFiring)
@@ -18,7 +18,7 @@ effects.BatTransform = class('BatTransform', {
 		local a = self.super.agent
 		
 		a:setSprite(app.getSprite('flandre'))
-		a:setSpriteZoom(1.0)
+		a.sprite:setScale(1.0)
 
 		a:decrement(Attribute.hitProtection)				
 		a:decrement(Attribute.inhibitFiring)
@@ -34,13 +34,13 @@ effects.FreezeStatus = class('FreezeStatus', {
 		self.agent = self.super.agent
 	end,
 	onEnter = function(self)
-		self.agent:addGraphicsAction(graphics.freezeEffectAction())
+		self.agent.sprite:runAction(graphics.freezeEffectAction())
 		self.agent:setFrozen(true)
 		self.agent:increment(Attribute.inhibitFiring)
 		self.agent:increment(Attribute.inhibitMovement)
 	end,
 	onExit = function(self)
-		self.agent:addGraphicsAction(graphics.freezeEffectEndAction())
+		self.agent.sprite:runAction(graphics.freezeEffectEndAction())
 		self.agent:setFrozen(false)
 		self.agent:decrement(Attribute.inhibitFiring)
 		self.agent:decrement(Attribute.inhibitMovement)
@@ -55,7 +55,7 @@ effects.DarknessCurse = class('DarknessCurse', {
 	end,
 	onEnter = function(self, target)
 		self.agent:increment(Attribute.inhibitSpellcasting)
-		self.agent:addGraphicsAction(graphics.darknessCurseFlickerTintAction())
+		self.agent.sprite:runAction(graphics.darknessCurseFlickerTintAction())
 	end,
 	update = function(self)
 		as = self.agent:getAttributeSystem()
@@ -67,7 +67,7 @@ effects.DarknessCurse = class('DarknessCurse', {
 	end,
 	onExit = function(self)
 		self.agent:decrement(Attribute.inhibitSpellcasting)
-		self.agent:stopGraphicsAction(cocos_action_tag.darkness_curse)
+		self.agent:stopAction(cocos_action_tag.darkness_curse)
 	end
 })
 
@@ -87,7 +87,7 @@ effects.GhostProtection = class('GhostProtection', {
 		self.accumulator = self.accumulator + delta / self.agent:get(Attribute.maxHP) * 12.5
 		
 		if self.accumulator >= 1.0 and self.agent:getAttributeSystem():isZero(Attribute.hitProtection) then
-			self.agent:addGraphicsAction(graphics.flickerAction(0.25, 5.0, 128) )
+			self.agent.sprite:runAction(graphics.flickerAction(0.25, 5.0, 128) )
 			self.agent:applyMagicEffect(
 				app.getEffect("SetHitProtection"),
 				effect_attributes.new(0.0, 5.0)

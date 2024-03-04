@@ -216,7 +216,7 @@ protected:
 	AttributeSystem* attributeSystem = nullptr;
 	local_shared_ptr<agent_properties> props;
 	unique_ptr<AgentAnimationContext> animation;
-    SpriteID agentOverlay = 0;
+    node_context agentOverlay;
 };
 
 #endif /* Agent_hpp */

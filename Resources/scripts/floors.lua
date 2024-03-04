@@ -68,20 +68,20 @@ function objects.TimedSwitch:init(super, params)
 end
 
 function objects.TimedSwitch:setColor(color)
-	self.super:clearDrawNode()
+	self.super.drawNode:clearDrawNode()
 	
 	local leftEdge = -self.super.dim.x * 0.5;
 	local rightEdge = self.super.dim.x * 0.5;
 	local bottomEdge = -self.super.dim.y * 0.5;
 	local topEdge = self.super.dim.y * 0.5;
 	
-	self.super:drawRectangle(
+	self.super.drawNode:drawRectangle(
 		Vec2.new(leftEdge, bottomEdge):scale(app_constants.pixelsPerTile),
 		Vec2.new(rightEdge, topEdge):scale(app_constants.pixelsPerTile),
 		Color4F.BLACK
 	)
 	
-	self.super:drawRectangle(
+	self.super.drawNode:drawRectangle(
 		Vec2.new(leftEdge + self.margin, bottomEdge + self.margin):scale(app_constants.pixelsPerTile),
 		Vec2.new(rightEdge - self.margin, topEdge - self.margin):scale(app_constants.pixelsPerTile),
 		color

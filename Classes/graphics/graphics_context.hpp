@@ -14,22 +14,19 @@ class graphics_context
 public:
 	friend class GScene;
 	friend class GSpace;
+	friend class node_context;
 
 	inline graphics_context(GScene* scene) : scene(scene) {}
 
 	SpriteID getSpriteID();
-	LightID getLightID();
 
-	void addPolyLightSource(LightID id, shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle);
-	void addLightSource(LightID id, CircleLightArea light, SpaceVect pos, SpaceFloat angle);
-	void addLightSource(LightID id, AmbientLightArea light, SpaceVect pos, SpaceFloat angle);
-	void addLightSource(LightID id, ConeLightArea light, SpaceVect pos, SpaceFloat angle);
-	void addLightSource(LightID id, SpriteLightArea light, SpaceVect pos, SpaceFloat angle);
+	void addPolyLightSource(SpriteID id, shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle);
+	void addLightSource(SpriteID id, CircleLightArea light, SpaceVect pos, SpaceFloat angle);
+	void addLightSource(SpriteID id, AmbientLightArea light, SpaceVect pos, SpaceFloat angle);
+	void addLightSource(SpriteID id, ConeLightArea light, SpaceVect pos, SpaceFloat angle);
+	void addLightSource(SpriteID id, SpriteLightArea light, SpaceVect pos, SpaceFloat angle);
 
 	void removeLightSource(LightID id);
-	void setLightSourcePosition(LightID id, SpaceVect pos);
-	void setLightSourceAngle(LightID id, SpaceFloat a);
-	void setLightSourceColor(LightID id, Color4F color);
 	void setLightSourceNoise(LightID id, perlin_light_state noise);
 	void autoremoveLightSource(LightID id, float seconds);
 
@@ -58,15 +55,8 @@ public:
 	);
 
 	void runSpriteAction(SpriteID id, ActionGeneratorType generator);
-	void stopSpriteAction(SpriteID id, cocos_action_tag action);
-	void stopAllSpriteActions(SpriteID id);
 	void removeSprite(SpriteID id);
 	void removeSpriteWithAnimation(SpriteID id, ActionGeneratorType generator);
-	void setSpriteTexture(SpriteID id, string path);
-	void setSpritePosition(SpriteID id, Vec2 pos);
-	void setSpriteAngle(SpriteID id, float angle);
-	void setSpriteZoom(SpriteID id, float zoom);
-    void setSpriteVisible(SpriteID id, bool v);
 	
 	void spriteSpatialUpdate(vector<sprite_update> spriteUpdates);
 	void clearSubroomMask(unsigned int roomID);
@@ -79,12 +69,12 @@ protected:
 		else return dynamic_cast<C*>(it->second);
 	}
 
-	template<class C, typename... Params, typename... Args>
-	void nodeAction(SpriteID id, void (C::*method)(Params...), Args... args)
+	template<class C, typename... Params, typename... DecayParams>
+	void nodeAction(SpriteID id, void (C::*method)(Params...), DecayParams... params)
 	{
 		C* c = getSpriteAs<C>(id);
 		if (c) {
-			(c->*method)(static_cast<decay_t<Params>>(args)...);
+			(c->*method)(params...);
 		}
 	}
 
@@ -98,25 +88,104 @@ protected:
 		return false;
 	}
 
-	Color4F getLightSourceColor(LightID id);
-
 	Node* getSpriteAsNode(SpriteID id);
+	Node* getLight(SpriteID id);
 	void _removeSprite(SpriteID id);
 	//Should only be called by GScene.
 	void update();
 
 	GScene* scene;
 
-	atomic_uint nextLightID = 1;
-	unordered_map<LightID, Node*> lightmapNodes;
-	unordered_map<LightID, perlin_light_state> lightmapNoise;
+	unordered_map<SpriteID, Node*> lightmapNodes;
+	unordered_map<SpriteID, perlin_light_state> lightmapNoise;
 	unordered_map<SpriteID, float> autoremoveLightTimers;
 	siv::PerlinNoise lightmapPerlinNoise;
 
 	atomic_uint nextSpriteID = 1;
 	unordered_map<SpriteID, Node*> graphicsNodes;
-	unordered_map<SpriteID, GAnimation*> animationNodes;
+	unordered_map<SpriteID, Node*> animationNodes;
 	vector<DrawNode*> roomMasks;
+};
+
+class node_context
+{
+public:
+	inline node_context(GSpace* space) :
+		space(space)
+	{}
+
+	template<typename... Params>
+	inline void createNode(
+		void (graphics_context::*create_method)(SpriteID, Params...),
+		Params... params
+	){
+		id = getSpriteID();
+		addSceneAction(bind(
+			create_method,
+			getGraphicsContext(),
+			id,
+			params...
+		));
+	}
+
+	template<class C, typename... Params, typename... InputParams>
+	void nodeMethod(void (C::*method)(Params...), InputParams... params)
+	{
+		graphics_context* graphicsContext = getGraphicsContext();
+		SpriteID _id = id;
+		addSceneAction([graphicsContext, _id, method, params...]() -> void {
+			graphicsContext->nodeAction<C, Params...>(
+				_id,
+				method,
+				static_cast<decay_t<Params>>(params)...
+			);
+		});
+	}
+
+	inline operator bool() const{ return id != 0;}
+	inline SpriteID getID() const { return id; }
+
+	void createSprite(string texture, GraphicsLayer layer, Vec2 pos, float zoom);
+	void createLightSource(
+		shared_ptr<LightArea> light,
+		SpaceVect pos,
+		SpaceFloat angle
+	);
+
+	void runAction(GraphicsAction action);
+	void stopAction(cocos_action_tag tag);
+
+	void autoremoveLightSource(float seconds);
+	void removeWithAction(ActionGeneratorType action);
+	void removeSprite();
+	void removeLightSource();
+
+	void setVisible(bool v);
+	void setPos(SpaceVect p);
+	void setPosition(Vec2 p);
+	void setAngle(SpaceFloat a);
+	void setRotation(float a);
+	void setScale(float zoom);
+	void setColor(Color3B color);
+	void setColor(Color4F color);
+	void setOpacity(unsigned char op);
+	void setTexture(string s);
+	void setShader(string s);
+
+	void clearDrawNode();
+	void drawCircle(
+		Vec2 center, float radius, float angle,
+		unsigned int segments, const Color4F& color
+	);
+	void drawRectangle(Vec2 lowerLeft, Vec2 upperRight, Color4F color);
+
+protected:
+	void addSceneAction(zero_arity_function f);
+	graphics_context* getGraphicsContext();
+	SpriteID getSpriteID();
+
+	GSpace* space;
+	SpriteID id = 0;
 };
 
 #endif /* graphics_context_hpp */

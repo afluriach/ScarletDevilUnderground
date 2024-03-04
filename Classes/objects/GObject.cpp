@@ -36,6 +36,9 @@ GObject::GObject(
 	props(props),
     name(params.name),
 	space(space),
+	sprite(space),
+	light(space),
+	drawNode(space),
 	uuid(id),
 	type(phys.type),
 	layers(phys.layers),
@@ -72,14 +75,14 @@ void GObject::removePhysicsObjects()
 
 void GObject::removeGraphics(bool removeSprite)
 {
-	if (removeSprite && spriteID != 0) {
-		space->addGraphicsAction(&graphics_context::removeSprite, spriteID);
+	if (removeSprite && sprite) {
+		sprite.removeSprite();
 	}
-	if (drawNodeID != 0) {
-		space->addGraphicsAction(&graphics_context::removeSprite, drawNodeID);
+	if (drawNode) {
+		drawNode.removeSprite();
 	}
-	if (lightID != 0) {
-		space->addGraphicsAction(&graphics_context::removeLightSource, lightID);
+	if (light) {
+		light.removeLightSource();
 	}
 }
 
@@ -721,7 +724,7 @@ GraphicsLayer GObject::sceneLayer() const {
 }
 
 bool GObject::isGraphicsObject() const {
-	return spriteID || drawNodeID || lightID;
+	return sprite || drawNode || light;
 }
 
 shared_ptr<sprite_properties> GObject::getSprite() const
@@ -776,9 +779,9 @@ sprite_update GObject::updateSprite()
 	}
 
 	return sprite_update {
-		spriteID,
-		drawNodeID,
-		lightID,
+		sprite.getID(),
+		drawNode.getID(),
+		light.getID(),
 		toCocos(p) * app::pixelsPerTile,
 		toCocosAngle(a),
 		fadeIn,
@@ -804,7 +807,7 @@ void GObject::initializeGraphics()
 	rotateSprite = true;
 
 	if (_sprite.size == make_pair(1, 1)) {
-		spriteID = space->createSprite(
+		sprite.createNode(
 			&graphics_context::createSprite,
 			resPath,
 			sceneLayer(),
@@ -817,7 +820,7 @@ void GObject::initializeGraphics()
 		_sprite.size.second == 1 &&
 		_sprite.duration > 0.0f
 	) {
-		spriteID = space->createSprite(
+		sprite.createNode(
 			&graphics_context::createLoopAnimation,
 			_sprite.filename,
 			_sprite.size.first,
@@ -831,136 +834,40 @@ void GObject::initializeGraphics()
 		log2("Invalid ImageSprite size %d,%d", _sprite.size.first, _sprite.size.second);
 	}
 
-	space->graphicsNodeAction(&Node::setRotation, spriteID, toCocosAngle(prevAngle));
+	sprite.setAngle(prevAngle);
 
-	if (spriteID != 0 && _sprite.color != Color3B::BLACK && _sprite.color != Color3B::WHITE) {
-		space->graphicsNodeAction(&Node::setColor, spriteID, _sprite.color);
+	if (sprite && _sprite.color != Color3B::BLACK && _sprite.color != Color3B::WHITE) {
+		sprite.setColor(_sprite.color);
 	}
 }
 
 void GObject::createLight()
 {
 	auto source = getLightSource();
-	if (source && lightID == 0) {
-		lightID = space->addLightSource(source, prevPos, prevAngle);
+	if (source && !light) {
+		light.createLightSource(
+			source,
+			prevPos,
+			prevAngle
+		);
 	}
 }
 
 void GObject::removeLight()
 {
-	if (lightID != 0) {
-		space->removeLightSource(lightID);
-        lightID = 0;
+	if (light) {
+		light.removeLightSource();
 	}
 }
 
 void GObject::createDrawNode(GraphicsLayer layer)
 {
-	drawNodeID = space->createSprite(
+	drawNode.createNode(
 		&graphics_context::createDrawNode,
 		layer,
 		getInitialCenterPix(),
 		1.0f
 	);
-}
-
-void GObject::clearDrawNode()
-{
-	space->graphicsNodeAction(
-		&DrawNode::clear,
-		drawNodeID
-	);
-}
-
-void GObject::drawRectangle(Vec2 ll, Vec2 ur, Color4F color)
-{
-	space->graphicsNodeAction(
-		&DrawNode::drawSolidRect,
-		drawNodeID,
-		ll,
-		ur,
-		color
-	);
-}
-
-void GObject::setLightSourceAngle(SpaceFloat angle)
-{
-    if(lightID != 0) {
-        space->addGraphicsAction(
-            &graphics_context::setLightSourceAngle,
-            lightID,
-            angle
-        );
-    }
-}
-
-void GObject::addGraphicsAction(GraphicsAction action)
-{
-	addGraphicsAction(action, spriteID);
-}
-
-void GObject::addGraphicsAction(GraphicsAction action, SpriteID id )
-{
-	if (id != 0) {
-		space->addGraphicsAction(
-			&graphics_context::runSpriteAction,
-			id,
-			action.generator
-		);
-	}
-}
-
-void GObject::stopGraphicsAction(cocos_action_tag tag)
-{
-	stopGraphicsAction(tag, spriteID);
-}
-
-void GObject::stopGraphicsAction(cocos_action_tag tag, SpriteID id)
-{
-	if (id != 0) {
-		space->addGraphicsAction(
-			&graphics_context::stopSpriteAction,
-			id,
-			tag
-		);
-	}
-}
-
-void GObject::setSpriteZoom(float zoom)
-{
-	if (spriteID != 0) {
-		space->addGraphicsAction(&graphics_context::setSpriteZoom, spriteID, zoom);
-	}
-	else {
-		log1("GObject::setSpriteZoom: %s does not have a sprite!", toString());
-	}
-}
-
-void GObject::setSpriteOpacity(unsigned char op)
-{
-	if (spriteID != 0) {
-		space->graphicsNodeAction(&Node::setOpacity, spriteID, to_uchar(op));
-	}
-	else {
-		log1("GObject::setSpriteOpacity: %s does not have a sprite!", toString());
-	}
-}
-
-void GObject::setSpriteVisible(bool val)
-{
-	if(spriteID != 0)
-		space->graphicsNodeAction(&Node::setVisible, spriteID, val);
-}
-
-void GObject::setSpriteTexture(const string& texture)
-{
-	if (spriteID != 0) {
-		space->addGraphicsAction(
-			&graphics_context::setSpriteTexture,
-			spriteID,
-			texture
-		);
-	}
 }
 
 //END GRAPHICS

@@ -9,12 +9,12 @@ spells.DarkMist = class('DarkMist', {
 	end,
 	onEnter = function(self)
 		caster = self.super.object
-		caster:setSpriteOpacity(128)
+		caster.sprite:setOpacity(128)
 		caster:getAsAgent():increment(Attribute.invisibility)
 	end,
 	onExit = function(self)
 		caster = self.super.object
-		caster:setSpriteOpacity(255)
+		caster.sprite:setOpacity(255)
 		caster:getAsAgent():decrement(Attribute.invisibility)
 	end
 })

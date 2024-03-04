@@ -21,6 +21,7 @@ class GSpace
 {
 public:
 	friend class GScene;
+	friend class node_context;
 	friend class physics_context;
 	friend class PhysicsImpl;
 
@@ -233,32 +234,10 @@ public:
 	//will call the corresponding scene method immediately to retrieve the ID.
 	//However, nextSpriteID/nextLightID is an atomic integer, so it will not use a mutex.
 
-	LightID addLightSource(shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle);
-	void removeLightSource(LightID id);
-	void runSpriteAction(SpriteID id, GraphicsAction action);
-
 	template<typename... Args>
 	inline void addLightmapAction(void (graphics_context::*m)(Args...), Args... args)
 	{
 		sceneActions.push_back(bind(m, graphicsContext, args...));
-	}
-
-	template<typename... Args>
-	inline SpriteID createSprite(void (graphics_context::*m)(SpriteID, Args...), Args... args)
-	{
-		SpriteID id = graphicsContext->getSpriteID();
-
-		sceneActions.push_back(bind(m, graphicsContext, id, args...));
-
-		return id;
-	}
-
-	template<class C, typename... Params, typename... Args>
-	void graphicsNodeAction(void (C::*method)(Params...), SpriteID id, Args... args)
-	{
-		sceneActions.push_back([this, id, method, args...]() -> void {
-			graphicsContext->nodeAction(id, method, static_cast<decay_t<Params>>(args)...);
-		});
 	}
 
 	template<typename... Args>

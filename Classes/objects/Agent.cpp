@@ -59,7 +59,8 @@ Agent::Agent(
 		),
 		props
 	),
-	props(props)
+	props(props),
+	agentOverlay(space)
 {
     inventory = make_unique<Inventory>();
 }
@@ -116,7 +117,7 @@ void Agent::init()
 	applyEffects();
 	initializeRadar();
  
- 	agentOverlay = space->createSprite(
+ 	agentOverlay.createNode(
 		&graphics_context::createAgentBodyShader,
 		GraphicsLayer::agentOverlay,
 		bodyOutlineColor,
@@ -126,7 +127,7 @@ void Agent::init()
 		bodyOutlineWidth,
 		getInitialCenterPix()
 	);
-	space->graphicsNodeAction(&Node::setVisible, agentOverlay, false);
+	agentOverlay.setVisible(false);
  
 }
 
@@ -146,16 +147,8 @@ void Agent::update()
 	updateAnimation();
  
     if(crntState == agent_state::blocking){
-        space->addGraphicsAction(
-			&graphics_context::setSpritePosition,
-			agentOverlay,
-			toCocos(getPos()*app::pixelsPerTile)
-		);
-		space->graphicsNodeAction(
-			&Node::setRotation,
-			agentOverlay,
-			toCocosAngle(getAngle())
-		);
+		agentOverlay.setPos(getPos());
+		agentOverlay.setAngle(getAngle());
     }
     
 }
@@ -249,17 +242,13 @@ void Agent::updateCombo()
 	if ( isComboFull && !isComboActive) {
         setAttribute(Attribute::comboLevel, 1.0f);
 		modifyAttribute(Attribute::attack, 0.25f);
-		space->addGraphicsAction(&graphics_context::runSpriteAction, spriteID, comboFlickerTintAction().generator);
+		sprite.runAction(comboFlickerTintAction());
 	}
 	else if (!isComboEmpty && isComboActive) {
         setAttribute(Attribute::comboLevel, 0.0f);
 		modifyAttribute(Attribute::attack, -0.25f);
-		space->addGraphicsAction(
-			&graphics_context::stopSpriteAction,
-			spriteID,
-			cocos_action_tag::combo_mode_flicker
-		);
-		space->graphicsNodeAction(&Node::setColor, spriteID, Color3B::WHITE);
+		sprite.stopAction(cocos_action_tag::combo_mode_flicker);
+		sprite.setColor(Color3B::WHITE);
 	}
 }
 
@@ -458,7 +447,7 @@ bool Agent::isShield(Bullet * b)
 void Agent::initializeGraphics()
 {
 	animation = make_unique<AgentAnimationContext>(space);
-	spriteID = animation->initializeGraphics(
+	sprite = animation->initializeGraphics(
 		getSprite(),
 		getRadius(),
 		sceneLayer(),
@@ -533,7 +522,7 @@ void Agent::block()
         setState(agent_state::blocking);
     }
     
-    space->addGraphicsAction(&graphics_context::setSpriteVisible, agentOverlay, true);
+    agentOverlay.setVisible(true);
 }
 
 void Agent::endBlock()
@@ -542,7 +531,7 @@ void Agent::endBlock()
         setState(agent_state::none);
     }
     
-    space->addGraphicsAction(&graphics_context::setSpriteVisible, agentOverlay, false);
+    agentOverlay.setVisible(false);
 }
 
 bool Agent::hasPowerAttack()

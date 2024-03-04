@@ -9,7 +9,6 @@
 #ifndef graphics_types_h
 #define graphics_types_h
 
-typedef unsigned int LightID;
 typedef unsigned int SpriteID;
 
 typedef function<FiniteTimeAction*()> ActionGeneratorType;

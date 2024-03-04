@@ -51,6 +51,9 @@ void Inst::addUtil()
 	cFuncSame(util, explosion);
 	cFuncSame(util, radialDamageArea);
   
+	cFuncSame(util, toCocosAngle);
+
+    util["toCocos"] = static_cast<Vec2(*)(const SpaceVect&)>(&toCocos);
     util["toColor3B"] = sol::overload(
         static_cast<Color3B(*)(const Color4F&)>(&toColor3B),
         static_cast<Color3B(*)(const string&)>(&toColor3B)

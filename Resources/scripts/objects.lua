@@ -11,7 +11,7 @@ end
 --Show sprite and unset sensor property when activated.
 function objects.Barrier:setSealed(val)
 	self.super:setBodySensor(not val)
-	self.super:setSpriteVisible(val)
+	self.super.sprite:setVisible(val)
 end
 
 function objects.Barrier:onActivate(val)
@@ -50,7 +50,7 @@ end
 function objects.DestructibleHeadstone:updateSprite()
 	for i,v in ipairs(self.damageSprites) do
 		if self.hp >= v[1] and self.hp < v[2] and self.crntSprite ~= v[3] then
-			self.super:setSpriteTexture(v[3])
+			self.super.sprite:setTexture(v[3])
 			self.crntSprite  = v[3]
 			return
 		end
@@ -192,7 +192,7 @@ function objects.Pyramid:update()
 	self.lightAngle = self.lightAngle + self.angular_speed * App.params.secondsPerFrame	
 	self.lightAngle = util.canonicalAngle(self.lightAngle)
 	
-	self.super:setLightSourceAngle(self.lightAngle)
+	self.super.light:setAngle(self.lightAngle)
 end
 
 objects.Sign = class('Sign')
@@ -216,17 +216,15 @@ function objects.Torch:interact(p)
 end
 
 function objects.Torch:initializeGraphics()
-	self.flameSpriteID = self.super.space:createSprite(
-		"white_flame",
+	self.flameSprite = node_context.new(self.super.space)
+	self.flameSprite:createSprite(
+		"sprites/white_flame.png",
 		GraphicsLayer.overhead,
-		self.super:getPos(),
+		util.toCocos(self.super:getPos():scale(app_constants.pixelsPerTile)),
 		0.5
 	)
-	self.super.space:setSpriteColor(
-		self.flameSpriteID,
-		util.toColor3B(self.super.props:getLightColor())
-	)
-	self.super.space:setSpriteVisible(self.flameSpriteID, self.super.active)
+	self.flameSprite:setColor(util.toColor3B(self.super.props:getLightColor()))
+	self.flameSprite:setVisible(self.super.active)
 	
 	if self.super.active then
 		self.super:createLight()
@@ -234,19 +232,19 @@ function objects.Torch:initializeGraphics()
 end
 
 function objects.Torch:spriteFadeIn()
-	self.super.space:setSpriteVisible(self.flameSpriteID, self.super.active)
+	self.flameSprite:setVisible(self.super.active)
 end
 
 function objects.Torch:spriteFadeOut()
-	self.super.space:setSpriteVisible(self.flameSpriteID, false)
+	self.flameSprite:setVisible(false)
 end
 
 function objects.Torch:onActivate()
-	self.super.space:setSpriteVisible(self.flameSpriteID, true)
+	self.flameSprite:setVisible(true)
 	self.super:createLight()
 end
 
 function objects.Torch:onDeactivate()
-	self.super.space:setSpriteVisible(self.flameSpriteID, false)
+	self.flameSprite:setVisible(false)
 	self.super:removeLight()
 end

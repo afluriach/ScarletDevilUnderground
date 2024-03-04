@@ -157,12 +157,7 @@ void Player::onZeroHP()
 
 void Player::onPitfall()
 {
-	space->addGraphicsAction(
-		&graphics_context::runSpriteAction,
-		spriteID,
-		pitfallShrinkAction().generator
-	);
-
+	sprite.runAction(pitfallShrinkAction());
     gameOver();
 }
 

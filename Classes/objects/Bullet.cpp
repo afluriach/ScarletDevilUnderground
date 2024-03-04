@@ -92,9 +92,7 @@ void Bullet::initializeGraphics()
 	createDrawNode(GraphicsLayer::agentOverlay);
 
 	if (dimensions.y == 0.0) {
-		space->graphicsNodeAction(
-			static_cast<void(DrawNode::*)(const Vec2&, float, float, unsigned int, const Color4F&)>(&DrawNode::drawSolidCircle),
-			drawNodeID,
+		drawNode.drawCircle(
 			Vec2::ZERO,
 			to_float(dimensions.x * app::pixelsPerTile),
 			0.0f,
@@ -105,16 +103,14 @@ void Bullet::initializeGraphics()
 	else {
 		Vec2 pixelExtents = toCocos(dimensions) * app::pixelsPerTile * 0.5f;
 		swap(pixelExtents.x, pixelExtents.y);
-		space->graphicsNodeAction(
-			&DrawNode::drawSolidRect,
-			drawNodeID,
+		drawNode.drawRectangle(
 			-pixelExtents,
 			pixelExtents,
 			Color4F(.66f, .75f, .66f, .7f)
 		);
 	}
 
-	space->graphicsNodeAction(&Node::setVisible, drawNodeID, false);
+	drawNode.setVisible(false);
 }
 
 SpaceFloat Bullet::getMaxSpeed() const {
@@ -199,8 +195,8 @@ bool Bullet::applyRicochet(SpaceVect n)
 
 void Bullet::setBodyVisible(bool b)
 {
-	if (drawNodeID != 0) {
-		space->graphicsNodeAction(&Node::setVisible, drawNodeID, b);
+	if (drawNode) {
+		drawNode.setVisible(b);
 	}
 }
 

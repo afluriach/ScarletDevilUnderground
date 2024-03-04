@@ -44,12 +44,8 @@ Enemy::~Enemy()
 
 void Enemy::runDamageFlicker()
 {
-	if (spriteID != 0) {
-		space->addGraphicsAction(
-			&graphics_context::runSpriteAction,
-			spriteID,
-			flickerAction(0.3f, 1.2f, 81).generator
-		);
+	if (sprite) {
+		sprite.runAction(flickerAction(0.3f, 1.2f, 81));
 	}
 }
 

@@ -37,6 +37,7 @@ namespace Lua
 		void addAI();
 		void addApp();
 		void addGObject();
+		void addGraphics();
 		void addGSpace();
 		void addMagic();
 		void addScene();

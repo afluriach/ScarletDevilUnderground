@@ -83,6 +83,8 @@
 		E23E1B2D1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */; };
 		E24450241C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */; };
 		E24450251C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */; };
+		E2475D292B967AB400A72A98 /* lua_graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2475D282B967AB400A72A98 /* lua_graphics.cpp */; };
+		E2475D2A2B967AB400A72A98 /* lua_graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2475D282B967AB400A72A98 /* lua_graphics.cpp */; };
 		E2480E1120E1EADC0028E491 /* Agent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21738F41FE609360045C4CB /* Agent.cpp */; };
 		E252F2A52B5F65340014805B /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A32B5F65340014805B /* Inventory.cpp */; };
 		E252F2A62B5F65340014805B /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A32B5F65340014805B /* Inventory.cpp */; };
@@ -383,6 +385,7 @@
 		E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LuaShell.hpp; path = ../Classes/lua/LuaShell.hpp; sourceTree = SOURCE_ROOT; };
 		E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectMapping.cpp; path = ../Classes/objects/ObjectMapping.cpp; sourceTree = SOURCE_ROOT; };
 		E24620271CF77271007C2CB5 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.a; sourceTree = "<group>"; };
+		E2475D282B967AB400A72A98 /* lua_graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = lua_graphics.cpp; path = lua/lua_graphics.cpp; sourceTree = "<group>"; };
 		E252F2A32B5F65340014805B /* Inventory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
 		E252F2A42B5F65340014805B /* Inventory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
 		E252F2AD2B606B0E0014805B /* object_properties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = object_properties.cpp; path = objects/object_properties.cpp; sourceTree = "<group>"; };
@@ -822,6 +825,7 @@
 				E26C254824E73A95004067E0 /* lua_ai.cpp */,
 				E26C254124E73A95004067E0 /* lua_app.cpp */,
 				E26C254924E73A96004067E0 /* lua_gobject.cpp */,
+				E2475D282B967AB400A72A98 /* lua_graphics.cpp */,
 				E26C254324E73A95004067E0 /* lua_gspace.cpp */,
 				E26C254224E73A95004067E0 /* lua_magic.cpp */,
 				E26C254724E73A95004067E0 /* lua_scene.cpp */,
@@ -1216,6 +1220,7 @@
 				E2CDC54F1C051FFC0017537B /* Bullet.cpp in Sources */,
 				E26C24F724E739ED004067E0 /* vect.cpp in Sources */,
 				E2FB274A20E42CCA0035A5AF /* value_map.cpp in Sources */,
+				E2475D292B967AB400A72A98 /* lua_graphics.cpp in Sources */,
 				E26C259224E73AD8004067E0 /* OpeningScene.cpp in Sources */,
 				E25BCAE124E73B8B0032C1ED /* graphics_types.cpp in Sources */,
 				E26C24FD24E739ED004067E0 /* Prefix.cpp in Sources */,
@@ -1292,6 +1297,7 @@
 				E26C254B24E73A96004067E0 /* lua_app.cpp in Sources */,
 				E26C24EC24E739ED004067E0 /* xml.cpp in Sources */,
 				E26C253024E73A41004067E0 /* Spell.cpp in Sources */,
+				E2475D2A2B967AB400A72A98 /* lua_graphics.cpp in Sources */,
 				E26C257924E73ABF004067E0 /* object_params.cpp in Sources */,
 				E26C252C24E73A41004067E0 /* SpellUtil.cpp in Sources */,
 				E26C257B24E73ABF004067E0 /* FloorSegment.cpp in Sources */,

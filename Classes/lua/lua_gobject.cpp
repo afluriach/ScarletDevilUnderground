@@ -121,8 +121,6 @@ namespace Lua{
 		#define _cls GObject
 		auto gobject = _state.new_usertype<GObject>(
 			"GObject",
-            "spriteID", sol::property(&GObject::getSpriteID),
-            "lightID", sol::property(&GObject::getLightID),
 			"active", sol::property(&GObject::getActive),
 			"pos", sol::property(&GObject::getPos, &GObject::setPos),
 			"dim", sol::property(&GObject::getDimensions),
@@ -133,14 +131,9 @@ namespace Lua{
 			"space", sol::property(&GObject::getSpace)
 		);
 
-		gobject["addGraphicsAction"] = sol::overload(
-			static_cast<void(GObject::*)(GraphicsAction)>(&GObject::addGraphicsAction),
-			static_cast<void(GObject::*)(GraphicsAction, SpriteID)>(&GObject::addGraphicsAction)
-		);
-		gobject["stopGraphicsAction"] = sol::overload(
-			static_cast<void(GObject::*)(cocos_action_tag)>(&GObject::stopGraphicsAction),
-			static_cast<void(GObject::*)(cocos_action_tag, SpriteID)>(&GObject::stopGraphicsAction)
-		);
+		addFuncSame(gobject, sprite);
+		addFuncSame(gobject, light);
+		addFuncSame(gobject, drawNode);
 
 		addFuncSame(gobject, playSoundSpatial);
 
@@ -164,13 +157,6 @@ namespace Lua{
 		addFuncSame(gobject, createLight);
 		addFuncSame(gobject, removeLight);
 		addFuncSame(gobject, createDrawNode);
-		addFuncSame(gobject, clearDrawNode);
-		addFuncSame(gobject, drawRectangle);
-        addFuncSame(gobject, setLightSourceAngle);
-		addFuncSame(gobject, setSpriteOpacity);
-		addFuncSame(gobject, setSpriteVisible);
-		addFuncSame(gobject, setSpriteTexture);
-		addFuncSame(gobject, setSpriteZoom);
 
 		addFuncSame(gobject, setBodySensor);
 		addFuncSame(gobject, getBodySensor);

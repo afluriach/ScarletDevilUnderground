@@ -31,46 +31,38 @@ public:
     Vector<SpriteFrame*> frames;
 };
 
-class GAnimation : public Node
-{
-public:
-    virtual void update() = 0;
-};
-
-class TimedLoopAnimation : public GAnimation {
+class TimedLoopAnimation : public Sprite {
 public:
    void loadAnimation(const string& name, int length, SpaceFloat animationInterval);
-   virtual void update();
+   virtual bool init();
+   virtual void update(float unused);
 protected:
     AnimationSpriteSequence sequence;
     SpaceFloat frameInterval;
     SpaceFloat timeInFrame = 0.0;
     int crntFrame = 0;
-    Sprite* sprite = nullptr;
 };
 
 //Sprite frames are loaded raster order. So all directions are encompassed with a single sprite frame set.
 //Can go for a running effect by omitting the middle frame.
-class PatchConAnimation : public GAnimation {
+class PatchConAnimation : public Sprite {
 public:
     //One pace is 1 unit, with the middle state representing a small distance between steps.
     static constexpr SpaceFloat stepSize = 0.4;
     static constexpr SpaceFloat midstepSize = 0.2;
     
+	virtual bool init();
+
     void loadAnimation(shared_ptr<sprite_properties> _sprite);    
-    void setShader(string shader);
 
 	void setFrame(int animFrame);
     void setDirection(Direction dir);
 	Direction getDirection()const;
-
-	inline virtual void update() {}
 protected:
 	bool useFlipX = false;
 
 	array<AnimationSpriteSequence, 4> walkAnimations;
 
-    Sprite* sprite = nullptr;
     SpaceFloat distanceAccumulated = 0.0;
     unsigned char crntFrame = 1;
     Direction direction = Direction::up;
@@ -83,14 +75,19 @@ public:
 	static constexpr SpaceFloat stepSize = 0.4;
 	static constexpr SpaceFloat midstepSize = 0.2;
 
-	inline AgentAnimationContext(GSpace* space) : space(space) {}
+	inline AgentAnimationContext(GSpace* space) :
+		space(space),
+		spriteContext(space)
+	{}
 
-	SpriteID initializeGraphics(
+	node_context initializeGraphics(
 		shared_ptr<sprite_properties> sprite,
 		SpaceFloat radius,
 		GraphicsLayer glayer,
 		Vec2 centerPix
 	);
+
+	inline node_context getContext() const { return spriteContext; }
 
 	void setSprite(shared_ptr<sprite_properties> sprite);
 	void setSpriteShader(string shader);
@@ -102,7 +99,7 @@ public:
 protected:
 	SpaceFloat accumulator = 0.0;
 	GSpace* space;
-	SpriteID spriteID;
+	node_context spriteContext;
 	Direction startingDirection = Direction::down;
 	int crntFrame = 1;
 	bool firstStepIsLeft = false;

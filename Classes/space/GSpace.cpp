@@ -623,11 +623,11 @@ void GSpace::processRemovals()
 		auto entry = toRemoveWithAnimation.front();
 		toRemoveWithAnimation.pop_front();
 
-		unsigned int spriteID = entry.first->getSpriteID();
+		node_context sprite = entry.first->sprite;
 
 		processRemoval(entry.first, false);
 
-		addGraphicsAction(&graphics_context::removeSpriteWithAnimation, spriteID, entry.second);
+		sprite.removeWithAction(entry.second);
 	}
 }
 
@@ -1134,37 +1134,3 @@ shared_ptr<const Path> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 }
 
 //END NAVIGATION
-
-LightID GSpace::addLightSource(shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
-{
-	LightID id = graphicsContext->getLightID();
-
-	sceneActions.push_back(bind(
-		&graphics_context::addPolyLightSource,
-		graphicsContext,
-		id,
-		light,
-		pos,
-		angle
-	));
-
-	return id;
-}
-
-void GSpace::removeLightSource(LightID _id)
-{
-	sceneActions.push_back(bind(
-		&graphics_context::removeLightSource,
-        graphicsContext,
-		_id
-	));
-}
-
-void GSpace::runSpriteAction(SpriteID id, GraphicsAction action)
-{
-	addGraphicsAction(
-		&graphics_context::runSpriteAction,
-		id,
-		action.generator
-	);
-}

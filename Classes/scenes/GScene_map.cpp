@@ -439,12 +439,12 @@ void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 		color = getDefaultAmbientLight();
 	}
 
-	LightID id = graphicsContext->getLightID();
+	SpriteID lightID = graphicsContext->getSpriteID();
 	SpaceVect dimensions = toSpaceVect(map.getMapSize());
 	SpaceVect center = toSpaceVect(offset) + dimensions / 2.0;
 
 	graphicsContext->addPolyLightSource(
-		id,
+		lightID,
 		AmbientLightArea::create( dimensions, color),
 		center,
 		0.0
