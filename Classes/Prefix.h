@@ -37,7 +37,7 @@
 #define DEV_MODE 1
 #define GSPACE_MULTITHREAD 1
 #define INTERNAL_PREFIX 0
-#define use_sound 0
+#define use_sound 1
 #define USE_ALLOCATOR 0
 
 //C standard libraries

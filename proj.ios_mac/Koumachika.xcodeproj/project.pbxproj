@@ -85,6 +85,7 @@
 		E24450251C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */; };
 		E2475D292B967AB400A72A98 /* lua_graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2475D282B967AB400A72A98 /* lua_graphics.cpp */; };
 		E2475D2A2B967AB400A72A98 /* lua_graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2475D282B967AB400A72A98 /* lua_graphics.cpp */; };
+		E2475D2C2B968D8400A72A98 /* libsndfile.1.0.37.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E2475D2B2B968D8400A72A98 /* libsndfile.1.0.37.dylib */; };
 		E2480E1120E1EADC0028E491 /* Agent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21738F41FE609360045C4CB /* Agent.cpp */; };
 		E252F2A52B5F65340014805B /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A32B5F65340014805B /* Inventory.cpp */; };
 		E252F2A62B5F65340014805B /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A32B5F65340014805B /* Inventory.cpp */; };
@@ -126,7 +127,6 @@
 		E25BCB0A24E73BD00032C1ED /* RectangleSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25BCAFC24E73BCF0032C1ED /* RectangleSensor.cpp */; };
 		E25BCB0B24E73BD00032C1ED /* GState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25BCAFD24E73BCF0032C1ED /* GState.cpp */; };
 		E25BCB0C24E73BD00032C1ED /* GState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25BCAFD24E73BCF0032C1ED /* GState.cpp */; };
-		E25BCB1624E73F720032C1ED /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E25BCB1524E73F720032C1ED /* libsndfile.a */; };
 		E2610C471FE06A890079B36F /* libboost-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2610C461FE06A890079B36F /* libboost-combined.a */; };
 		E26147BC1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
 		E26147BD1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
@@ -386,6 +386,7 @@
 		E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectMapping.cpp; path = ../Classes/objects/ObjectMapping.cpp; sourceTree = SOURCE_ROOT; };
 		E24620271CF77271007C2CB5 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.a; sourceTree = "<group>"; };
 		E2475D282B967AB400A72A98 /* lua_graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = lua_graphics.cpp; path = lua/lua_graphics.cpp; sourceTree = "<group>"; };
+		E2475D2B2B968D8400A72A98 /* libsndfile.1.0.37.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsndfile.1.0.37.dylib; path = ../../../../../../../../usr/local/Cellar/libsndfile/1.2.2/lib/libsndfile.1.0.37.dylib; sourceTree = "<group>"; };
 		E252F2A32B5F65340014805B /* Inventory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
 		E252F2A42B5F65340014805B /* Inventory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
 		E252F2AD2B606B0E0014805B /* object_properties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = object_properties.cpp; path = objects/object_properties.cpp; sourceTree = "<group>"; };
@@ -575,8 +576,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2475D2C2B968D8400A72A98 /* libsndfile.1.0.37.dylib in Frameworks */,
 				E229EC6C24EB34AE007C35A9 /* libboost.a in Frameworks */,
-				E25BCB1624E73F720032C1ED /* libsndfile.a in Frameworks */,
 				E2FC5A292097FBF200DA35D7 /* libglfw3.a in Frameworks */,
 				E2AEF5032089983000A4FC90 /* libgainputstatic.a in Frameworks */,
 				1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */,
@@ -646,6 +647,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E2475D2B2B968D8400A72A98 /* libsndfile.1.0.37.dylib */,
 				E229EC6B24EB34AD007C35A9 /* libboost.a */,
 				E25BCB1724E73F8A0032C1ED /* libnoiseutils-static.a */,
 				E25BCB1524E73F720032C1ED /* libsndfile.a */,
@@ -1418,7 +1420,7 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/ios/;
+				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
@@ -1463,7 +1465,7 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/ios/;
+				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
@@ -1516,10 +1518,10 @@
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					/Users/toni/dev/gainput/lib,
-					/opt/homebrew/lib,
 					/Users/toni/dev/boost_1_84_0/stage/lib,
-					/Users/toni/dev/libsndfile,
+					/usr/local/lib,
 					/Users/toni/dev/libs/x86,
+					/usr/local/Cellar/libsndfile/1.2.2/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.2;
@@ -1569,10 +1571,10 @@
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					/Users/toni/dev/gainput/lib,
-					/opt/homebrew/lib,
 					/Users/toni/dev/boost_1_84_0/stage/lib,
-					/Users/toni/dev/libsndfile,
+					/usr/local/lib,
 					/Users/toni/dev/libs/x86,
+					/usr/local/Cellar/libsndfile/1.2.2/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.2;
