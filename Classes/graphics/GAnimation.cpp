@@ -153,6 +153,7 @@ void PatchConAnimation::loadAnimation(shared_ptr<sprite_properties> _sprite)
 
     useAntiAliasTexture(false);
     setCascadeOpacityEnabled(true);
+    setFrame(crntFrame);
 }
 
 void PatchConAnimation::setDirection(Direction dir)
