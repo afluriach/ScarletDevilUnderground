@@ -29,7 +29,6 @@ THE SOFTWARE.
 #include "2d/CCTMXXMLParser.h"
 #include <unordered_map>
 #include <sstream>
-#include "2d/CCTMXTiledMap.h"
 #include "base/ZipUtils.h"
 #include "base/base64.h"
 #include "base/CCDirector.h"
@@ -226,22 +225,6 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
 //        {
 //            CCLOG("cocos2d: TMXFormat: Unsupported TMX version: %s", version.c_str());
 //        }
-        std::string orientationStr = attributeDict["orientation"].asString();
-        if (orientationStr == "orthogonal") {
-            tmxMapInfo->setOrientation(TMXOrientationOrtho);
-        }
-        else if (orientationStr  == "isometric") {
-            tmxMapInfo->setOrientation(TMXOrientationIso);
-        }
-        else if (orientationStr == "hexagonal") {
-            tmxMapInfo->setOrientation(TMXOrientationHex);
-        }
-        else if (orientationStr == "staggered") {
-            tmxMapInfo->setOrientation(TMXOrientationStaggered);
-        }
-        else {
-            CCLOG("cocos2d: TMXFomat: Unsupported orientation: %d", tmxMapInfo->getOrientation());
-        }
 
         CCSize s;
         s.width = attributeDict["width"].asFloat();

@@ -429,7 +429,7 @@ void GScene::loadRoomsLayer(const TMXTiledMap& map)
 
 void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 {
-	string ambient = getStringOrDefault(map.getPropertiesConst(), "ambient_light", "");
+	string ambient = getStringOrDefault(map.getProperties(), "ambient_light", "");
 	Color4F color;
 	
 	if (!ambient.empty()) {
