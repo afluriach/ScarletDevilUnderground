@@ -36,6 +36,8 @@ spells.FlameFence = class('FlameFence', {
 			local rowSkew = SpaceVect.new( y % 2 ~= 0 and 0.5 or 0.0, 0.0 )
 			
 			for x=-10,10,2 do
+				if y == 0 and x == 0 then goto continue end
+			
 				local pos = SpaceVect.new(x,y) + rowSkew
 				local ref = self.agent:spawnBullet(
 					self.props,
@@ -45,6 +47,7 @@ spells.FlameFence = class('FlameFence', {
 					0.0
 				)
 				self.bullets[ref] = true
+				::continue::
 			end
 		end
 	end,

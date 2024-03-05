@@ -17,6 +17,10 @@ end
 function objects.Enemy:setState(newState)
 	app.log(string.format("%s enters %s state", self.super:toString(), newState))
 	
+	if not self.state then
+		self.state = 'none'
+	end
+	
 	if self.state ~= 'none' then
 		local exit = self[self.state .. '_exit']
 		if exit then
@@ -101,7 +105,7 @@ objects.Bat = objects.Enemy:extend('Bat', {
 
 --------------------------------------------------------------------------------
 
-objects.CathedralFairy = class('CathedralFairy')
+objects.CathedralFairy = objects.Enemy:extend('CathedralFairy')
 
 function objects.CathedralFairy:init(super)
 	self.super = super
