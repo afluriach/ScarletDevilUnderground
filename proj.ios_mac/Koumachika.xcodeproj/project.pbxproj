@@ -87,6 +87,7 @@
 		E2475D2A2B967AB400A72A98 /* lua_graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2475D282B967AB400A72A98 /* lua_graphics.cpp */; };
 		E2475D2C2B968D8400A72A98 /* libsndfile.1.0.37.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E2475D2B2B968D8400A72A98 /* libsndfile.1.0.37.dylib */; };
 		E2480E1120E1EADC0028E491 /* Agent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21738F41FE609360045C4CB /* Agent.cpp */; };
+		E24B27162B981EFE0085FDEB /* libglfw.3.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E24B27152B981EFE0085FDEB /* libglfw.3.4.dylib */; };
 		E252F2A52B5F65340014805B /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A32B5F65340014805B /* Inventory.cpp */; };
 		E252F2A62B5F65340014805B /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A32B5F65340014805B /* Inventory.cpp */; };
 		E252F2AF2B606B0E0014805B /* object_properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2AD2B606B0E0014805B /* object_properties.cpp */; };
@@ -253,7 +254,6 @@
 		E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E01EEB1C1DCA0D00330904 /* AI.cpp */; };
 		E2FB274A20E42CCA0035A5AF /* value_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2FB274820E42CCA0035A5AF /* value_map.cpp */; };
 		E2FB274B20E436010035A5AF /* value_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2FB274820E42CCA0035A5AF /* value_map.cpp */; };
-		E2FC5A292097FBF200DA35D7 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2FC59FF2097FB5800DA35D7 /* libglfw3.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -284,27 +284,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = A07A4C241783777C0073F6A7;
 			remoteInfo = "cocos2dx iOS";
-		};
-		E2FC59FE2097FB5800DA35D7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E2FC59E42097FB5700DA35D7 /* GLFW.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 14193B50FEE449E0BD66E090;
-			remoteInfo = glfw;
-		};
-		E2FC5A242097FBC600DA35D7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E2FC59E42097FB5700DA35D7 /* GLFW.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4BDF3E8FD8494D29A55AC4FB;
-			remoteInfo = glfw;
-		};
-		E2FC5A272097FBEB00DA35D7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E2FC59E42097FB5700DA35D7 /* GLFW.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4BDF3E8FD8494D29A55AC4FB;
-			remoteInfo = glfw;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -387,6 +366,7 @@
 		E24620271CF77271007C2CB5 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.a; sourceTree = "<group>"; };
 		E2475D282B967AB400A72A98 /* lua_graphics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = lua_graphics.cpp; path = lua/lua_graphics.cpp; sourceTree = "<group>"; };
 		E2475D2B2B968D8400A72A98 /* libsndfile.1.0.37.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsndfile.1.0.37.dylib; path = ../../../../../../../../usr/local/Cellar/libsndfile/1.2.2/lib/libsndfile.1.0.37.dylib; sourceTree = "<group>"; };
+		E24B27152B981EFE0085FDEB /* libglfw.3.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.4.dylib; path = ../../../../../../../../usr/local/Cellar/glfw/3.4/lib/libglfw.3.4.dylib; sourceTree = "<group>"; };
 		E252F2A32B5F65340014805B /* Inventory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
 		E252F2A42B5F65340014805B /* Inventory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
 		E252F2AD2B606B0E0014805B /* object_properties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = object_properties.cpp; path = objects/object_properties.cpp; sourceTree = "<group>"; };
@@ -548,7 +528,6 @@
 		E2FB274820E42CCA0035A5AF /* value_map.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = value_map.cpp; sourceTree = "<group>"; };
 		E2FB274920E42CCA0035A5AF /* value_map.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = value_map.hpp; sourceTree = "<group>"; };
 		E2FB274C20E4390C0035A5AF /* functional.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = functional.hpp; sourceTree = "<group>"; };
-		E2FC59E42097FB5700DA35D7 /* GLFW.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GLFW.xcodeproj; path = ../glfw/GLFW.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -576,9 +555,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E24B27162B981EFE0085FDEB /* libglfw.3.4.dylib in Frameworks */,
 				E2475D2C2B968D8400A72A98 /* libsndfile.1.0.37.dylib in Frameworks */,
 				E229EC6C24EB34AE007C35A9 /* libboost.a in Frameworks */,
-				E2FC5A292097FBF200DA35D7 /* libglfw3.a in Frameworks */,
 				E2AEF5032089983000A4FC90 /* libgainputstatic.a in Frameworks */,
 				1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */,
 				5087E76717EB910900C73F5D /* libz.dylib in Frameworks */,
@@ -632,7 +611,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				E2FC59E42097FB5700DA35D7 /* GLFW.xcodeproj */,
 				46880B8319C43A87006E1F66 /* Classes */,
 				46880B7519C43A67006E1F66 /* Resources */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
@@ -647,6 +625,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E24B27152B981EFE0085FDEB /* libglfw.3.4.dylib */,
 				E2475D2B2B968D8400A72A98 /* libsndfile.1.0.37.dylib */,
 				E229EC6B24EB34AD007C35A9 /* libboost.a */,
 				E25BCB1724E73F8A0032C1ED /* libnoiseutils-static.a */,
@@ -994,14 +973,6 @@
 			name = objects;
 			sourceTree = "<group>";
 		};
-		E2FC59E52097FB5700DA35D7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E2FC59FF2097FB5800DA35D7 /* libglfw3.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1016,7 +987,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E2FC5A252097FBC600DA35D7 /* PBXTargetDependency */,
 				1AC6FB25180E99E1004C840B /* PBXTargetDependency */,
 			);
 			name = "Koumachika iOS";
@@ -1035,7 +1005,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E2FC5A282097FBEB00DA35D7 /* PBXTargetDependency */,
 				1AC6FB16180E9959004C840B /* PBXTargetDependency */,
 			);
 			name = "Koumachika Mac";
@@ -1078,10 +1047,6 @@
 					ProductGroup = 1AC6FAE6180E9839004C840B /* Products */;
 					ProjectRef = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
 				},
-				{
-					ProductGroup = E2FC59E52097FB5700DA35D7 /* Products */;
-					ProjectRef = E2FC59E42097FB5700DA35D7 /* GLFW.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1104,13 +1069,6 @@
 			fileType = archive.ar;
 			path = "libcocos2d iOS.a";
 			remoteRef = 1AC6FB06180E9839004C840B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E2FC59FF2097FB5800DA35D7 /* libglfw3.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libglfw3.a;
-			remoteRef = E2FC59FE2097FB5800DA35D7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1379,16 +1337,6 @@
 			name = "cocos2dx iOS";
 			targetProxy = 1AC6FB24180E99E1004C840B /* PBXContainerItemProxy */;
 		};
-		E2FC5A252097FBC600DA35D7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = glfw;
-			targetProxy = E2FC5A242097FBC600DA35D7 /* PBXContainerItemProxy */;
-		};
-		E2FC5A282097FBEB00DA35D7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = glfw;
-			targetProxy = E2FC5A272097FBEB00DA35D7 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1507,7 +1455,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../glfw/include/GLFW",
+					/usr/local/Cellar/glfw/3.4/include/GLFW,
 					"$(SRCROOT)/../cocos2d/cocos/platform/mac",
 					"$(SRCROOT)/../gainput/include",
 					/Users/toni/dev/boost_1_84_0,
@@ -1522,6 +1470,7 @@
 					/usr/local/lib,
 					/Users/toni/dev/libs/x86,
 					/usr/local/Cellar/libsndfile/1.2.2/lib,
+					/usr/local/Cellar/glfw/3.4/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.2;
@@ -1560,7 +1509,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../glfw/include/GLFW",
+					/usr/local/Cellar/glfw/3.4/include/GLFW,
 					"$(SRCROOT)/../cocos2d/cocos/platform/mac",
 					"$(SRCROOT)/../gainput/include",
 					/Users/toni/dev/boost_1_84_0,
@@ -1575,6 +1524,7 @@
 					/usr/local/lib,
 					/Users/toni/dev/libs/x86,
 					/usr/local/Cellar/libsndfile/1.2.2/lib,
+					/usr/local/Cellar/glfw/3.4/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.2;
@@ -1632,10 +1582,7 @@
 					"$(SRCROOT)/../cocos2d/extensions",
 					"$(SRCROOT)/../cocos2d/external",
 					"$(SRCROOT)/../cocos2d/chipmunk",
-					/Users/toni/dev/boost_1_59_0,
-					"$(SRCROOT)/../cocos2d/chipmunkpp",
 					"$(SRCROOT)/../cocos2d/lua",
-					"$(SRCROOT)/../cocos2d/LuaBridge/**",
 					/Users/toni/dev/libsndfile/include,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -1684,10 +1631,7 @@
 					"$(SRCROOT)/../cocos2d/extensions",
 					"$(SRCROOT)/../cocos2d/external",
 					"$(SRCROOT)/../cocos2d/chipmunk",
-					/Users/toni/dev/boost_1_59_0,
-					"$(SRCROOT)/../cocos2d/chipmunkpp",
 					"$(SRCROOT)/../cocos2d/lua",
-					"$(SRCROOT)/../cocos2d/LuaBridge/**",
 					/Users/toni/dev/libsndfile/include,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
