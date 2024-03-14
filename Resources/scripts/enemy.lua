@@ -70,7 +70,7 @@ function objects.Enemy:onHit()
 		self.state ~= 'flee'
 	then
 		self:setState('flee')
-	elseif self.state ~= 'engage' and self.engageOnHit then
+	elseif self.state ~= 'engage' and self.engageOnHit and self.state ~= 'flee' then
 		self:setState('engage')
 	end
 end

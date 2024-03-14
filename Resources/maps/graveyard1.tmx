@@ -138,9 +138,9 @@
  </objectgroup>
  <objectgroup id="6" name="objects">
   <object id="131" type="Goal" x="1024" y="1024" width="128" height="128"/>
-  <object id="179" type="Bat" x="3200" y="5376" width="128" height="128"/>
-  <object id="180" type="Bat" x="3712" y="4992" width="128" height="128"/>
-  <object id="181" type="Bat" x="2944" y="4992" width="128" height="128"/>
+  <object id="179" name="bat3" type="Bat" x="3200" y="5376" width="128" height="128"/>
+  <object id="180" name="bat2" type="Bat" x="3712" y="4992" width="128" height="128"/>
+  <object id="181" name="bat1" type="Bat" x="2944" y="4992" width="128" height="128"/>
   <object id="182" name="rumia" type="Rumia1" x="3200" y="1024" width="128" height="128"/>
   <object id="244" name="batModeSpell" type="Item" x="1280" y="1024" width="128" height="128">
    <properties>
@@ -157,14 +157,14 @@
   <object id="255" type="Headstone" x="4864" y="1408" width="256" height="256"/>
   <object id="258" type="Headstone" x="5760" y="512" width="256" height="256"/>
   <object id="259" type="Headstone" x="4864" y="512" width="256" height="256"/>
-  <object id="260" type="Bat" x="5120" y="2816" width="128" height="128"/>
-  <object id="261" type="Bat" x="5632" y="2816" width="128" height="128"/>
-  <object id="262" type="Bat" x="5376" y="3200" width="128" height="128"/>
-  <object id="263" type="Bat" x="5120" y="1024" width="128" height="128"/>
-  <object id="264" type="Bat" x="5632" y="1024" width="128" height="128"/>
-  <object id="265" type="Bat" x="5376" y="1408" width="128" height="128"/>
-  <object id="266" type="Bat" x="5120" y="384" width="128" height="128"/>
-  <object id="267" type="Bat" x="5632" y="384" width="128" height="128"/>
+  <object id="260" name="bat11" type="Bat" x="5120" y="2816" width="128" height="128"/>
+  <object id="261" name="bat10" type="Bat" x="5632" y="2816" width="128" height="128"/>
+  <object id="262" name="bat9" type="Bat" x="5376" y="3200" width="128" height="128"/>
+  <object id="263" name="bat8" type="Bat" x="5120" y="1024" width="128" height="128"/>
+  <object id="264" name="bat7" type="Bat" x="5632" y="1024" width="128" height="128"/>
+  <object id="265" name="bat6" type="Bat" x="5376" y="1408" width="128" height="128"/>
+  <object id="266" name="bat5" type="Bat" x="5120" y="384" width="128" height="128"/>
+  <object id="267" name="bat4" type="Bat" x="5632" y="384" width="128" height="128"/>
   <object id="269" type="GhostFairy" x="5888" y="3712" width="128" height="128"/>
   <object id="270" type="GhostFairy" x="4992" y="3712" width="128" height="128"/>
   <object id="271" type="Headstone" x="5888" y="5888" width="256" height="256"/>
