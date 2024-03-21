@@ -29,7 +29,7 @@ Wall::Wall(
 		params,
 		physics_params(
 			getWallType(params, props),
-			PhysicsLayers::all,
+			params.layers != PhysicsLayers::none ? params.layers : PhysicsLayers::all,
 			-1.0,
 			false,
 			false

@@ -42,16 +42,18 @@
 	<goal />
 	<glyph dpi="512" ref-size="0.6667"/>
 	<headstone />
-	<icePlatform file="ice_platform" ref-size="2.0" />
 	<launcher />
 	<mapFragment file="map" />
-	<movingPlatform file="moving_platform" ref-size="2.0"/>
 	<mushroom />
 	<sapling />
 	<sign dpi="256" />
 	<strongHeadstone file="strong_headstone" />
 	<torch dpi="256" />
 	<white_flame dpi="256" />
+	
+	<icePlatform file="ice_platform" ref-size="2.0" />
+	<minePlatform file="mine_platform" ref-size="2.0"/>
+	<movingPlatform file="moving_platform" ref-size="2.0"/>
 	
 	<forestBook file="items/forest_book" /> 
 	<graveyardBook file="items/graveyard_book" />

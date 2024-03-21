@@ -120,6 +120,8 @@
 		</rooms>
 	</mine1>
 	
+	<mine2 map="auto" next="none" ambient_light="rgb:0.4,0.4,0.6" />
+	
 	<ice_cave next="none">
 		<rooms size="17,17" prefix="ice_cave/" >
 			<C9 tile_offset="0,2" />

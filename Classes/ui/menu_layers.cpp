@@ -251,6 +251,7 @@ const vector<pair<string,zero_arity_function>> WorldSelect::entries = {
 	entry(forest1),
 	entry(desert1),
 	entry(mine1),
+	entry(mine2),
 	{ "Back", &WorldSelect::back }
 };
 
@@ -265,6 +266,7 @@ const vector<string> WorldSelect::chamberIDs = {
 	"forest1",
 	"desert1",
 	"mine1",
+	"mine2",
 };
 
 string WorldSelect::nextScene = "";

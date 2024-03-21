@@ -33,6 +33,7 @@ public:
 	SpaceFloat angularVel = 0.0;
 
 	SpaceVect dimensions = SpaceVect::zero;
+	PhysicsLayers layers = PhysicsLayers::none;
 
 	string name;
 	map<string,string> args;

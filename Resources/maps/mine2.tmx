@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="75">
+ <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="grey stone wall grain.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="mine floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="mine floor.png" width="256" height="256"/>
+ </tileset>
+ <layer id="1" name="floor" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt2ksKgDAMRdFM/Ox/xdaZCAFbSXyp90DpTApXMELNzNa2lsH9C95Ztrb2l3s27yyjPa57tsgu2e9dZJf7M6PRRbOLp2IXD13oEo0u83ZRUXEe88zU5VTt/wUAgMpm+sY+nX0qoIsmumiiiya6AAAA9Kk4L/XeVVDWe1dBGV00/aHLAcdADXY=
+  </data>
+ </layer>
+ <layer id="2" name="wall_tiles" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt2OsKgCAMhuF1uP9rrn4JwXDNGVPfByIEA/NzJomIbPe1O++ZHI3PnyGjiNE6t3vIKGKQS0EufZBLMVMumZBLQb30QS4FufQxUy6PZzyH8w4AyMf7Xyqjmb5PX+d5hFx69f9ThlystVnr583F+s/aso9Ya7PWz5uLZY8QQ5/I9Uq95EQuOc2UC7AC7ayitTPTzipaGz6sGd1I715DvcRgTeiYG7ytvCYukDcCTw==
+  </data>
+ </layer>
+ <objectgroup id="3" name="floor">
+  <object id="35" type="MineFloor" x="0" y="128" width="2176" height="1920"/>
+  <object id="48" type="MineFloor" x="2176" y="384" width="512" height="1280"/>
+  <object id="49" type="MineFloor" x="2560" y="3200" width="1280" height="1280"/>
+  <object id="50" type="MineFloor" x="0" y="5760" width="768" height="768"/>
+  <object id="51" type="MineFloor" x="5760" y="5760" width="768" height="768"/>
+  <object id="52" type="MineFloor" x="5760" y="0" width="768" height="768"/>
+  <object id="54" type="DirectedPlatform" x="2688" y="832" width="384" height="384"/>
+ </objectgroup>
+ <objectgroup id="7" name="pitfalls">
+  <object id="53" type="Pitfall" x="0" y="0" width="6528" height="6528"/>
+ </objectgroup>
+ <objectgroup id="4" name="walls">
+  <object id="26" x="0" y="0" width="2048" height="128"/>
+  <object id="27" x="2048" y="0" width="128" height="1024"/>
+  <object id="28" x="128" y="2048" width="2048" height="128"/>
+  <object id="31" x="2048" y="1152" width="128" height="896"/>
+  <object id="32" x="0" y="128" width="128" height="2048"/>
+  <object id="55" type="Wall" x="0" y="4992" width="256" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="56" type="Wall" x="512" y="4992" width="256" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="58" type="Wall" x="1024" y="4992" width="256" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="59" type="Wall" x="1024" y="5504" width="256" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="60" type="Wall" x="1024" y="6016" width="256" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="61" type="Wall" x="0" y="3584" width="1024" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="63" type="Wall" x="1280" y="3584" width="1024" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="64" type="Wall" x="2304" y="2944" width="256" height="1536">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="65" type="Wall" x="2560" y="2944" width="1536" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="66" type="Wall" x="3840" y="3200" width="256" height="1280">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="67" type="Wall" x="4096" y="3584" width="1152" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="68" type="Wall" x="5376" y="3584" width="1152" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="69" type="Wall" x="4992" y="5248" width="256" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="70" type="Wall" x="4992" y="5760" width="256" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="71" type="Wall" x="4992" y="6272" width="256" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="72" type="Wall" x="5504" y="5248" width="256" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+  <object id="74" type="Wall" x="6016" y="5248" width="256" height="256">
+   <properties>
+    <property name="layer" value="ground"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="objects">
+  <object id="38" type="Scorpion1" x="256" y="256" width="128" height="128"/>
+  <object id="39" type="Scorpion1" x="1792" y="256" width="128" height="128"/>
+  <object id="40" type="Scorpion1" x="1792" y="1792" width="128" height="128"/>
+  <object id="41" type="Scorpion1" x="256" y="1792" width="128" height="128"/>
+  <object id="42" type="torchYellow" x="1024" y="256" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="43" type="torchYellow" x="1024" y="1792" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="44" type="torchYellow" x="1920" y="768" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="45" type="torchYellow" x="1920" y="1280" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="46" type="torchYellow" x="128" y="768" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+  <object id="47" type="torchYellow" x="128" y="1280" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="waypoints">
+  <object id="37" name="player_start" x="1024" y="1024" width="128" height="128"/>
+ </objectgroup>
+</map>

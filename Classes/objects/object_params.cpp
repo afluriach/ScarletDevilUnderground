@@ -61,6 +61,7 @@ object_params::object_params(const ValueMap& args) :
 	name = getStringOrDefault(args, "name", "");
 
 	dimensions = getObjectDimensions(args);
+	layers = parseLayers(getStringOrDefault(args, "layer", "none"));
 
 	hidden = getBoolOrDefault(args, "hidden", false);
 	active = getBoolOrDefault(args, "active", false);

@@ -248,6 +248,10 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 		return make_pair(nullptr, nullptr);
 	}
 
+	if (layers == PhysicsLayers::none) {
+		log0("Object is not in a physics layer!");
+		return make_pair(nullptr, nullptr);
+	}
 
 	b2Body* body;
 	b2Fixture* shape;

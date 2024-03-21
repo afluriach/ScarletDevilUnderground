@@ -86,6 +86,11 @@ SpaceFloat physics_context::distanceFeeler(const GObject * agent, SpaceVect _fee
 	return closest * _feeler.length();
 }
 
+SpaceFloat physics_context::floorLevelWallDistanceFeeler(const GObject * agent, SpaceVect feeler) const
+{
+	return distanceFeeler(agent, feeler, GType::wall, PhysicsLayers::floor);
+}
+
 SpaceFloat physics_context::wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const
 {
     return distanceFeeler(agent, feeler, GType::wall);
@@ -146,9 +151,14 @@ bool physics_context::obstacleToTarget(const GObject * agent, const GObject* tar
 	return false;
 }
 
+SpaceFloat physics_context::floorDistanceFeeler(const GObject* agent, SpaceVect feeler) const
+{
+	return distanceFeeler(agent, feeler, GType::floorSegment, PhysicsLayers::floor);
+}
+
 SpaceFloat physics_context::trapFloorDistanceFeeler(const GObject* agent, SpaceVect feeler) const
 {
-	return distanceFeeler(agent, feeler, GType::floorSegment, PhysicsLayers::belowFloor);
+	return distanceFeeler(agent, feeler, GType::pitfall, PhysicsLayers::belowFloor);
 }
 
 bool physics_context::feeler(const GObject * agent, SpaceVect _feeler, GType gtype) const

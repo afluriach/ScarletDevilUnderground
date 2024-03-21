@@ -10,6 +10,7 @@
 
 #include "Bullet.hpp"
 #include "LuaAPI.hpp"
+#include "physics_context.hpp"
 #include "Player.hpp"
 
 namespace Lua{
@@ -42,6 +43,7 @@ namespace Lua{
         auto gspace = _state.new_usertype<GSpace>(
             "GSpace",
             sol::no_constructor,
+            "physics", sol::property(&GSpace::getPhysics),
             "crntSpace", sol::property(&GSpace::getCrntSpace)
         );
 #define _cls GSpace
@@ -107,5 +109,11 @@ namespace Lua{
 		addFuncSame(gstate, hasAttribute);
 		addFuncSame(gstate, incrementAttribute);
 		addFuncSame(gstate, subtractAttribute);
+
+		auto phys = newType(physics_context);
+#define _cls physics_context
+
+		addFuncSame(phys, floorDistanceFeeler);
+		addFuncSame(phys, floorLevelWallDistanceFeeler);
 	}
 }

@@ -41,6 +41,7 @@ public:
     
 	AreaStats& getAreaStats();
 	local_shared_ptr<area_properties> getCrntArea();
+	physics_context* getPhysics() const { return physicsContext.get(); }
 	inline bool isInCallback() const { return isInPhysicsStep; }
     inline bool getIsUnloading() const { return isUnloading; }
 	unsigned int getFrame() const;

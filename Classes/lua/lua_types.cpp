@@ -266,6 +266,7 @@ namespace Lua{
 			>(),
 			"x", sol::property(&SpaceVect::get_x, &SpaceVect::set_x),
 			"y", sol::property(&SpaceVect::get_y, &SpaceVect::set_y),
+			"zero", sol::var(&SpaceVect::zero),
 			sol::meta_function::addition,
 			sol::resolve<SpaceVect(const SpaceVect&,const SpaceVect&)>(&operator+),
 			sol::meta_function::subtraction,

@@ -28,4 +28,13 @@
 		speed="1.5"
 	/>
 	
+	<DirectedPlatform
+		cls="DirectedPlatform"
+		sprite="minePlatform"
+		sfx="footstep_stone"
+		traction="1.0"
+		mass="0.0"
+		speed="1.5"
+	/>
+	
 </floors>

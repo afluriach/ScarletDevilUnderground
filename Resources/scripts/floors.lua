@@ -158,3 +158,56 @@ function objects.MovingPlatform:update()
 		self.pathFunc:runUpdate()
 	end
 end
+
+objects.DirectedPlatform = class("DirectedPlatform")
+
+function objects.DirectedPlatform:init(super, params)
+	self.super = super
+	self.speed = self.super:getMaxSpeed()
+end
+
+function objects.DirectedPlatform:onContact(obj)
+	if obj:getType() == GType.player then
+		self.player = obj
+	end
+end
+
+function objects.DirectedPlatform:onEndContact(obj)
+	if obj:getType() == GType.player then
+		self.player = nil
+	end
+end
+
+function objects.DirectedPlatform:getPlayerDirection()
+	if not self.player then return SpaceVect.zero end
+
+	return SpaceVect.ray(1.0, self.player:getAngle())
+end
+
+function objects.DirectedPlatform:isObstacle()
+	local feeler = self.direction:scale(1.5)
+	local floorDist = self.super.space.physics:floorDistanceFeeler(
+		self.super:getAsObject(),
+		feeler
+	)
+	local wallDist = self.super.space.physics:floorLevelWallDistanceFeeler(
+		self.super:getAsObject(),
+		feeler
+	)
+
+	return floorDist < 1.5 or wallDist < 1.5
+end
+
+function objects.DirectedPlatform:update()
+	if self.player then
+		self.direction = self:getPlayerDirection()
+	
+		if not self.direction:isZero() and not self:isObstacle() then
+			self.super:setVel(
+				self.direction:scale(self.super:getMaxSpeed())
+			)
+		else
+			self.super:setVel(SpaceVect.zero)
+		end
+	end
+end

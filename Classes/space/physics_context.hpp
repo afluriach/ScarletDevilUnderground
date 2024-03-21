@@ -123,7 +123,9 @@ public:
 	bool obstacleToTarget(const GObject * agent, const GObject* target, SpaceFloat width) const;
 	//uses line/ray query
 	SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
+	SpaceFloat floorLevelWallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
 	SpaceFloat wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
+	SpaceFloat floorDistanceFeeler(const GObject* agent, SpaceVect feeler) const;
 	SpaceFloat trapFloorDistanceFeeler(const GObject* agent, SpaceVect feeler) const;
 
 	bool feeler(const GObject * agent, SpaceVect feeler, GType gtype) const;

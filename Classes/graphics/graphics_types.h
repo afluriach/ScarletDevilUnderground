@@ -15,8 +15,8 @@ typedef function<FiniteTimeAction*()> ActionGeneratorType;
 
 enum class GraphicsLayer {
 	begin = 1,
-	map = 1,
-	floor,
+	floor = 1,
+	map,
 	ground,
 	roomMask,
 	agentOverlay,
