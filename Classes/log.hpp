@@ -25,7 +25,7 @@ protected:
  
 	static int repeatCount;
 	static string prevDebugMsg;
-    static string prevDebugPrefix;
+	static string prevDebugPrefix;
 
 	static mutex bufMutex;
 	static vector<string> buf;
@@ -48,28 +48,28 @@ protected:
 
 template<typename... T>
 void log_print(
-    debug_info debug,
-    string s,
-    T... args
+	debug_info debug,
+	string s,
+	T... args
 ){
 	boost::format fmt(s);
 	string result = boost::str((fmt % ... % args));
 
-    boost::format debugPrefix("%s:%d (%s):");
-    string prefix = boost::str(
-        debugPrefix %
-        debug.file %
-        debug.line %
-        debug.func
-    );
+	boost::format debugPrefix("%s:%d (%s):");
+	string prefix = boost::str(
+		debugPrefix %
+		debug.file %
+		debug.line %
+		debug.func
+	);
 
-	LogSystem::logOutput(prefix, "    " + result);
+	LogSystem::logOutput(prefix, "	" + result);
 }
 
 template<typename... T>
 void print(
-    string s,
-    T... args
+	string s,
+	T... args
 ){
 	boost::format fmt(s);
 	string result = boost::str((fmt % ... % args));
@@ -79,15 +79,15 @@ void print(
 
 template<typename... T>
 void logAndThrowError(
-    string s,
-    T... args
+	string s,
+	T... args
 ){
 	boost::format fmt(s);
 	string result = boost::str((fmt % ... % args));
 
 	LogSystem::logOutput("", result);
  
-    throw std::runtime_error(result);
+	throw std::runtime_error(result);
 }
 
 #endif

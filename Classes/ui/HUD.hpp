@@ -35,7 +35,7 @@ protected:
 class HealthBar : public IconMeter
 {
 public:
-    static const int heartSize = 32;
+	static const int heartSize = 32;
 	HealthBar();
 };
 
@@ -114,17 +114,17 @@ public:
 class Counter : public Node
 {
 public:
-    static const int iconSize = 96;
-    
-    //Distance between icon and counter label.
-    static const int spacing = 16;
+	static const int iconSize = 96;
+	
+	//Distance between icon and counter label.
+	static const int spacing = 16;
 
 	Counter(const string& iconRes, int val, int maxVal = 0);
 
-    virtual bool init();
-    void setVal(int _val);
+	virtual bool init();
+	void setVal(int _val);
 	void setMaxVal(int _maxVal);
-    void setIcon(const string& iconRes);
+	void setIcon(const string& iconRes);
 
 	inline int getVal() const { return val; }
 private:
@@ -132,9 +132,9 @@ private:
 	//should be called whenever the counter label text is changed
 	void repositionText();
 
-    Sprite* icon;
-    Label* counter;
-    int val;
+	Sprite* icon;
+	Label* counter;
+	int val;
 	int maxVal;
 	string iconRes;
 };
@@ -164,15 +164,15 @@ class HUD : public Layer
 public:
 	static constexpr bool showAll = false;
 
-    static const int height = 50;
+	static const int height = 50;
 
-    static const int fontSize;
-    
+	static const int fontSize;
+	
 	HUD(GSpace* space);
-    virtual ~HUD();
-    //Not an override of Layer
-    void update();
-    virtual bool init();
+	virtual ~HUD();
+	//Not an override of Layer
+	void update();
+	virtual bool init();
 
 	LinearMeter* hpMeter;
 	LinearMeter* mpMeter;
@@ -180,7 +180,7 @@ public:
 
 	MagicEffects* magicEffects;
 
-    Sprite* interactionIcon;
+	Sprite* interactionIcon;
 	Sprite* firePatternIcon;
 	Sprite* powerAttackIcon;
 	Sprite* bombIcon;
@@ -210,12 +210,12 @@ public:
 	void runPowerFlicker(float duration);
 
 	void setPercentValue(Attribute element, int val);
-    
+	
 	void setPerformanceStats();
 	void updatePerformanceStats();
 	void clearPerformanceStats();
 
-	void setMansionMode(bool val);    
+	void setMansionMode(bool val);	
 	void setInteractionIcon(string val);
 	void setFirePatternIcon(string val);
 	void setSpellIcon(string val);

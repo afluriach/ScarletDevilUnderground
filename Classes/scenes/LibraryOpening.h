@@ -16,22 +16,22 @@
 
 class LibraryOpening : public GScene
 {
-public:    
-    inline LibraryOpening() :
+public:	
+	inline LibraryOpening() :
 		GScene("LibraryOpening", {})
 	{
-        multiInit += wrap_method(LibraryOpening,start, this);
-    }
-    
-    inline void start()
-    {
-        Sprite* background = Sprite::create("portraits/library1.png");
-        background->setScale(0.2f);
-        background->setPosition(App::getScreenCenter());
-        getLayer(sceneLayers::dialogBackground)->addChild(background);
-        
-        createDialog("dialogs/library_opening", false);
-    }
+		multiInit += wrap_method(LibraryOpening,start, this);
+	}
+	
+	inline void start()
+	{
+		Sprite* background = Sprite::create("portraits/library1.png");
+		background->setScale(0.2f);
+		background->setPosition(App::getScreenCenter());
+		getLayer(sceneLayers::dialogBackground)->addChild(background);
+		
+		createDialog("dialogs/library_opening", false);
+	}
 
 	inline virtual GScene* getReplacementScene() {
 		return Node::ccCreate<LibraryOpening>();

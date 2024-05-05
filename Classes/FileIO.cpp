@@ -146,10 +146,10 @@ void checkCreateSubfolders()
 {
 	auto* f = FileUtils::getInstance();
 
-    if (!f->isDirectoryExist(getWriteablePath())) {
-        log0("Documents/koumachika/ created.");
-        f->createDirectory(getWriteablePath());
-    }
+	if (!f->isDirectoryExist(getWriteablePath())) {
+		log0("Documents/koumachika/ created.");
+		f->createDirectory(getWriteablePath());
+	}
 
 	if (!f->isDirectoryExist(getProfilePath())) {
 		log0("profiles/ folder created.");
@@ -160,9 +160,9 @@ void checkCreateSubfolders()
 string getWriteablePath()
 {
 #ifdef _WIN32
-    return FileUtils::getInstance()->getWritablePath();
+	return FileUtils::getInstance()->getWritablePath();
 #else
-    return FileUtils::getInstance()->getWritablePath() + "koumachika/";
+	return FileUtils::getInstance()->getWritablePath() + "koumachika/";
 #endif
 }
 

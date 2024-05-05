@@ -57,7 +57,7 @@ Player::Player(
 		throw runtime_error("Player created outside of PlayScene!");
 	}
  
-    sol::init_script_object<Player>(this, params);    
+	sol::init_script_object<Player>(this, params);	
 }
 
 Player::~Player()
@@ -88,8 +88,8 @@ void Player::equipFirePatterns()
 		}
 	}
 
-    firePattern = inventory->firePatterns.getCrnt();
-    
+	firePattern = inventory->firePatterns.getCrnt();
+	
 	space->addHudAction(
 		&HUD::setFirePatternIcon,
 		inventory->firePatterns.getIcon()
@@ -119,7 +119,7 @@ void Player::equipPowerAttacks()
 		inventory->powerAttacks.add(props->attack);
 	}
  
-    powerAttack = inventory->powerAttacks.getCrnt();
+	powerAttack = inventory->powerAttacks.getCrnt();
 
 	space->addHudAction(
 		&HUD::setPowerAttackIcon,
@@ -158,7 +158,7 @@ void Player::onZeroHP()
 void Player::onPitfall()
 {
 	sprite.runAction(pitfallShrinkAction());
-    gameOver();
+	gameOver();
 }
 
 void Player::update()
@@ -168,7 +168,7 @@ void Player::update()
 #if use_sound
 	space->audioContext->setSoundListenerPos(getPos(), getVel(), float_pi/2.0);
 #endif
-    
+	
 	if (playScene) {
 		space->addHudAction(&HUD::updateHUD, *attributeSystem);
 	}
@@ -185,7 +185,7 @@ ALuint Player::playSoundSpatial(const string& path, float volume, bool loop, flo
 
 	return soundSource;
 #else
-    return 0;
+	return 0;
 #endif
 }
 
@@ -223,7 +223,7 @@ void Player::useDoor(Door* interactTarget)
 	}
 	else
 	{
-        space->loadScene(destMap, dest);
+		space->loadScene(destMap, dest);
 	}
 }
 

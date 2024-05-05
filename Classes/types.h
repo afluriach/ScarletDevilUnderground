@@ -10,7 +10,7 @@
 #define types_h
 
 //commonly used forward declarations
-    //GObject types
+	//GObject types
 class Agent;
 class Bomb;
 class Bullet;
@@ -27,7 +27,7 @@ class Player;
 class RadarSensor;
 class RoomSensor;
 class Wall;
-    //object property, parameter types
+	//object property, parameter types
 class agent_properties;
 struct bomb_properties;
 struct bullet_attributes;
@@ -41,7 +41,7 @@ struct dialog_entry;
 class npc_properties;
 class object_params;
 class object_properties;
-    //graphics, scene types
+	//graphics, scene types
 class AgentAnimationContext;
 class AgentBodyShader;
 class audio_context;
@@ -119,9 +119,9 @@ typedef function<local_shared_ptr<FirePattern>(Agent*)> FirePatternGeneratorType
 
 struct debug_info
 {
-    const char* func;
-    const char* file;
-    int line;
+	const char* func;
+	const char* file;
+	int line;
 };
 
 struct GraphicsAction
@@ -300,8 +300,8 @@ typedef pair<string, IntVec2> MapEntry;
 struct area_properties
 {
 	static shared_ptr<area_properties> singleMap(string name);
-    static shared_ptr<area_properties> noMap(string name);
-    
+	static shared_ptr<area_properties> noMap(string name);
+	
 	area_properties();
 
 	string sceneName;
@@ -339,28 +339,28 @@ public:
 };
 
 enum class Direction{
-    none = 0,
-    right,
-    up,
-    left,
-    down,
-    end,
+	none = 0,
+	right,
+	up,
+	left,
+	down,
+	end,
 };
 
 enum class GType{
 	none = 0x0,
 	
 	player = 0x1,
-    playerBullet = 0x2,
-    enemy = 0x4,
-    enemyBullet = 0x8,
-    environment = 0x10,
-    wall = 0x20,
+	playerBullet = 0x2,
+	enemy = 0x4,
+	enemyBullet = 0x8,
+	environment = 0x10,
+	wall = 0x20,
 	areaSensor = 0x40,
-    agentSensor = 0x80,
-    playerGrazeRadar = 0x100,
-    item = 0x200,
-    npc = 0x400,
+	agentSensor = 0x80,
+	playerGrazeRadar = 0x100,
+	item = 0x200,
+	npc = 0x400,
 	floorSegment = 0x800,
 	pitfall = 0x1000,
 	bomb = 0x2000,
@@ -384,14 +384,14 @@ enum class PhysicsLayers{
 	//For objects which are in/on the floor, including the floor itself
 	//(FloorSegment), and objects touching the floor.
 	floor = 2, 
-    ground = 4,
-    eyeLevel = 8,
-    
+	ground = 4,
+	eyeLevel = 8,
+	
 	flying = ground,
 	onGround  = floor + ground,
 	eyeLevelHeight = floor + ground + eyeLevel,
-    //must be the bitwise or of all layers
-    all = 15
+	//must be the bitwise or of all layers
+	all = 15
 };
 
 PhysicsLayers parseLayers(string s);

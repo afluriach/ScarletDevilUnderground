@@ -68,16 +68,16 @@ public:
 	inline state getState() const { return crntState; }
 	inline effect_flags getFlags() const { return _flags; }
 
-    void runInit();
-    void runUpdate();
-    void runEnd();
+	void runInit();
+	void runUpdate();
+	void runEnd();
 	void remove();
 
 	const MagicEffectDescriptor* desc;
 	GObject* target;
 	Agent* agent = nullptr;
 	float length, magnitude;
-    float t = 0.0f;
+	float t = 0.0f;
 	state crntState;
 	DamageType damageType;
 	effect_flags _flags;

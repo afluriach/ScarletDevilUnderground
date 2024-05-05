@@ -10,81 +10,81 @@
 
 SpaceFloat dirToPhysicsAngle(Direction d)
 {
-    if(d == Direction::none) return 0.0;
-    
-    return (to_int(d)-1)*float_pi*0.5;
+	if(d == Direction::none) return 0.0;
+	
+	return (to_int(d)-1)*float_pi*0.5;
 }
 
 SpaceVect dirToVector(Direction d)
 {
-    return SpaceVect::ray(1.0, dirToPhysicsAngle(d));
+	return SpaceVect::ray(1.0, dirToPhysicsAngle(d));
 }
 
 //cocos Vector uses atan2, which returns angle in range [-pi,pi]
 Direction toDirection(SpaceVect v)
 {
-    if(v.x == 0.0 && v.y == 0.0)
-        return Direction::none;
-    
-    return angleToDirection(toCocos(v).getAngle());
+	if(v.x == 0.0 && v.y == 0.0)
+		return Direction::none;
+	
+	return angleToDirection(toCocos(v).getAngle());
 }
 
 bool isValidDirection(Direction d)
 {
-    return
-        d == Direction::up ||
-        d == Direction::down ||
-        d == Direction::left ||
-        d == Direction::right
-    ;
+	return
+		d == Direction::up ||
+		d == Direction::down ||
+		d == Direction::left ||
+		d == Direction::right
+	;
 }
 
 Direction invertDirection(Direction d)
 {
-    Direction result = Direction::none;
-    
-    switch(d)
-    {
-        case Direction::up:
-            result = Direction::down;
-        break;
-        case Direction::down:
-            result = Direction::up;
-        break;
-        case Direction::left:
-            result = Direction::right;
-        break;
-        case Direction::right:
-            result = Direction::left;
-        break;
-    }
-    
-    if(result == Direction::none){
-        log1("Invalid direction %d provided!", to_int(d));
-    }
-    
-    return result;
+	Direction result = Direction::none;
+	
+	switch(d)
+	{
+		case Direction::up:
+			result = Direction::down;
+		break;
+		case Direction::down:
+			result = Direction::up;
+		break;
+		case Direction::left:
+			result = Direction::right;
+		break;
+		case Direction::right:
+			result = Direction::left;
+		break;
+	}
+	
+	if(result == Direction::none){
+		log1("Invalid direction %d provided!", to_int(d));
+	}
+	
+	return result;
 }
 
 //round to nearest primary direction
 Direction angleToDirection(SpaceFloat a)
 {
-    SpaceFloat angle = canonicalAngle(a+float_pi*0.25);
+	SpaceFloat angle = canonicalAngle(a+float_pi*0.25);
 
-    int i = angle * pi_inv * 2.0;
-    i = i > 3 ? 3 : i;
+	int i = angle * pi_inv * 2.0;
+	i = i > 3 ? 3 : i;
 
-    return static_cast<Direction>(i+1);
+	return static_cast<Direction>(i+1);
 }
 
 SpaceFloat circleMomentOfInertia(SpaceFloat mass, SpaceFloat radius)
 {
-    return float_pi/2*pow(radius,4);
+	return float_pi/2*pow(radius,4);
 }
 
 SpaceFloat rectangleMomentOfInertia(SpaceFloat mass, const SpaceVect& dim)
 {
-    return mass*(dim.x*dim.x+dim.y*dim.y)/12;
+	return mass*(dim.x*dim.x+dim.y*dim.y)/12;
 }
 
 SpaceVect ricochetVelocity(SpaceVect v, SpaceVect n, SpaceFloat scale)
@@ -95,14 +95,14 @@ SpaceVect ricochetVelocity(SpaceVect v, SpaceVect n, SpaceFloat scale)
 #define enum_strcmp(val) if(str == #val) return Direction::val;
 Direction stringToDirection(string str)
 {
-    enum_strcmp(up)
-    enum_strcmp(right)
-    enum_strcmp(left)
-    enum_strcmp(down)
+	enum_strcmp(up)
+	enum_strcmp(right)
+	enum_strcmp(left)
+	enum_strcmp(down)
 	enum_strcmp(none)
-    
-    log1("Invalid direction: %s", str.c_str());
-    return Direction::none;
+	
+	log1("Invalid direction: %s", str.c_str());
+	return Direction::none;
 }
 
 const array<string, to_size_t(Direction::end)> directionNames = {
@@ -126,98 +126,98 @@ string floatToRoundedString(float val, float denom)
 
 vector<SpaceVect> getPoints(SpaceVect start, SpaceVect dir, int count)
 {
-    vector<SpaceVect> result;
+	vector<SpaceVect> result;
 
-    for(int i = 0; i < count; ++i){
-        result.push_back(start + dir*i);
-    }
-    
-    return result;
+	for(int i = 0; i < count; ++i){
+		result.push_back(start + dir*i);
+	}
+	
+	return result;
 }
 
 vector<SpaceVect> getRow(SpaceFloat row, SpaceFloat start, SpaceFloat last)
 {
-    vector<SpaceVect> result;
+	vector<SpaceVect> result;
 	result.reserve(last - start + 1);
 
-    for(SpaceFloat col = start; col <= last; col += 1.0){
-        result.push_back(SpaceVect(col, row));
-    }
-    
-    return result;
+	for(SpaceFloat col = start; col <= last; col += 1.0){
+		result.push_back(SpaceVect(col, row));
+	}
+	
+	return result;
 }
 
 vector<SpaceVect> getColumn(SpaceFloat column, SpaceFloat start, SpaceFloat last)
 {
-    vector<SpaceVect> result;
-    result.reserve(last - start + 1);
+	vector<SpaceVect> result;
+	result.reserve(last - start + 1);
 
-    for(SpaceFloat row = start; row <= last; row += 1.0){
-        result.push_back(SpaceVect(column, row));
-    }
-    
-    return result;
+	for(SpaceFloat row = start; row <= last; row += 1.0){
+		result.push_back(SpaceVect(column, row));
+	}
+	
+	return result;
 }
 
 vector<SpaceVect> getAdjacentTiles(GObject* object, Direction direction)
 {
-    if(!isValidDirection(direction)){
-        log1("Invalid Direction %d!", to_int(direction));
-        return vector<SpaceVect>();
-    }
+	if(!isValidDirection(direction)){
+		log1("Invalid Direction %d!", to_int(direction));
+		return vector<SpaceVect>();
+	}
 
-    SpaceVect center = object->getPos();
-    SpaceVect dim = object->getDimensions();
-    
-    //the tiles that the object occupies
-    SpaceFloat startCol = center.x - dim.x/2 + 0.5;
-    SpaceFloat endCol = center.x + dim.x/2 - 0.5;
-    SpaceFloat startRow = center.y - dim.y/2 + 0.5;
-    SpaceFloat endRow = center.y + dim.y/2 - 0.5;
-    
-    switch(direction)
-    {
-    case Direction::up:
-        return getRow(endRow + 1.0, startCol, endCol);
-    case Direction::down:
-        return getRow(startRow - 1.0, startCol, endCol);
-    case Direction::left:
-        return getColumn(startCol - 1.0, startRow, endRow);
-    case Direction::right:
-        return getColumn(endCol + 1.0, startRow, endRow);
-    }
+	SpaceVect center = object->getPos();
+	SpaceVect dim = object->getDimensions();
+	
+	//the tiles that the object occupies
+	SpaceFloat startCol = center.x - dim.x/2 + 0.5;
+	SpaceFloat endCol = center.x + dim.x/2 - 0.5;
+	SpaceFloat startRow = center.y - dim.y/2 + 0.5;
+	SpaceFloat endRow = center.y + dim.y/2 - 0.5;
+	
+	switch(direction)
+	{
+	case Direction::up:
+		return getRow(endRow + 1.0, startCol, endCol);
+	case Direction::down:
+		return getRow(startRow - 1.0, startCol, endCol);
+	case Direction::left:
+		return getColumn(startCol - 1.0, startRow, endRow);
+	case Direction::right:
+		return getColumn(endCol + 1.0, startRow, endRow);
+	}
 }
 
 bool isNumeric(char c)
 {
-    return c >= '0' && c <= '9';
+	return c >= '0' && c <= '9';
 }
 
 int getIntSuffix(const string& name)
 {
-    if(name.empty()){
-        log("Empty string.");
-        return -1;
-    }
-    
-    int lastIdx = name.size() - 1;
-    int idx = lastIdx;
-    while(isNumeric(name[idx]))
-        --idx;
-        
-    if(idx == lastIdx ){
-        log("Name does not have a numeric suffix");
-        return -1;
-    }
-    
-    try{
-        return boost::lexical_cast<int>(name.substr(idx, lastIdx));
-    }
-    catch(boost::bad_lexical_cast){
-        log("Error parsing numeric suffix");
-    }
-    
-    return -1;
+	if(name.empty()){
+		log("Empty string.");
+		return -1;
+	}
+	
+	int lastIdx = name.size() - 1;
+	int idx = lastIdx;
+	while(isNumeric(name[idx]))
+		--idx;
+		
+	if(idx == lastIdx ){
+		log("Name does not have a numeric suffix");
+		return -1;
+	}
+	
+	try{
+		return boost::lexical_cast<int>(name.substr(idx, lastIdx));
+	}
+	catch(boost::bad_lexical_cast){
+		log("Error parsing numeric suffix");
+	}
+	
+	return -1;
 }
 
 SpaceFloat linearToAngularSpeed(SpaceFloat speed, SpaceFloat radius)
@@ -228,7 +228,7 @@ SpaceFloat linearToAngularSpeed(SpaceFloat speed, SpaceFloat radius)
 
 IntVec2 toIntVector(const cocos2d::CCSize& rhs)
 {
-    return IntVec2(rhs.width,rhs.height);
+	return IntVec2(rhs.width,rhs.height);
 }
 
 IntVec2 toIntVector(const SpaceVect& rhs)
@@ -253,7 +253,7 @@ CCSize toCCSize(const SpaceVect& rhs)
 
 Vec2 toCocos(const SpaceVect& rhs)
 {
-    return Vec2(expand_vector2(rhs));
+	return Vec2(expand_vector2(rhs));
 }
 
 Vec2 toCocos(const IntVec2& rhs)
@@ -273,12 +273,12 @@ float fromCocosAngle(SpaceFloat cocosDegrees)
 
 SpaceVect toSpacVect(const Vec2& rhs)
 {
-    return SpaceVect(expand_vector2(rhs));
+	return SpaceVect(expand_vector2(rhs));
 }
 
 SpaceVect toSpaceVect(const cocos2d::CCSize& rhs)
 {
-    return SpaceVect(rhs.width, rhs.height);
+	return SpaceVect(rhs.width, rhs.height);
 }
 
 SpaceVect toSpaceVect(const IntVec2& ivec)
@@ -318,8 +318,8 @@ CCRect makeRect(Vec2 pos, CCSize bb)
 
 vector<string> splitString(const string& input,const string& sep)
 {
-    vector<string> output;
-    boost::split(output, input,boost::is_any_of(sep));
+	vector<string> output;
+	boost::split(output, input,boost::is_any_of(sep));
 	output.erase(
 		remove_if(
 			output.begin(),
@@ -328,7 +328,7 @@ vector<string> splitString(const string& input,const string& sep)
 		),
 		output.end()
 	);
-    return output;
+	return output;
 }
 
 bool isComment(const string& s)

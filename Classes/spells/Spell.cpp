@@ -145,10 +145,10 @@ void Spell::runUpdate()
 {
 	SpaceFloat updateInterval = descriptor->params.updateInterval;
 	SpaceFloat length = descriptor->params.length;
-    bool expired = length > 0.0 && t >= length;
-    bool costSatisfied = caster->applyOngoingSpellCost(getCost());
+	bool expired = length > 0.0 && t >= length;
+	bool costSatisfied = caster->applyOngoingSpellCost(getCost());
 	
-    if (expired || !costSatisfied) {
+	if (expired || !costSatisfied) {
 		stop();
 	}
 
@@ -163,15 +163,15 @@ void Spell::runUpdate()
 
 void Spell::start()
 {
-    init();
+	init();
 }
 
 void Spell::stop()
 {
-    end();
-    active = false;
-    
-    if (logSpells) {
-        log1("Spell %s (%u) stopped.", getName());
-    }
+	end();
+	active = false;
+	
+	if (logSpells) {
+		log1("Spell %s (%u) stopped.", getName());
+	}
 }

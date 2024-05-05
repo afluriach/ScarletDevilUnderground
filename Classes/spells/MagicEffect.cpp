@@ -53,50 +53,50 @@ bool MagicEffect::isAgentEffect() const
 
 void MagicEffect::runInit()
 {
-    if(crntState != state::created){
-        log0("Invalid call to runInit!");
-        return;
-    }
+	if(crntState != state::created){
+		log0("Invalid call to runInit!");
+		return;
+	}
 
-    init();
-    crntState = length != 0.0f ? state::active : state::expired;
+	init();
+	crntState = length != 0.0f ? state::active : state::expired;
 }
 
 void MagicEffect::runUpdate()
 {
-    if(crntState != state::active){
-        log0("Invalid call to runUpdate!");
-        return;
-    }
+	if(crntState != state::active){
+		log0("Invalid call to runUpdate!");
+		return;
+	}
 
-    update();
-    timerIncrement(t);
+	update();
+	timerIncrement(t);
 
-    if(length > 0.0f && t >= length){
-        crntState = state::ending;
-    }
+	if(length > 0.0f && t >= length){
+		crntState = state::ending;
+	}
 }
 
 void MagicEffect::runEnd()
 {
-    if(crntState != state::ending){
-        log0("Invalid call to runEnd!");
-        return;
-    }
+	if(crntState != state::ending){
+		log0("Invalid call to runEnd!");
+		return;
+	}
 
-    end();
-    crntState = state::expired;
+	end();
+	crntState = state::expired;
 }
 
 void MagicEffect::remove()
 {
-    //if effect is removed before it is initialized, just set it to expired,
-    //so it doesn't run exit() when it didn't run init()
-    if(crntState == state::created)
-        crntState = state::expired;
-    //don't want exit() to run an extra time, if it has already run.
-    else if(crntState != state::expired)
-        crntState = state::ending;
+	//if effect is removed before it is initialized, just set it to expired,
+	//so it doesn't run exit() when it didn't run init()
+	if(crntState == state::created)
+		crntState = state::expired;
+	//don't want exit() to run an extra time, if it has already run.
+	else if(crntState != state::expired)
+		crntState = state::ending;
 }
 
 AgentEffect::AgentEffect(effect_params params) :
@@ -111,7 +111,7 @@ effect_flags ScriptedMagicEffect::getFlags(string clsName)
 {
 	sol::table cls = GSpace::scriptVM->_state["effects"][clsName];
 
-    if (!cls.valid()) {
+	if (!cls.valid()) {
 		log1("%s does not exist", clsName);
 		return effect_flags::none;
 	}
@@ -128,7 +128,7 @@ ScriptedMagicEffect::ScriptedMagicEffect(effect_params params, string clsName) :
 	auto cls = GSpace::scriptVM->_state["effects"][clsName];
 	MagicEffect* super_this = this;
 
-    if (!cls.valid()) {
+	if (!cls.valid()) {
 		log1("%s not found", clsName);
 	}
 	else {

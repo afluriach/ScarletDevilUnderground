@@ -28,10 +28,10 @@ const float PlayScene::fadeoutLength = 3.0f;
 PlayScene::PlayScene(shared_ptr<area_properties> props, string start) :
 GScene(props, start)
 {
-    multiInit.insertWithOrder(
-        wrap_method(PlayScene,addHUD,this),
-        to_int(initOrder::initHUD)
-    );
+	multiInit.insertWithOrder(
+		wrap_method(PlayScene,addHUD,this),
+		to_int(initOrder::initHUD)
+	);
 	multiInit.insertWithOrder(
 		wrap_method(PlayScene, showVisibleRooms, this),
 		to_int(initOrder::showRooms)
@@ -41,19 +41,19 @@ GScene(props, start)
 		to_int(initOrder::postLoadObjects)
 	);
 
-    control_listener->addPressListener(
-        ControlAction::pause,
-        [this]()-> void {
+	control_listener->addPressListener(
+		ControlAction::pause,
+		[this]()-> void {
 			this->onPausePressed();
 		}
-    );
-    
+	);
+	
 	control_listener->addPressListener(
-        ControlAction::inventory_menu,
-        [this]()-> void {
+		ControlAction::inventory_menu,
+		[this]()-> void {
 			this->onInventoryPressed();
 		}
-    );
+	);
 
 	control_listener->addPressListener(
 		ControlAction::map_menu,
@@ -113,8 +113,8 @@ void PlayScene::showVisibleRooms()
 
 void PlayScene::addHUD()
 {
-    hud = Node::ccCreate<HUD>(gspace);
-    getLayer(sceneLayers::hud)->addChild(hud);
+	hud = Node::ccCreate<HUD>(gspace);
+	getLayer(sceneLayers::hud)->addChild(hud);
 	hud->setPerformanceStats();
 }
 
@@ -141,7 +141,7 @@ void PlayScene::enterPause()
 	if (isShowingMenu)
 		return;
 
-    pauseAnimations();
+	pauseAnimations();
 #if use_sound
 	App::audioContext->pauseSounds();
 #endif
@@ -165,7 +165,7 @@ void PlayScene::exitPause()
 {
 	popMenu();
 	pauseMenu = nullptr;
-    resumeAnimations();
+	resumeAnimations();
 #if use_sound
 	App::audioContext->resumeSounds();
 #endif
@@ -176,14 +176,14 @@ void PlayScene::exitPause()
 
 void PlayScene::pauseAnimations()
 {
-    getSpaceLayer()->pauseRecursive();
-    getLayer(sceneLayers::hud)->pauseRecursive();
+	getSpaceLayer()->pauseRecursive();
+	getLayer(sceneLayers::hud)->pauseRecursive();
 }
 
 void PlayScene::resumeAnimations()
 {
-    getSpaceLayer()->resumeRecursive();
-    getLayer(sceneLayers::hud)->resumeRecursive();
+	getSpaceLayer()->resumeRecursive();
+	getLayer(sceneLayers::hud)->resumeRecursive();
 }
 
 void PlayScene::showGameOverMenu()

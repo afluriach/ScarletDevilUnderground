@@ -27,31 +27,31 @@ input_map(manager),
 gamepad_id(manager.CreateDevice<gainput::InputDevicePad>()),
 gamepad(manager.GetDevice(gamepad_id))
 #endif
-{    
+{	
 	keyActionMap = defaultKeyActionMap;
 #if use_gamepad
 	buttonActionMap = defaultButtonActionMap;
 #endif
 
-    keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = bindMethod(&ControlRegister::onKeyDown, this);
-    keyListener->onKeyReleased = bindMethod(&ControlRegister::onKeyUp, this);
+	keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = bindMethod(&ControlRegister::onKeyDown, this);
+	keyListener->onKeyReleased = bindMethod(&ControlRegister::onKeyUp, this);
 
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(
-        keyListener,
-        to_int(App::EventPriorities::KeyRegisterEvent)
-    );
-    
-    #if use_gamepad
-    manager.Update();
-    
-    if(gamepad->IsAvailable()){
-        log0("Gamepad connected");
-    }
-    else{
-        log0("Gamepad not connected");
-    }
-    
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(
+		keyListener,
+		to_int(App::EventPriorities::KeyRegisterEvent)
+	);
+	
+	#if use_gamepad
+	manager.Update();
+	
+	if(gamepad->IsAvailable()){
+		log0("Gamepad connected");
+	}
+	else{
+		log0("Gamepad not connected");
+	}
+	
 	enum_foreach(gainput::PadButton, button_id, PadButtonStart, PadButtonMax_)
 	{
 		input_map.MapBool(
@@ -60,12 +60,12 @@ gamepad(manager.GetDevice(gamepad_id))
 			button_id
 		);
 	}
-    #endif
+	#endif
 }
 
 ControlRegister::~ControlRegister()
 {
-    Director::getInstance()->getEventDispatcher()->removeEventListener(keyListener);
+	Director::getInstance()->getEventDispatcher()->removeEventListener(keyListener);
 }
 
 bool ControlRegister::isControlAction(ControlAction action)
@@ -99,7 +99,7 @@ SpaceVect ControlRegister::getKeyboardMovePadVector()
 {
 	SpaceVect result;
 
-	bool up    = isControlAction(ControlAction::move_up);
+	bool up	= isControlAction(ControlAction::move_up);
 	bool down  = isControlAction(ControlAction::move_down);
 	bool left  = isControlAction(ControlAction::move_left);
 	bool right = isControlAction(ControlAction::move_right);
@@ -116,7 +116,7 @@ SpaceVect ControlRegister::getKeyboardAimPadVector()
 {
 	SpaceVect result;
 
-	bool up    = isControlAction(ControlAction::aim_up);
+	bool up	= isControlAction(ControlAction::aim_up);
 	bool down  = isControlAction(ControlAction::aim_down);
 	bool left  = isControlAction(ControlAction::aim_left);
 	bool right = isControlAction(ControlAction::aim_right);
@@ -131,47 +131,47 @@ SpaceVect ControlRegister::getKeyboardAimPadVector()
 
 void ControlRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)
 {
-    if(logKeyEvents)
-        log1("%d pressed", to_int(code));
-    
+	if(logKeyEvents)
+		log1("%d pressed", to_int(code));
+	
 	keysDown.insert(code);
 }
 
 void ControlRegister::onKeyUp(EventKeyboard::KeyCode code, Event* event)
 {
-    if(logKeyEvents)
-        log1("%d released", to_int(code));
-    
+	if(logKeyEvents)
+		log1("%d released", to_int(code));
+	
 	keysDown.erase(code);
 }
 
 void ControlRegister::updateVectors()
 {
-    SpaceVect left_stick,right_stick;
-    
-    #if use_gamepad
-    if(gamepad->IsAvailable())
-    {
-        left_stick.x = gamepad->GetFloat(gainput::PadButtonLeftStickX);
-        left_stick.y = gamepad->GetFloat(gainput::PadButtonLeftStickY);
+	SpaceVect left_stick,right_stick;
+	
+	#if use_gamepad
+	if(gamepad->IsAvailable())
+	{
+		left_stick.x = gamepad->GetFloat(gainput::PadButtonLeftStickX);
+		left_stick.y = gamepad->GetFloat(gainput::PadButtonLeftStickY);
 
-        right_stick.x = gamepad->GetFloat(gainput::PadButtonRightStickX);
-        right_stick.y = gamepad->GetFloat(gainput::PadButtonRightStickY);
-    }
+		right_stick.x = gamepad->GetFloat(gainput::PadButtonRightStickX);
+		right_stick.y = gamepad->GetFloat(gainput::PadButtonRightStickY);
+	}
 
-    if (southpaw) swap(left_stick, right_stick);
-    
-    #endif
-    
-    left_vector = (left_stick.length() >= deadzone) ? left_stick : getKeyboardMovePadVector();
+	if (southpaw) swap(left_stick, right_stick);
+	
+	#endif
+	
+	left_vector = (left_stick.length() >= deadzone) ? left_stick : getKeyboardMovePadVector();
 
-    right_vector = (right_stick.length() >= deadzone) ? right_stick : getKeyboardAimPadVector();
-    
-    if(left_vector.y > 0 || right_vector.y > 0)
-        bitset_enum_set(isActionPressed,ControlAction::menuUp,true);
+	right_vector = (right_stick.length() >= deadzone) ? right_stick : getKeyboardAimPadVector();
+	
+	if(left_vector.y > 0 || right_vector.y > 0)
+		bitset_enum_set(isActionPressed,ControlAction::menuUp,true);
 
-    if(left_vector.y < 0 || right_vector.y < 0)
-        bitset_enum_set(isActionPressed,ControlAction::menuDown,true);
+	if(left_vector.y < 0 || right_vector.y < 0)
+		bitset_enum_set(isActionPressed,ControlAction::menuDown,true);
 }
 
 ControlInfo ControlRegister::getControlInfo()
@@ -329,7 +329,7 @@ ControlState ControlRegister::getControlState()
 #define fixme
 void ControlRegister::updateActionState()
 {
-    wasActionPressed = isActionPressed;
+	wasActionPressed = isActionPressed;
 
 	isActionPressed.reset();
 
@@ -358,9 +358,9 @@ void ControlRegister::setActions(ControlActionState actions_bitfield)
 #define fixme
 void ControlRegister::checkCallbacks()
 {
-    enum_foreach(ControlAction, action, begin, end)
-    {
-        if(!bitset_enum_index(wasActionPressed,action) && bitset_enum_index(isActionPressed,action)){
+	enum_foreach(ControlAction, action, begin, end)
+	{
+		if(!bitset_enum_index(wasActionPressed,action) && bitset_enum_index(isActionPressed,action)){
 			if (logActionState)
 				log1("Action %d pressed.", to_int(action));
 
@@ -371,9 +371,9 @@ void ControlRegister::checkCallbacks()
 				if(isCallbackActive.at(*it))
 					onPressedCallback[*it]();
 			}
-        }
-        
-        else if(bitset_enum_index(wasActionPressed,action) && !bitset_enum_index(isActionPressed,action)){
+		}
+		
+		else if(bitset_enum_index(wasActionPressed,action) && !bitset_enum_index(isActionPressed,action)){
 			if (logActionState)
 				log("Action %d released.", to_int(action));
 			
@@ -385,25 +385,25 @@ void ControlRegister::checkCallbacks()
 					onReleasedCallback[*it]();
 			}
 		}
-    }
+	}
 }
 
 void ControlRegister::update()
 {
-    #if use_gamepad
-    manager.Update();
-    if(gamepad->IsAvailable())
-        pollGamepad();
-    #endif
-    
-    updateActionState();
-    updateVectors();
-    checkCallbacks();
-    
-    #if use_gamepad
-    if(logButtons)
-        logGamepadButtons();
-    #endif
+	#if use_gamepad
+	manager.Update();
+	if(gamepad->IsAvailable())
+		pollGamepad();
+	#endif
+	
+	updateActionState();
+	updateVectors();
+	checkCallbacks();
+	
+	#if use_gamepad
+	if(logButtons)
+		logGamepadButtons();
+	#endif
 }
 
 #if use_gamepad
@@ -421,37 +421,37 @@ void ControlRegister::pollGamepad()
 
 void ControlRegister::logGamepadButtons()
 {
-    enum_foreach(gainput::PadButton, button_id, PadButtonStart, PadButtonMax_)
-    {
-        if(gamepad->GetBool(button_id)){
-            log1("Gamepad button %d pressed", to_int(button_id));
-        }
-    }
+	enum_foreach(gainput::PadButton, button_id, PadButtonStart, PadButtonMax_)
+	{
+		if(gamepad->GetBool(button_id)){
+			log1("Gamepad button %d pressed", to_int(button_id));
+		}
+	}
 }
 #endif
 
 ControlRegister::callback_uuid ControlRegister::addPressListener(ControlAction action, zero_arity_function f)
 {
-    callback_uuid uuid = nextListenerUUID++;
+	callback_uuid uuid = nextListenerUUID++;
 
-    onPressedID[to_size_t(action)].insert(uuid);
-    onPressedCallback[uuid] = f;
-    
+	onPressedID[to_size_t(action)].insert(uuid);
+	onPressedCallback[uuid] = f;
+	
 	isCallbackActive.insert_or_assign(uuid, true);
 
-    return uuid;
+	return uuid;
 }
 
 ControlRegister::callback_uuid ControlRegister::addReleaseListener(ControlAction action, zero_arity_function f)
 {
 	callback_uuid uuid = nextListenerUUID++;
 
-    onReleasedID[to_size_t(action)].insert(uuid);
-    onReleasedCallback[uuid] = f;
-    
+	onReleasedID[to_size_t(action)].insert(uuid);
+	onReleasedCallback[uuid] = f;
+	
 	isCallbackActive.insert_or_assign(uuid, true);
 
-    return uuid;
+	return uuid;
 }
 
 void ControlRegister::removeListener(callback_uuid uuid)
@@ -464,8 +464,8 @@ void ControlRegister::removeListener(callback_uuid uuid)
 		onReleasedID[to_size_t(action)].erase(uuid);
 	}
 
-    onPressedCallback.erase(uuid);
-    onReleasedCallback.erase(uuid);
+	onPressedCallback.erase(uuid);
+	onReleasedCallback.erase(uuid);
 
 	isCallbackActive.erase(uuid);
 }
@@ -499,20 +499,20 @@ ControlState getControlState(ControlInfo info)
 
 ControlListener::~ControlListener()
 {
-    for(ControlRegister::callback_uuid id: callback_IDs){
-        App::control_register->removeListener(id);
-    }
+	for(ControlRegister::callback_uuid id: callback_IDs){
+		App::control_register->removeListener(id);
+	}
 }
 
 void ControlListener::addPressListener(ControlAction action, zero_arity_function f)
 {
 	ControlRegister::callback_uuid uuid = App::control_register->addPressListener(action, f);
-    callback_IDs.push_back(uuid);
+	callback_IDs.push_back(uuid);
 }
 void ControlListener::addReleaseListener(ControlAction action, zero_arity_function f)
 {
 	ControlRegister::callback_uuid uuid = App::control_register->addReleaseListener(action, f);
-    callback_IDs.push_back(uuid);
+	callback_IDs.push_back(uuid);
 }
 
 void ControlListener::setActive(bool b)

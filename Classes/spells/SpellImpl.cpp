@@ -19,7 +19,7 @@ spell_params ScriptedSpell::getParams(string clsName)
 {
 	sol::table cls = GSpace::scriptVM->_state["spells"][clsName];
 
-    if (!cls.valid()) {
+	if (!cls.valid()) {
 		log1("ScriptedSpell class %s does not exist!", clsName);
 		return spell_params();
 	}
@@ -35,7 +35,7 @@ ScriptedSpell::ScriptedSpell(GObject* caster, const SpellDesc* desc, string clsN
 	auto cls = GSpace::scriptVM->_state["spells"][clsName];
 	Spell* super_this = this;
 
-    if (cls.valid()) {
+	if (cls.valid()) {
 		obj = cls(super_this, caster);
 	}
 }
@@ -98,7 +98,7 @@ void ApplySelfEffect::init()
 void ApplySelfEffect::end()
 {
 	if (effectInst) {
-        effectInst->remove();
+		effectInst->remove();
 	}
 }
 

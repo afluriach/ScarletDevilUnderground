@@ -20,7 +20,7 @@
 class AnimationSpriteSequence
 {
 public:
-    static AnimationSpriteSequence loadFromRasterImage(const string& path, int cols, int rows);
+	static AnimationSpriteSequence loadFromRasterImage(const string& path, int cols, int rows);
 	static array<AnimationSpriteSequence, 4> loadPatchconSpriteSheet(const string& path);
 	static array<AnimationSpriteSequence, 4> loadAgentAnimation(const string& path);
 
@@ -28,7 +28,7 @@ public:
 	AnimationSpriteSequence(Vector<SpriteFrame*> frames);
 	AnimationSpriteSequence(Vector<SpriteFrame*>::iterator begin, Vector<SpriteFrame*>::iterator end);
 
-    Vector<SpriteFrame*> frames;
+	Vector<SpriteFrame*> frames;
 };
 
 class TimedLoopAnimation : public Sprite {
@@ -37,35 +37,35 @@ public:
    virtual bool init();
    virtual void update(float unused);
 protected:
-    AnimationSpriteSequence sequence;
-    SpaceFloat frameInterval;
-    SpaceFloat timeInFrame = 0.0;
-    int crntFrame = 0;
+	AnimationSpriteSequence sequence;
+	SpaceFloat frameInterval;
+	SpaceFloat timeInFrame = 0.0;
+	int crntFrame = 0;
 };
 
 //Sprite frames are loaded raster order. So all directions are encompassed with a single sprite frame set.
 //Can go for a running effect by omitting the middle frame.
 class PatchConAnimation : public Sprite {
 public:
-    //One pace is 1 unit, with the middle state representing a small distance between steps.
-    static constexpr SpaceFloat stepSize = 0.4;
-    static constexpr SpaceFloat midstepSize = 0.2;
-    
+	//One pace is 1 unit, with the middle state representing a small distance between steps.
+	static constexpr SpaceFloat stepSize = 0.4;
+	static constexpr SpaceFloat midstepSize = 0.2;
+	
 	virtual bool init();
 
-    void loadAnimation(shared_ptr<sprite_properties> _sprite);    
+	void loadAnimation(shared_ptr<sprite_properties> _sprite);	
 
 	void setFrame(int animFrame);
-    void setDirection(Direction dir);
+	void setDirection(Direction dir);
 	Direction getDirection()const;
 protected:
 	bool useFlipX = false;
 
 	array<AnimationSpriteSequence, 4> walkAnimations;
 
-    SpaceFloat distanceAccumulated = 0.0;
-    unsigned char crntFrame = 1;
-    Direction direction = Direction::up;
+	SpaceFloat distanceAccumulated = 0.0;
+	unsigned char crntFrame = 1;
+	Direction direction = Direction::up;
 };
 
 //The class that is used by agents to control their animations.

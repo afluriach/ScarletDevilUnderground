@@ -47,39 +47,39 @@ public:
 
 	virtual ~TextListMenuLayer();
 
-    virtual bool init();
-    
+	virtual bool init();
+	
 	virtual void upPressed();
 	virtual void downPressed();
 	virtual void selectPressed();
 	virtual void backPressed();
 
 protected:
-    string title;
+	string title;
 	vector<entry> entries;
 private:
-    
-    //Space from top of screen to title label;
-    const int titleMargin = 48;
-    const int titleSize = 48;
-    //Space from title label to first item in menu.
-    const int menuStartMargin = 100;
-    const int menuItemSpacing = 60;
-    const int menuItemSize = 32;
-    //Space from left side of screen to menu item;
-    const int leftMargin = 72;
-    //Space between the left side of the menu item to the cursor.
-    const int cursorMargin = 5;
-    
-    Label* titleLabel;
-    vector<Label*> menuItemLabels;
-    
+	
+	//Space from top of screen to title label;
+	const int titleMargin = 48;
+	const int titleSize = 48;
+	//Space from title label to first item in menu.
+	const int menuStartMargin = 100;
+	const int menuItemSpacing = 60;
+	const int menuItemSize = 32;
+	//Space from left side of screen to menu item;
+	const int leftMargin = 72;
+	//Space between the left side of the menu item to the cursor.
+	const int cursorMargin = 5;
+	
+	Label* titleLabel;
+	vector<Label*> menuItemLabels;
+	
 	CCSize screenSize;
 	float scale;
 
-    Node* cursor;
-    size_t selected = 0;
-    
+	Node* cursor;
+	size_t selected = 0;
+	
 	void updateCursor();
 	int yPosition(int idx);
 };

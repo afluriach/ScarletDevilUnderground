@@ -35,18 +35,18 @@ bool IconMeter::init()
 
 void IconMeter::setMax(int m)
 {
-    for_irange(i,0,iconSprites.size())
-        removeChild(iconSprites.at(i));
-    iconSprites.clear();
-    
-    for_irange(i,0,m)
-    {
-        Sprite* s = Sprite::create(emptyIcon);
-        s->setPosition(32*i, 0);
-        s->setScale(iconSize / s->getContentSize().width);
-        iconSprites.pushBack(s);
-        addChild(s);
-    }
+	for_irange(i,0,iconSprites.size())
+		removeChild(iconSprites.at(i));
+	iconSprites.clear();
+	
+	for_irange(i,0,m)
+	{
+		Sprite* s = Sprite::create(emptyIcon);
+		s->setPosition(32*i, 0);
+		s->setScale(iconSize / s->getContentSize().width);
+		iconSprites.pushBack(s);
+		addChild(s);
+	}
 
 	maxVal = m;
 
@@ -60,19 +60,19 @@ void IconMeter::setMax(int m)
 
 void IconMeter::setValue(int v)
 {
-    if(v == crntVal) return;
-    
-    if(v < 0) v = 0;
+	if(v == crntVal) return;
+	
+	if(v < 0) v = 0;
 
 	if (v > maxVal) v = maxVal;
 
-    for(int i=0;i<v; ++i){
-        iconSprites.at(i)->setTexture(filledIcon);
-    }
-    for(int i=v; i<iconSprites.size(); ++i){
-        iconSprites.at(i)->setTexture(emptyIcon);
-    }
-    crntVal = v;
+	for(int i=0;i<v; ++i){
+		iconSprites.at(i)->setTexture(filledIcon);
+	}
+	for(int i=v; i<iconSprites.size(); ++i){
+		iconSprites.at(i)->setTexture(emptyIcon);
+	}
+	crntVal = v;
 }
 
 void IconMeter::setElementalValue(float value)
@@ -90,7 +90,7 @@ void IconMeter::setElementalValue(float value)
 
 void IconMeter::runFlicker(float duration, float interval)
 {
-    //TintTo action does not apply recursively.
+	//TintTo action does not apply recursively.
 	for_irange(i, 0, iconSprites.size()) {
 		iconSprites.at(i)->runAction(
 			flickerTint(
@@ -424,17 +424,17 @@ void HUD::update()
 
 bool HUD::init()
 {
-    Layer::init();
-    
-    //Create DrawNode in background layer
-//    DrawNode* background = DrawNode::create();
-//    addChild(background,1);
-//    
-//    background->drawSolidRect(
-//        Vec2(0,App::height-height),
-//        Vec2(App::width, App::height),
-//        backgroundColor
-//    );
+	Layer::init();
+	
+	//Create DrawNode in background layer
+//	DrawNode* background = DrawNode::create();
+//	addChild(background,1);
+//	
+//	background->drawSolidRect(
+//		Vec2(0,App::height-height),
+//		Vec2(App::width, App::height),
+//		backgroundColor
+//	);
 
 	float scale = app::params.getScale();
 	float meterEdgeOffset = (LinearMeter::boundingSize.x * 0.5f + LinearMeter::outlineWidth + 18.0f) * scale;
@@ -443,8 +443,8 @@ bool HUD::init()
 	unsigned int width = app::params.width;
 
 	hpMeter = Node::ccCreate<LinearMeter>(LinearMeter::hpSettings);
-    hpMeter->setPosition(meterEdgeOffset, height - meterVerticalStep);
-    addChild(hpMeter, 2);
+	hpMeter->setPosition(meterEdgeOffset, height - meterVerticalStep);
+	addChild(hpMeter, 2);
 	hpMeter->setScale(scale);
 	hpMeter->setVisible(false);
 
@@ -465,11 +465,11 @@ bool HUD::init()
 	magicEffects->setPosition(width - 64 * scale, height - 64 * scale);
 	addChild(magicEffects, 2);
 	magicEffects->setScale(0.75f*scale);
-    
-    interactionIcon = Sprite::create();
-    interactionIcon->setPosition(width - 256*scale, height - 96*scale);
-    interactionIcon->setScale(0.33*scale);
-    addChild(interactionIcon);
+	
+	interactionIcon = Sprite::create();
+	interactionIcon->setPosition(width - 256*scale, height - 96*scale);
+	interactionIcon->setScale(0.33*scale);
+	addChild(interactionIcon);
 
 	firePatternIcon = Sprite::create();
 	firePatternIcon->setPosition(width - 480*scale, height - 128*scale);
@@ -504,7 +504,7 @@ bool HUD::init()
 		setEnemyInfo("Enemy III", 50.0f, 100.0f);
 	}
 
-    return true;
+	return true;
 }
 
 void HUD::setPerformanceStats()
@@ -739,43 +739,43 @@ iconRes(iconRes)
 
 bool Counter::init()
 {
-    Node::init();
-    
-    icon = Sprite::create();
-    counter = createTextLabel(makeLabel(), HUD::fontSize);
+	Node::init();
+	
+	icon = Sprite::create();
+	counter = createTextLabel(makeLabel(), HUD::fontSize);
 	repositionText();
 
-    //The center of the node will be the mid-point between the icon and the label.
-    //This will avoid the visual distraction of moving the Counter node and thus the
-    //icon if the width of the text label changes.
-    addChild(icon);
-    icon->setPosition(-(spacing+iconSize)/2, 0);
-    
-    //Label position will be set when its contents is set.
-    addChild(counter);
+	//The center of the node will be the mid-point between the icon and the label.
+	//This will avoid the visual distraction of moving the Counter node and thus the
+	//icon if the width of the text label changes.
+	addChild(icon);
+	icon->setPosition(-(spacing+iconSize)/2, 0);
+	
+	//Label position will be set when its contents is set.
+	addChild(counter);
 
-    if(!iconRes.empty())
-        setIcon(iconRes);
-    setVal(val);
+	if(!iconRes.empty())
+		setIcon(iconRes);
+	setVal(val);
 
 	return true;
 }
 
 void Counter::setIcon(const string& iconRes)
 {
-    icon->setTexture(iconRes);
-    float size = icon->getTexture()->getContentSizeInPixels().getBoundingDimension();
-    if(size > iconSize)
-        icon->setScale(iconSize / size);
+	icon->setTexture(iconRes);
+	float size = icon->getTexture()->getContentSizeInPixels().getBoundingDimension();
+	if(size > iconSize)
+		icon->setScale(iconSize / size);
 }
 
 void Counter::setVal(int _val)
 {
-    if(_val != val){
-        val = _val;
-        counter->setString(makeLabel());
+	if(_val != val){
+		val = _val;
+		counter->setString(makeLabel());
 		repositionText();
-    }
+	}
 }
 
 void Counter::setMaxVal(int _maxVal)

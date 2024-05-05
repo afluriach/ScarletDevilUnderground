@@ -40,8 +40,8 @@ struct AreaStats
 //All of the persistent state associated with a single profile.
 class GState
 {
-public:    
-    friend class boost::serialization::access;
+public:	
+	friend class boost::serialization::access;
 
 	static constexpr unsigned int version = 1;
 	static constexpr unsigned int maxProfiles = 9;
@@ -67,14 +67,14 @@ public:
 	string area;
 	string entrance;
 
-    template<class Archive>
-    void serialize(Archive& ar, const unsigned int version)
-    {
+	template<class Archive>
+	void serialize(Archive& ar, const unsigned int version)
+	{
 		ar & areaStats;
 
 		ar & attributes;
 		ar & attributeUpgrades;
-        ar & itemRegistry;
+		ar & itemRegistry;
 		ar & enemiesDefeated;
 
 		ar & dialogs;
@@ -85,7 +85,7 @@ public:
 
 		ar & area;
 		ar & entrance;
-    }
+	}
 
 	void addItem(string name);
 	void addItem(string name, unsigned int count);
@@ -112,8 +112,8 @@ public:
 	bool hasAttribute(string name);
 	void incrementAttribute(string name);
 	void subtractAttribute(string name, int val);
-    
-    void registerEnemyDefeated(string t);
+	
+	void registerEnemyDefeated(string t);
 	bool accumulateItemDrop(string t, float p);
 };
 

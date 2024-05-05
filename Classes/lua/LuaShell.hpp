@@ -12,20 +12,20 @@
 class LuaShell : public Layer
 {
 public:
-    static constexpr int width = 700;
-    static constexpr int height = 250;
-    static const Color4F backgroundColor;
+	static constexpr int width = 700;
+	static constexpr int height = 250;
+	static const Color4F backgroundColor;
 
-    virtual bool init();
-    virtual void setVisible(bool visible);
-    
-    void runText();
-    string getText();
+	virtual bool init();
+	virtual void setVisible(bool visible);
+	
+	void runText();
+	string getText();
 protected:
-    void createEditBox();
+	void createEditBox();
 
-    DrawNode* background;
-    ui::EditBox* editBox;    
+	DrawNode* background;
+	ui::EditBox* editBox;	
 };
 
 

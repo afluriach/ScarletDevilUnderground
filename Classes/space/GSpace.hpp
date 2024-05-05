@@ -26,24 +26,24 @@ public:
 	friend class PhysicsImpl;
 
 	static void loadScriptVM();
-    static GSpace* getCrntSpace();
+	static GSpace* getCrntSpace();
 
-    static const vector<string> scriptFiles;
+	static const vector<string> scriptFiles;
 	static unique_ptr<Lua::Inst> scriptVM;
 	static local_shared_ptr<agent_properties> playerCharacter;
-    static GSpace* crntSpace;
+	static GSpace* crntSpace;
 
-    GSpace(GScene* gscene);    
-    ~GSpace();
-    
+	GSpace(GScene* gscene);	
+	~GSpace();
+	
 	IntVec2 getSize() const;
-    void setSize(int x, int y);
-    
+	void setSize(int x, int y);
+	
 	AreaStats& getAreaStats();
 	local_shared_ptr<area_properties> getCrntArea();
 	physics_context* getPhysics() const { return physicsContext.get(); }
 	inline bool isInCallback() const { return isInPhysicsStep; }
-    inline bool getIsUnloading() const { return isUnloading; }
+	inline bool getIsUnloading() const { return isUnloading; }
 	unsigned int getFrame() const;
 	SpaceFloat getTime() const;
 	unsigned long getTimeUsed() const;
@@ -54,10 +54,10 @@ public:
 		return dynamic_cast<C*>(getScene());
 	}
 
-    void update();
+	void update();
 	void updateSensors();
 	void updateSoundSources();
-    void processAdditions();
+	void processAdditions();
 
 //BEGIN OBJECT MANIPULATION
 public:
@@ -72,28 +72,28 @@ public:
 	void addDynamicLoadObject(const ValueMap& obj);
 	gobject_ref createDynamicObject(const string& name);
 	const object_generator* getDynamicObject(const string& name) const;
-    GObject* createObject(const object_params& params, local_shared_ptr<object_properties> props);
+	GObject* createObject(const object_params& params, local_shared_ptr<object_properties> props);
 	gobject_ref createObject(const ValueMap& obj);
 	Bullet* createBullet(
 		const object_params& params,
 		const bullet_attributes& attributes,
 		local_shared_ptr<bullet_properties> props
 	);
-        
+		
 	template<class C, typename... Args>
 	inline C* createObject(Args... args) { 
-        C* obj = new C(this, nextObjUUID++, args...);
-        addObject(obj);
+		C* obj = new C(this, nextObjUUID++, args...);
+		addObject(obj);
 		return obj;
 	}
 
 	bool isTrackedType(type_index t) const;
-    bool isValid(unsigned int uuid) const;
+	bool isValid(unsigned int uuid) const;
 	bool isFutureObject(ObjectIDType uuid) const;
-    inline int getObjectCount() const { return objByUUID.size();}
+	inline int getObjectCount() const { return objByUUID.size();}
 
-    gobject_ref getObjectRef(const string& name) const;
-    gobject_ref getObjectRef(unsigned int uuid) const;
+	gobject_ref getObjectRef(const string& name) const;
+	gobject_ref getObjectRef(unsigned int uuid) const;
 
 	GObject* getObject(const string& name) const;
 	GObject* getObject(unsigned int uuid) const;
@@ -141,12 +141,12 @@ public:
 		return result;
 	}
 
-    void removeObject(const string& name);
-    void removeObject(GObject* obj);
+	void removeObject(const string& name);
+	void removeObject(GObject* obj);
 	void removeObject(gobject_ref ref);
 
 	void removeObjectWithAnimation(GObject* obj, ActionGeneratorType action);
-    
+	
 	void setBulletBodiesVisible(bool b);
 
 	template<typename ...Args>
@@ -178,7 +178,7 @@ public:
 	void enterWorldSelect();
 	void createDialog(string res, bool autoAdvance);
 	void createDialog(string res, bool autoAdvance, zero_arity_function f);
-    void loadScene(string mapName, string start);
+	void loadScene(string mapName, string start);
 
 	void eraseTile(const SpaceVect& p, string layer);
 	void eraseTile(int mapID, IntVec2 pos, string layer);
@@ -211,19 +211,19 @@ public:
 	float getRandomFloat(float min, float max);
 	//Generate [min,max]
 	int getRandomInt(int min, int max);
-    bool getRandomBool();
-    //probability of getting a true result.
-    bool getRandomBool(float probability);
+	bool getRandomBool();
+	//probability of getting a true result.
+	bool getRandomBool(float probability);
 	//Generate the numbers [0,N) in a random order
 	vector<int> getRandomShuffle(int n);
 
 	ControlInfo getControlInfo() const;
 	void setControlInfo(ControlInfo info);
 private:
-    void addObject(GObject* obj);
-    void processRemovals();
-    void initObjects();
-    void processRemoval(GObject* obj, bool removeSprite);
+	void addObject(GObject* obj);
+	void processRemovals();
+	void initObjects();
+	void processRemoval(GObject* obj, bool removeSprite);
 	bool isNoUpdateObject(GObject* obj);
 
 //END OBJECT MANIPULATION
@@ -245,12 +245,12 @@ public:
 //BEGIN NAVIGATION
 public:
 	bool isObstacleObject(const GObject* obj) const;
-    bool isObstacle(IntVec2) const;
-    void addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
+	bool isObstacle(IntVec2) const;
+	void addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
 	void removeNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
 
-    shared_ptr<const Path> pathToTile(IntVec2 begin, IntVec2 end);
-    void addPath(string name, Path p);
+	shared_ptr<const Path> pathToTile(IntVec2 begin, IntVec2 end);
+	void addPath(string name, Path p);
 	shared_ptr<const Path> getPath(string name) const;
 
 	void addWaypoint(string name, SpaceVect w);
@@ -262,11 +262,11 @@ public:
 	void addArea(string name, SpaceRect a);
 	SpaceRect getArea(string name) const;
 
-    FloorSegment* floorPointQuery(SpaceVect pos);
+	FloorSegment* floorPointQuery(SpaceVect pos);
 	Pitfall* pitfallPointQuery(SpaceVect pos);
 
-    inline const boost::dynamic_bitset<>* getNavMask() const { return navMask;}
-//END NAVIGATION    
+	inline const boost::dynamic_bitset<>* getNavMask() const { return navMask;}
+//END NAVIGATION	
 
 	audio_context* audioContext;
 	unique_ptr<physics_context> physicsContext;
@@ -325,7 +325,7 @@ protected:
 	list<pair<GObject*, ActionGeneratorType>, local_allocator<pair<GObject*, ActionGeneratorType>>> toRemoveWithAnimation;
 
 	unordered_map<ObjectIDType, GObject*> objByUUID;
-    unordered_map<string, GObject*> objByName;
+	unordered_map<string, GObject*> objByName;
 	unordered_map<type_index, unordered_set<GObject*>> objByType;
 	
 	set<GObject*> updateObjects;
@@ -335,8 +335,8 @@ protected:
 //NAVIGATION
 	void unmarkObstacleTile(int x, int y);
 	void markObstacleTile(int x, int y);
-    bool isObstacleTile(int x, int y) const;
-    
+	bool isObstacleTile(int x, int y) const;
+	
 	unordered_map<string, shared_ptr<const Path>> paths;
 	unordered_map<string, list<SpaceVect>> waypoints;
 	unordered_map<string, SpaceRect> areas;

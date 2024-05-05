@@ -15,8 +15,8 @@
 #endif
 
 #ifdef CC_TARGET_OS_MAC
-    #include "../platform/apple/CCFileUtils-apple.h"
-    #define FileUtilsImpl FileUtilsApple
+	#include "../platform/apple/CCFileUtils-apple.h"
+	#define FileUtilsImpl FileUtilsApple
 #endif
 
 typedef pair<unsigned char*, ssize_t> zip_file;

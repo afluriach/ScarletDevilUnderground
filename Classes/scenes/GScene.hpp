@@ -16,40 +16,40 @@ class GScene : public Scene
 public:
 	friend class graphics_context;
 
-    //The order of initialization events, as performed by GScene and it's various dervied classes.
-    enum class initOrder{
-        //This includes all top-level GScene init, as well running Layer::init and Node::scheduleUpdate.
-        core = 1,
-        //Loading map objects if applicable
-        mapLoad,
+	//The order of initialization events, as performed by GScene and it's various dervied classes.
+	enum class initOrder{
+		//This includes all top-level GScene init, as well running Layer::init and Node::scheduleUpdate.
+		core = 1,
+		//Loading map objects if applicable
+		mapLoad,
 		//For PlayScene, if area has already been visited and rooms are marked visible in App state,
 		//initialize with rooms visible.
 		showRooms,
-        //Running GSpace::loadAdditions, if applicable
-        loadObjects,
-        initHUD,
+		//Running GSpace::loadAdditions, if applicable
+		loadObjects,
+		initHUD,
 		postInitHUD,
-        //Objects that wish to query the GSpace, including looking up other objects that are expected
-        //to be loaded.
-        postLoadObjects,
-    };
-    
-    enum class sceneLayers{
-        //Represents the world and objects in it (map and all gspace objects).
-        //GraphicsLayer is used for z-ordering inside of this layer.
-        //It is the only layer that moves with the camera
+		//Objects that wish to query the GSpace, including looking up other objects that are expected
+		//to be loaded.
+		postLoadObjects,
+	};
+	
+	enum class sceneLayers{
+		//Represents the world and objects in it (map and all gspace objects).
+		//GraphicsLayer is used for z-ordering inside of this layer.
+		//It is the only layer that moves with the camera
 		begin = 1,
-        space = 1,
+		space = 1,
 		lightmapBackground,
 		lightmap,
 		screenspaceColorFilter,
-        dialogBackground,
-        dialog,
-        hud,
-        menu,
-        luaShell,
-        end
-    };
+		dialogBackground,
+		dialog,
+		hud,
+		menu,
+		luaShell,
+		end
+	};
 
 	enum class displayMode {
 		begin = 0,
@@ -64,26 +64,26 @@ public:
 	static const int dialogEdgeMargin;
 	static const bool scriptLog;
 
-    static GScene* crntScene;
+	static GScene* crntScene;
 	static bool suppressGameOver;
 
-    static GScene* getCrntScene();
+	static GScene* getCrntScene();
 	static const IntVec2 getRoomOffset(IntVec2 roomSize, int roomGridX, int roomGridY);
 
-    GScene();
+	GScene();
 	GScene(shared_ptr<area_properties> area, string start);
 
-    virtual ~GScene();
-    virtual bool init();
-    virtual void update(float dt);
+	virtual ~GScene();
+	virtual bool init();
+	virtual void update(float dt);
 	virtual void onExit();
 	virtual GScene* getReplacementScene();
 	GSpace* getSpace();
 
-    string getCurrentLevel() const;
-    string getNextLevel() const;
+	string getCurrentLevel() const;
+	string getNextLevel() const;
 
-    void setPaused(bool p);
+	void setPaused(bool p);
 	inline virtual void enterPause() {}
 	inline virtual void exitPause() {}
 
@@ -102,9 +102,9 @@ public:
 
 	void setColorFilter(const Color4F& color);
 
-    //The different vector type is intentional, as Chipmunk vector implies
-    //unit space as opposed to pixel space.
-    void setUnitPosition(const SpaceVect& v);
+	//The different vector type is intentional, as Chipmunk vector implies
+	//unit space as opposed to pixel space.
+	void setUnitPosition(const SpaceVect& v);
 	SpaceVect getMapSize();
 	SpaceRect getCameraArea();
 	const vector<SpaceRect>& getMapAreas();
@@ -131,7 +131,7 @@ public:
 	void popMenu();
 	void popMenuIfNonroot();
 
-    util::multifunction<void(void)> multiInit;
+	util::multifunction<void(void)> multiInit;
 
 	unique_ptr<ControlListener> control_listener;
 	unique_ptr<graphics_context> graphicsContext;
@@ -211,9 +211,9 @@ protected:
 	cocos2d::Vector<MenuLayer*> menuStack;
 	Dialog* dialog = nullptr;
 
-    shared_ptr<area_properties> areaProps;
-    string start;
-    
+	shared_ptr<area_properties> areaProps;
+	string start;
+	
 	IntVec2 dimensions;
 	cocos2d::Vector<TMXTiledMap*> tilemaps;
 	vector<SpaceRect> mapAreas;

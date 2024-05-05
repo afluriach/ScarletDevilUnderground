@@ -35,8 +35,8 @@ const vector<string> GSpace::scriptFiles = {
 	"ai-functions",
 	"ai-packages",
 	"bullets",
-    "enemy",
-    "floors",
+	"enemy",
+	"floors",
 	"magic-effects",
 	"items",
 	"npc",
@@ -60,14 +60,14 @@ void GSpace::loadScriptVM()
 {
 	scriptVM = make_unique<Lua::Inst>("GSpace");
  
-    for(string file : scriptFiles){
-        scriptVM->runFile("scripts/" + file + ".lua");
-    }
+	for(string file : scriptFiles){
+		scriptVM->runFile("scripts/" + file + ".lua");
+	}
 }
 
 GSpace* GSpace::getCrntSpace()
 {
-    return crntSpace;
+	return crntSpace;
 }
 
 GSpace::GSpace(GScene* gscene) :
@@ -82,31 +82,31 @@ GSpace::GSpace(GScene* gscene) :
 
 	physicsContext = make_unique<physics_context>(this);
 	physicsImpl = make_unique<PhysicsImpl>(this);
-    physicsImpl->addCollisionHandlers();
+	physicsImpl->addCollisionHandlers();
 
 	for (type_index t : GObject::trackedTypes) {
 		objByType[t] = unordered_set<GObject*>();
 	}
 
-    crntSpace = this;
+	crntSpace = this;
 }
 
 GSpace::~GSpace()
 {
 	isUnloading = true;
-    //Process removal modified objByUUID.
-    vector<GObject*> objs;
+	//Process removal modified objByUUID.
+	vector<GObject*> objs;
 
 	for (GObject* obj : objByUUID | boost::adaptors::map_values) {
 		objs.push_back(obj);
 	}
-        
-    for(GObject* obj: objs){
-        processRemoval(obj, true);
-    }
-    
-    if(navMask)
-        delete navMask;
+		
+	for(GObject* obj: objs){
+		processRemoval(obj, true);
+	}
+	
+	if(navMask)
+		delete navMask;
 
 	delete world;
 }
@@ -123,10 +123,10 @@ IntVec2 GSpace::getSize() const {
 
 void GSpace::setSize(int x, int y)
 {
-    spaceSize = IntVec2(x,y);
-    if(navMask)
-        delete navMask;
-    navMask = new boost::dynamic_bitset<>(x*y);
+	spaceSize = IntVec2(x,y);
+	if(navMask)
+		delete navMask;
+	navMask = new boost::dynamic_bitset<>(x*y);
 }
 
 unsigned int GSpace::getFrame() const{
@@ -159,14 +159,14 @@ void GSpace::update()
 	chrono::steady_clock::time_point t1 = chrono::steady_clock::now();
 #endif
 
-    //Run inits for recently added objects
-    initObjects();
-    
+	//Run inits for recently added objects
+	initObjects();
+	
 #if USE_TIMERS
 	chrono::steady_clock::time_point t2 = chrono::steady_clock::now();
 #endif
 
-    //physics step
+	//physics step
 	isInPhysicsStep = true;
 	world->Step(
 		app::params.secondsPerFrame,
@@ -174,7 +174,7 @@ void GSpace::update()
 		PhysicsImpl::positionSteps
 	);
 	isInPhysicsStep = false;
-    
+	
 	for (auto entry : updateMessages)
 		entry();
 	updateMessages.clear();
@@ -198,16 +198,16 @@ void GSpace::update()
 
 	updateSensors();
 
-    for(GObject* obj : updateObjects){
-        obj->update();
-        obj->runMethodIfAvailable("update");
-    }
-    
-    processRemovals();
-    
-    //process additions
-    processAdditions();
-    
+	for(GObject* obj : updateObjects){
+		obj->update();
+		obj->runMethodIfAvailable("update");
+	}
+	
+	processRemovals();
+	
+	//process additions
+	processAdditions();
+	
 	gscene->addActions(sceneActions);
 	sceneActions.clear();
 
@@ -236,7 +236,7 @@ void GSpace::update()
 	App::timerMutex.unlock();
 #endif
 
-    ++frame;
+	++frame;
 	elapsedTime += app::params.secondsPerFrame;
 }
 
@@ -271,8 +271,8 @@ void GSpace::addDynamicLoadObject(const ValueMap& obj)
 	string name = obj.at("name").asString();
 	string type = obj.at("type").asString();
  
-    object_params params(obj);
-    auto props = app::getObjectProps(type);
+	object_params params(obj);
+	auto props = app::getObjectProps(type);
 
 	if (name.empty()) {
 		log0("Un-named dynamic load object");
@@ -295,7 +295,7 @@ gobject_ref GSpace::createDynamicObject(const string& name)
 {
 	auto it = dynamicLoadObjects.find(name);
 	if (it != dynamicLoadObjects.end()) {
-        return createObject(it->second.first, it->second.second);
+		return createObject(it->second.first, it->second.second);
 	}
 	else {
 		log1("Unknown dynamic load object name %s.", name.c_str());
@@ -315,15 +315,15 @@ const object_generator* GSpace::getDynamicObject(const string& name) const
 gobject_ref GSpace::createObject(const ValueMap& obj)
 {
 	string type = getStringOrDefault(obj, "type", "");
-    auto props = app::getObjectProps(type);
-    object_params params(obj);
-    
-    if(!props){
-        log1("Unknown object type %s!", type);
-        return gobject_ref();
-    }
+	auto props = app::getObjectProps(type);
+	object_params params(obj);
+	
+	if(!props){
+		log1("Unknown object type %s!", type);
+		return gobject_ref();
+	}
 
-    return createObject(params, props);
+	return createObject(params, props);
 }
 
 Bullet* GSpace::createBullet(
@@ -336,21 +336,21 @@ Bullet* GSpace::createBullet(
 
 GObject* GSpace::createObject(const object_params& params, local_shared_ptr<object_properties> props)
 {
-    if(!GObject::conditionalLoad(this, props, params))
-        return nullptr;
+	if(!GObject::conditionalLoad(this, props, params))
+		return nullptr;
 
-    object_properties* objProps = props.get();
-    auto it = GObject::propsAdapters.find(typeid(*objProps));
+	object_properties* objProps = props.get();
+	auto it = GObject::propsAdapters.find(typeid(*objProps));
 
-    if(it != GObject::propsAdapters.end()){
-        GObject* obj = it->second(this, nextObjUUID++, params, props);
-        addObject(obj);
-        return obj;
-    }
-    else{
-        log1("Unknown properties type %s.", typeid(*objProps).name());
-        return nullptr;
-    }
+	if(it != GObject::propsAdapters.end()){
+		GObject* obj = it->second(this, nextObjUUID++, params, props);
+		addObject(obj);
+		return obj;
+	}
+	else{
+		log1("Unknown properties type %s.", typeid(*objProps).name());
+		return nullptr;
+	}
 }
 
 void GSpace::addSpatialSound(GObject* sourceObj, ALuint soundSource)
@@ -450,7 +450,7 @@ bool GSpace::isTrackedType(type_index t) const
 
 bool GSpace::isValid(unsigned int uuid) const
 {
-    return getObject(uuid) != nullptr;
+	return getObject(uuid) != nullptr;
 }
 
 bool GSpace::isFutureObject(ObjectIDType uuid) const
@@ -460,14 +460,14 @@ bool GSpace::isFutureObject(ObjectIDType uuid) const
 
 void GSpace::processAdditions()
 {
-    for(GObject* obj : toAdd)
-    {
-        if(objByUUID.find(obj->uuid) != objByUUID.end()){
-            log1("Object UUID is not unique: %s", obj->toString());
-            allocator_delete(obj);
-            continue;
-        }
-        
+	for(GObject* obj : toAdd)
+	{
+		if(objByUUID.find(obj->uuid) != objByUUID.end()){
+			log1("Object UUID is not unique: %s", obj->toString());
+			allocator_delete(obj);
+			continue;
+		}
+		
 		obj->initializeBody();
 
 		if (obj->body) {
@@ -482,39 +482,39 @@ void GSpace::processAdditions()
 			continue;
 		}
 
-        obj->initializeGraphics();
+		obj->initializeGraphics();
 		obj->runMethodIfAvailable("initializeGraphics");
 
 		if (isTrackedType(typeid(*obj))) {
 			objByType[typeid(*obj)].insert(obj);
 		}
   
-        if (obj->getMass() < 0.0 && bitwise_and_bool(obj->getCrntLayers(), PhysicsLayers::ground)){
-            addNavObstacle(obj->getPos(), obj->getDimensions());
-        }
+		if (obj->getMass() < 0.0 && bitwise_and_bool(obj->getCrntLayers(), PhysicsLayers::ground)){
+			addNavObstacle(obj->getPos(), obj->getDimensions());
+		}
 
-        objByUUID[obj->uuid] = obj;
-        objByName[obj->name] = obj;
+		objByUUID[obj->uuid] = obj;
+		objByName[obj->name] = obj;
 
 		if (!isNoUpdateObject(obj) || obj->hasMethod("update")) {
 			updateObjects.insert(obj);
 		}
-        
-        addedLastFrame.push_back(obj);
-    }
-    
-    toAdd.clear();
+		
+		addedLastFrame.push_back(obj);
+	}
+	
+	toAdd.clear();
 }
 
 void GSpace::removeObject(const string& name)
 {
-    auto it = objByName.find(name);
-    if(it == objByName.end()){
-        log1("%s not found", name.c_str());
-        return;
-    }
-    
-    toRemove.push_back( it->second);
+	auto it = objByName.find(name);
+	if(it == objByName.end()){
+		log1("%s not found", name.c_str());
+		return;
+	}
+	
+	toRemove.push_back( it->second);
 }
 
 void GSpace::removeObject(GObject* obj)
@@ -524,9 +524,9 @@ void GSpace::removeObject(GObject* obj)
 		return;
 	}
 
-    //Check for object being scheduled for removal twice.
-    if(find(toRemove.begin(), toRemove.end(), obj) == toRemove.end())
-        toRemove.push_back(obj);
+	//Check for object being scheduled for removal twice.
+	if(find(toRemove.begin(), toRemove.end(), obj) == toRemove.end())
+		toRemove.push_back(obj);
 }
 
 void GSpace::removeObject(gobject_ref ref)
@@ -553,29 +553,29 @@ void GSpace::setBulletBodiesVisible(bool b)
 
 void GSpace::addObject(GObject* obj)
 {
-    if(obj){
-        toAdd.push_back(obj);
-    }
+	if(obj){
+		toAdd.push_back(obj);
+	}
 }
 
 void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 {
-    obj->removeEffects();
+	obj->removeEffects();
 	obj->onRemove();
 
 	if (!isUnloading && obj->name.size() > 0 && crntChamber.size() > 0) {
 		getAreaStats().addObjectRemoval(obj->name);
 	}
 
-    objByName.erase(obj->name);
-    objByUUID.erase(obj->uuid);
+	objByName.erase(obj->name);
+	objByUUID.erase(obj->uuid);
 	updateObjects.erase(obj);
 	removeSpatialSounds(obj);
 
 	if (isTrackedType(typeid(*obj))) {
 		objByType[typeid(*obj)].erase(obj);
 	}
-    
+	
 	if (isObstacleObject(obj)){
 		removeNavObstacle(obj->getPos(), obj->getDimensions());
 	}
@@ -600,12 +600,12 @@ void GSpace::initObjects()
 	for (auto f : initMessages) f();
 	initMessages.clear();
 
-    for(GObject* obj: addedLastFrame)
-    {
-        obj->init();
-        obj->scriptInitialize();
-    }
-    addedLastFrame.clear();
+	for(GObject* obj: addedLastFrame)
+	{
+		obj->init();
+		obj->scriptInitialize();
+	}
+	addedLastFrame.clear();
 }
 
 void GSpace::processRemovals()
@@ -653,11 +653,11 @@ int GSpace::getRandomInt(int min, int max) {
 }
 
 bool GSpace::getRandomBool(){
-    return getRandomBool(0.5f);
+	return getRandomBool(0.5f);
 }
 
 bool GSpace::getRandomBool(float probability){
-    return getRandomFloat() < probability;
+	return getRandomFloat() < probability;
 }
 
 vector<int> GSpace::getRandomShuffle(int n) {
@@ -735,9 +735,9 @@ void GSpace::createDialog(string res, bool autoAdvance, zero_arity_function f)
 
 void GSpace::loadScene(string mapName, string start)
 {
-    addSceneAction(
-        [mapName, start]()->void { App::runPlayScene(mapName, start); }
-    );
+	addSceneAction(
+		[mapName, start]()->void { App::runPlayScene(mapName, start); }
+	);
 }
 
 void GSpace::teleportPlayerToDoor(string doorName)
@@ -1023,13 +1023,13 @@ Pitfall* GSpace::pitfallPointQuery(SpaceVect pos)
 
 void GSpace::addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)
 {
-    for(SpaceFloat x = center.x - boundingDimensions.x/2.0; x < center.x + boundingDimensions.x/2.0; ++x)
-    {
-        for(SpaceFloat y = center.y - boundingDimensions.y/2.0; y < center.y + boundingDimensions.y/2.0; ++y)
-        {
-            markObstacleTile(x,y);
-        }
-    }
+	for(SpaceFloat x = center.x - boundingDimensions.x/2.0; x < center.x + boundingDimensions.x/2.0; ++x)
+	{
+		for(SpaceFloat y = center.y - boundingDimensions.y/2.0; y < center.y + boundingDimensions.y/2.0; ++y)
+		{
+			markObstacleTile(x,y);
+		}
+	}
 }
 
 void GSpace::removeNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)
@@ -1050,16 +1050,16 @@ bool GSpace::isObstacleObject(const GObject* obj) const
 
 bool GSpace::isObstacle(IntVec2 v) const
 {
-    return isObstacleTile(v.first, v.second);
+	return isObstacleTile(v.first, v.second);
 }
 
 void GSpace::markObstacleTile(int x, int y)
 {
-    if(x >= 0 && x < spaceSize.first){
-        if(y >= 0 && y < spaceSize.second){
-            (*navMask)[y*spaceSize.first+x] = 1;
-        }
-    }
+	if(x >= 0 && x < spaceSize.first){
+		if(y >= 0 && y < spaceSize.second){
+			(*navMask)[y*spaceSize.first+x] = 1;
+		}
+	}
 }
 
 void GSpace::unmarkObstacleTile(int x, int y)
@@ -1073,30 +1073,30 @@ void GSpace::unmarkObstacleTile(int x, int y)
 
 bool GSpace::isObstacleTile(int x, int y) const
 {
-    if(x >= 0 && x < spaceSize.first){
-        if(y >= 0 && y < spaceSize.second){
-            return (*navMask)[y*spaceSize.first+x];
-        }
-    }
-    return false;
+	if(x >= 0 && x < spaceSize.first){
+		if(y >= 0 && y < spaceSize.second){
+			return (*navMask)[y*spaceSize.first+x];
+		}
+	}
+	return false;
 }
 
 shared_ptr<const Path> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 {
 	vector<SpaceVect> result;
  
-    if(isObstacleTile(begin.first, begin.second)){
-        log2("Begin point (%d,%d) is an obstacle tile!", begin.first, begin.second);
-        return nullptr;
-    }
-    if(isObstacleTile(end.first, end.second)){
-        log2("End point (%d,%d) is an obstacle tile!", end.first, end.second);
-        return nullptr;
-    }
-    if(begin.first == end.first && begin.second == end.second){
-        log0("Start and end point are the same!");
-        return nullptr;
-    }
+	if(isObstacleTile(begin.first, begin.second)){
+		log2("Begin point (%d,%d) is an obstacle tile!", begin.first, begin.second);
+		return nullptr;
+	}
+	if(isObstacleTile(end.first, end.second)){
+		log2("End point (%d,%d) is an obstacle tile!", end.first, end.second);
+		return nullptr;
+	}
+	if(begin.first == end.first && begin.second == end.second){
+		log0("Start and end point are the same!");
+		return nullptr;
+	}
 
 	vector<pair<int, int>> tileCoords = graph::gridAStar(
 		*navMask,
@@ -1109,7 +1109,7 @@ shared_ptr<const Path> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 		return nullptr;
 	}
 
-    result.push_back(toSpaceVectWithCentering(begin));
+	result.push_back(toSpaceVectWithCentering(begin));
 	result.push_back(toSpaceVectWithCentering(tileCoords[0]));
 	SpaceVect direction = toSpaceVectWithCentering(tileCoords[0]) - toSpaceVectWithCentering(begin);
 

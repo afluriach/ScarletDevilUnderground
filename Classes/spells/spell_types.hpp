@@ -49,7 +49,7 @@ struct spell_params
 	string name;
 	string description;
 	string icon;
-    string sfx;
+	string sfx;
 
 	SpaceFloat length = 0.0;
 	SpaceFloat updateInterval = 0.0;
@@ -58,7 +58,7 @@ struct spell_params
 	getter(string, name)
 	getter(string, description)
 	getter(string, icon)
-    getter(string, sfx)
+	getter(string, sfx)
 	getter(SpaceFloat, length)
 	getter(SpaceFloat, updateInterval)
 	getter(spell_cost, cost)
@@ -66,7 +66,7 @@ struct spell_params
 	setter(string, name)
 	setter(string, description)
 	setter(string, icon)
-    setter(string, sfx)
+	setter(string, sfx)
 	setter(SpaceFloat, length)
 	setter(SpaceFloat, updateInterval)
 	setter(spell_cost, cost)

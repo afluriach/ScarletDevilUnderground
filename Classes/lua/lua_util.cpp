@@ -12,14 +12,14 @@
 #include "LuaAPI.hpp"
 #include "SpellUtil.hpp"
 
-namespace Lua{    
+namespace Lua{	
 
 void Inst::addUtil()
 {
 	auto util = _state.create_table();
 	_state["util"] = util;
 
-    cFuncSame(util, getIntSuffix);
+	cFuncSame(util, getIntSuffix);
 	cFuncSame(util, splitString);
 
 	//Lua does not support passing primitves by reference, thus sol does not
@@ -35,8 +35,8 @@ void Inst::addUtil()
 		return result;
 	};
  
-    cFuncSame(util, canonicalAngle);
-    cFuncSame(util, invertDirection);
+	cFuncSame(util, canonicalAngle);
+	cFuncSame(util, invertDirection);
 
 	util["isinf"] = &std::isinf<double>;
 #ifdef _WIN32
@@ -53,10 +53,10 @@ void Inst::addUtil()
   
 	cFuncSame(util, toCocosAngle);
 
-    util["toCocos"] = static_cast<Vec2(*)(const SpaceVect&)>(&toCocos);
-    util["toColor3B"] = sol::overload(
-        static_cast<Color3B(*)(const Color4F&)>(&toColor3B),
-        static_cast<Color3B(*)(const string&)>(&toColor3B)
-    );
+	util["toCocos"] = static_cast<Vec2(*)(const SpaceVect&)>(&toCocos);
+	util["toColor3B"] = sol::overload(
+		static_cast<Color3B(*)(const Color4F&)>(&toColor3B),
+		static_cast<Color3B(*)(const string&)>(&toColor3B)
+	);
 }
 }

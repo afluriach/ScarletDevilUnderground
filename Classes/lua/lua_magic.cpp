@@ -22,7 +22,7 @@ local_shared_ptr<MagicEffect> createEffect(Params... params)
 }
 
 namespace Lua{
-    
+	
 	void Inst::addMagic()
 	{
 		auto effects = _state.create_table();

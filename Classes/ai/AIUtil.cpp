@@ -26,46 +26,46 @@ void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat accelerati
 	desired += floorVel;
 	acceleration *= traction;
 
-    //the desired velocity change
-    SpaceVect vv = desired - obj->getVel();
-    //the scalar amount of velocity change in one frame
+	//the desired velocity change
+	SpaceVect vv = desired - obj->getVel();
+	//the scalar amount of velocity change in one frame
 	SpaceFloat dv = acceleration * app::params.secondsPerFrame;
 
-    //Default case, apply maximum acceleration
-    if(square_expr(dv) < vv.lengthSq()){
+	//Default case, apply maximum acceleration
+	if(square_expr(dv) < vv.lengthSq()){
 		SpaceFloat f = obj->getMass() * acceleration;
-        SpaceVect ff = f * vv.normalizeSafe();
-        obj->applyForceForSingleFrame(ff);
-    }
-    else{
-        obj->setVel(desired);
-    }
+		SpaceVect ff = f * vv.normalizeSafe();
+		obj->applyForceForSingleFrame(ff);
+	}
+	else{
+		obj->setVel(desired);
+	}
 }
 
 bool isFacingTarget(const GObject* agent, const GObject* target)
 {
-    SpaceVect targetDirection = (target->getPos() - agent->getPos()).normalize();
-    SpaceVect agentFacingVector = agent->getFacingVector();
-    bool facing = SpaceVect::dot(agentFacingVector, target->getFacingVector()) < 0;
-    bool targetInFrontOfAgent = SpaceVect::dot(agentFacingVector, targetDirection) > 0;
+	SpaceVect targetDirection = (target->getPos() - agent->getPos()).normalize();
+	SpaceVect agentFacingVector = agent->getFacingVector();
+	bool facing = SpaceVect::dot(agentFacingVector, target->getFacingVector()) < 0;
+	bool targetInFrontOfAgent = SpaceVect::dot(agentFacingVector, targetDirection) > 0;
 
-    return facing && targetInFrontOfAgent;
+	return facing && targetInFrontOfAgent;
 }
 
 bool isFacingTargetsBack(const GObject* agent, const GObject* target)
 {
-    SpaceVect targetDirection = (target->getPos() - agent->getPos()).normalize();
-    SpaceVect agentFacingVector = agent->getFacingVector();
+	SpaceVect targetDirection = (target->getPos() - agent->getPos()).normalize();
+	SpaceVect agentFacingVector = agent->getFacingVector();
 
-    bool facingBack = SpaceVect::dot(agentFacingVector, target->getFacingVector()) > 0;
-    bool targetInFrontOfAgent = SpaceVect::dot(agentFacingVector, targetDirection) > 0;
-    
-    return facingBack && targetInFrontOfAgent;
+	bool facingBack = SpaceVect::dot(agentFacingVector, target->getFacingVector()) > 0;
+	bool targetInFrontOfAgent = SpaceVect::dot(agentFacingVector, targetDirection) > 0;
+	
+	return facingBack && targetInFrontOfAgent;
 }
 
 bool isLineOfSight(const GObject* agent, const GObject* target)
 {
-    return agent->space->physicsContext->lineOfSight(agent, target);
+	return agent->space->physicsContext->lineOfSight(agent, target);
 }
 
 array<SpaceFloat, 4> obstacleFeelerQuad(const GObject* agent, SpaceFloat distance)
@@ -151,12 +151,12 @@ SpaceVect directionToTarget(SpaceVect source, SpaceVect target)
 
 SpaceVect directionToTarget(const GObject* agent, SpaceVect target)
 {
-    return (target - agent->getPos()).normalizeSafe();
+	return (target - agent->getPos()).normalizeSafe();
 }
 
 SpaceVect displacementToTarget(const GObject* agent, SpaceVect target)
 {
-    return target - agent->getPos();
+	return target - agent->getPos();
 }
 
 SpaceFloat distanceToTarget(const GObject* agent, const GObject* target)
@@ -176,27 +176,27 @@ SpaceFloat distanceToTarget(SpaceVect pos, SpaceVect target)
 
 SpaceFloat angleToTarget(const GObject* agent, const GObject* target)
 {
-    return angleToTarget(agent->getPos(), target->getPos());
+	return angleToTarget(agent->getPos(), target->getPos());
 }
 
 SpaceFloat angleToTarget(const GObject* agent, SpaceVect target)
 {
-    return angleToTarget(agent->getPos(), target);
+	return angleToTarget(agent->getPos(), target);
 }
 
 SpaceFloat angleToTarget(SpaceVect source, SpaceVect target)
 {
-    return (target - source).toAngle();
+	return (target - source).toAngle();
 }
 
 SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target)
 {
-    SpaceVect displacement = target->getPos() - agent->getPos();
-    
-    if(displacement.lengthSq() > atan_limit_sq)
-        return canonicalAngle(displacement.toAngle() - agent->getAngle());
-    else
-        return numeric_limits<SpaceFloat>::infinity();
+	SpaceVect displacement = target->getPos() - agent->getPos();
+	
+	if(displacement.lengthSq() > atan_limit_sq)
+		return canonicalAngle(displacement.toAngle() - agent->getAngle());
+	else
+		return numeric_limits<SpaceFloat>::infinity();
 }
 
 bool isInFieldOfView(GObject* agent, SpaceVect target, SpaceFloat fovAngleScalarProduct)
@@ -253,9 +253,9 @@ void seek(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acce
 	if (displacement.lengthSq() < 1e-4)
 		return;
 
-    SpaceVect direction = directionToTarget(agent,target);
-    
-    applyDesiredVelocity(agent, direction*maxSpeed, acceleration);
+	SpaceVect direction = directionToTarget(agent,target);
+	
+	applyDesiredVelocity(agent, direction*maxSpeed, acceleration);
 }
 
 void arrive(GObject* agent, SpaceVect target)
@@ -307,8 +307,8 @@ bool moveToPoint(GObject* agent, SpaceVect target, SpaceFloat arrivalMargin, boo
 void flee(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
 {
 	SpaceVect displacement = fleeDirection(agent,target);
-    
-    applyDesiredVelocity(agent, displacement*maxSpeed, acceleration);
+	
+	applyDesiredVelocity(agent, displacement*maxSpeed, acceleration);
 }
 
 SpaceVect fleeDirection(const GObject* agent, SpaceVect target)

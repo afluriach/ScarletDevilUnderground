@@ -47,7 +47,7 @@ namespace app {
 	local_shared_ptr<floorsegment_properties> getFloor(const string& name);
 	local_shared_ptr<item_properties> getItem(const string& name);
 	shared_ptr<LightArea> getLight(const string& name);
-    local_shared_ptr<object_properties> getObjectProps(const string& name);
+	local_shared_ptr<object_properties> getObjectProps(const string& name);
 	local_shared_ptr<agent_properties> getPlayer(const string& name);
 	local_shared_ptr<wall_properties> getWall(const string& name);
 

@@ -22,18 +22,18 @@ namespace Lua
 	#define rw_prop(cls,func) #func, sol::property(&cls::get_ ## func, &cls::set_ ## func)
 	#define static_var(x) #x, sol::var(&_cls::x)
 
-    //Wraps a VM instance and interfaces with it.
-    class Inst
-    {
-    public:
-        Inst(const string& name);
-        ~Inst();
-        
-        const string name;
-        
-        static const vector<string> luaIncludes;
-        static const bool logInst = false;
-        
+	//Wraps a VM instance and interfaces with it.
+	class Inst
+	{
+	public:
+		Inst(const string& name);
+		~Inst();
+		
+		const string name;
+		
+		static const vector<string> luaIncludes;
+		static const bool logInst = false;
+		
 		void addAI();
 		void addApp();
 		void addGObject();
@@ -45,15 +45,15 @@ namespace Lua
 		void addTypes();
 		void addUtil();
 
-        void installSceneApi();
-        void installApi();
-        void loadLibraries();
-        
-        void runString(const string& str);
-        void runFile(const string& path);
-                
-        void callNoReturn(const string& name);
-        void callIfExistsNoReturn(const string& name);
+		void installSceneApi();
+		void installApi();
+		void loadLibraries();
+		
+		void runString(const string& str);
+		void runFile(const string& path);
+				
+		void callNoReturn(const string& name);
+		void callIfExistsNoReturn(const string& name);
 
 		template<typename T>
 		inline T getEnum(const string& clsName, const string& s, T _default)
@@ -72,7 +72,7 @@ namespace Lua
 		inline sol::function getFunction(const string& name) { return _state[name]; }
 
 		sol::state _state;
-    };    
+	};	
 }
 
 #endif /* Lua_hpp */

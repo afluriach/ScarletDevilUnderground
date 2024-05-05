@@ -42,23 +42,23 @@ enum class Attribute {
 	invisibility,
 
 	combo,
-    maxCombo,
-    comboLevel,
-    comboPerAttack,
-    comboDecay,
+	maxCombo,
+	comboLevel,
+	comboPerAttack,
+	comboDecay,
 
 	attack,
 	attackSpeed,
 	bulletSpeed,
-    maxThrowSpeed,
-    throwInterval,
-    castInterval,
-    
-    bombCooldown,
-    spellCooldown,
-    sprintCooldown,
+	maxThrowSpeed,
+	throwInterval,
+	castInterval,
+	
+	bombCooldown,
+	spellCooldown,
+	sprintCooldown,
 
-    level,
+	level,
 	shieldLevel,
 
 	stress,
@@ -67,14 +67,14 @@ enum class Attribute {
 	stressFromBlocks,
 
 	agility,
-    sprintCost,
-    knockbackSensitivity,
+	sprintCost,
+	knockbackSensitivity,
  
-    blockSpeedRatio,
-    sprintSpeedRatio,
-    sprintTime,
-    sprintCooldownTime,
-    sprintRecoveryTime,
+	blockSpeedRatio,
+	sprintSpeedRatio,
+	sprintTime,
+	sprintCooldownTime,
+	sprintRecoveryTime,
 
 	currentSpeed,
 	speedRatio,

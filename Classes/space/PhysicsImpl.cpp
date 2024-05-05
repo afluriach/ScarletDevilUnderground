@@ -58,10 +58,10 @@ PhysicsImpl::collision_type getCanonicalPair(PhysicsImpl::collision_type in)
 
 pair<GType, GType> getFixtureTypes(b2Contact* contact)
 {
-    GType typeA = getBaseType(static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits));
-    GType typeB = getBaseType(static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits));
+	GType typeA = getBaseType(static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits));
+	GType typeB = getBaseType(static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits));
 
-    return make_pair(typeA, typeB);
+	return make_pair(typeA, typeB);
 }
 
 template <typename T, typename U>
@@ -394,7 +394,7 @@ void PhysicsImpl::AddHandler(
 }
 
 void agentAgentBegin(Agent* a, Agent* b, b2Contact* arb)
-{    
+{	
 	a->onTouchAgent(b);
 	b->onTouchAgent(a);
 }
@@ -539,5 +539,5 @@ void PhysicsImpl::addCollisionHandlers()
  	_addHandlerNoEnd(bomb, wall, bombObjectBegin);
 
 	//Pitfall doesn't collide with anything, it is accessed only by query
-    emplaceIfEmpty(collisionMasks, GType::pitfall, to_uint(0));
+	emplaceIfEmpty(collisionMasks, GType::pitfall, to_uint(0));
 }

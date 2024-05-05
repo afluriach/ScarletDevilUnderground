@@ -12,28 +12,28 @@
 
 void printValueMap(const ValueMap& obj)
 {
-    for(auto it = obj.begin(); it != obj.end(); ++it)
-    {
-        log2(
-            "%s: %s.",
-            it->first.c_str(),
-            it->second.asString().c_str()
-        );
-    }
+	for(auto it = obj.begin(); it != obj.end(); ++it)
+	{
+		log2(
+			"%s: %s.",
+			it->first.c_str(),
+			it->second.asString().c_str()
+		);
+	}
 }
 
 bool validateStringArg(const ValueMap& args, string name)
 {
-    auto it = args.find(name);
-    
-    return ( it != args.end() && args.at(name).isString() && args.at(name).asString() != "" );
+	auto it = args.find(name);
+	
+	return ( it != args.end() && args.at(name).isString() && args.at(name).asString() != "" );
 }
 
 bool validateMapArg(const ValueMap& args, string name)
 {
-    auto it = args.find(name);
-    
-    return ( it != args.end() && args.at(name).isMap() );
+	auto it = args.find(name);
+	
+	return ( it != args.end() && args.at(name).isMap() );
 }
 
 SpaceVect getObjectPos(const ValueMap& args)
@@ -65,24 +65,24 @@ int getIntOrDefault(const ValueMap& obj, const string& name, int def)
 
 float getFloat(const ValueMap& args, const string& name)
 {
-    return args.at(name).asFloat();
+	return args.at(name).asFloat();
 }
 
 float getFloatOrDefault(const ValueMap& args, const string& name, float def)
 {
-    if(args.find(name) != args.end())
-        return getFloat(args,name);
-    else return def;
+	if(args.find(name) != args.end())
+		return getFloat(args,name);
+	else return def;
 }
 
 string getStringOrDefault(const ValueMap& args, const string& field, const string& _default)
 {
-    auto it = args.find(field);
-    
-    if(it == args.end() || !it->second.isString()){
-        return _default;
-    }
-    return it->second.asString();
+	auto it = args.find(field);
+	
+	if(it == args.end() || !it->second.isString()){
+		return _default;
+	}
+	return it->second.asString();
 }
 
 bool getBoolOrDefault(const ValueMap& args, const string& field, bool val)
@@ -113,12 +113,12 @@ Direction getDirectionOrDefault(const ValueMap& args, Direction d)
 
 ValueMap getMap(const ValueMap& args, const string& field)
 {
-    auto it = args.find(field);
+	auto it = args.find(field);
 
-    if(it != args.end() && it->second.isMap())
-        return it->second.asValueMap();
-    else
-        return ValueMap();
+	if(it != args.end() && it->second.isMap())
+		return it->second.asValueMap();
+	else
+		return ValueMap();
 }
 
 ValueVector getVector(const ValueMap& args, const string& field, int start)
@@ -154,37 +154,37 @@ ValueVector getVector(const ValueMap& args, const string& field, int start, int 
 
 void convertToUnitSpace(ValueMap& arg, IntVec2 offset)
 {
-    SpaceVect cornerPos(getFloat(arg, "x"), getFloat(arg, "y"));
-    cornerPos *= app::tilesPerPixel;
+	SpaceVect cornerPos(getFloat(arg, "x"), getFloat(arg, "y"));
+	cornerPos *= app::tilesPerPixel;
 	cornerPos += SpaceVect(offset.first, offset.second);
-    
-    SpaceVect dim(getFloat(arg, "width"), getFloat(arg, "height"));
-    dim *= app::tilesPerPixel;
-    
-    SpaceVect center = SpaceVect(cornerPos);
-    center += (dim*0.5);
-    
-    arg.erase("x");
-    arg.erase("y");
+	
+	SpaceVect dim(getFloat(arg, "width"), getFloat(arg, "height"));
+	dim *= app::tilesPerPixel;
+	
+	SpaceVect center = SpaceVect(cornerPos);
+	center += (dim*0.5);
+	
+	arg.erase("x");
+	arg.erase("y");
 
-    arg.erase("width");
-    arg.erase("height");
-    
-    arg["pos_x"] = Value(center.x);
-    arg["pos_y"] = Value(center.y);
-    
-    arg["dim_x"] = Value(dim.x);
-    arg["dim_y"] = Value(dim.y);
+	arg.erase("width");
+	arg.erase("height");
+	
+	arg["pos_x"] = Value(center.x);
+	arg["pos_y"] = Value(center.y);
+	
+	arg["dim_x"] = Value(dim.x);
+	arg["dim_y"] = Value(dim.y);
 }
 
 SpaceRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset)
 {
-    SpaceVect cornerPos(getFloat(tileMapObj, "x"), getFloat(tileMapObj, "y"));
-    cornerPos *= app::tilesPerPixel;
+	SpaceVect cornerPos(getFloat(tileMapObj, "x"), getFloat(tileMapObj, "y"));
+	cornerPos *= app::tilesPerPixel;
 	cornerPos += SpaceVect(offset.first, offset.second);
-    
-    SpaceVect dim(getFloat(tileMapObj, "width"), getFloat(tileMapObj, "height"));
-    dim *= app::tilesPerPixel;
-    
-    return SpaceRect(cornerPos.x, cornerPos.y, dim.x, dim.y);
+	
+	SpaceVect dim(getFloat(tileMapObj, "width"), getFloat(tileMapObj, "height"));
+	dim *= app::tilesPerPixel;
+	
+	return SpaceRect(cornerPos.x, cornerPos.y, dim.x, dim.y);
 }

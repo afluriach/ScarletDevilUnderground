@@ -39,7 +39,7 @@ protected:
 	virtual void init();
 	virtual void end();
 	const MagicEffectDescriptor* effect;
-    local_shared_ptr<MagicEffect> effectInst;
+	local_shared_ptr<MagicEffect> effectInst;
 };
 
 class MeleeAttack : public Spell

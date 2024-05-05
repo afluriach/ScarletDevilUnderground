@@ -171,10 +171,10 @@ void GState::subtractAttribute(string name, int val)
 
 void GState::registerEnemyDefeated(string t)
 {
-    ++totalEnemiesDefeated;
+	++totalEnemiesDefeated;
 
-    emplaceIfEmpty(enemiesDefeated, t, to_uint(0));
-    ++enemiesDefeated.at(t);
+	emplaceIfEmpty(enemiesDefeated, t, to_uint(0));
+	++enemiesDefeated.at(t);
 }
 
 bool GState::accumulateItemDrop(string t, float p)

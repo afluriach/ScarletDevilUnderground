@@ -15,8 +15,8 @@
 const string App::title = "Kouma";
 
 const vector<string> App::shaderFiles = {
-    "agent_overlay",
-    "cone",
+	"agent_overlay",
+	"cone",
 	"hue_shift_left",
 	"hue_shift_right", 
 	"inverted",
@@ -170,9 +170,9 @@ float App::getScale()
 
 App::App()
 {
-    appInst = this;
+	appInst = this;
 
-    io::checkCreateSubfolders();
+	io::checkCreateSubfolders();
 
 	LogSystem::initThread();
 
@@ -191,10 +191,10 @@ App::App()
 	audioContext = make_unique<audio_context>();
 #endif
 
-    //Initialize Lua
+	//Initialize Lua
 	lua = make_unique<Lua::Inst>("app");
-    lua->installSceneApi();
-	lua->runFile("scripts/init.lua");    
+	lua->installSceneApi();
+	lua->runFile("scripts/init.lua");	
 
 #if USE_TIMERS
 	timerSystem = make_unique<TimerSystem>();
@@ -221,18 +221,18 @@ App::~App()
 		fileUtils = nullptr;
 	}
 
-    log("app exiting");
+	log("app exiting");
 	LogSystem::exit();
 }
 
 //Called in AppController.mm. This appears to be for Mac/iOS only.
 void App::initGLContextAttrs()
 {
-    //set OpenGL context attributions,now can only set six attributions:
-    //red,green,blue,alpha,depth,stencil
-    GLContextAttrs glContextAttrs = {8, 8, 8, 8, 24, 8};
+	//set OpenGL context attributions,now can only set six attributions:
+	//red,green,blue,alpha,depth,stencil
+	GLContextAttrs glContextAttrs = {8, 8, 8, 8, 24, 8};
 
-    GLView::setGLContextAttrs(glContextAttrs);
+	GLView::setGLContextAttrs(glContextAttrs);
 }
 
 bool App::applicationDidFinishLaunching() {
@@ -241,63 +241,63 @@ bool App::applicationDidFinishLaunching() {
 	Application::vsync = vsync;
 #endif
 
-    //Initialize OpenGL view (and set window title on desktop version).
-    auto director = Director::getInstance();
-    auto glview = director->getOpenGLView();
-    if(!glview) {
-        glview = app::params.fullscreen ?
-            GLViewImpl::createWithFullScreen(App::title) :
-            GLViewImpl::createWithRect(App::title, cocos2d::CCRect(0,0, app::params.width, app::params.height))
-        ;
-        
-        director->setOpenGLView(glview);
-        //director->setContentScaleFactor(1.0f);
-        
-        glview->setDesignResolutionSize(app::params.width, app::params.height, ResolutionPolicy::SHOW_ALL);
-    }
+	//Initialize OpenGL view (and set window title on desktop version).
+	auto director = Director::getInstance();
+	auto glview = director->getOpenGLView();
+	if(!glview) {
+		glview = app::params.fullscreen ?
+			GLViewImpl::createWithFullScreen(App::title) :
+			GLViewImpl::createWithRect(App::title, cocos2d::CCRect(0,0, app::params.width, app::params.height))
+		;
+		
+		director->setOpenGLView(glview);
+		//director->setContentScaleFactor(1.0f);
+		
+		glview->setDesignResolutionSize(app::params.width, app::params.height, ResolutionPolicy::SHOW_ALL);
+	}
 
 	if(app::params.showTimers)
 		director->setDisplayStats(true);
 
-    director->setAnimationInterval(app::params.secondsPerFrame);
+	director->setAnimationInterval(app::params.secondsPerFrame);
 
-    loadShaders();
+	loadShaders();
    
 	crntState = make_unique<GState>();
 	io::getProfiles();
 
-    Director::getInstance()->getScheduler()->schedule(
-        bindMethod(&App::update, this),
-        this,
-        0.0f,
-        false,
-        "app_update"
-    );
+	Director::getInstance()->getScheduler()->schedule(
+		bindMethod(&App::update, this),
+		this,
+		0.0f,
+		false,
+		"app_update"
+	);
 
 #if use_sound
 	audioContext->initAudio();
 #endif
 
-    //Create title menu scene and run it.
-    runTitleScene();
+	//Create title menu scene and run it.
+	runTitleScene();
 
-    return true;
+	return true;
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void App::applicationDidEnterBackground() {
-    Director::getInstance()->stopAnimation();
+	Director::getInstance()->stopAnimation();
 
-    // if you use SimpleAudioEngine, it must be pause
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+	// if you use SimpleAudioEngine, it must be pause
+	// SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
 void App::applicationWillEnterForeground() {
-    Director::getInstance()->startAnimation();
+	Director::getInstance()->startAnimation();
 
-    // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+	// if you use SimpleAudioEngine, it must resume here
+	// SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
 
 void App::printGlDebug()
@@ -329,14 +329,14 @@ void App::printGlDebug()
 
 void App::end()
 {
-    Director::getInstance()->end();
+	Director::getInstance()->end();
 }
 
 void App::loadShaders()
 {
-    for(const string& name: shaderFiles){
-        GLProgramCache::getInstance()->loadGLProgram(name, "shaders/"+name+".vert", "shaders/"+name+".frag");
-    }
+	for(const string& name: shaderFiles){
+		GLProgramCache::getInstance()->loadGLProgram(name, "shaders/"+name+".vert", "shaders/"+name+".frag");
+	}
 }
 
 void App::loadObjects()
@@ -377,15 +377,15 @@ void App::runOpeningScene()
 
 GScene* App::runPlayScene(string mapName, string start)
 {
-    shared_ptr<area_properties> area = app::getArea(mapName);
-    
-    if(area){
-        return createAndRunScene<PlayScene>(area, start);
-    }
-    else{
-        log1("%s not found", mapName);
-        return nullptr;
-    }
+	shared_ptr<area_properties> area = app::getArea(mapName);
+	
+	if(area){
+		return createAndRunScene<PlayScene>(area, start);
+	}
+	else{
+		log1("%s not found", mapName);
+		return nullptr;
+	}
 }
 
 GScene* App::getCrntScene()
@@ -482,7 +482,7 @@ FileUtilsZip* App::getFileUtils()
 
 void App::update(float dt)
 {
-    control_register->update();
+	control_register->update();
 #if use_sound
 	audioContext->update();
 #endif

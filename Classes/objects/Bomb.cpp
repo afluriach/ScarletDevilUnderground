@@ -43,7 +43,7 @@ Bomb::~Bomb()
 }
 
 GraphicsLayer Bomb::sceneLayer() const {
-    return GraphicsLayer::ground;
+	return GraphicsLayer::ground;
 }
 
 void Bomb::init()
@@ -90,23 +90,23 @@ void Bomb::detonate()
 }
 
 DamageInfo Bomb::getDamageInfo() const {
-    return props->damage;
+	return props->damage;
 }
 
 SpaceFloat Bomb::getFuseTime() const {
-    return props->fuseTime;
+	return props->fuseTime;
 }
 
 SpaceFloat Bomb::getBlastRadius() const {
-    return props->blastRadius;
+	return props->blastRadius;
 }
 
 string Bomb::getExplosionSound() const {
-    return "sfx/" + props->explosionSound + ".wav";
+	return "sfx/" + props->explosionSound + ".wav";
 }
 
 shared_ptr<sprite_properties> Bomb::getSprite() const {
-    return props->sprite;
+	return props->sprite;
 }
 
 void Bomb::onTouch(GObject* other)

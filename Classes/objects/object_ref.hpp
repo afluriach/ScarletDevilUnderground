@@ -21,20 +21,20 @@ GSpace* _object_ref_get_space(const GObject* obj);
 class gobject_ref
 {
 public:
-    inline gobject_ref():
-    uuid(0),
+	inline gobject_ref():
+	uuid(0),
 	space(nullptr)
-    {}
+	{}
 
 	inline gobject_ref(const gobject_ref& rhs) :
 		space(rhs.getSpace()),
 		uuid(rhs.getID())
 	{}
 
-    inline gobject_ref(const GSpace* space, unsigned int uuid):
-    uuid(uuid),
+	inline gobject_ref(const GSpace* space, unsigned int uuid):
+	uuid(uuid),
 	space(space)
-    {}
+	{}
 
 	gobject_ref(const GObject* obj) :
 		uuid(_object_ref_get_uuid(obj)),
@@ -42,17 +42,17 @@ public:
 	{}
 
 	template<class T>
-    inline T* getAs() const{
-        return dynamic_cast<T*>(_object_ref_get_gobject(space,uuid));
-    }
+	inline T* getAs() const{
+		return dynamic_cast<T*>(_object_ref_get_gobject(space,uuid));
+	}
 
-    inline GObject* get() const{
+	inline GObject* get() const{
 		return _object_ref_get_gobject(space, uuid);
 	}
 
-    inline bool isValid()const{
-        return _object_ref_is_valid(space,uuid);
-    }
+	inline bool isValid()const{
+		return _object_ref_is_valid(space,uuid);
+	}
 
 	inline bool isFuture()const {
 		return _object_ref_is_future(space, uuid);
@@ -88,7 +88,7 @@ public:
 
 protected:
 	const GSpace * space;
-    ObjectIDType uuid;
+	ObjectIDType uuid;
 };
 
 namespace std {

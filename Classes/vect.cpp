@@ -115,7 +115,7 @@ SpaceFloat SpaceVect::lengthSq() const {
 SpaceFloat SpaceVect::length() const {
 	return sqrt(lengthSq());
 }
-    
+	
 SpaceVect SpaceVect::limit(SpaceFloat _limit) const
 {
 	if (lengthSq() > _limit*_limit) {
@@ -136,7 +136,7 @@ SpaceVect SpaceVect::setMag(SpaceFloat mag) const
 }
 
 bool SpaceVect::isZero() const {
-    return x == 0 && y == 0;
+	return x == 0 && y == 0;
 }
 
 SpaceVect SpaceVect::perp() const {
@@ -164,10 +164,10 @@ SpaceVect SpaceVect::clamp(SpaceFloat len) const {
 }
 
 SpaceFloat SpaceVect::toAngle() const {
-    if(lengthSq() >= atan_limit_sq)
-        return atan2(y, x);
-    else
-        return 0.0;
+	if(lengthSq() >= atan_limit_sq)
+		return atan2(y, x);
+	else
+		return 0.0;
 }
 
 SpaceFloat SpaceVect::dot(SpaceVect v1, SpaceVect v2) {
@@ -217,12 +217,12 @@ SpaceFloat SpaceVect::getMax() const {
 }
 
 SpaceVect SpaceVect::rotate(SpaceFloat angleRadians) const {
-    double _cos = cos(angleRadians);
-    double _sin = sin(angleRadians);
-    return SpaceVect(
-        _cos * x - _sin * y,
-        _sin * x + _cos * y
-    );
+	double _cos = cos(angleRadians);
+	double _sin = sin(angleRadians);
+	return SpaceVect(
+		_cos * x - _sin * y,
+		_sin * x + _cos * y
+	);
 }
 
 SpaceVect SpaceVect::lerp(SpaceVect v1, SpaceVect v2, SpaceFloat t) {
@@ -248,7 +248,7 @@ bool SpaceVect::fuzzyMatch(SpaceVect v1, SpaceVect v2) {
 SpaceVect SpaceVect::forAngle(SpaceFloat a) {
 	return SpaceVect(cos(a), sin(a));
 }
-    
+	
 const SpaceVect SpaceVect::zero = SpaceVect(0.0,0.0);
 const SpaceVect SpaceVect::up = SpaceVect(0.0,1.0);
 const SpaceVect SpaceVect::down = SpaceVect(0.0,-1.0);

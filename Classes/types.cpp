@@ -110,24 +110,24 @@ float app_params::getScale() const
 
 shared_ptr<area_properties> area_properties::singleMap(string name)
 {
-    area_properties result;
+	area_properties result;
 
-    result.sceneName = name;
-    result.maps.push_back(make_pair(name, IntVec2(0, 0)));
+	result.sceneName = name;
+	result.maps.push_back(make_pair(name, IntVec2(0, 0)));
 
-    return make_shared<area_properties>(result);
+	return make_shared<area_properties>(result);
 }
 
 shared_ptr<area_properties> area_properties::noMap(string name)
 {
-    area_properties result;
-    result.sceneName = name;
+	area_properties result;
+	result.sceneName = name;
 
-    return make_shared<area_properties>(result);
+	return make_shared<area_properties>(result);
 }
 
 area_properties::area_properties() :
-    ambientLight(GScene::defaultAmbientLight)
+	ambientLight(GScene::defaultAmbientLight)
 {
 }
 
@@ -189,9 +189,9 @@ SpaceVect SpaceRect::getURCorner() const
 bool SpaceRect::intersectsRect(const SpaceRect& rect) const
 {
 	return !(getMaxX() < rect.getMinX() ||
-		rect.getMaxX() <      getMinX() ||
+		rect.getMaxX() <	  getMinX() ||
 		getMaxY() < rect.getMinY() ||
-		rect.getMaxY() <      getMinY());
+		rect.getMaxY() <	  getMinY());
 }
 
 bool SpaceRect::containsPoint(const SpaceVect& point) const

@@ -92,13 +92,13 @@ namespace app {
 			};
 			return true;
 		}
-        else if (tokens[0] == "setAttribute") {
-            string attribute = tokens[1];
-            *f = [attribute](NPC* n) -> void {
-                App::crntState->setAttribute(attribute, 1);
-            };
-            return true;
-        }
+		else if (tokens[0] == "setAttribute") {
+			string attribute = tokens[1];
+			*f = [attribute](NPC* n) -> void {
+				App::crntState->setAttribute(attribute, 1);
+			};
+			return true;
+		}
 		else {
 			log1("Unknown effect function %s!", tokens[0]);
 		}
@@ -115,7 +115,7 @@ namespace app {
 			tinyxml2::XMLElement* crnt = elem->FirstChildElement();
 			crnt != nullptr;
 			crnt = crnt->NextSiblingElement()
-        ) {
+		) {
 			const char* attrName = crnt->Name();
 			Attribute crntAttr = AttributeSystem::getAttribute(attrName);
 			float val;
@@ -137,8 +137,8 @@ namespace app {
 		result->clsName = elem->Name();
 		getStringAttr(elem, "name", &result->properName);
   
-        getStringAttr(elem, "cls", &result->scriptName);
-        autoName(elem, result->scriptName);
+		getStringAttr(elem, "cls", &result->scriptName);
+		autoName(elem, result->scriptName);
 
 		if (!getVector(elem, "dimensions", &result->dimensions)) {
 			getNumericAttr(elem, "radius", &result->dimensions.x);
@@ -283,7 +283,7 @@ namespace app {
 			tinyxml2::XMLElement* d = elem->FirstChildElement();
 			d != nullptr;
 			d = d->NextSiblingElement()
-        ){
+		){
 			string item = d->Name();
 			float p = 0.0f;
 			getNumericAttr(d, "p", &p);
@@ -328,7 +328,7 @@ namespace app {
 			tinyxml2::XMLElement* d = elem->FirstChildElement();
 			d != nullptr;
 			d = d->NextSiblingElement()
-        ) {
+		) {
 			string condition;
 			string effect;
 			getStringAttr(d, "condition", &condition);
@@ -406,10 +406,10 @@ namespace app {
 		getNumericAttr(elem, "cost", &result->cost);
 
 		getDamageInfo(elem, &result->damage);
-        result->damage.type = DamageType::bomb;
-        
-        getTypeAttr(elem, "explodeOnTouch", &result->explodeOnTouch);
-        getNumericAttr(elem, "chainExplode", &result->chainExplode);
+		result->damage.type = DamageType::bomb;
+		
+		getTypeAttr(elem, "explodeOnTouch", &result->explodeOnTouch);
+		getNumericAttr(elem, "chainExplode", &result->chainExplode);
 
 		if (result->blastRadius <= 0.0f || result->fuseTime <= 0.0f) {
 			log0("bomb properties missing");

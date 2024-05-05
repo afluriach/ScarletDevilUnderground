@@ -14,7 +14,7 @@
 #include "MagicEffect.hpp"
 
 namespace Lua{
-    
+	
 	void Inst::addTypes()
 	{
 		auto glayers = _state.new_enum<GraphicsLayer, true>(
@@ -32,13 +32,13 @@ namespace Lua{
   		auto direction = _state.new_enum<Direction, true>(
 			"Direction",
 			{
-                enum_entry(Direction, none),
-                enum_entry(Direction, right),
-                enum_entry(Direction, up),
-                enum_entry(Direction, left),
-                enum_entry(Direction, down)
-            }
-        );
+				enum_entry(Direction, none),
+				enum_entry(Direction, right),
+				enum_entry(Direction, up),
+				enum_entry(Direction, left),
+				enum_entry(Direction, down)
+			}
+		);
 
 		auto gtype = _state.new_enum<GType, true>(
 			"GType",
@@ -149,23 +149,23 @@ namespace Lua{
 				enum_entry(Attribute, invisibility),
 
 				enum_entry(Attribute, combo),
-                enum_entry(Attribute, maxCombo),
-                enum_entry(Attribute, comboLevel),
-                enum_entry(Attribute, comboPerAttack),
-                enum_entry(Attribute, comboDecay),
+				enum_entry(Attribute, maxCombo),
+				enum_entry(Attribute, comboLevel),
+				enum_entry(Attribute, comboPerAttack),
+				enum_entry(Attribute, comboDecay),
 
 				enum_entry(Attribute, attack),
 				enum_entry(Attribute, attackSpeed),
 				enum_entry(Attribute, bulletSpeed),
-                enum_entry(Attribute, maxThrowSpeed),
-                enum_entry(Attribute, throwInterval),
-                enum_entry(Attribute, castInterval),
-                
-                enum_entry(Attribute, bombCooldown),
-                enum_entry(Attribute, spellCooldown),
-                enum_entry(Attribute, sprintCooldown),
+				enum_entry(Attribute, maxThrowSpeed),
+				enum_entry(Attribute, throwInterval),
+				enum_entry(Attribute, castInterval),
+				
+				enum_entry(Attribute, bombCooldown),
+				enum_entry(Attribute, spellCooldown),
+				enum_entry(Attribute, sprintCooldown),
 
-                enum_entry(Attribute, level),
+				enum_entry(Attribute, level),
 				enum_entry(Attribute, shieldLevel),
 
 				enum_entry(Attribute, stress),
@@ -174,14 +174,14 @@ namespace Lua{
 				enum_entry(Attribute, stressFromBlocks),
 
 				enum_entry(Attribute, agility),
-                enum_entry(Attribute, sprintCost),
-                enum_entry(Attribute, knockbackSensitivity),
-    
-                enum_entry(Attribute, blockSpeedRatio),
-                enum_entry(Attribute, sprintSpeedRatio),
-                enum_entry(Attribute, sprintTime),
-                enum_entry(Attribute, sprintCooldownTime),
-                enum_entry(Attribute, sprintRecoveryTime),
+				enum_entry(Attribute, sprintCost),
+				enum_entry(Attribute, knockbackSensitivity),
+	
+				enum_entry(Attribute, blockSpeedRatio),
+				enum_entry(Attribute, sprintSpeedRatio),
+				enum_entry(Attribute, sprintTime),
+				enum_entry(Attribute, sprintCooldownTime),
+				enum_entry(Attribute, sprintRecoveryTime),
 
 				enum_entry(Attribute, currentSpeed),
 				enum_entry(Attribute, speedRatio),
@@ -221,22 +221,22 @@ namespace Lua{
 		damageInfo["scale"] = &DamageInfo::operator*;
 
 #define _cls Vec2
-        auto vec2 = _state.new_usertype<Vec2>(
-            "Vec2",
-            sol::constructors<
+		auto vec2 = _state.new_usertype<Vec2>(
+			"Vec2",
+			sol::constructors<
 				Vec2(),
 				Vec2(const Vec2&),
 				Vec2(float,float)
 			>(),
 			"x", sol::property(&Vec2::getX, &Vec2::setX),
 			"y", sol::property(&Vec2::getY, &Vec2::setY)
-        );
+		);
 
-        vec2["scale"] = &Vec2::operator*;
+		vec2["scale"] = &Vec2::operator*;
 		vec2["divide"] = &Vec2::operator/;
 
 #define _cls Color4F
-        auto color4f = _state.new_usertype<Color4F>(
+		auto color4f = _state.new_usertype<Color4F>(
 			"Color4F",
 			sol::constructors<Color4F(float,float,float,float)>(),
 			"r", sol::property(&Color4F::r),
@@ -254,8 +254,8 @@ namespace Lua{
 			static_var(BLACK),
 			static_var(ORANGE),
 			static_var(GRAY)
-        );
-        
+		);
+		
 #define _cls SpaceVect
 		auto vect = _state.new_usertype<SpaceVect>(
 			"SpaceVect",
@@ -302,7 +302,7 @@ namespace Lua{
 
 		auto lightArea = _state.new_usertype<LightArea>(
 			"LightArea",
-            "color", sol::property(&LightArea::getColor)
+			"color", sol::property(&LightArea::getColor)
 		);
 	}
 }

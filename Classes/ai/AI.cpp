@@ -33,48 +33,48 @@ physics_context* Function::getPhys() const {
 }
 
 bool Function::isActive() const {
-    return _state == state::active;
+	return _state == state::active;
 }
 
 bool Function::isCompleted() const{
-    return _state == state::completed;
+	return _state == state::completed;
 }
 
 void Function::runEnter()
 {
-    if(_state != state::created){
-        log1("%s: Invalid call to runEnter!", getName());
-        return;
-    }
-    
-    onEnter();
-    _state = state::active;
+	if(_state != state::created){
+		log1("%s: Invalid call to runEnter!", getName());
+		return;
+	}
+	
+	onEnter();
+	_state = state::active;
 }
 
 void Function::runUpdate()
 {
-    if(_state == state::created){
-        runEnter();
-        _state = state::active;
-    }
+	if(_state == state::created){
+		runEnter();
+		_state = state::active;
+	}
 
-    if(_state != state::active){
-        log1("%s: Invalid call to runUpdate!", getName());
-        return;
-    }
-    
-    update();
+	if(_state != state::active){
+		log1("%s: Invalid call to runUpdate!", getName());
+		return;
+	}
+	
+	update();
 }
 
 void Function::runExit()
 {
-    if(_state != state::active && _state != state::completing){
-        log1("%s: Invalid call to runExit!", getName());
-        return;
-    }
-    
-    onExit();
-    _state = state::completed;
+	if(_state != state::active && _state != state::completing){
+		log1("%s: Invalid call to runExit!", getName());
+		return;
+	}
+	
+	onExit();
+	_state = state::completed;
 }
 
 }//end NS

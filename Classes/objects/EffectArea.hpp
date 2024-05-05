@@ -21,7 +21,7 @@ public:
 		local_shared_ptr<effectarea_properties> props
 	);
 	virtual ~EffectArea();
-    
+	
 	virtual void beginContact(GObject* obj);
 	virtual void endContact(GObject* obj);
 protected:

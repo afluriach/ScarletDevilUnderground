@@ -28,63 +28,63 @@ public:
 	friend class GSpace;
 	friend class Spell;
 
-    static const unordered_map<type_index, PropsAdapter> propsAdapters;
+	static const unordered_map<type_index, PropsAdapter> propsAdapters;
 	static const unordered_set<type_index> trackedTypes;
 
 	static const float objectFadeInTime;
 	static const float objectFadeOutTime;
 	static const GLubyte objectFadeOpacity;
 
-    static bool conditionalLoad(GSpace* space, local_shared_ptr<object_properties> props, const object_params& params);
+	static bool conditionalLoad(GSpace* space, local_shared_ptr<object_properties> props, const object_params& params);
 
 	template<typename... Args>
 	inline void runMethodIfAvailable(string name, Args... args)
 	{
-        if(!scriptObj || !hasMethod(name)) return;
+		if(!scriptObj || !hasMethod(name)) return;
  
 		sol::function_result result = scriptObj[name](scriptObj, args...);
-        if(!result.valid()){
-            log1("Error running object method %s", name);
-            sol::printErrorMessage(scriptObj.lua_state());
-            throw runtime_error("lua error");
-        }
+		if(!result.valid()){
+			log1("Error running object method %s", name);
+			sol::printErrorMessage(scriptObj.lua_state());
+			throw runtime_error("lua error");
+		}
 	}
 
 	template<typename R, typename... Args>
 	inline R runScriptMethod(string name, Args... args)
 	{
-        if(!scriptObj)
-            logAndThrowError("error calling %s GObject does not haec a scriptObj", name);
+		if(!scriptObj)
+			logAndThrowError("error calling %s GObject does not haec a scriptObj", name);
 
-        if(!hasMethod(name))
-            logAndThrowError("error calling script function %s. %s does not have this method", name, getName());
+		if(!hasMethod(name))
+			logAndThrowError("error calling script function %s. %s does not have this method", name, getName());
 
 
 		sol::function_result result = scriptObj[name](scriptObj, args...);
   
-        if(!result.valid()){
+		if(!result.valid()){
 			sol::printErrorMessage(scriptObj.lua_state());
-            logAndThrowError("Lua error running method %s:", name);
-        }
-        
-        return result;
+			logAndThrowError("Lua error running method %s:", name);
+		}
+		
+		return result;
 	}
  
-    template<typename T>
-    inline T getFieldOrDefault(string name, T _default)
-    {
-        if(!scriptObj)
-            return _default;
-            
-        sol::object field = scriptObj[name];
-        
-        if(field.valid())
-            return field;
-        else
-            return _default;
-    }
-    
-    template<class FuncCls, typename... Params>
+	template<typename T>
+	inline T getFieldOrDefault(string name, T _default)
+	{
+		if(!scriptObj)
+			return _default;
+			
+		sol::object field = scriptObj[name];
+		
+		if(field.valid())
+			return field;
+		else
+			return _default;
+	}
+	
+	template<class FuncCls, typename... Params>
 	inline local_shared_ptr<FuncCls> make(Params... params) {
 		return make_local_shared<FuncCls>(this, params...);
 	}
@@ -96,7 +96,7 @@ public:
 		const physics_params& phys,
 		local_shared_ptr<object_properties> props
 	);
-    virtual ~GObject();
+	virtual ~GObject();
 
 	virtual void removePhysicsObjects();
 	void removeGraphics(bool removeSprite);
@@ -105,7 +105,7 @@ public:
 
 	inline GSpace* getSpace() const { return space; }
 	inline ObjectIDType getUUID() const { return uuid; }
-    local_shared_ptr<object_properties> getProps() const;
+	local_shared_ptr<object_properties> getProps() const;
 
 	string getProperName() const;
 	string getClsName() const;
@@ -145,7 +145,7 @@ public:
 	inline bool getActive() const { return active; }
 	virtual void activate();
 	virtual void deactivate();
-    void toggleActive();
+	void toggleActive();
 
 	//Interaction
 	inline virtual bool canInteract(Player* p) { return false; }
@@ -161,8 +161,8 @@ public:
 	//Lua
 	void scriptInitialize();
 	bool hasMethod(const string& name);
-    sol::object getScriptField(const string& name);
-    inline void _setScriptObj(sol::table obj) { scriptObj = obj; }
+	sol::object getScriptField(const string& name);
+	inline void _setScriptObj(sol::table obj) { scriptObj = obj; }
 
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 	inline virtual bool applyInitialSpellCost(const spell_cost& cost) { return true; }
@@ -219,7 +219,7 @@ public:
 	
 	void launch();
 	void launchAtTarget(GObject* target);
-    Vec2 getInitialCenterPix();
+	Vec2 getInitialCenterPix();
 
 	bool teleport(SpaceVect pos);
 	//query if this object moving to the given position would encounter obstacle(s)
@@ -233,24 +233,24 @@ public:
 	virtual SpaceFloat getTraction() const;
 	SpaceFloat getMomentOfInertia() const;
 
-    SpaceVect getPos() const;
-    void setPos(SpaceVect p);
+	SpaceVect getPos() const;
+	void setPos(SpaceVect p);
 
-    virtual void setAngle(SpaceFloat a);
+	virtual void setAngle(SpaceFloat a);
 	SpaceFloat getAngle() const;
 
-    void rotate(SpaceFloat a);
-    SpaceVect getFacingVector() const;
-    virtual void setDirection(Direction d);
-    
-    SpaceVect getVel() const;
-    void setVel(SpaceVect v);
-    
+	void rotate(SpaceFloat a);
+	SpaceVect getFacingVector() const;
+	virtual void setDirection(Direction d);
+	
+	SpaceVect getVel() const;
+	void setVel(SpaceVect v);
+	
 	SpaceFloat getAngularVel()const;
-    void setAngularVel(SpaceFloat w);
-    
-    //Apply a force as impulse where t = frame length.
-    void applyForceForSingleFrame(SpaceVect f);
+	void setAngularVel(SpaceFloat w);
+	
+	//Apply a force as impulse where t = frame length.
+	void applyForceForSingleFrame(SpaceVect f);
 	void applyImpulse(SpaceVect i);
 	void applyImpulse(SpaceFloat mag, SpaceFloat angle);
 
@@ -287,26 +287,26 @@ public:
 	void updateParametricMove();
 
 	//END PHYSICS
-    
-    //BEGIN GRAPHICS
-    
+	
+	//BEGIN GRAPHICS
+	
 	bool isGraphicsObject() const;
-        //The Z-order used by Cocos2D.
+		//The Z-order used by Cocos2D.
 	virtual GraphicsLayer sceneLayer() const;
 	virtual shared_ptr<sprite_properties> getSprite() const;
 	virtual shared_ptr<LightArea> getLightSource() const;
 	int sceneLayerAsInt() const;
-    virtual sprite_update updateSprite();
+	virtual sprite_update updateSprite();
 	void createLight();
-    void removeLight();
-    void createDrawNode(GraphicsLayer layer);
+	void removeLight();
+	void createDrawNode(GraphicsLayer layer);
 	//If "id" is not provided, the object's defaut sprite, spriteID, will be
 	//used, assuming it is valid.
 
 	//Create Node which graphically represents this object and adds it to Layer
 	virtual void initializeGraphics();
 
-    //END GRAPHICS
+	//END GRAPHICS
 
 	//BEGIN AUDIO
 	
@@ -326,11 +326,11 @@ public:
 	local_shared_ptr<MagicEffect> applyMagicEffect(const MagicEffectDescriptor* effect, effect_attributes attr);
 	void updateEffect(MagicEffect* effect);
 	void updateEffects();
-    void removeEffects();
+	void removeEffects();
 
 	//END SPELLS
 
-    const string name;
+	const string name;
 	GSpace *const space;
 	const ObjectIDType uuid;
 
@@ -349,7 +349,7 @@ protected:
 
 //logic
 	sol::table scriptObj;
-    list<local_shared_ptr<MagicEffect>> effects;
+	list<local_shared_ptr<MagicEffect>> effects;
 	local_shared_ptr<object_properties> props;
 	unique_ptr<parametric_motion> parametricMotion;
 	RoomSensor* crntRoom = nullptr;

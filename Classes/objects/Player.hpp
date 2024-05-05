@@ -13,8 +13,8 @@ class Player : public Agent
 {
 public:
 	static const float centerLookHoldThresh;
-    static const float interactCooldownTime;
-    static const float hitFlickerInterval;
+	static const float interactCooldownTime;
+	static const float hitFlickerInterval;
 	
 	static const SpaceFloat interactDistance;
 	static const SpaceFloat grazeRadius;
@@ -26,7 +26,7 @@ public:
 		local_shared_ptr<agent_properties> props
 	);
 	~Player();
-    
+	
 	virtual void setCrntRoom(RoomSensor* room);
 
 	void equipFirePatterns();
@@ -34,22 +34,22 @@ public:
 	void equipPowerAttacks();
 	void equipItems();
 
-    //setting for player object sensing
+	//setting for player object sensing
 	inline virtual SpaceFloat getRadarRadius() const { return grazeRadius; }
-    inline virtual SpaceFloat getDefaultFovAngle() const { return 0.0;}
+	inline virtual SpaceFloat getDefaultFovAngle() const { return 0.0;}
 
 	virtual void onBulletHitTarget(Bullet* bullet, Agent* target);
-    virtual bool hit(DamageInfo damage, SpaceVect n);
-    
-    inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-    
+	virtual bool hit(DamageInfo damage, SpaceVect n);
+	
+	inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+	
 	SpaceVect getInteractFeeler() const;
 
 	virtual void init();
-    virtual void update();
+	virtual void update();
 
 	virtual void onZeroHP();
-    virtual void onPitfall();
+	virtual void onPitfall();
 
 	//Since the Player is the sound source, override this to avoid playing zero-distance sounds.
 	virtual ALuint playSoundSpatial(
@@ -60,7 +60,7 @@ public:
 	);
 
 	virtual AttributeMap getAttributeUpgrades() const;
-    
+	
 	void useDoor(Door* interactTarget);
 	void moveToDestinationDoor(Door* dest);
 	void applyUpgrade(Attribute attr, float val);

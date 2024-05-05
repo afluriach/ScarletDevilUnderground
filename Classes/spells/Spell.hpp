@@ -21,7 +21,7 @@ public:
 	//updateInterval: -1 means no update, 0 means every frame, units in seconds.
 	Spell(GObject* caster, const SpellDesc* desc);
 	virtual ~Spell();
-    
+	
 	template<class T>
 	inline T* getCasterAs() const{
 		return dynamic_cast<T*>(caster);
@@ -68,7 +68,7 @@ public:
 	inline virtual void onBulletRemove(Bullet* b) {}
 
 	void runUpdate();
-    void start();
+	void start();
 	void stop();
 
 	int _refcount = 0;
@@ -81,7 +81,7 @@ protected:
 	SpaceFloat lastUpdate = 0.0;
 
 	const SpellDesc* descriptor;
-    GObject* caster;
+	GObject* caster;
 	//set to false when spell is ended.
 	bool active = true;
 };

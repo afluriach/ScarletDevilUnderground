@@ -21,7 +21,7 @@ const GLubyte objectFadeOpacity = 0;
 //Qualify Size for ambiguity.
 cocos2d::CCSize getScreenSize()
 {
-    return Director::getInstance()->getVisibleSize();
+	return Director::getInstance()->getVisibleSize();
 }
 
 Color4F toColor(const string& s)
@@ -203,7 +203,7 @@ GraphicsAction indefiniteFlickerAction(float interval, unsigned char opacity1, u
 
 		return loop;
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction indefiniteColorFlickerAction(float interval, pair<Color3B,Color3B> colors, cocos_action_tag tag)
@@ -219,7 +219,7 @@ GraphicsAction indefiniteColorFlickerAction(float interval, pair<Color3B,Color3B
 
 		return loop;
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction flickerAction(float interval, float length, unsigned char opacity)
@@ -232,7 +232,7 @@ GraphicsAction flickerAction(float interval, float length, unsigned char opacity
 
 		return loop;
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction flickerTintAction(float interval, float length, Color3B tint)
@@ -249,7 +249,7 @@ GraphicsAction flickerTintAction(float interval, float length, Color3B tint)
 
 		return loop;
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction comboFlickerTintAction()
@@ -289,7 +289,7 @@ GraphicsAction tintToAction(Color3B tint, float length)
 	auto f = [tint, length]() -> FiniteTimeAction* {
 		return TintTo::createRecursive(length, tint);
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction pitfallShrinkAction()
@@ -297,7 +297,7 @@ GraphicsAction pitfallShrinkAction()
 	auto f = []() -> FiniteTimeAction* {
 		return ScaleTo::create(fallAnimationTime, 0.0f);
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction bombAnimationAction(float expand_ratio, bool removeAfter)
@@ -328,7 +328,7 @@ GraphicsAction bombAnimationAction(float expand_ratio, bool removeAfter)
 			);
 		}
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction motionBlurStretch(float duration, float angle, float opacity, float scale)
@@ -343,7 +343,7 @@ GraphicsAction motionBlurStretch(float duration, float angle, float opacity, flo
 
 		return sequence;
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction freezeEffectAction()
@@ -353,7 +353,7 @@ GraphicsAction freezeEffectAction()
 		action->setTag(to_int(cocos_action_tag::freeze_status));
 		return action;
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction freezeEffectEndAction()
@@ -363,7 +363,7 @@ GraphicsAction freezeEffectEndAction()
 		action->setTag(to_int(cocos_action_tag::freeze_status));
 		return action;
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction objectFadeOut(float duration, unsigned char targetOpacity)
@@ -373,7 +373,7 @@ GraphicsAction objectFadeOut(float duration, unsigned char targetOpacity)
 		action->setTag(to_int(cocos_action_tag::object_fade));
 		return action;
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 GraphicsAction damageIndicatorAction(const Vec2& start_pos)
@@ -386,7 +386,7 @@ GraphicsAction damageIndicatorAction(const Vec2& start_pos)
 
 		return Sequence::create(moveTo, fadeOut, removeSelf, nullptr);
 	};
-    return GraphicsAction(f);
+	return GraphicsAction(f);
 }
 
 float getSpriteZoom(shared_ptr<sprite_properties> sprite, SpaceFloat agentRadius)
@@ -400,14 +400,14 @@ float getSpriteZoom(shared_ptr<sprite_properties> sprite, SpaceFloat agentRadius
 
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom)
 {
-    Sprite* node = Sprite::create(resPath);
-    
-    if(node)
-        dest->positionAndAddNode(node,to_int(sceneLayer),pos, zoom);
-    else
-        log1("sprite %s not loaded", resPath.c_str());
+	Sprite* node = Sprite::create(resPath);
+	
+	if(node)
+		dest->positionAndAddNode(node,to_int(sceneLayer),pos, zoom);
+	else
+		log1("sprite %s not loaded", resPath.c_str());
 
-    return node;
+	return node;
 }
 
 Label* createTextLabel(const string& text, int size)

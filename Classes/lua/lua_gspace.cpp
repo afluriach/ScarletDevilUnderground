@@ -40,16 +40,16 @@ namespace Lua{
 		addFuncSame(attr, setFullMP);
 		addFuncSame(attr, setFullStamina);
 
-        auto gspace = _state.new_usertype<GSpace>(
-            "GSpace",
-            sol::no_constructor,
-            "physics", sol::property(&GSpace::getPhysics),
-            "crntSpace", sol::property(&GSpace::getCrntSpace)
-        );
+		auto gspace = _state.new_usertype<GSpace>(
+			"GSpace",
+			sol::no_constructor,
+			"physics", sol::property(&GSpace::getPhysics),
+			"crntSpace", sol::property(&GSpace::getCrntSpace)
+		);
 #define _cls GSpace
 
 		gspace["getObjectByName"] = static_cast<GObject * (GSpace::*)(const string&) const>(&GSpace::getObject);
-        gspace["getObject"] = static_cast<GObject * (GSpace::*)(const string&) const>(&GSpace::getObject);      
+		gspace["getObject"] = static_cast<GObject * (GSpace::*)(const string&) const>(&GSpace::getObject);	  
 		addFuncSame(gspace, createAreaSensor);
 		addFuncSame(gspace, createBullet);
 		addFuncSame(gspace, getPlayer);
@@ -63,7 +63,7 @@ namespace Lua{
 			static_cast<void(GSpace::*)(GObject*)>(&GSpace::removeObject)
 		);
 		addFuncSame(gspace, getRandomInt);
-        gspace["getRandomBool"] = sol::overload(
+		gspace["getRandomBool"] = sol::overload(
 			static_cast<bool(GSpace::*)()>(&GSpace::getRandomBool),
 			static_cast<bool(GSpace::*)(float)>(&GSpace::getRandomBool)
 		);
@@ -72,9 +72,9 @@ namespace Lua{
 			static_cast<float(GSpace::*)(float, float)>(&GSpace::getRandomFloat)
 		);
 
-        addFuncSame(gspace, teleportPlayerToDoor);
-        gspace["teleportToDoor"] = &GSpace::teleportPlayerToDoor;
-        
+		addFuncSame(gspace, teleportPlayerToDoor);
+		gspace["teleportToDoor"] = &GSpace::teleportPlayerToDoor;
+		
 		addFuncSame(gspace, getPath);
 		addFuncSame(gspace, getWaypoint);
 		addFuncSame(gspace, getRandomWaypoint);
@@ -87,7 +87,7 @@ namespace Lua{
 			static_cast<void(GSpace::*)(string, bool, zero_arity_function)>(&GSpace::createDialog)
 		);
 		addFuncSame(gspace, enterWorldSelect);
-        addFuncSame(gspace, loadScene);
+		addFuncSame(gspace, loadScene);
 
 		auto gstate = newType(GState);
 #define _cls GState

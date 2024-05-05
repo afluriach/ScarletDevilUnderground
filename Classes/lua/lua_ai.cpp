@@ -15,15 +15,15 @@
 #include "SpellDescriptor.hpp"
 
 namespace Lua{
-    
+	
 	template<typename T, typename... Params>
 	local_shared_ptr<ai::Function> create(GObject* object, Params... params)
 	{
 		return make_local_shared<T>(object, params...);
 	}
 
-    void Inst::addAI()
-    {
+	void Inst::addAI()
+	{
 		auto _ai = _state.create_table();
 		_state["ai"] = _ai;
 
@@ -121,13 +121,13 @@ namespace Lua{
 			&create<ai::Wander, SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
 		);
   
-        auto wait = _ai.new_usertype<ai::Wait>(
+		auto wait = _ai.new_usertype<ai::Wait>(
 			"Wait",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-        wait["create"] = &create<ai::Wait, SpaceFloat>;
+		wait["create"] = &create<ai::Wait, SpaceFloat>;
 
-        #define _cls ai::FollowPath
+		#define _cls ai::FollowPath
 		auto follow_path = _ai.new_usertype<ai::FollowPath>(
 			"FollowPath",
 			sol::base_classes, sol::bases<ai::Function>()
@@ -137,10 +137,10 @@ namespace Lua{
 			shared_ptr<const Path>,
 			ai::follow_path_mode
 		>;
-        addFuncSame(follow_path, pathToTarget);
-        addFuncSame(follow_path, pathToPoint);
+		addFuncSame(follow_path, pathToTarget);
+		addFuncSame(follow_path, pathToPoint);
 
-        #define _cls ai::FollowPathKinematic
+		#define _cls ai::FollowPathKinematic
 		auto follow_path_kinematic = _ai.new_usertype<ai::FollowPathKinematic>(
 			"FollowPathKinematic",
 			sol::base_classes, sol::bases<ai::Function>()
@@ -150,7 +150,7 @@ namespace Lua{
 			shared_ptr<const Path>,
 			ai::follow_path_mode
 		>;
-        addFuncSame(follow_path_kinematic, pathToPoint);
+		addFuncSame(follow_path_kinematic, pathToPoint);
 
 		auto lookTowardsFire = _ai.new_usertype<ai::LookTowardsFire>(
 			"LookTowardsFire",
@@ -176,11 +176,11 @@ namespace Lua{
 		);
 		throw_bomb["create"] = &create<ai::ThrowBombs, GObject*, local_shared_ptr<bomb_properties>, SpaceFloat, SpaceFloat>;
   
-        auto player_control = _ai.new_usertype<ai::PlayerControl>(
-            "PlayerControl",
-            sol::base_classes, sol::bases<ai::Function>()
-        );
-        player_control["create"] = &create<ai::PlayerControl>;
+		auto player_control = _ai.new_usertype<ai::PlayerControl>(
+			"PlayerControl",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		player_control["create"] = &create<ai::PlayerControl>;
 	}
 }
 

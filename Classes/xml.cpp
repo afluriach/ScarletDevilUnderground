@@ -31,29 +31,29 @@ unordered_map<string, shared_ptr<sprite_properties>> sprites;
 floorsegment_properties defaultFloorSegment = floorsegment_properties::makeDefault();
 
 const vector<string> xmlErrors = boost::assign::list_of
-    ("XML_NO_ERROR")
+	("XML_NO_ERROR")
 
-    ("XML_NO_ATTRIBUTE")
-    ("XML_WRONG_ATTRIBUTE_TYPE")
+	("XML_NO_ATTRIBUTE")
+	("XML_WRONG_ATTRIBUTE_TYPE")
 
-    ("XML_ERROR_FILE_NOT_FOUND")
-    ("XML_ERROR_FILE_COULD_NOT_BE_OPENED")
-    ("XML_ERROR_FILE_READ_ERROR")
-    ("XML_ERROR_ELEMENT_MISMATCH")
-    ("XML_ERROR_PARSING_ELEMENT")
-    ("XML_ERROR_PARSING_ATTRIBUTE")
-    ("XML_ERROR_IDENTIFYING_TAG")
-    ("XML_ERROR_PARSING_TEXT")
-    ("XML_ERROR_PARSING_CDATA")
-    ("XML_ERROR_PARSING_COMMENT")
-    ("XML_ERROR_PARSING_DECLARATION")
-    ("XML_ERROR_PARSING_UNKNOWN")
-    ("XML_ERROR_EMPTY_DOCUMENT")
-    ("XML_ERROR_MISMATCHED_ELEMENT")
-    ("XML_ERROR_PARSING")
+	("XML_ERROR_FILE_NOT_FOUND")
+	("XML_ERROR_FILE_COULD_NOT_BE_OPENED")
+	("XML_ERROR_FILE_READ_ERROR")
+	("XML_ERROR_ELEMENT_MISMATCH")
+	("XML_ERROR_PARSING_ELEMENT")
+	("XML_ERROR_PARSING_ATTRIBUTE")
+	("XML_ERROR_IDENTIFYING_TAG")
+	("XML_ERROR_PARSING_TEXT")
+	("XML_ERROR_PARSING_CDATA")
+	("XML_ERROR_PARSING_COMMENT")
+	("XML_ERROR_PARSING_DECLARATION")
+	("XML_ERROR_PARSING_UNKNOWN")
+	("XML_ERROR_EMPTY_DOCUMENT")
+	("XML_ERROR_MISMATCHED_ELEMENT")
+	("XML_ERROR_PARSING")
 
-    ("XML_CAN_NOT_CONVERT_TEXT")
-    ("XML_NO_TEXT_NODE")
+	("XML_CAN_NOT_CONVERT_TEXT")
+	("XML_NO_TEXT_NODE")
 ;
 
 void loadAreas()
@@ -166,7 +166,7 @@ local_shared_ptr<firepattern_properties> getFirePattern(const string& name)
 
 local_shared_ptr<floorsegment_properties> getFloor(const string& name)
 {
-    return getObjectProperties<floorsegment_properties>(name);
+	return getObjectProperties<floorsegment_properties>(name);
 }
 
 local_shared_ptr<item_properties> getItem(const string& name)
@@ -181,7 +181,7 @@ shared_ptr<LightArea> getLight(const string& name)
 
 local_shared_ptr<object_properties> getObjectProps(const string& name)
 {
-    return getOrDefault(objects, name);
+	return getOrDefault(objects, name);
 }
 
 local_shared_ptr<agent_properties> getPlayer(const string& name)
@@ -209,7 +209,7 @@ local_shared_ptr<bullet_properties> addBullet(const string& name, const string& 
 	local_shared_ptr<bullet_properties> result;
 	
 	if (name.empty()) return nullptr;
-    
+	
 	if (base.size() > 0) {
 		result = copyBaseObjectShared<bullet_properties>(base);
 
@@ -318,34 +318,34 @@ bool getDamageInfo(tinyxml2::XMLElement* elem, DamageInfo* result)
 
 void logXmlError(tinyxml2::XMLDocument* doc, string filename)
 {
-    tinyxml2::XMLError  error = doc->ErrorID();
-//    int errorNum = static_cast<int>(error);
-    string str1;
-    string str2;
-    string errorName;
-    
-    if(error < xmlErrors.size()){
-        errorName = xmlErrors.at(error);
-    }
-    
-    if(doc->GetErrorStr1()){
-        str1 = doc->GetErrorStr1();
-    }
+	tinyxml2::XMLError  error = doc->ErrorID();
+//	int errorNum = static_cast<int>(error);
+	string str1;
+	string str2;
+	string errorName;
+	
+	if(error < xmlErrors.size()){
+		errorName = xmlErrors.at(error);
+	}
+	
+	if(doc->GetErrorStr1()){
+		str1 = doc->GetErrorStr1();
+	}
 
-    if(doc->GetErrorStr2()){
-        str2 = doc->GetErrorStr2();
-    }
-    
-    if(error){
-        log5(
-            "XML file %s error %d (%s): %s, %s\n",
-            filename,
-            error,
-            errorName,
-            str1,
-            str2
-        );
-    }
+	if(doc->GetErrorStr2()){
+		str2 = doc->GetErrorStr2();
+	}
+	
+	if(error){
+		log5(
+			"XML file %s error %d (%s): %s, %s\n",
+			filename,
+			error,
+			errorName,
+			str1,
+			str2
+		);
+	}
 }
 
 bool autoName(tinyxml2::XMLElement* elem, string& field)
@@ -410,8 +410,8 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<area_properties>* result
 		props.maps.push_back(make_pair(_map, IntVec2(0,0)));
 	}
 
-    *result = make_shared<area_properties>( props );
-    return true;
+	*result = make_shared<area_properties>( props );
+	return true;
 }
 
 bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_properties>* _output)
@@ -564,19 +564,19 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 			(*result) = _result;
 			return true;
 		}
-        else if (type == "cone")
-        {
-            auto _result = make_shared<ConeLightArea>();
-            
-            getColorAttr(elem, "color", &_result->color);
-            getNumericAttr(elem, "radius", &_result->radius);
-            getNumericAttr(elem, "angularWidth", &_result->angleWidth);
-            
-            _result->angleWidth = toRads(_result->angleWidth);
-            
-            *result = _result;
-            return true;
-        }
+		else if (type == "cone")
+		{
+			auto _result = make_shared<ConeLightArea>();
+			
+			getColorAttr(elem, "color", &_result->color);
+			getNumericAttr(elem, "radius", &_result->radius);
+			getNumericAttr(elem, "angularWidth", &_result->angleWidth);
+			
+			_result->angleWidth = toRads(_result->angleWidth);
+			
+			*result = _result;
+			return true;
+		}
 	}
 
 	return false;

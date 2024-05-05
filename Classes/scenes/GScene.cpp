@@ -28,7 +28,7 @@ bool GScene::suppressGameOver = false;
 
 GScene* GScene::getCrntScene()
 {
-    return crntScene;
+	return crntScene;
 }
 
 GScene::GScene() : GScene(area_properties::noMap("GScene"), "")
@@ -45,10 +45,10 @@ control_listener(make_unique<ControlListener>())
 		to_int(initOrder::core)
 	);
 	//Updater has to be scheduled at init time.
-    multiInit.insertWithOrder(
-        wrap_method(Node,scheduleUpdate,this),
-        to_int(initOrder::core)
-    );
+	multiInit.insertWithOrder(
+		wrap_method(Node,scheduleUpdate,this),
+		to_int(initOrder::core)
+	);
 	multiInit.insertWithOrder(
 		wrap_method(GScene, loadMaps, this),
 		to_int(initOrder::mapLoad)
@@ -58,12 +58,12 @@ control_listener(make_unique<ControlListener>())
 		to_int(initOrder::loadObjects)
 	);
 
-    //Create the sublayers at construction (so they are available to mixins at construction time).
-    //But do not add sublayers until init time.
-    for_irange(i,sceneLayers::begin,sceneLayers::end){
-        Layer* l = Layer::create();
-        layers.insert(i, l);
-    }
+	//Create the sublayers at construction (so they are available to mixins at construction time).
+	//But do not add sublayers until init time.
+	for_irange(i,sceneLayers::begin,sceneLayers::end){
+		Layer* l = Layer::create();
+		layers.insert(i, l);
+	}
 
 	isExit = false;
 	isPaused = false;
@@ -72,8 +72,8 @@ control_listener(make_unique<ControlListener>())
 	gspace = new GSpace(this);
 
 	control_listener->addPressListener(ControlAction::displayMode, bind(&GScene::cycleDisplayMode, this));
-    
-    crntScene = this;
+	
+	crntScene = this;
 }
 
 GScene::~GScene()
@@ -90,7 +90,7 @@ GScene::~GScene()
 
 bool GScene::init()
 {
-    Scene::init();
+	Scene::init();
 
 	lightmapRender = initRenderTexture(sceneLayers::lightmap, BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
 	colorFilterRender = initRenderTexture(sceneLayers::screenspaceColorFilter, BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
@@ -116,7 +116,7 @@ bool GScene::init()
 	getLayer(sceneLayers::space)->setScale(spaceZoom);
 	getLayer(sceneLayers::lightmap)->setScale(spaceZoom);
 
-    for_irange(i,to_int(sceneLayers::begin),sceneLayers::end){
+	for_irange(i,to_int(sceneLayers::begin),sceneLayers::end){
 		if (i != to_int(sceneLayers::space) && i != to_int(sceneLayers::lightmap) && i != to_int(sceneLayers::screenspaceColorFilter)) {
 			addChild(layers.at(i), i);
 		}
@@ -126,7 +126,7 @@ bool GScene::init()
 			layers.at(i)->setScheduler(Director::getInstance()->getScheduler());
 		}
 	}
-    
+	
 	string current = getCurrentLevel();
 	gspace->setRandomSeed(to_uint(time(nullptr)));
 	gspace->crntChamber = current;
@@ -140,7 +140,7 @@ bool GScene::init()
 	spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);
 #endif
 
-    return true;
+	return true;
 }
 
 void GScene::update(float dt)
@@ -186,15 +186,15 @@ GSpace* GScene::getSpace()
 }
 
 string GScene::getCurrentLevel() const {
-    return areaProps->sceneName;
+	return areaProps->sceneName;
 }
 
 string GScene::getNextLevel() const {
-    return areaProps->next;
+	return areaProps->next;
 }
 
 void GScene::setPaused(bool p){
-    isPaused = p;
+	isPaused = p;
 }
 
 void GScene::createDialog(const string& res, bool autoAdvance)
@@ -238,7 +238,7 @@ void GScene::stopDialog()
 
 Vec2 GScene::dialogPosition()
 {
-    return Vec2(app::params.width/2, Dialog::height/2 + dialogEdgeMargin);
+	return Vec2(app::params.width/2, Dialog::height/2 + dialogEdgeMargin);
 }
 
 bool GScene::isDialogActive()

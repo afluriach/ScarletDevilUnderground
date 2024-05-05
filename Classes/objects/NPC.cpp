@@ -26,7 +26,7 @@ NPC::NPC(
 	),
 	props(props)
 {
-    sol::init_script_object<NPC>(this, params);
+	sol::init_script_object<NPC>(this, params);
 }
 
 NPC::~NPC()

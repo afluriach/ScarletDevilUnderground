@@ -24,9 +24,9 @@ public:
 	virtual void init();
 	
 	virtual inline shared_ptr<sprite_properties> getSprite() const { return app::getSprite("door"); }
-    virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+	virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-    virtual PhysicsLayers getLayers() const;
+	virtual PhysicsLayers getLayers() const;
 
 	virtual bool canInteract(Player* p);
 	virtual void interact(Player* p);

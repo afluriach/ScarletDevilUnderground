@@ -25,16 +25,16 @@ control_listener(make_unique<ControlListener>())
 
 Dialog::~Dialog()
 {
-    removeChild(bodyText);
-    removeChild(backgroundNode);
-    removeChild(cursor);
+	removeChild(bodyText);
+	removeChild(backgroundNode);
+	removeChild(cursor);
 }
 
 void Dialog::setDialog(const string& res)
 {
-    processDialogFile(io::loadTextFile(res));
-    
-    frameNum = 0;
+	processDialogFile(io::loadTextFile(res));
+	
+	frameNum = 0;
 	if (dialog.size() > 0)
 		runFrame();
 	else
@@ -63,33 +63,33 @@ void Dialog::setEndHandler(zero_arity_function f)
 //This will advance the dialog based on time.
 void Dialog::checkTimedAdvance()
 {
-    if(autoAdvance && timeInFrame >= frameWaitTime){
-        advanceFrame(true);
-    }
+	if(autoAdvance && timeInFrame >= frameWaitTime){
+		advanceFrame(true);
+	}
 }
 
 //This will advance the dialog based on interaction.
 void Dialog::checkManualAdvance()
 {
-    if(manualAdvance && timeInFrame >= frameWaitTime){
-        advanceFrame(true);
-    }
+	if(manualAdvance && timeInFrame >= frameWaitTime){
+		advanceFrame(true);
+	}
 }
 
 void Dialog::checkSkipAdvance()
 {
-    if(timeInFrame >= frameSkipTime){
-        advanceFrame(true);
-    }
+	if(timeInFrame >= frameSkipTime){
+		advanceFrame(true);
+	}
 }
 
 bool Dialog::init()
 {
-    Node::init();
-    
-    backgroundNode = DrawNode::create();
-    drawBackground();
-    addChild(backgroundNode, 1);
+	Node::init();
+	
+	backgroundNode = DrawNode::create();
+	drawBackground();
+	addChild(backgroundNode, 1);
 
 	nameBackground = DrawNode::create();
 	drawNameBackground();
@@ -101,48 +101,48 @@ bool Dialog::init()
 	nameLabel->setColor(bodyColor);
 	addChild(nameLabel, 2);
 
-    setMsg("");    
-    
-    cursor = Node::ccCreate<DownTriangleCursor>();
-    cursor->setPosition(Vec2(width/2 - textMargin,-height/2));
-    cursor->setScale(cursorScale);
-    cursor->setVisible(false);
-    addChild(cursor,2);
-    
-    scheduleUpdate();
-    control_listener->addPressListener(ControlAction::menu_select, bind(&Dialog::checkManualAdvance, this));
-    
-    return true;
+	setMsg("");	
+	
+	cursor = Node::ccCreate<DownTriangleCursor>();
+	cursor->setPosition(Vec2(width/2 - textMargin,-height/2));
+	cursor->setScale(cursorScale);
+	cursor->setVisible(false);
+	addChild(cursor,2);
+	
+	scheduleUpdate();
+	control_listener->addPressListener(ControlAction::menu_select, bind(&Dialog::checkManualAdvance, this));
+	
+	return true;
 }
 
 void Dialog::setMsg(const string& msg)
 {
-    this->msg = msg;
-    removeChild(bodyText);
-    bodyText = createTextLabel(msg, bodySize);
-    bodyText->setWidth(width-textMargin*2);
-    bodyText->setColor(bodyColor);
-    addChild(bodyText, 2);
+	this->msg = msg;
+	removeChild(bodyText);
+	bodyText = createTextLabel(msg, bodySize);
+	bodyText->setWidth(width-textMargin*2);
+	bodyText->setColor(bodyColor);
+	addChild(bodyText, 2);
 }
 
 void Dialog::setColor(const Color3B& color)
 {
-    bodyColor = color;
-    log3("color set to %d %d %d", color.r, color.g, color.b);
-    advanceFrame(false);
+	bodyColor = color;
+	log3("color set to %d %d %d", color.r, color.g, color.b);
+	advanceFrame(false);
 }
 
 void Dialog::runLuaScript(const string& script)
 {
-    App::lua->runString(script);
-    advanceFrame(false);
+	App::lua->runString(script);
+	advanceFrame(false);
 }
 
 void Dialog::setNextScene(const string& next)
 {
-    onEnd.push_back([next]() -> void {
-        App::runPlayScene(next, "player_start");
-    });
+	onEnd.push_back([next]() -> void {
+		App::runPlayScene(next, "player_start");
+	});
 }
 
 void Dialog::setAttribute(string id, int val)
@@ -167,12 +167,12 @@ void Dialog::clearNameLabel()
 
 void Dialog::drawBackground()
 {
-    backgroundNode->clear();
-    
-    Vec2 ll(-width/2, -height/2);
-    Vec2 ur(width/2, height/2);
-    
-    backgroundNode->drawSolidRect(ll, ur, backgroundColor);
+	backgroundNode->clear();
+	
+	Vec2 ll(-width/2, -height/2);
+	Vec2 ur(width/2, height/2);
+	
+	backgroundNode->drawSolidRect(ll, ur, backgroundColor);
 }
 
 void Dialog::drawNameBackground()
@@ -185,93 +185,93 @@ void Dialog::drawNameBackground()
 
 void Dialog::update(float dt)
 {
-    timeInFrame += dt;
-    
-    if(App::control_register->isControlAction(ControlAction::dialog_skip)){
-        checkSkipAdvance();
-    }
-        
-    if(timeInFrame > frameWaitTime){
-        if(manualAdvance)
-            cursor->setVisible(true);
-        if(autoAdvance)
-            checkTimedAdvance();
-    }
+	timeInFrame += dt;
+	
+	if(App::control_register->isControlAction(ControlAction::dialog_skip)){
+		checkSkipAdvance();
+	}
+		
+	if(timeInFrame > frameWaitTime){
+		if(manualAdvance)
+			cursor->setVisible(true);
+		if(autoAdvance)
+			checkTimedAdvance();
+	}
 }
 
 void Dialog::advanceFrame(bool resetCursor)
 {
-    ++frameNum;
-    timeInFrame = 0;
-    
-    if(frameNum < dialog.size()){
-        runFrame();
-        //Cursor should not be reset if the previous frame was a directive.
-        if(resetCursor){
-            cursor->reset();
-            cursor->setVisible(false);
-        }
-    }
-    else{
+	++frameNum;
+	timeInFrame = 0;
+	
+	if(frameNum < dialog.size()){
+		runFrame();
+		//Cursor should not be reset if the previous frame was a directive.
+		if(resetCursor){
+			cursor->reset();
+			cursor->setVisible(false);
+		}
+	}
+	else{
 		for(auto f : onEnd) f();
-    }
+	}
 }
 
 void Dialog::runFrame()
 {
-    dialog.at(frameNum)(*this);
+	dialog.at(frameNum)(*this);
 }
 
 //This only includes the numerics, not the directive token.
 Color3B Dialog::parseColorFromDirective(const string& line){
-    vector<string> tokens = splitString(line, " ");
-    
-    if(tokens.size() != 4){
-        log1("Invalid setColor directive: %s", line.c_str());
-        return defaultTextColor;
-    }
-    
-    try{
-        log3("%s %s %s", tokens[1].c_str(), tokens[2].c_str(), tokens[3].c_str());
-        return Color3B(
-            boost::lexical_cast<int>(tokens[1]),
-            boost::lexical_cast<int>(tokens[2]),
-            boost::lexical_cast<int>(tokens[3])
-        );
-    } catch(boost::bad_lexical_cast){
-        log1("setColor parse error: %s", line.c_str());
-        return defaultTextColor;
-    }
+	vector<string> tokens = splitString(line, " ");
+	
+	if(tokens.size() != 4){
+		log1("Invalid setColor directive: %s", line.c_str());
+		return defaultTextColor;
+	}
+	
+	try{
+		log3("%s %s %s", tokens[1].c_str(), tokens[2].c_str(), tokens[3].c_str());
+		return Color3B(
+			boost::lexical_cast<int>(tokens[1]),
+			boost::lexical_cast<int>(tokens[2]),
+			boost::lexical_cast<int>(tokens[3])
+		);
+	} catch(boost::bad_lexical_cast){
+		log1("setColor parse error: %s", line.c_str());
+		return defaultTextColor;
+	}
 }
 
 void Dialog::processDialogFile(const string& text)
 {
-    vector<string> lines = splitString(text, "\n");
-        
-    dialog = vector<DialogFrame>();
-    for(const string& line: lines)
-    {
-        //Check for directives
-        if(boost::starts_with(line, ":")){
-            if(boost::starts_with(line, ":setColor")){
-                Color3B color = parseColorFromDirective(line);
-                dialog.push_back(
-                    makeAction<const Color3B&>(&Dialog::setColor, color)
-                );
-            }
-            else if(boost::starts_with(line, ":lua ")){
-                dialog.push_back(
-                    makeAction<const string&>(&Dialog::runLuaScript, line.substr(5))
-                );
-            }
-            else if(boost::starts_with(line, ":nextScene")){
-                vector<string> tokens = splitString(line, " ");
-                if(tokens.size() != 2){
-                    log1("invalid nextScene directive: %s.", line.c_str());
-                    continue;
-                }
-				setNextScene(tokens[1]);                
-            }
+	vector<string> lines = splitString(text, "\n");
+		
+	dialog = vector<DialogFrame>();
+	for(const string& line: lines)
+	{
+		//Check for directives
+		if(boost::starts_with(line, ":")){
+			if(boost::starts_with(line, ":setColor")){
+				Color3B color = parseColorFromDirective(line);
+				dialog.push_back(
+					makeAction<const Color3B&>(&Dialog::setColor, color)
+				);
+			}
+			else if(boost::starts_with(line, ":lua ")){
+				dialog.push_back(
+					makeAction<const string&>(&Dialog::runLuaScript, line.substr(5))
+				);
+			}
+			else if(boost::starts_with(line, ":nextScene")){
+				vector<string> tokens = splitString(line, " ");
+				if(tokens.size() != 2){
+					log1("invalid nextScene directive: %s.", line.c_str());
+					continue;
+				}
+				setNextScene(tokens[1]);				
+			}
 			else if (boost::starts_with(line, ":setAttribute")) {
 				vector<string> tokens = splitString(line, " ");
 				if (tokens.size() != 2) {
@@ -298,10 +298,10 @@ void Dialog::processDialogFile(const string& text)
 				);
 			}
 		}
-        else{
-            dialog.push_back(
-                makeAction<const string&>(&Dialog::setMsg,line)
-            );
-        }
-    }
+		else{
+			dialog.push_back(
+				makeAction<const string&>(&Dialog::setMsg,line)
+			);
+		}
+	}
 }

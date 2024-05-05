@@ -114,7 +114,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	loadAreas(*tileMap, mapEntry.second);
 	loadFloorSegments(*tileMap, mapEntry.second);
 	loadPitfalls(*tileMap, mapEntry.second);
-    loadDoors(*tileMap, mapEntry.second);
+	loadDoors(*tileMap, mapEntry.second);
 	loadSensors(*tileMap, mapEntry.second);
 	loadMapObjects(*tileMap, mapEntry.second);
 	loadDynamicLoadObjects(*tileMap, mapEntry.second);
@@ -161,27 +161,27 @@ void GScene::loadDynamicLoadObjects(const TMXTiledMap& map, IntVec2 offset)
 
 void GScene::loadMapObjects(const TMXTiledMap& map, IntVec2 offset)
 {
-    Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
-    
-    if(map.getObjectGroup("objects") == nullptr){
-        log0("Objects group missing.");
-    }
-    else{
-        loadObjectGroup(map.getObjectGroup("objects"), offset);
-    }
+	Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
+	
+	if(map.getObjectGroup("objects") == nullptr){
+		log0("Objects group missing.");
+	}
+	else{
+		loadObjectGroup(map.getObjectGroup("objects"), offset);
+	}
 }
 
 const ValueVector& getPoints(const ValueMap& map, const string& name)
 {
-    auto it1 = map.find("polylinePoints");
-    auto it2 = map.find("points");
-    
-    if(it1 != map.end())
-        return it1->second.asValueVector();
-    else if(it2 != map.end())
-        return it2->second.asValueVector();
-    else
-        logAndThrowError("Error parsing path object %s!", name);
+	auto it1 = map.find("polylinePoints");
+	auto it2 = map.find("points");
+	
+	if(it1 != map.end())
+		return it1->second.asValueVector();
+	else if(it2 != map.end())
+		return it2->second.asValueVector();
+	else
+		logAndThrowError("Error parsing path object %s!", name);
 }
 
 void GScene::loadPaths(const TMXTiledMap& map, IntVec2 offset)
@@ -267,15 +267,15 @@ void GScene::loadFloorSegments(const TMXTiledMap& map, IntVec2 offset)
 	for (const Value& obj : floor->getObjects())
 	{
 		ValueMap objAsMap = obj.asValueMap();
-        string type = objAsMap.at("type").asString();
-        auto props = app::getFloor(type);
-        if(props){
-            convertToUnitSpace(objAsMap, offset);
-            gspace->createObject<FloorSegment>(objAsMap, props);
-        }
-        else{
-            log1("Unknown floor type %s!", type);
-        }
+		string type = objAsMap.at("type").asString();
+		auto props = app::getFloor(type);
+		if(props){
+			convertToUnitSpace(objAsMap, offset);
+			gspace->createObject<FloorSegment>(objAsMap, props);
+		}
+		else{
+			log1("Unknown floor type %s!", type);
+		}
 	}
 }
 

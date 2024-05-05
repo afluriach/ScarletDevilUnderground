@@ -36,11 +36,11 @@ public:
 
 	/// Returns the squared length. Faster than SpaceVect::length() when you only need to compare lengths.
 	SpaceFloat lengthSq() const;
-        
+		
 	SpaceVect limit(SpaceFloat _limit) const;
 	SpaceVect setMag(SpaceFloat mag) const;
 
-    bool isZero() const;
+	bool isZero() const;
 
 	/// Returns a perpendicular vector. (90 degree rotation)
 	SpaceVect perp() const;
@@ -63,7 +63,7 @@ public:
 
 	/// Uses complex multiplication to return a copy rotated by v. Scaling will occur if the vector isn't a unit vector.
 	SpaceVect rotate(SpaceVect v) const;
-        
+		
 	SpaceVect rotate(SpaceFloat angleRadians) const;
 
 	/// Inverse of SpaceVect::rotate.
@@ -87,9 +87,9 @@ public:
 	/// y component
 	SpaceFloat y;
 
-    static inline SpaceVect ray(SpaceFloat radius, SpaceFloat angle){
-        return SpaceVect(cos(angle)*radius,sin(angle)*radius);
-    }
+	static inline SpaceVect ray(SpaceFloat radius, SpaceFloat angle){
+		return SpaceVect(cos(angle)*radius,sin(angle)*radius);
+	}
 
 	/// Returns the unit length vector for the given angle (in radians).
 	static SpaceVect forAngle(SpaceFloat a);
@@ -124,12 +124,12 @@ public:
 	static SpaceFloat distSq(SpaceVect v1, SpaceVect v2);
 	static bool fuzzyMatch(SpaceVect v1, SpaceVect v2);
 
-    static const SpaceVect zero;
-    static const SpaceVect up;
-    static const SpaceVect down;
-    static const SpaceVect left;
-    static const SpaceVect right;
-    static const SpaceVect unit_square;
+	static const SpaceVect zero;
+	static const SpaceVect up;
+	static const SpaceVect down;
+	static const SpaceVect left;
+	static const SpaceVect right;
+	static const SpaceVect unit_square;
 };
 
 bool operator==(const SpaceVect& lhs, const SpaceVect& rhs);

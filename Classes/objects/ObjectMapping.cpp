@@ -37,24 +37,24 @@ typedef function<GObject*(GSpace*, ObjectIDType, const object_params& params, lo
 template<typename T, typename P>
 PropsAdapter objectAdapter()
 {
-    return [](
-        GSpace* space,
-        ObjectIDType id,
-        const object_params& params,
-        local_shared_ptr<object_properties> props
-    ) -> GObject* {
-        auto p = props.downcast<P>();
-        return allocator_new<T>(space, id, params, p);
-    };
+	return [](
+		GSpace* space,
+		ObjectIDType id,
+		const object_params& params,
+		local_shared_ptr<object_properties> props
+	) -> GObject* {
+		auto p = props.downcast<P>();
+		return allocator_new<T>(space, id, params, p);
+	};
 }
 
 #define entry(prop,obj) { typeid(prop), objectAdapter<obj,prop>() }
 
 const unordered_map<type_index, PropsAdapter> GObject::propsAdapters = {
-    entry(bomb_properties, Bomb),
-    entry(effectarea_properties, EffectArea),
-    entry(enemy_properties, Enemy),
-    entry(environment_object_properties, EnvironmentObject),
-    entry(item_properties, Item),
-    entry(npc_properties, NPC)
+	entry(bomb_properties, Bomb),
+	entry(effectarea_properties, EffectArea),
+	entry(enemy_properties, Enemy),
+	entry(environment_object_properties, EnvironmentObject),
+	entry(item_properties, Item),
+	entry(npc_properties, NPC)
 };

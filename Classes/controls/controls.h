@@ -12,25 +12,25 @@
 enum class ControlAction
 {
 	begin = 1,
-    pause = 1,
-    scriptConsole,
+	pause = 1,
+	scriptConsole,
 	displayMode,
 
-    menu_select,
-    menu_back,
-    menuUp,
-    menuDown,
-    menuLeft,
-    menuRight,
+	menu_select,
+	menu_back,
+	menuUp,
+	menuDown,
+	menuLeft,
+	menuRight,
 	map_menu,
 	inventory_menu,
 
-    dialog_skip,
-    interact,
-    enter,
+	dialog_skip,
+	interact,
+	enter,
 
 	fire,
-    spell,
+	spell,
 	bomb,
 	power_attack,
 
@@ -101,34 +101,34 @@ class ControlRegister
 public:
 	typedef unsigned int callback_uuid;
 
-    static const bool logKeyEvents;
-    static const bool logButtons;
+	static const bool logKeyEvents;
+	static const bool logButtons;
 	static const bool logActionState;
-    static const float deadzone;
+	static const float deadzone;
 	static const float deadzone2;
 	static const float triggerDeadzone;
-        
-    static const unordered_map<EventKeyboard::KeyCode, ControlActionState> defaultKeyActionMap;
+		
+	static const unordered_map<EventKeyboard::KeyCode, ControlActionState> defaultKeyActionMap;
 	static const unordered_map<string, EventKeyboard::KeyCode> keyNameMap;
 	static const unordered_map<string, ControlAction> actionNameMap;
 #if use_gamepad
-    static const unordered_map<gainput::PadButton, ControlActionState> defaultButtonActionMap;
+	static const unordered_map<gainput::PadButton, ControlActionState> defaultButtonActionMap;
 	static const unordered_map<string, gainput::PadButton> buttonNameMap;
 #endif
 
-    ControlRegister();
-    ~ControlRegister();
-    
-    bool isControlAction(ControlAction action);
-    bool isControlActionPressed(ControlAction action);
+	ControlRegister();
+	~ControlRegister();
+	
+	bool isControlAction(ControlAction action);
+	bool isControlActionPressed(ControlAction action);
 	bool isControlActionReleased(ControlAction action);
 
 	bool isKeyDown(EventKeyboard::KeyCode key_id);
 #if use_gamepad
 	bool isButtonDown(gainput::PadButton button_id);
 #endif
-    inline SpaceVect getLeftVector(){ return left_vector;}
-    inline SpaceVect getRightVector(){ return right_vector;}
+	inline SpaceVect getLeftVector(){ return left_vector;}
+	inline SpaceVect getRightVector(){ return right_vector;}
 
 	ControlState getControlState();
 	ControlInfo getControlInfo();
@@ -147,34 +147,34 @@ public:
 	void addButtonAction(const string& buttonName, const string& actionName);
 	inline void setSouthpaw(bool v) { southpaw = v; }
 #endif
-    
+	
 	callback_uuid addPressListener(ControlAction action, zero_arity_function f);
 	callback_uuid addReleaseListener(ControlAction action, zero_arity_function f);
-    void removeListener(callback_uuid uuid);
+	void removeListener(callback_uuid uuid);
 	void setCallbacksActive(const list<callback_uuid>& list, bool b);
-    
-    void update();
+	
+	void update();
 private:
-    void onKeyDown(EventKeyboard::KeyCode, Event*);
-    void onKeyUp(EventKeyboard::KeyCode, Event*);
-    
+	void onKeyDown(EventKeyboard::KeyCode, Event*);
+	void onKeyUp(EventKeyboard::KeyCode, Event*);
+	
 	SpaceVect getKeyboardMovePadVector();
 	SpaceVect getKeyboardAimPadVector();
 
-    void updateVectors();
-    void checkCallbacks();
-    void updateActionState();
-    void setActions(ControlActionState actions_bitfield);
+	void updateVectors();
+	void checkCallbacks();
+	void updateActionState();
+	void setActions(ControlActionState actions_bitfield);
 
 #if use_gamepad
-    void logGamepadButtons();
-    void pollGamepad();
+	void logGamepadButtons();
+	void pollGamepad();
 #endif
-    
-    SpaceVect left_vector, right_vector;
-    
+	
+	SpaceVect left_vector, right_vector;
+	
 	unordered_map<EventKeyboard::KeyCode, ControlActionState> keyActionMap;
-    unordered_set<EventKeyboard::KeyCode> keysDown;
+	unordered_set<EventKeyboard::KeyCode> keysDown;
 #if use_gamepad
 	unordered_map<gainput::PadButton, ControlActionState> buttonActionMap;
 	unordered_set<gainput::PadButton> buttonsDown;
@@ -182,26 +182,26 @@ private:
 
 	array<unordered_set<callback_uuid>,to_size_t(ControlAction::end)> onPressedID;
 	array<unordered_set<callback_uuid>, to_size_t(ControlAction::end)> onReleasedID;
-    
+	
 	ControlActionState wasActionPressed;
 	ControlActionState isActionPressed;
-    
+	
 	unordered_map<callback_uuid, zero_arity_function> onPressedCallback;
 	unordered_map<callback_uuid, zero_arity_function> onReleasedCallback;
 	unordered_map<callback_uuid, bool> isCallbackActive;
 
-    EventListenerKeyboard* keyListener;
-    
-    #if use_gamepad
-    gainput::InputManager manager;
-    gainput::InputMap input_map;
-    gainput::DeviceId gamepad_id;
-    gainput::InputDevice* gamepad;
-    bool gamepadInitialized = false;
+	EventListenerKeyboard* keyListener;
+	
+	#if use_gamepad
+	gainput::InputManager manager;
+	gainput::InputMap input_map;
+	gainput::DeviceId gamepad_id;
+	gainput::InputDevice* gamepad;
+	bool gamepadInitialized = false;
 	bool southpaw = false;
-    #endif
+	#endif
 
-    callback_uuid nextListenerUUID = 1;
+	callback_uuid nextListenerUUID = 1;
 };
 
 //Conveince listener class that works similarly to KeyListener. Provides automatic
@@ -209,14 +209,14 @@ private:
 class ControlListener
 {
 public:
-    ~ControlListener();
-    
-    void addPressListener(ControlAction action, zero_arity_function f);
-    void addReleaseListener(ControlAction action, zero_arity_function f);
+	~ControlListener();
+	
+	void addPressListener(ControlAction action, zero_arity_function f);
+	void addReleaseListener(ControlAction action, zero_arity_function f);
 
 	void setActive(bool b);
 protected:
-    list<ControlRegister::callback_uuid> callback_IDs;
+	list<ControlRegister::callback_uuid> callback_IDs;
 	bool isActive = true;
 };
 

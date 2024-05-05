@@ -48,22 +48,22 @@ ScriptFunction::ScriptFunction(GObject* object, GObject* target, const string& c
 
 void ScriptFunction::onEnter()
 {
-    sol::runMethodIfAvailable(obj,"onEnter");
+	sol::runMethodIfAvailable(obj,"onEnter");
 }
 
 void ScriptFunction::update()
 {
-    sol::runMethodIfAvailable(obj, "update");
+	sol::runMethodIfAvailable(obj, "update");
 }
 
 void ScriptFunction::onExit()
 {
-    sol::runMethodIfAvailable(obj, "onExit");
+	sol::runMethodIfAvailable(obj, "onExit");
 }
 
 string ScriptFunction::getName()
 {
-    return sol::runMethodIfAvailableOrDefault(cls, obj, "getName");
+	return sol::runMethodIfAvailableOrDefault(cls, obj, "getName");
 }
 
 bool ScriptFunction::hasMethod(const string& name)
@@ -74,21 +74,21 @@ bool ScriptFunction::hasMethod(const string& name)
 }
 
 AgentFunction::AgentFunction(GObject* object) :
-    Function(object),
-    agent(object->getAs<Agent>())
+	Function(object),
+	agent(object->getAs<Agent>())
 {
-    if(!agent){
-        logAndThrowError("Object is not an Agent!");
-    }
+	if(!agent){
+		logAndThrowError("Object is not an Agent!");
+	}
 }
 
 PlayerFunction::PlayerFunction(GObject* object) :
-    Function(object),
-    player(object->getAs<Player>())
+	Function(object),
+	player(object->getAs<Player>())
 {
-    if(!player){
-        logAndThrowError("Object is not Player!");
-    }
+	if(!player){
+		logAndThrowError("Object is not Player!");
+	}
 }
 
 Seek::Seek(GObject* object, GObject* target, bool usePathfinding, SpaceFloat margin) :
@@ -152,7 +152,7 @@ void Seek::update()
 	}
 
 	if (!target.isValid())
-        _state = state::completed;
+		_state = state::completed;
 }
 
 MaintainDistance::MaintainDistance(GObject* object, GObject* target, SpaceFloat distance, SpaceFloat margin) :
@@ -165,9 +165,9 @@ margin(margin)
 void MaintainDistance::update()
 {
 	if (target.get()) {
-        SpaceFloat crnt_distance = distanceToTarget(object,target.get());
+		SpaceFloat crnt_distance = distanceToTarget(object,target.get());
 		SpaceFloat stop_dist = getStoppingDistance(object);
-    
+	
 		if (abs(crnt_distance - distance) < stop_dist) {
 			ai::arrive(
 				object,
@@ -175,22 +175,22 @@ void MaintainDistance::update()
 			);
 		}
 
-        else if(crnt_distance > distance + margin){
-            ai::seek(
-                object,
-                target.get()->getPos(),
-                object->getMaxSpeed(),
-                object->getMaxAcceleration()
-            );
-        }
-        else if(crnt_distance < distance + margin){
-            ai::fleeWithObstacleAvoidance(
-                object,
-                target.get()->getPos(),
-                object->getMaxSpeed(),
-                object->getMaxAcceleration()
-            );
-        }
+		else if(crnt_distance > distance + margin){
+			ai::seek(
+				object,
+				target.get()->getPos(),
+				object->getMaxSpeed(),
+				object->getMaxAcceleration()
+			);
+		}
+		else if(crnt_distance < distance + margin){
+			ai::fleeWithObstacleAvoidance(
+				object,
+				target.get()->getPos(),
+				object->getMaxSpeed(),
+				object->getMaxAcceleration()
+			);
+		}
 	}
 	else {
 		ai::applyDesiredVelocity(object, SpaceVect::zero, object->getMaxAcceleration());
@@ -230,8 +230,8 @@ void OccupyMidpoint::update()
 	GObject* t2 = target2.get();
 
 	if (!t1 || !t2) {
-        _state = state::completed;
-        return;
+		_state = state::completed;
+		return;
 	}
 
 	SpaceVect midpoint = (t1->getPos() + t2->getPos()) / 2.0;
@@ -264,8 +264,8 @@ void Scurry::update()
 	autoUpdateFunction(moveFunction);
 
 	if (!target.isValid() || endFrame != 0 && getSpace()->getFrame() >= endFrame) {
-        _state = state::completed;
-        return;
+		_state = state::completed;
+		return;
 	}
 
 	if (moveFunction)
@@ -308,7 +308,7 @@ void Flee::update()
 	}
 	
 	if (!target.isValid())
-        _state = state::completed;
+		_state = state::completed;
 }
 
 Evade::Evade(GObject* object, GType type) :
@@ -321,8 +321,8 @@ void Evade::update()
 	const object_list* objs = agent->getRadar()->getSensedObjectsByGtype(type);
 	
 	if (!objs || objs->size() == 0) {
-        _state = state::completed;
-        return;
+		_state = state::completed;
+		return;
 	}
 
 	GObject* closest = nullptr;
@@ -384,8 +384,8 @@ void Flank::onEnter()
 void Flank::update()
 {
 	if (!target.isValid()) {
-        _state = state::completed;
-        return;
+		_state = state::completed;
+		return;
 	}
 
 	autoUpdateFunction(moveFunction);
@@ -494,22 +494,22 @@ MoveToPoint::MoveToPoint(GObject* object, SpaceVect target) :
 
 void MoveToPoint::update()
 {
-    bool arrived = moveToPoint(object, target, arrivalMargin, false);
+	bool arrived = moveToPoint(object, target, arrivalMargin, false);
 	
 	if (arrived)
-        _state = state::completed;
+		_state = state::completed;
 }
 
 local_shared_ptr<FollowPath> FollowPath::pathToTarget(
 	GObject* object,
 	GObject* target
 ){
-    return pathToPoint(object, target->getPos());
+	return pathToPoint(object, target->getPos());
 }
 
 local_shared_ptr<FollowPath> FollowPath::pathToPoint(
-    GObject* object,
-    SpaceVect point
+	GObject* object,
+	SpaceVect point
 ){
 	auto path = object->getSpace()->pathToTile(
 		toIntVector(object->getPos()),
@@ -518,27 +518,27 @@ local_shared_ptr<FollowPath> FollowPath::pathToPoint(
 
 	if (!path) {
 		log5("%s: no path to target, (%.2f,%.2f), (%.2f,%.2f)",
-            object->toString(),
-            object->getPos().x, object->getPos().y,
-            point.x, point.y
-        );
+			object->toString(),
+			object->getPos().x, object->getPos().y,
+			point.x, point.y
+		);
 		return nullptr;
 	}
-    else if(path->size() < 2){
-        log0("Invalid path!");
-    }
-    else{
-        auto const& p = path->at(0);
-        auto const& q = path->at(path->size() - 1);
-        if constexpr(logPathfinding){
-            log5(
-                "%s: pathfinding from %.2f,%.2f to %.2f,%.2f",
-                object->toString(),
-                p.x, p.y,
-                q.x, q.y
-            );
-        }
-    }
+	else if(path->size() < 2){
+		log0("Invalid path!");
+	}
+	else{
+		auto const& p = path->at(0);
+		auto const& q = path->at(path->size() - 1);
+		if constexpr(logPathfinding){
+			log5(
+				"%s: pathfinding from %.2f,%.2f to %.2f,%.2f",
+				object->toString(),
+				p.x, p.y,
+				q.x, q.y
+			);
+		}
+	}
 
 	return make_local_shared<FollowPath>(
 		object,
@@ -569,13 +569,13 @@ void FollowPath::update()
 		currentTarget = 0;
 	}
 	else {
-        _state = state::completed;
+		_state = state::completed;
 	}
 }
 
 local_shared_ptr<FollowPathKinematic> FollowPathKinematic::pathToPoint(
-    GObject* object,
-    SpaceVect point
+	GObject* object,
+	SpaceVect point
 ){
 	auto path = object->getSpace()->pathToTile(
 		toIntVector(object->getPos()),
@@ -584,27 +584,27 @@ local_shared_ptr<FollowPathKinematic> FollowPathKinematic::pathToPoint(
 
 	if (!path) {
 		log5("%s: no path to target, (%.2f,%.2f), (%.2f,%.2f)",
-            object->toString(),
-            object->getPos().x, object->getPos().y,
-            point.x, point.y
-        );
+			object->toString(),
+			object->getPos().x, object->getPos().y,
+			point.x, point.y
+		);
 		return nullptr;
 	}
-    else if(path->size() < 2){
-        log0("Invalid path!");
-    }
-    else{
-        auto const& p = path->at(0);
-        auto const& q = path->at(path->size() - 1);
-        if constexpr(logPathfinding){
-            log5(
-                "%s: pathfinding from %.2f,%.2f to %.2f,%.2f",
-                object->toString(),
-                p.x, p.y,
-                q.x, q.y
-            );
-        }
-    }
+	else if(path->size() < 2){
+		log0("Invalid path!");
+	}
+	else{
+		auto const& p = path->at(0);
+		auto const& q = path->at(path->size() - 1);
+		if constexpr(logPathfinding){
+			log5(
+				"%s: pathfinding from %.2f,%.2f to %.2f,%.2f",
+				object->toString(),
+				p.x, p.y,
+				q.x, q.y
+			);
+		}
+	}
 
 	return make_local_shared<FollowPathKinematic>(
 		object,
@@ -614,34 +614,34 @@ local_shared_ptr<FollowPathKinematic> FollowPathKinematic::pathToPoint(
 }
 
 FollowPathKinematic::FollowPathKinematic(
-    GObject* object,
-    shared_ptr<const Path> path,
-    follow_path_mode mode
+	GObject* object,
+	shared_ptr<const Path> path,
+	follow_path_mode mode
 ) :
 	Function(object),
 	path(path),
-    mode(mode)
+	mode(mode)
 {
-    if(path->size() < 2){
-        log1("Invalid path size of %d", path->size());
-    }
+	if(path->size() < 2){
+		log1("Invalid path size of %d", path->size());
+	}
 }
 
 void FollowPathKinematic::setSegment(size_t idx1, size_t idx2)
 {
-    this->idx1 = idx1;
-    this->idx2 = idx2;
-    
-    d -= currentSegmentLength;
-    
-    SpaceVect disp = (*path)[idx2] - (*path)[idx1];
-    currentSegmentStart = (*path)[idx1];
-    currentSegmentLength = disp.length();
-    currentSegmentDisplacementNormal = disp.normalize();
+	this->idx1 = idx1;
+	this->idx2 = idx2;
+	
+	d -= currentSegmentLength;
+	
+	SpaceVect disp = (*path)[idx2] - (*path)[idx1];
+	currentSegmentStart = (*path)[idx1];
+	currentSegmentLength = disp.length();
+	currentSegmentDisplacementNormal = disp.normalize();
 	speed = object->getMaxSpeed();
-    
-    object->setAngle(angleToTarget(object, (*path)[idx2]));
-    object->setVel(currentSegmentDisplacementNormal * speed);
+	
+	object->setAngle(angleToTarget(object, (*path)[idx2]));
+	object->setVel(currentSegmentDisplacementNormal * speed);
 	object->setPos(currentSegmentStart + currentSegmentDisplacementNormal*d);
 }
 
@@ -658,41 +658,41 @@ void FollowPathKinematic::nextSegment()
 		return;
 	}
 	
-    if(idx2 == path->size() - 1){
-        if(bitwise_and_bool(mode, follow_path_mode::loop)){
-            setSegment(path->size() - 1, 0);
+	if(idx2 == path->size() - 1){
+		if(bitwise_and_bool(mode, follow_path_mode::loop)){
+			setSegment(path->size() - 1, 0);
 		}
 		else if(bitwise_and_bool(mode, follow_path_mode::scan)){
 			is_scanning = true;
 			setSegment(path->size() - 1, path->size() - 2);
 		}
-        else{
+		else{
 			object->setVel(SpaceVect::zero);
-            _state = state::completed;
+			_state = state::completed;
 		}
-    }
-    else if(idx1 == path->size() - 1){
-        setSegment(0,1);
-    }
-    else{
-        setSegment(idx1 + 1, idx2 + 1);
-    }
+	}
+	else if(idx1 == path->size() - 1){
+		setSegment(0,1);
+	}
+	else{
+		setSegment(idx1 + 1, idx2 + 1);
+	}
 }
 
 void FollowPathKinematic::onEnter()
 {
-    setSegment(0, 1);
+	setSegment(0, 1);
 }
 
 void FollowPathKinematic::update()
 {
-    if(_state == state::completed)
-        return;
+	if(_state == state::completed)
+		return;
 
-    d += speed * app::params.secondsPerFrame;
-    
-    if(d >= currentSegmentLength)
-        nextSegment();
+	d += speed * app::params.secondsPerFrame;
+	
+	if(d >= currentSegmentLength)
+		nextSegment();
 }
 
 Wander::Wander(GObject* object, SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist) :
@@ -774,18 +774,18 @@ void Wander::reset()
 }
 
 Wait::Wait(GObject* object, SpaceFloat duration) :
-    Function(object),
-    duration(duration)
+	Function(object),
+	duration(duration)
 {
 }
 
 void Wait::update()
 {
-    timerIncrement(t);
-    ai::applyDesiredVelocity(object, SpaceVect::zero, object->getMaxAcceleration());
-    
-    if(t >= duration)
-        _state = state::completed;
+	timerIncrement(t);
+	ai::applyDesiredVelocity(object, SpaceVect::zero, object->getMaxAcceleration());
+	
+	if(t >= duration)
+		_state = state::completed;
 }
 
 FireAtTarget::FireAtTarget(GObject* object, GObject* target) :
@@ -798,7 +798,7 @@ void FireAtTarget::update()
 	FirePattern* fp = agent->getFirePattern();
 	if (!target.isValid() || !fp) {
 		_state = state::completed;
-        return;
+		return;
 	}
 
 	object->setAngle(
@@ -844,8 +844,8 @@ void ThrowBombs::onEnter()
 void ThrowBombs::update()
 {
 	if (!target.isValid() || !bombType) {
-        _state = state::completed;
-        return;
+		_state = state::completed;
+		return;
 	}
 
 	SpaceFloat fuseTime = bombType->fuseTime;
@@ -910,9 +910,9 @@ float ThrowBombs::score(SpaceVect pos, SpaceFloat angle)
 PlayerControl::PlayerControl(GObject* object) :
 	PlayerFunction(object)
 {
-    if(!player){
-        logAndThrowError("Agent is not a Player object.");
-    }
+	if(!player){
+		logAndThrowError("Agent is not a Player object.");
+	}
 }
 
 PlayerControl::~PlayerControl()
@@ -925,46 +925,46 @@ void PlayerControl::onEnter()
 
 void PlayerControl::update()
 {
-    ControlInfo cs = getSpace()->getControlInfo();
-    
-    if(activeSpell && !activeSpell->isSpellActive()){
-        activeSpell.reset();
-        player->setAttribute(Attribute::spellCooldown, Attribute::castInterval);
-    }
-    else if(activeSpell){
-        activeSpell->runUpdate();
-    }
+	ControlInfo cs = getSpace()->getControlInfo();
+	
+	if(activeSpell && !activeSpell->isSpellActive()){
+		activeSpell.reset();
+		player->setAttribute(Attribute::spellCooldown, Attribute::castInterval);
+	}
+	else if(activeSpell){
+		activeSpell->runUpdate();
+	}
 
-    checkBlockControls(cs);
-    checkMovementControls(cs);
-    checkItemInteraction(cs);
-    
-    if (!getSpace()->getSuppressAction()) {
-        checkFireControls(cs);
-        checkBombControls(cs);
-        updateSpellControls(cs);
-    }
-    
-    applyDesiredMovement();
+	checkBlockControls(cs);
+	checkMovementControls(cs);
+	checkItemInteraction(cs);
+	
+	if (!getSpace()->getSuppressAction()) {
+		checkFireControls(cs);
+		checkBombControls(cs);
+		updateSpellControls(cs);
+	}
+	
+	applyDesiredMovement();
 }
 
 void PlayerControl::checkBlockControls(const ControlInfo& cs)
 {
-    if(
-        cs.isControlActionDown(ControlAction::focus) &&
-        !player->isShieldActive() &&
-        player->canBlock()
-    ){
-        player->block();
-    }
-    else if(
-        !cs.isControlActionDown(ControlAction::focus) &&
-        player->isShieldActive()
-    ){
-        player->endBlock();
-    }
-    
-    if (cs.isControlActionPressed(ControlAction::focus)) {
+	if(
+		cs.isControlActionDown(ControlAction::focus) &&
+		!player->isShieldActive() &&
+		player->canBlock()
+	){
+		player->block();
+	}
+	else if(
+		!cs.isControlActionDown(ControlAction::focus) &&
+		player->isShieldActive()
+	){
+		player->endBlock();
+	}
+	
+	if (cs.isControlActionPressed(ControlAction::focus)) {
 		getSpace()->setBulletBodiesVisible(true);
 	}
 	else if (cs.isControlActionReleased(ControlAction::focus)) {
@@ -978,7 +978,7 @@ void PlayerControl::checkMovementControls(const ControlInfo& cs)
 		return;
 	}
 
-    desiredMoveDirection = cs.left_v;
+	desiredMoveDirection = cs.left_v;
 	SpaceVect facing = cs.isControlActionDown(ControlAction::center_look) ?
 		cs.left_v : cs.right_v;
 	
@@ -986,13 +986,13 @@ void PlayerControl::checkMovementControls(const ControlInfo& cs)
 		cs.isControlActionDown(ControlAction::sprint) &&
 		!desiredMoveDirection.isZero()
 	) {
-        player->sprint(desiredMoveDirection);
+		player->sprint(desiredMoveDirection);
 	}
-    
+	
 	if (desiredMoveDirection.isZero()) {
 		player->resetAnimation();
 	}
-    	
+		
 	if (facing.lengthSq() > 0.0) {
 		player->setAngle(facing.toAngle());
 	}
@@ -1000,8 +1000,8 @@ void PlayerControl::checkMovementControls(const ControlInfo& cs)
 
 void PlayerControl::checkFireControls(const ControlInfo& cs)
 {
-    Inventory* inventory = player->getInventory();
-    GSpace* space = getSpace();
+	Inventory* inventory = player->getInventory();
+	GSpace* space = getSpace();
 
 	bool isFireButton =
 		cs.isControlActionDown(ControlAction::fire) ||
@@ -1014,29 +1014,29 @@ void PlayerControl::checkFireControls(const ControlInfo& cs)
 
 	//Fire if arrow key is pressed
 	if ( isFireButton && player->fire()
-    ){
-        ;
+	){
+		;
 	}
 	else if (cs.isControlActionPressed(ControlAction::fire_pattern_previous)){
-        player->selectPrevFirePattern();
+		player->selectPrevFirePattern();
 	}
 	else if (cs.isControlActionPressed(ControlAction::fire_pattern_next)){
-        player->selectNextFirePattern();
+		player->selectNextFirePattern();
 	}
 	else if (
 		!player->isActive(Attribute::inhibitFiring) &&
 		cs.isControlActionPressed(ControlAction::power_attack) &&
 		player->hasPowerAttack()
 	){
-        player->doPowerAttack();
-    }
+		player->doPowerAttack();
+	}
 }
 
 void PlayerControl::checkBombControls(const ControlInfo& cs)
 {
 	if (cs.isControlActionPressed(ControlAction::bomb)) {
-        SpaceFloat speedRatio = cs.isControlActionDown(ControlAction::focus) ? 1.0 : 0.0;
-        player->throwBomb(player->getBomb(), speedRatio);
+		SpaceFloat speedRatio = cs.isControlActionDown(ControlAction::focus) ? 1.0 : 0.0;
+		player->throwBomb(player->getBomb(), speedRatio);
 	}
 }
 
@@ -1054,59 +1054,59 @@ void PlayerControl::checkItemInteraction(const ControlInfo& cs)
 		interactible && interactible->canInteract(player) ? interactible->interactionIcon(player) : ""
 	);
 
-    if(cs.isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0){
-        tryInteract(interactible);
-    }
+	if(cs.isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0){
+		tryInteract(interactible);
+	}
 }
 
 void PlayerControl::updateSpellControls(const ControlInfo& cs)
 {
 	if (cs.isControlActionPressed(ControlAction::spell)) {
-        toggleSpell();
+		toggleSpell();
 	}
 	else if (cs.isControlActionPressed(ControlAction::spell_previous)) {
-        player->selectPrevSpell();
-    }
-    else if (cs.isControlActionPressed(ControlAction::spell_next)) {
-        player->selectNextSpell();
-    }		
+		player->selectPrevSpell();
+	}
+	else if (cs.isControlActionPressed(ControlAction::spell_next)) {
+		player->selectNextSpell();
+	}		
 }
 
 void PlayerControl::applyDesiredMovement()
 {
-    player->applyDesiredMovement(desiredMoveDirection);
+	player->applyDesiredMovement(desiredMoveDirection);
 }
 
 bool PlayerControl::tryInteract(GObject* interactible)
 {
-    bool result = false;
+	bool result = false;
 	
 	if(interactible && interactible->canInteract(player))
-    {
+	{
 		interactible->interact(player);
 		interactCooldown = Player::interactCooldownTime;
 		result = true;
-    }
+	}
  
-    return result;
+	return result;
 }
 
 void PlayerControl::toggleSpell()
 {
-    if(activeSpell){
-        if(activeSpell->isSpellActive())
-            activeSpell->stop();
-        
-        player->setAttribute(Attribute::spellCooldown, Attribute::castInterval);
-        activeSpell.reset();
-    }
-    else{
-        auto spell = player->getInventory()->spells.getCrnt();
-        
-        if(spell && player->canCast(spell)){
-            activeSpell = player->cast(spell);
-        }
-    }
+	if(activeSpell){
+		if(activeSpell->isSpellActive())
+			activeSpell->stop();
+		
+		player->setAttribute(Attribute::spellCooldown, Attribute::castInterval);
+		activeSpell.reset();
+	}
+	else{
+		auto spell = player->getInventory()->spells.getCrnt();
+		
+		if(spell && player->canCast(spell)){
+			activeSpell = player->cast(spell);
+		}
+	}
 }
 
 }//end NS

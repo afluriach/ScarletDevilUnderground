@@ -62,7 +62,7 @@ Agent::Agent(
 	props(props),
 	agentOverlay(space)
 {
-    inventory = make_unique<Inventory>();
+	inventory = make_unique<Inventory>();
 }
 
 Agent::~Agent()
@@ -139,27 +139,27 @@ void Agent::update()
 		onZeroHP();
 	}
  
-    updateCombo();
-    updateState();
+	updateCombo();
+	updateState();
 
 	if (firePattern) firePattern->update();
 	attributeSystem->update(this);
 	updateAnimation();
  
-    if(crntState == agent_state::blocking){
+	if(crntState == agent_state::blocking){
 		agentOverlay.setPos(getPos());
 		agentOverlay.setAngle(getAngle());
-    }
-    
+	}
+	
 }
 
 int Agent::getLevel() const {
-    return (*this)[Attribute::level];
+	return (*this)[Attribute::level];
 }
 
 void Agent::sendAlert(Player* p)
 {
-    runMethodIfAvailable("roomAlert", p);
+	runMethodIfAvailable("roomAlert", p);
 }
 
 void Agent::onDetect(GObject* obj)
@@ -201,28 +201,28 @@ void Agent::onEndDetect(GObject* obj)
 
 void Agent::onDetectEnemy(Agent* enemy)
 {
-    runMethodIfAvailable("onDetectEnemy", enemy);
+	runMethodIfAvailable("onDetectEnemy", enemy);
 }
 
 void Agent::onEndDetectEnemy(Agent* enemy)
 {
-    runMethodIfAvailable("onEndDetectEnemy", enemy);
+	runMethodIfAvailable("onEndDetectEnemy", enemy);
 }
 
 void Agent::onDetectBomb(Bomb* bomb)
 {
-    runMethodIfAvailable("onDetectBomb", bomb);
+	runMethodIfAvailable("onDetectBomb", bomb);
 }
 
 void Agent::onDetectBullet(Bullet* bullet)
 {
-    runMethodIfAvailable("onDetectBullet", bullet);
+	runMethodIfAvailable("onDetectBullet", bullet);
 }
 
 void Agent::onZeroHP()
 {
-    runMethodIfAvailable("onZeroHP");
-    space->removeObject(this);
+	runMethodIfAvailable("onZeroHP");
+	space->removeObject(this);
 }
 
 void Agent::onPitfall()
@@ -232,20 +232,20 @@ void Agent::onPitfall()
 
 void Agent::updateCombo()
 {
-    if( (*this)[Attribute::maxCombo] <= 0.0f )
-        return;
+	if( (*this)[Attribute::maxCombo] <= 0.0f )
+		return;
 
-    bool isComboFull = (*this)[Attribute::combo] >= (*this)[Attribute::maxCombo];
-    bool isComboEmpty = (*this)[Attribute::combo] == 0.0f;
-    bool isComboActive = isActive(Attribute::comboLevel);
+	bool isComboFull = (*this)[Attribute::combo] >= (*this)[Attribute::maxCombo];
+	bool isComboEmpty = (*this)[Attribute::combo] == 0.0f;
+	bool isComboActive = isActive(Attribute::comboLevel);
 
 	if ( isComboFull && !isComboActive) {
-        setAttribute(Attribute::comboLevel, 1.0f);
+		setAttribute(Attribute::comboLevel, 1.0f);
 		modifyAttribute(Attribute::attack, 0.25f);
 		sprite.runAction(comboFlickerTintAction());
 	}
 	else if (!isComboEmpty && isComboActive) {
-        setAttribute(Attribute::comboLevel, 0.0f);
+		setAttribute(Attribute::comboLevel, 0.0f);
 		modifyAttribute(Attribute::attack, -0.25f);
 		sprite.stopAction(cocos_action_tag::combo_mode_flicker);
 		sprite.setColor(Color3B::WHITE);
@@ -283,10 +283,10 @@ bool Agent::applyOngoingSpellCost(const spell_cost& cost)
 
 bool Agent::canApplySpellCost(const spell_cost& cost)
 {
-    return
-        (*this)[Attribute::mp] >= cost.initial_mp &&
-        (*this)[Attribute::stamina] >= cost.initial_stamina
-    ;
+	return
+		(*this)[Attribute::mp] >= cost.initial_mp &&
+		(*this)[Attribute::stamina] >= cost.initial_stamina
+	;
 }
 
 AttributeMap Agent::getBaseAttributes() const
@@ -301,12 +301,12 @@ float Agent::get(Attribute id) const
 
 void Agent::setAttribute(Attribute id, float val) const
 {
-    attributeSystem->set(id, val);
+	attributeSystem->set(id, val);
 }
 
 void Agent::setAttribute(Attribute id, Attribute val) const
 {
-    attributeSystem->set(id, val);
+	attributeSystem->set(id, val);
 }
 
 void Agent::modifyAttribute(Attribute id, float val)
@@ -357,8 +357,8 @@ bool Agent::setFirePattern(string firePattern)
 
 bool Agent::setFirePattern(local_shared_ptr<FirePattern> firePattern)
 {
-    this->firePattern = firePattern;
-    return true;
+	this->firePattern = firePattern;
+	return true;
 }
 
 SpaceFloat Agent::getTraction() const
@@ -423,10 +423,10 @@ bool Agent::canPlaceBomb(SpaceVect pos)
 
 void Agent::setShieldActive(bool v)
 {
-    if(v)
-        block();
-    else
-        endBlock();
+	if(v)
+		block();
+	else
+		endBlock();
 }
 
 bool Agent::isShield(Bullet * b)
@@ -458,146 +458,146 @@ void Agent::initializeGraphics()
 
 bool Agent::fire()
 {
-    FirePattern* fp = getFirePattern();
-    bool fired = false;
-    
-    if (!fp) {
-        log1("%s: Attempt to fire without FirePattern!", toString());
-        return false;
-    }
+	FirePattern* fp = getFirePattern();
+	bool fired = false;
+	
+	if (!fp) {
+		log1("%s: Attempt to fire without FirePattern!", toString());
+		return false;
+	}
 
-    float fireCost = getFirePattern()->getCost();
+	float fireCost = getFirePattern()->getCost();
 	bool inhibit = isActive(Attribute::inhibitFiring);
 	bool hasEnergy = (*this)[Attribute::stamina] >= fireCost;
 	bool validState = crntState == agent_state::none;
 
-    if(inhibit || !hasEnergy || !validState){
-        return false;
-    }
-    
-    fired = fp->fireIfPossible();
-    if (fired) {
-        playSoundSpatial("sfx/shot.wav");
-        consume(Attribute::stamina, fireCost);
-    }
+	if(inhibit || !hasEnergy || !validState){
+		return false;
+	}
+	
+	fired = fp->fireIfPossible();
+	if (fired) {
+		playSoundSpatial("sfx/shot.wav");
+		consume(Attribute::stamina, fireCost);
+	}
 
-    return fired;
+	return fired;
 }
 
 bool Agent::aimAtTarget(GObject* target)
 {
-    setAngle(ai::directionToTarget(this, target->getPos()).toAngle());
-    return true;
+	setAngle(ai::directionToTarget(this, target->getPos()).toAngle());
+	return true;
 }
 
 bool Agent::canSprint()
 {
-    return
-        crntState == agent_state::none &&
+	return
+		crntState == agent_state::none &&
 		!isActive(Attribute::sprintCooldown) &&
 		!space->getSuppressAction() &&
 		(*this)[Attribute::stamina] >= (*this)[Attribute::sprintCost]
-    ;
+	;
 }
 
 void Agent::sprint(SpaceVect direction)
 {
-    if(!canSprint())
-        return;
+	if(!canSprint())
+		return;
 
-    setState(agent_state::sprinting);
-    stateData = sprint_data{direction};
-    
-    consume(Attribute::stamina, (*this)[Attribute::sprintCost]);
+	setState(agent_state::sprinting);
+	stateData = sprint_data{direction};
+	
+	consume(Attribute::stamina, (*this)[Attribute::sprintCost]);
 }
 
 bool Agent::canBlock()
 {
-    return crntState == agent_state::none;
+	return crntState == agent_state::none;
 }
 
 void Agent::block()
 {
-    if(crntState == agent_state::none && (*this)[Attribute::shieldLevel] > 0.0f){
-        setState(agent_state::blocking);
-    }
-    
-    agentOverlay.setVisible(true);
+	if(crntState == agent_state::none && (*this)[Attribute::shieldLevel] > 0.0f){
+		setState(agent_state::blocking);
+	}
+	
+	agentOverlay.setVisible(true);
 }
 
 void Agent::endBlock()
 {
-    if(isShieldActive()){
-        setState(agent_state::none);
-    }
-    
-    agentOverlay.setVisible(false);
+	if(isShieldActive()){
+		setState(agent_state::none);
+	}
+	
+	agentOverlay.setVisible(false);
 }
 
 bool Agent::hasPowerAttack()
 {
-    return powerAttack != nullptr;
+	return powerAttack != nullptr;
 }
 
 bool Agent::powerAttackAvailable()
 {
-    return hasPowerAttack() && canApplySpellCost(powerAttack->getCost());
+	return hasPowerAttack() && canApplySpellCost(powerAttack->getCost());
 }
 
 bool Agent::doPowerAttack(const SpellDesc* p)
 {
-    if(crntState != agent_state::none)
-        return false;
-        
-    power_attack_data data;
-    data.attack = cast(p);
-    
-    if(data.attack){
-        setState(agent_state::powerAttack);
-        stateData = data;
-    }
-    
-    return data.attack;
+	if(crntState != agent_state::none)
+		return false;
+		
+	power_attack_data data;
+	data.attack = cast(p);
+	
+	if(data.attack){
+		setState(agent_state::powerAttack);
+		stateData = data;
+	}
+	
+	return data.attack;
 }
 
 bool Agent::doPowerAttack()
 {
-    return doPowerAttack(powerAttack);
+	return doPowerAttack(powerAttack);
 }
 
 bool Agent::isBombAvailable()
 {
-    return
-        crntBomb &&
-        (crntState == agent_state::none || crntState == agent_state::blocking) &&
-        !isActive(Attribute::bombCooldown) &&
-        (*this)[Attribute::mp] >= crntBomb->cost &&
-        !isActive(Attribute::inhibitFiring)
-    ;
+	return
+		crntBomb &&
+		(crntState == agent_state::none || crntState == agent_state::blocking) &&
+		!isActive(Attribute::bombCooldown) &&
+		(*this)[Attribute::mp] >= crntBomb->cost &&
+		!isActive(Attribute::inhibitFiring)
+	;
 }
 
 //0.0 means place it (if standing still), 1.0 means throw it at max throw speed
 //either way, the agents current velocity will be added to it.
 bool Agent::throwBomb(local_shared_ptr<bomb_properties> bomb, SpaceFloat speedRatio)
 {
-    SpaceVect bombPos = getPos() + SpaceVect::ray(bombSpawnDistance, getAngle());
+	SpaceVect bombPos = getPos() + SpaceVect::ray(bombSpawnDistance, getAngle());
 
-    if(!isBombAvailable() || !canPlaceBomb(bombPos)){
-        return false;
-    }
-    
-    SpaceVect bombVel = getVel();
-    bombVel += SpaceVect::ray((*this)[Attribute::maxThrowSpeed]*speedRatio, getAngle());
+	if(!isBombAvailable() || !canPlaceBomb(bombPos)){
+		return false;
+	}
+	
+	SpaceVect bombVel = getVel();
+	bombVel += SpaceVect::ray((*this)[Attribute::maxThrowSpeed]*speedRatio, getAngle());
 
-    space->createObject<Bomb>(
-        object_params(bombPos,bombVel),
-        bomb
-    );
-    consume(Attribute::mp, crntBomb->cost);
-    
-    attributeSystem->set(Attribute::bombCooldown, Attribute::throwInterval);
+	space->createObject<Bomb>(
+		object_params(bombPos,bombVel),
+		bomb
+	);
+	consume(Attribute::mp, crntBomb->cost);
+	
+	attributeSystem->set(Attribute::bombCooldown, Attribute::throwInterval);
 
-    return true;
+	return true;
 }
 
 void Agent::applyDesiredMovement(SpaceVect direction)
@@ -611,67 +611,67 @@ void Agent::applyDesiredMovement(SpaceVect direction)
 		return;
 	}
 
-    SpaceFloat speed = getMaxSpeed() * getSpeedMultiplier();
-    SpaceFloat accel = getMaxAcceleration() * getAccelMultiplier();
+	SpaceFloat speed = getMaxSpeed() * getSpeedMultiplier();
+	SpaceFloat accel = getMaxAcceleration() * getAccelMultiplier();
 
-    ai::applyDesiredVelocity(this, direction*speed, accel);
+	ai::applyDesiredVelocity(this, direction*speed, accel);
 }
 
 void Agent::applyStoppingForce()
 {
-    SpaceFloat accel = getMaxAcceleration() * getAccelMultiplier();
+	SpaceFloat accel = getMaxAcceleration() * getAccelMultiplier();
 
-    ai::applyDesiredVelocity(this, SpaceVect::zero, accel);
+	ai::applyDesiredVelocity(this, SpaceVect::zero, accel);
 }
 
 bool Agent::canCast(const SpellDesc* spell)
 {
-    return
-        !isActive(Attribute::inhibitSpellcasting) &&
-        spell &&
-        canApplySpellCost(spell->getCost()) &&
-        !isActive(Attribute::spellCooldown)
-    ;
+	return
+		!isActive(Attribute::inhibitSpellcasting) &&
+		spell &&
+		canApplySpellCost(spell->getCost()) &&
+		!isActive(Attribute::spellCooldown)
+	;
 }
 
 void Agent::selectNextSpell()
 {
-    if(inventory->spells.hasItems()){
-        equippedSpell = inventory->spells.next();
-        
-        if(dynamic_cast<Player*>(this))
-            space->addHudAction(&HUD::setSpellIcon, inventory->spells.getIcon());
-    }
+	if(inventory->spells.hasItems()){
+		equippedSpell = inventory->spells.next();
+		
+		if(dynamic_cast<Player*>(this))
+			space->addHudAction(&HUD::setSpellIcon, inventory->spells.getIcon());
+	}
 }
 
 void Agent::selectPrevSpell()
 {
-    if(inventory->spells.hasItems()){
-        equippedSpell = inventory->spells.prev();
-        
-        if(dynamic_cast<Player*>(this))
-            space->addHudAction(&HUD::setSpellIcon, inventory->spells.getIcon());
-    }
+	if(inventory->spells.hasItems()){
+		equippedSpell = inventory->spells.prev();
+		
+		if(dynamic_cast<Player*>(this))
+			space->addHudAction(&HUD::setSpellIcon, inventory->spells.getIcon());
+	}
 }
 
 void Agent::selectNextFirePattern()
 {
-    if(inventory->firePatterns.hasItems()){
-        setFirePattern(inventory->firePatterns.prev());
-        
-        if(dynamic_cast<Player*>(this))
-            space->addHudAction(&HUD::setFirePatternIcon, inventory->firePatterns.getIcon());
-    }
+	if(inventory->firePatterns.hasItems()){
+		setFirePattern(inventory->firePatterns.prev());
+		
+		if(dynamic_cast<Player*>(this))
+			space->addHudAction(&HUD::setFirePatternIcon, inventory->firePatterns.getIcon());
+	}
 }
 
 void Agent::selectPrevFirePattern()
 {
-    if(inventory->firePatterns.hasItems()){
-        setFirePattern(inventory->firePatterns.next());
-        
-        if(dynamic_cast<Player*>(this))
-            space->addHudAction(&HUD::setFirePatternIcon, inventory->firePatterns.getIcon());
-    }
+	if(inventory->firePatterns.hasItems()){
+		setFirePattern(inventory->firePatterns.next());
+		
+		if(dynamic_cast<Player*>(this))
+			space->addHudAction(&HUD::setFirePatternIcon, inventory->firePatterns.getIcon());
+	}
 }
 
 void Agent::setState(agent_state newState)
@@ -679,32 +679,32 @@ void Agent::setState(agent_state newState)
 	if(crntState != agent_state::none && crntState != newState)
 		endState();
 
-    crntState = newState;
-    timeInState = 0.0;
+	crntState = newState;
+	timeInState = 0.0;
 }
 
 void Agent::updateState()
 {
-    timerIncrement(timeInState);
-    
-    switch(crntState)
-    {
-    case agent_state::sprinting:
+	timerIncrement(timeInState);
+	
+	switch(crntState)
+	{
+	case agent_state::sprinting:
 		_updateSprinting();
-    break;
-    case agent_state::sprintRecovery:
+	break;
+	case agent_state::sprintRecovery:
 		_updateSprintRecovery();
-    break;
-    case agent_state::powerAttack:
+	break;
+	case agent_state::powerAttack:
 		_updatePowerAttack();
-    break;
-    case agent_state::knockback:
+	break;
+	case agent_state::knockback:
 		_updateKnockback();
-    break;
-    case agent_state::knockbackRecovery:
+	break;
+	case agent_state::knockbackRecovery:
 		_updateKnockbackRecovery();
 	break;
-    }
+	}
 }
 
 void Agent::endState()
@@ -719,12 +719,12 @@ void Agent::endState()
 
 bool Agent::isShieldActive()
 {
-    return crntState == agent_state::blocking;
+	return crntState == agent_state::blocking;
 }
 
 bool Agent::isSprintActive()
 {
-    return crntState == agent_state::sprinting;
+	return crntState == agent_state::sprinting;
 }
 
 void Agent::setAngle(SpaceFloat a)

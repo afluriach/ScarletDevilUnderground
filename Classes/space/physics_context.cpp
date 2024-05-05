@@ -12,14 +12,14 @@
 #include "PhysicsImpl.hpp"
 
 pair<b2Body*, b2Fixture*> physics_context::createCircleBody(
-    const SpaceVect& center,
-    SpaceFloat radius,
-    SpaceFloat mass,
-    GType type,
-    PhysicsLayers layers,
-    bool sensor,
-    any_ptr data
-){    
+	const SpaceVect& center,
+	SpaceFloat radius,
+	SpaceFloat mass,
+	GType type,
+	PhysicsLayers layers,
+	bool sensor,
+	any_ptr data
+){	
 	return space->physicsImpl->createCircleBody(
 		center,
 		radius,
@@ -33,12 +33,12 @@ pair<b2Body*, b2Fixture*> physics_context::createCircleBody(
 }
 
 pair<b2Body*, b2Fixture*> physics_context::createRectangleBody(
-    const SpaceVect& center,
-    const SpaceVect& dim,
-    SpaceFloat mass,
-    GType type,
-    PhysicsLayers layers,
-    bool sensor,
+	const SpaceVect& center,
+	const SpaceVect& dim,
+	SpaceFloat mass,
+	GType type,
+	PhysicsLayers layers,
+	bool sensor,
 	any_ptr data
 ){
 	return space->physicsImpl->createRectangleBody(
@@ -66,8 +66,8 @@ SpaceFloat physics_context::distanceFeeler(const GObject * agent, SpaceVect _fee
 
 SpaceFloat physics_context::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const
 {
-    SpaceVect start = agent->getPos();
-    SpaceVect end = start + _feeler;
+	SpaceVect start = agent->getPos();
+	SpaceVect end = start + _feeler;
 
 	//Distance along the segment is scaled [0,1].
 	SpaceFloat closest = 1.0;
@@ -93,7 +93,7 @@ SpaceFloat physics_context::floorLevelWallDistanceFeeler(const GObject * agent, 
 
 SpaceFloat physics_context::wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const
 {
-    return distanceFeeler(agent, feeler, GType::wall);
+	return distanceFeeler(agent, feeler, GType::wall);
 }
 
 SpaceFloat physics_context::obstacleDistanceFeeler(const GObject * agent, SpaceVect _feeler) const
@@ -105,7 +105,7 @@ SpaceFloat physics_context::obstacleDistanceFeeler(const GObject * agent, SpaceV
 		agent->getCrntLayers()
 	);
 
-    return min(d, agent->getIsOnFloor() ? trapFloorDistanceFeeler(agent,_feeler) : _feeler.length());
+	return min(d, agent->getIsOnFloor() ? trapFloorDistanceFeeler(agent,_feeler) : _feeler.length());
 }
 
 SpaceFloat physics_context::obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const
@@ -163,13 +163,13 @@ SpaceFloat physics_context::trapFloorDistanceFeeler(const GObject* agent, SpaceV
 
 bool physics_context::feeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
 {
-    return feeler(agent,_feeler, gtype, PhysicsLayers::all);
+	return feeler(agent,_feeler, gtype, PhysicsLayers::all);
 }
 
 bool physics_context::feeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const
 {
-    SpaceVect start = agent->getPos();
-    SpaceVect end = start + _feeler;
+	SpaceVect start = agent->getPos();
+	SpaceVect end = start + _feeler;
 
 	b2Filter filter;
 	filter.maskBits = to_uint(gtype);
@@ -199,7 +199,7 @@ GObject* physics_context::objectFeeler(const GObject * agent, SpaceVect feeler, 
 	filter.layers = to_uint(layers);
 
 	b2RayCastCallback callback = [&bestRatio, &bestResult](b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float64 fraction)-> float64 {
-        GObject* obj = fixture->GetCastUserData<GObject>();
+		GObject* obj = fixture->GetCastUserData<GObject>();
 
 		if (obj && fraction < bestRatio) {
 			bestResult = obj;
@@ -218,7 +218,7 @@ GObject* physics_context::objectFeeler(const GObject * agent, SpaceVect feeler, 
 
 bool physics_context::wallFeeler(const GObject * agent, SpaceVect _feeler) const
 {
-    return feeler(agent, _feeler, GType::wall);
+	return feeler(agent, _feeler, GType::wall);
 }
 
 bool physics_context::obstacleFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const
@@ -250,7 +250,7 @@ GObject* physics_context::interactibleObjectFeeler(const GObject* agent, SpaceVe
 
 bool physics_context::lineOfSight(const GObject* agent, const GObject * target) const
 {
-    SpaceVect feeler_displacement = target->getPos() - agent->getPos();
+	SpaceVect feeler_displacement = target->getPos() - agent->getPos();
 
 	return !feeler(
 		agent,
@@ -360,7 +360,7 @@ unordered_set<GObject*> physics_context::rectangleObjectQuery(
 	filter.layers = to_uint(layers);
 
 	b2QueryCallback callback = [type, layers, &result](b2Fixture* fixture) -> bool {
-        GObject* obj = fixture->GetCastUserData<GObject>();
+		GObject* obj = fixture->GetCastUserData<GObject>();
 		if (obj) {
 			result.insert(obj);
 		}
@@ -401,7 +401,7 @@ unordered_set<GObject*> physics_context::radiusQuery(
 	filter.layers = to_uint(layers);
 
 	b2QueryCallback callback = [agent, type, layers, center, radius, &result](b2Fixture* fixture) -> bool {
-        GObject* obj = fixture->GetCastUserData<GObject>();
+		GObject* obj = fixture->GetCastUserData<GObject>();
 		if (obj && obj != agent) {
 			result.insert(obj);
 		}

@@ -23,9 +23,9 @@
 #include "Wall.hpp"
 
 namespace Lua{
-    
-    void Inst::addGObject()
-    {
+	
+	void Inst::addGObject()
+	{
 		auto objects = _state.create_table();
 		_state["objects"] = objects;
 
@@ -127,7 +127,7 @@ namespace Lua{
 			"level", sol::property(&GObject::getLevel),
 			"name", sol::property(&GObject::getName),
 			"id", sol::property(&GObject::getUUID),
-            "props", sol::property(&GObject::getProps),
+			"props", sol::property(&GObject::getProps),
 			"space", sol::property(&GObject::getSpace)
 		);
 
@@ -147,12 +147,12 @@ namespace Lua{
 		addFuncSame(gobject, getPos);
 		addFuncSame(gobject, getVel);
 		addFuncSame(gobject, rotate);
-        addFuncSame(gobject, setDirection);
+		addFuncSame(gobject, setDirection);
 		addFuncSame(gobject, setAngle);
 		addFuncSame(gobject, setAngularVel);
 		addFuncSame(gobject, setPos);
 		addFuncSame(gobject, setVel);
-        addFuncSame(gobject, getInitialCenterPix);
+		addFuncSame(gobject, getInitialCenterPix);
 
 		addFuncSame(gobject, createLight);
 		addFuncSame(gobject, removeLight);
@@ -200,9 +200,9 @@ namespace Lua{
 		addFuncSame(agent, getAttributeSystem);
 
 		addFuncSame(agent, getSensedObjectDistance);
-        
-        addFuncSame(agent, aimAtTarget);
-        addFuncSame(agent, fire);
+		
+		addFuncSame(agent, aimAtTarget);
+		addFuncSame(agent, fire);
 
 		agent["modifyAttribute"] = sol::overload(
 			static_cast< void(Agent::*)(Attribute,float) >(&Agent::modifyAttribute),
@@ -219,7 +219,7 @@ namespace Lua{
 
 		addFuncSame(player, applyUpgrade);
 		addFuncSame(player, equipItems);
-        addFuncSame(player, gameOver);
+		addFuncSame(player, gameOver);
 
 		auto bullet = _state.new_usertype<Bullet>(
 			"Bullet",

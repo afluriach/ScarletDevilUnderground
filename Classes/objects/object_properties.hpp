@@ -11,15 +11,15 @@
 class object_properties
 {
 public:
-    object_properties();
-    virtual ~object_properties();
-    
+	object_properties();
+	virtual ~object_properties();
+	
 	shared_ptr<sprite_properties> sprite;
 	shared_ptr<LightArea> light;
 
 	string properName;
 	string clsName;
-    string scriptName;
+	string scriptName;
 
 	SpaceVect dimensions;
 	SpaceFloat mass = 0.0;
@@ -74,9 +74,9 @@ public:
 class bomb_properties : public object_properties
 {
 public:
-    bomb_properties();
-    virtual ~bomb_properties();
-    
+	bomb_properties();
+	virtual ~bomb_properties();
+	
 	string explosionSound;
 
 	float blastRadius;
@@ -94,9 +94,9 @@ public:
 class bullet_properties : public object_properties
 {
 public:
-    bullet_properties();
-    virtual ~bullet_properties();
-    
+	bullet_properties();
+	virtual ~bullet_properties();
+	
 	SpaceFloat speed;
 
 	DamageInfo damage;
@@ -130,9 +130,9 @@ public:
 class effectarea_properties : public object_properties
 {
 public:
-    effectarea_properties();
-    virtual ~effectarea_properties();
-    
+	effectarea_properties();
+	virtual ~effectarea_properties();
+	
 	const MagicEffectDescriptor* effect;
 	float magnitude = 0.0f;
 };
@@ -150,9 +150,9 @@ public:
 class environment_object_properties : public object_properties
 {
 public:
-    environment_object_properties();
-    virtual ~environment_object_properties();
-    
+	environment_object_properties();
+	virtual ~environment_object_properties();
+	
 	string interactionIcon;
 	PhysicsLayers layers = PhysicsLayers::none;
 	bool interactible;
@@ -162,9 +162,9 @@ class floorsegment_properties : public object_properties {
 public:
 	static floorsegment_properties makeDefault();
 
-    floorsegment_properties();
-    virtual ~floorsegment_properties();
-    
+	floorsegment_properties();
+	virtual ~floorsegment_properties();
+	
 	string sfxRes;
 
 	DamageInfo touchDamage;
@@ -176,7 +176,7 @@ class item_properties : public object_properties
 {
 public:
 	item_properties();
-    virtual ~item_properties();
+	virtual ~item_properties();
 
 	string onAcquireDialog;
 	item_type itemType = item_type::none;

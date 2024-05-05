@@ -46,7 +46,7 @@ void EffectArea::endContact(GObject* obj)
 
 	auto it = activeEffects.find(obj);
 	if (it != activeEffects.end()) {
-        it->second->remove();
+		it->second->remove();
 		activeEffects.erase(it);
 	}
 }

@@ -15,8 +15,8 @@
 class PlayScene : public GScene
 {
 public:
-    static const Color3B fadeoutColor;
-    static const float fadeoutLength;
+	static const Color3B fadeoutColor;
+	static const float fadeoutLength;
 
 	PlayScene(shared_ptr<area_properties> props, string start);
 
@@ -30,7 +30,7 @@ public:
 	void onPausePressed();
 	virtual void enterPause();
 	virtual void exitPause();
-    
+	
 	void onMapPressed();
 	void enterMap();
 	void exitMap();
@@ -42,23 +42,23 @@ public:
 	void enterWorldSelect();
 	void exitWorldSelect();
 
-    void pauseAnimations();
-    void resumeAnimations();
-    
-    void triggerGameOver();
-    void showGameOverMenu();
+	void pauseAnimations();
+	void resumeAnimations();
+	
+	void triggerGameOver();
+	void showGameOverMenu();
 
 	virtual GScene* getReplacementScene();
 
 	inline void setIsOverworld(bool val) { isOverworld = val; }
 
-    HUD* hud = nullptr;
+	HUD* hud = nullptr;
 	PauseMenu* pauseMenu = nullptr;
 	MapMenu* mapMenu = nullptr;
 	InventoryInfo* inventoryMenu = nullptr;
 
-private:    
-    void addHUD();
+private:	
+	void addHUD();
 	void showMenu(MenuLayer* menu);
 	void triggerMenu( void (PlayScene::*m)(void) );
 

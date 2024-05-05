@@ -23,12 +23,12 @@ namespace Lua{
 		
 		cFuncSame(graphics, pitfallShrinkAction);
 	
-        auto gscene = _state.new_usertype<GScene>(
-            "GScene",
-            sol::no_constructor,
-            "crntScene", sol::property(&GScene::getCrntScene)
-        );
-        
+		auto gscene = _state.new_usertype<GScene>(
+			"GScene",
+			sol::no_constructor,
+			"crntScene", sol::property(&GScene::getCrntScene)
+		);
+		
 #define _cls GScene
 
 		addFuncSame(gscene, getSpace);

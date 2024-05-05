@@ -114,15 +114,15 @@ void Bullet::initializeGraphics()
 }
 
 SpaceFloat Bullet::getMaxSpeed() const {
-    return props->speed;
+	return props->speed;
 }
 
 DamageInfo Bullet::getDamageInfo() const {
-    return props->damage;
+	return props->damage;
 }
 
 bool Bullet::isInvisible() const {
-    return props->invisible;
+	return props->invisible;
 }
 
 void Bullet::onWallCollide(Wall* wall)

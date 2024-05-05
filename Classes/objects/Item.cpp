@@ -56,7 +56,7 @@ Item::Item(
 	),
 	props(props)
 {
-    sol::init_script_object<Item>(this, params);
+	sol::init_script_object<Item>(this, params);
 }
 
 Item::~Item()
@@ -83,7 +83,7 @@ void Item::onPlayerContact(Player* p)
 		App::crntState->addItem(props->clsName);
 	}
 
-    runMethodIfAvailable("onAcquire", p);
+	runMethodIfAvailable("onAcquire", p);
 
 	if (!props->onAcquireDialog.empty()) {
 		space->createDialog("dialogs/" + props->onAcquireDialog, false);

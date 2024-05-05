@@ -34,16 +34,16 @@ protected:
 
 class AgentFunction : public Function {
 public:
-    AgentFunction(GObject* object);
+	AgentFunction(GObject* object);
 protected:
-    Agent *const agent;
+	Agent *const agent;
 };
 
 class PlayerFunction : public Function {
 public:
-    PlayerFunction(GObject* object);
+	PlayerFunction(GObject* object);
 protected:
-    Player *const player;
+	Player *const player;
 };
 
 class Seek : public Function {
@@ -58,9 +58,9 @@ public:
 	};
 
 	Seek(GObject* object, GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
-    
+	
 	virtual void update();
-    
+	
 	FuncGetName(Seek)
 protected:
 	local_shared_ptr<Function> pathFunction;
@@ -73,13 +73,13 @@ protected:
 
 class MaintainDistance : public Function {
 public:
-    MaintainDistance(GObject* object, GObject* target, SpaceFloat distance, SpaceFloat margin);
-    
+	MaintainDistance(GObject* object, GObject* target, SpaceFloat distance, SpaceFloat margin);
+	
 	virtual void update();
-    FuncGetName(MaintainDistance)
+	FuncGetName(MaintainDistance)
 protected:
 	gobject_ref target;
-    SpaceFloat distance, margin;
+	SpaceFloat distance, margin;
 };
 
 class OccupyPoint : public Function {
@@ -127,13 +127,13 @@ protected:
 class Flee : public Function {
 public:
 	Flee(GObject* object, GObject* target, SpaceFloat distance);
-    
+	
 	virtual void update();
 
 	FuncGetName(Flee)
 protected:
 	gobject_ref target;
-    SpaceFloat distance;
+	SpaceFloat distance;
 };
 
 class Evade : public AgentFunction {
@@ -210,12 +210,12 @@ public:
 	static const SpaceFloat arrivalMargin;
 
 	MoveToPoint(GObject* object, SpaceVect target);
-    
+	
 	virtual void update();
 
-    FuncGetName(MoveToPoint)
+	FuncGetName(MoveToPoint)
 protected:
-    SpaceVect target;
+	SpaceVect target;
 };
 
 enum class follow_path_mode
@@ -256,40 +256,40 @@ public:
 	);
 
 	FollowPathKinematic(
-        GObject* object,
-        shared_ptr<const Path> path,
-        follow_path_mode mode
-    );
+		GObject* object,
+		shared_ptr<const Path> path,
+		follow_path_mode mode
+	);
 	inline virtual ~FollowPathKinematic() {}
 
-    void setSegment(size_t idx1, size_t idx2);
-    void nextSegment();
+	void setSegment(size_t idx1, size_t idx2);
+	void nextSegment();
 
-    virtual void onEnter();
+	virtual void onEnter();
 	virtual void update();
 	FuncGetName(FollowPathKinematic)
 protected:
 	shared_ptr<const Path> path;
-    SpaceVect currentSegmentStart;
-    SpaceVect currentSegmentDisplacementNormal;
-    SpaceFloat d = 0.0;
-    SpaceFloat currentSegmentLength = 0.0;
-    SpaceFloat speed;
-    int idx1 = 0;
-    int idx2 = 1;
-    follow_path_mode mode;
-    bool is_scanning = false;
+	SpaceVect currentSegmentStart;
+	SpaceVect currentSegmentDisplacementNormal;
+	SpaceFloat d = 0.0;
+	SpaceFloat currentSegmentLength = 0.0;
+	SpaceFloat speed;
+	int idx1 = 0;
+	int idx2 = 1;
+	follow_path_mode mode;
+	bool is_scanning = false;
 };
 
 class Wait : public Function {
 public:
-    Wait(GObject* object, SpaceFloat duration);
-    
-    virtual void update();
-    FuncGetName(FollowPath)
+	Wait(GObject* object, SpaceFloat duration);
+	
+	virtual void update();
+	FuncGetName(FollowPath)
 protected:
-    SpaceFloat duration;
-    SpaceFloat t = 0.0;
+	SpaceFloat duration;
+	SpaceFloat t = 0.0;
 };
 
 class Wander : public Function {
@@ -306,8 +306,8 @@ public:
 	FuncGetName(Wander)
 protected:
 	local_shared_ptr<MoveToPoint> moveFunction;
-    SpaceFloat minWait, maxWait;
-    SpaceFloat minDist, maxDist;
+	SpaceFloat minWait, maxWait;
+	SpaceFloat minDist, maxDist;
 	SpaceFloat waitTimer = 0.0;
 };
 
@@ -362,29 +362,29 @@ protected:
 class PlayerControl : public PlayerFunction {
 public:
 	PlayerControl(GObject* object);
-    virtual ~PlayerControl();
+	virtual ~PlayerControl();
 
 	virtual void onEnter();
 	virtual void update();
-     
-    void checkBlockControls(const ControlInfo& cs);
-    void checkMovementControls(const ControlInfo& cs);
+	 
+	void checkBlockControls(const ControlInfo& cs);
+	void checkMovementControls(const ControlInfo& cs);
 	void checkFireControls(const ControlInfo& cs);
 	void checkBombControls(const ControlInfo& cs);
 	void checkItemInteraction(const ControlInfo& cs);
-    void updateSpellControls(const ControlInfo& cs);
-    
-    void applyDesiredMovement();
-    bool tryInteract(GObject* interactible);
-    
-    void toggleSpell();
-    void stopSpell();
+	void updateSpellControls(const ControlInfo& cs);
+	
+	void applyDesiredMovement();
+	bool tryInteract(GObject* interactible);
+	
+	void toggleSpell();
+	void stopSpell();
 
 	FuncGetName(PlayerControl)
 protected:
-    local_shared_ptr<Spell> activeSpell;
-    SpaceVect desiredMoveDirection;
-    SpaceFloat interactCooldown = 0.0;
+	local_shared_ptr<Spell> activeSpell;
+	SpaceVect desiredMoveDirection;
+	SpaceFloat interactCooldown = 0.0;
 
 	bool isAutoFire = false;
 };

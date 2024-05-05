@@ -46,7 +46,7 @@ void graphics_context::update()
 	for (auto& entry : lightmapNoise)
 	{
 		SpaceVect fieldPos = SpaceVect::ray(entry.second.radius, entry.second.crntAngle);
-        double pout = lightmapPerlinNoise.noise2D(fieldPos.x, fieldPos.y);
+		double pout = lightmapPerlinNoise.noise2D(fieldPos.x, fieldPos.y);
 		double intensity = (pout + 1.0) * 0.5 * (1.0 - entry.second.baseIntensity) + entry.second.baseIntensity;
 		Node* lightNode = getLight(entry.first);
 
@@ -220,10 +220,10 @@ void graphics_context::createAgentSprite(
 	GraphicsLayer sceneLayer,
 	Vec2 pos
 ){
-    if(!_sprite){
-        log0("null sprite_properties");
-        return;
-    }
+	if(!_sprite){
+		log0("null sprite_properties");
+		return;
+	}
 
 	sprite_properties sprite = *_sprite;
 
@@ -278,21 +278,21 @@ void graphics_context::createAgentBodyShader(
 
 void graphics_context::createConeShader(
 		SpriteID id,
-        GraphicsLayer layer,
+		GraphicsLayer layer,
 		const Color4F color,
-        float radius,
-        const Vec2 center,
-        SpaceFloat coneWidth,
-        SpaceFloat initialAngleRad
+		float radius,
+		const Vec2 center,
+		SpaceFloat coneWidth,
+		SpaceFloat initialAngleRad
 ) {
-    ConeShader* shader = Node::ccCreate<ConeShader>(
-        color,
-        radius,
-        center,
-        coneWidth,
-        initialAngleRad
-    );
-    shader->setContentSize(CCSize(radius, radius) * 2.0f * app::pixelsPerTile);
+	ConeShader* shader = Node::ccCreate<ConeShader>(
+		color,
+		radius,
+		center,
+		coneWidth,
+		initialAngleRad
+	);
+	shader->setContentSize(CCSize(radius, radius) * 2.0f * app::pixelsPerTile);
 
 	graphicsNodes.insert_or_assign(id, shader);
 	scene->getSpaceLayer()->positionAndAddNode(shader, to_int(layer), center, 1.0f);

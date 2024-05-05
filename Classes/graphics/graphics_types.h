@@ -45,7 +45,7 @@ public:
 	Color4F color;
 
 	virtual type_index getType() const = 0;
-    inline Color4F getColor() const { return color; }
+	inline Color4F getColor() const { return color; }
 };
 
 class AmbientLightArea : public LightArea

@@ -34,7 +34,7 @@ GObject::GObject(
 	local_shared_ptr<object_properties> props
 ) :
 	props(props),
-    name(params.name),
+	name(params.name),
 	space(space),
 	sprite(space),
 	light(space),
@@ -52,16 +52,16 @@ GObject::GObject(
 	active(params.active),
 	hidden(params.hidden)
 {
-    if( (!props || props->dimensions.isZero()) && params.dimensions.isZero()){
-        log1("No valid dimensions to use!", toString());
-    }
-    
-    if(props && !props->dimensions.isZero()){
-        dimensions = props->dimensions;
-    }
-    else{
-        dimensions = params.dimensions;
-    }
+	if( (!props || props->dimensions.isZero()) && params.dimensions.isZero()){
+		log1("No valid dimensions to use!", toString());
+	}
+	
+	if(props && !props->dimensions.isZero()){
+		dimensions = props->dimensions;
+	}
+	else{
+		dimensions = params.dimensions;
+	}
 }
 
 GObject::~GObject()
@@ -92,10 +92,10 @@ bool GObject::conditionalLoad(GSpace* space, local_shared_ptr<object_properties>
 		return false;
 	}
 
-    auto objects = space->scriptVM->_state["objects"];
+	auto objects = space->scriptVM->_state["objects"];
 	auto cls = objects[props->clsName];
 
-    if (cls.valid()) {
+	if (cls.valid()) {
 		sol::function f = cls["conditionalLoad"];
 
 		if (f && !f(space, params, props)) {
@@ -108,24 +108,24 @@ bool GObject::conditionalLoad(GSpace* space, local_shared_ptr<object_properties>
 }
 
 local_shared_ptr<object_properties> GObject::getProps() const {
-    return props;
+	return props;
 }
 
 string GObject::getProperName() const {
-    return props ? props->properName : "";
+	return props ? props->properName : "";
 }
 
 string GObject::getClsName() const {
-    return props ? props->clsName : "undefined";
+	return props ? props->clsName : "undefined";
 }
 
 string GObject::getScriptClsName() const {
-    if(!props){
+	if(!props){
 		log1("%s: props is null!", toString());
 		return "";
 	}
 	
-    return !props->scriptName.empty() ? props->scriptName : props->clsName;
+	return !props->scriptName.empty() ? props->scriptName : props->clsName;
 }
 
 gobject_ref GObject::getRef() const
@@ -140,7 +140,7 @@ string GObject::getName() const
 
 string GObject::getTypeIndexName() const
 {
-    return typeid(*this).name();
+	return typeid(*this).name();
 }
 
 string GObject::toString() const
@@ -171,7 +171,7 @@ void GObject::init()
 
 void GObject::update()
 {
-    updateEffects();
+	updateEffects();
 	updateFloorSegment();
 	updateParametricMove();
 }
@@ -181,7 +181,7 @@ void GObject::onRemove()
 	if(crntFloorCenterContact)
 		crntFloorCenterContact->onEndContact(this);
 
-    runMethodIfAvailable("onRemove");
+	runMethodIfAvailable("onRemove");
 }
 
 void GObject::onPitfall()
@@ -215,7 +215,7 @@ void GObject::activate()
 {
 	active = true;
 
-    runMethodIfAvailable("onActivate");
+	runMethodIfAvailable("onActivate");
 }
 void GObject::deactivate()
 {
@@ -226,15 +226,15 @@ void GObject::deactivate()
 
 void GObject::toggleActive()
 {
-    if(active)
-        deactivate();
-    else
-        activate();
+	if(active)
+		deactivate();
+	else
+		activate();
 }
 
 void GObject::scriptInitialize()
 {
-    runMethodIfAvailable("initialize");
+	runMethodIfAvailable("initialize");
 }
 
 bool GObject::hasMethod(const string& name)
@@ -246,10 +246,10 @@ bool GObject::hasMethod(const string& name)
 
 sol::object GObject::getScriptField(const string& name)
 {
-    if(!scriptObj)
-        return sol::object();
-        
-    return scriptObj[name];
+	if(!scriptObj)
+		return sol::object();
+		
+	return scriptObj[name];
 }
 
 bool GObject::hit(DamageInfo damage, SpaceVect n)
@@ -385,10 +385,10 @@ void GObject::launchAtTarget(GObject* target)
 
 Vec2 GObject::getInitialCenterPix()
 {
-    SpaceVect centerPix(prevPos);
-    centerPix *= app::pixelsPerTile;
-        
-    return toCocos(centerPix);
+	SpaceVect centerPix(prevPos);
+	centerPix *= app::pixelsPerTile;
+		
+	return toCocos(centerPix);
 }
 
 bool GObject::teleport(SpaceVect pos)
@@ -432,7 +432,7 @@ void GObject::setPos(SpaceVect p){
 		body->SetPosition(toBox2D(p));
 	}
 }
-    
+	
 void GObject::setAngle(SpaceFloat a){
 	body_check()
 
@@ -445,7 +445,7 @@ void GObject::setAngle(SpaceFloat a){
 		body->SetAngle(a - float_pi*0.5);
 	}
 }
-    
+	
 SpaceFloat GObject::getAngle() const {
 	if(!body)
 		return prevAngle;
@@ -454,25 +454,25 @@ SpaceFloat GObject::getAngle() const {
 }
 
 void GObject::rotate(SpaceFloat a){
-    setAngle(getAngle() + a );
+	setAngle(getAngle() + a );
 }
-    
+	
 SpaceVect GObject::getFacingVector() const{
-    return SpaceVect::ray(1.0, getAngle());
+	return SpaceVect::ray(1.0, getAngle());
 }
-    
+	
 void GObject::setDirection(Direction d) {
-    if(body && d != Direction::none)
-        setAngle(dirToPhysicsAngle(d));
+	if(body && d != Direction::none)
+		setAngle(dirToPhysicsAngle(d));
 }
-    
+	
 SpaceVect GObject::getVel() const {
 	if(!body)
 		return startingVel;
 	else
 		return body->GetLinearVelocity();
 }
-    
+	
 void GObject::setVel(SpaceVect v) {
 	body_check()
 
@@ -482,10 +482,10 @@ void GObject::setVel(SpaceVect v) {
 SpaceFloat GObject::getAngularVel() const{
 	if(!body)
 		return startingAngularVel;
-    else
+	else
 		return body->GetAngularVelocity();
 }
-    
+	
 void GObject::setAngularVel(SpaceFloat w){
 	body_check()
 
@@ -768,14 +768,14 @@ sprite_update GObject::updateSprite()
 		fadeOut = true;
 		updateRequired = true;
 
-        runMethodIfAvailable("spriteFadeOut");
+		runMethodIfAvailable("spriteFadeOut");
 	}
 	else if (visible && isInFade) {
 		isInFade = false;
 		fadeIn = true;
 		updateRequired = true;
   
-        runMethodIfAvailable("spriteFadeIn");
+		runMethodIfAvailable("spriteFadeIn");
 	}
 
 	return sprite_update {
@@ -888,7 +888,7 @@ ALuint GObject::playSoundSpatial(const string& path, float volume, bool loop, fl
 	if (soundSource != 0) space->addSpatialSound(this, soundSource);
 	return soundSource;
 #else
-    return 0;
+	return 0;
 #endif
 }
 
@@ -911,18 +911,18 @@ local_shared_ptr<Spell> GObject::cast(const SpellDesc* desc)
 		return nullptr;
 	}
  
-    if (!applyInitialSpellCost(desc->getCost())) {
+	if (!applyInitialSpellCost(desc->getCost())) {
 		return nullptr;
 	}
  
-    local_shared_ptr<Spell> spell = desc->generate(this);
+	local_shared_ptr<Spell> spell = desc->generate(this);
   
-    if(!desc->getSFX().empty())
-        playSoundSpatial("sfx/" + desc->getSFX() + ".wav");
-        
-    spell->start();
-    
-    if (logSpells) {
+	if(!desc->getSFX().empty())
+		playSoundSpatial("sfx/" + desc->getSFX() + ".wav");
+		
+	spell->start();
+	
+	if (logSpells) {
 		log1("Spell %s (%u) created and initialized.", spell->getName());
 	}
 
@@ -931,60 +931,60 @@ local_shared_ptr<Spell> GObject::cast(const SpellDesc* desc)
 
 local_shared_ptr<MagicEffect> GObject::applyMagicEffect(const MagicEffectDescriptor* effect, effect_attributes attr)
 {
-    local_shared_ptr<MagicEffect> e;
-    if (effect->canApply(this, attr)) {
+	local_shared_ptr<MagicEffect> e;
+	if (effect->canApply(this, attr)) {
 		effect_params params = { this, effect->getFlags(), effect, attr };
 		e = effect->generate(params);
-        effects.push_back(e);
+		effects.push_back(e);
 	}
-    return e;
+	return e;
 }
 
 void GObject::updateEffect(MagicEffect* effect)
 {
-    if (effect->getState() == MagicEffect::state::created)
-        effect->runInit();
+	if (effect->getState() == MagicEffect::state::created)
+		effect->runInit();
 
-    if(effect->getState() == MagicEffect::state::active)
-        effect->runUpdate();
-    
-    if(effect->getState() == MagicEffect::state::ending)
-        effect->runEnd();
+	if(effect->getState() == MagicEffect::state::active)
+		effect->runUpdate();
+	
+	if(effect->getState() == MagicEffect::state::ending)
+		effect->runEnd();
 }
 
 void GObject::updateEffects()
 {
-    auto it = effects.begin();
-    
-    while(it != effects.end()){
-        auto e = *it;
-        
-        if(e->getState() == MagicEffect::state::expired){
-            it = effects.erase(it);
-            continue;
-        }
-        
-        updateEffect(e.get());
-        
-        if(e->getState() == MagicEffect::state::expired)
-            it = effects.erase(it);
-        else
-            ++it;
-    }
+	auto it = effects.begin();
+	
+	while(it != effects.end()){
+		auto e = *it;
+		
+		if(e->getState() == MagicEffect::state::expired){
+			it = effects.erase(it);
+			continue;
+		}
+		
+		updateEffect(e.get());
+		
+		if(e->getState() == MagicEffect::state::expired)
+			it = effects.erase(it);
+		else
+			++it;
+	}
 }
 
 void GObject::removeEffects()
 {
-    auto it = effects.begin();
-    while(it != effects.end()){
-        auto e = *it;
-        e->remove();
-        
-        if(e->getState() != MagicEffect::state::expired)
-            e->end();
-            
-        it = effects.erase(it);
-    }
+	auto it = effects.begin();
+	while(it != effects.end()){
+		auto e = *it;
+		e->remove();
+		
+		if(e->getState() != MagicEffect::state::expired)
+			e->end();
+			
+		it = effects.erase(it);
+	}
 }
 
 //END SPELLS

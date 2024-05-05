@@ -15,8 +15,8 @@ public:
 	EnvironmentObject(
 		GSpace* space,
 		ObjectIDType id,
-        const object_params& params,
-        local_shared_ptr<environment_object_properties> props
+		const object_params& params,
+		local_shared_ptr<environment_object_properties> props
 	);
 
 	~EnvironmentObject();

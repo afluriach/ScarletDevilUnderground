@@ -60,7 +60,7 @@ bool loadSpellParams(tinyxml2::XMLElement* elem, spell_params* result)
 	getNumericAttr(elem, "length", &params.length);
 	getNumericAttr(elem, "updateInterval", &params.updateInterval);
 
-    getSpellCost(elem, &params.cost);
+	getSpellCost(elem, &params.cost);
 
 	*result = params;
 	return true;

@@ -18,7 +18,7 @@ bool hasMethod(sol::table obj, const string& name)
 
 void printErrorMessage(lua_State* state)
 {
-    print("    %s", lua_tostring(state, -1));
+	print("	%s", lua_tostring(state, -1));
 }
 
 }

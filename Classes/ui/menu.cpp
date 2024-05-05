@@ -47,9 +47,9 @@ TextListMenuLayer::TextListMenuLayer(
 {}
 
 TextListMenuLayer::TextListMenuLayer(
-    const string& title,
-    const vector<string>& options,
-    const vector<zero_arity_function>& optionActions
+	const string& title,
+	const vector<string>& options,
+	const vector<zero_arity_function>& optionActions
 ) :
 title(title)
 {
@@ -70,22 +70,22 @@ TextListMenuLayer::~TextListMenuLayer() {}
 void TextListMenuLayer::upPressed()
 {
 	if(selected > 0)
-	    --selected;
+		--selected;
 
-    updateCursor();
+	updateCursor();
 }
 
 void TextListMenuLayer::downPressed()
 {
 	if(selected < entries.size() - 1)
-	    ++selected;
-    
-    updateCursor();
+		++selected;
+	
+	updateCursor();
 }
 
 void TextListMenuLayer::selectPressed()
 {
-    entries[selected].second();
+	entries[selected].second();
 }
 
 void TextListMenuLayer::backPressed()
@@ -106,32 +106,32 @@ int TextListMenuLayer::yPosition(int idx)
 
 bool TextListMenuLayer::init()
 {
-    MenuLayer::init();
-    
-    screenSize = getScreenSize();
+	MenuLayer::init();
+	
+	screenSize = getScreenSize();
 	scale = App::getScale();
-    
-    titleLabel = createTextLabel(title, titleSize*scale);
-    
-    titleLabel->setPosition(screenSize.width/2, screenSize.height - titleMargin*scale);
-    addChild(titleLabel);
-    
-    for(size_t i=0;i<entries.size(); ++i)
-    {
-        string labelText = entries[i].first;
-        int yPos = yPosition(i);
-        
-        Label* label = createTextLabel(labelText, menuItemSize*scale);
-        menuItemLabels.push_back(label);
-        label->setPosition(leftMargin*1.5f*scale + label->getContentSize().width/2, yPos);
-        addChild(label);
-    }
-    
-    cursor = Node::ccCreate<DiamondCursor>();
+	
+	titleLabel = createTextLabel(title, titleSize*scale);
+	
+	titleLabel->setPosition(screenSize.width/2, screenSize.height - titleMargin*scale);
+	addChild(titleLabel);
+	
+	for(size_t i=0;i<entries.size(); ++i)
+	{
+		string labelText = entries[i].first;
+		int yPos = yPosition(i);
+		
+		Label* label = createTextLabel(labelText, menuItemSize*scale);
+		menuItemLabels.push_back(label);
+		label->setPosition(leftMargin*1.5f*scale + label->getContentSize().width/2, yPos);
+		addChild(label);
+	}
+	
+	cursor = Node::ccCreate<DiamondCursor>();
 	cursor->setScale(0.5f*scale);
-    addChild(cursor);
-    cursor->setPositionX(leftMargin*0.75f*scale);
-    updateCursor();
-    
-    return true;
+	addChild(cursor);
+	cursor->setPositionX(leftMargin*0.75f*scale);
+	updateCursor();
+	
+	return true;
 }

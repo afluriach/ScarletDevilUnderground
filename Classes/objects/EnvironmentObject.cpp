@@ -15,13 +15,13 @@
 EnvironmentObject::EnvironmentObject(
 	GSpace* space,
 	ObjectIDType id,
-    const object_params& params,
-    local_shared_ptr<environment_object_properties> props
+	const object_params& params,
+	local_shared_ptr<environment_object_properties> props
 ) :
 	GObject(
 		space,
 		id,
-        params,
+		params,
 		physics_params(
 			props->interactible ? enum_bitwise_or(GType,environment,interactible) : GType::environment,
 			props->layers,
@@ -33,7 +33,7 @@ EnvironmentObject::EnvironmentObject(
 	),
 	props(props)
 {
-    sol::init_script_object<EnvironmentObject>(this, params);
+	sol::init_script_object<EnvironmentObject>(this, params);
 }
 
 EnvironmentObject::~EnvironmentObject()
@@ -59,12 +59,12 @@ bool EnvironmentObject::canInteract(Player* p)
 
 void EnvironmentObject::interact(Player* p)
 {
-    runMethodIfAvailable("interact", p);
+	runMethodIfAvailable("interact", p);
 }
 
 bool EnvironmentObject::hit(DamageInfo damage, SpaceVect n)
 {
-    runMethodIfAvailable("hit", damage, n);
+	runMethodIfAvailable("hit", damage, n);
 
 	return true;
 }

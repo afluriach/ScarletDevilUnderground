@@ -35,7 +35,7 @@ Enemy::Enemy(
 	if (props->firepattern.size() > 0)
 		setFirePattern(props->firepattern);
   
-    sol::init_script_object<Enemy>(this, params);
+	sol::init_script_object<Enemy>(this, params);
 }
 
 Enemy::~Enemy()
@@ -71,7 +71,7 @@ void Enemy::onZeroHP()
 void Enemy::onRemove()
 {
 	GObject::onRemove();
-    App::getCrntState()->registerEnemyDefeated(getClsName());
+	App::getCrntState()->registerEnemyDefeated(getClsName());
 }
 
 void Enemy::applyItemDrops()

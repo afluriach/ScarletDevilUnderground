@@ -10,19 +10,19 @@ class TimerSystem;
 class App : private Application
 {
 public:
-    enum class EventPriorities
-    {
-        KeyGlobalListenerEvent = 1,
-        KeyRegisterEvent,
-    };
-    
-    static const string title;
-    
-    static const vector<string> shaderFiles;
+	enum class EventPriorities
+	{
+		KeyGlobalListenerEvent = 1,
+		KeyRegisterEvent,
+	};
+	
+	static const string title;
+	
+	static const vector<string> shaderFiles;
 	static const unordered_map<string, InterfaceFunction> interfaceFuntions;
-    
+	
 	static const app_params& getParams();
-	static Vec2 getScreenCenter();    
+	static Vec2 getScreenCenter();	
 	static float getScale();
 
 	static void setSouthpaw(bool b);
@@ -49,7 +49,7 @@ public:
 
 	//Methods for controlling the active scene; wraps calls to Director.
 	static void runTitleScene();
-    //runs/loads new scene immediately
+	//runs/loads new scene immediately
 	static GScene* runPlayScene(string mapName, string start);
 	static void runOpeningScene();
 	static void restartScene();
@@ -85,28 +85,28 @@ public:
 	static void printGlDebug();
 	static void end();
 
-    App();
-    virtual ~App();
+	App();
+	virtual ~App();
 
-    virtual void initGLContextAttrs();
-    
-    void loadShaders();
+	virtual void initGLContextAttrs();
+	
+	void loadShaders();
 	void loadObjects();
-    
-    //globals exposed by app
-    static unique_ptr<ControlRegister> control_register;
+	
+	//globals exposed by app
+	static unique_ptr<ControlRegister> control_register;
 #if use_sound
 	static unique_ptr<audio_context> audioContext;
 #endif
 	static unique_ptr<GState> crntState;
 	static string crntProfileName;
-    static unique_ptr<Lua::Inst> lua;
+	static unique_ptr<Lua::Inst> lua;
 #if USE_TIMERS
 	static unique_ptr<TimerSystem> timerSystem;
 	static SpaceFloat timerPrintAccumulator;
 	static mutex timerMutex;
 #endif
-    
+	
 	static GState* getCrntState();
 	static string getProfileName(int profileID);
 
@@ -120,7 +120,7 @@ protected:
 	virtual void applicationDidEnterBackground();
 	virtual void applicationWillEnterForeground();
 
-    void update(float dt);
+	void update(float dt);
 	void loadConfigFile();
 #if USE_TIMERS
 	void updateTimerSystem();

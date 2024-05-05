@@ -19,7 +19,7 @@ namespace Lua{
 	{
 		auto app = _state.new_usertype<App>(
 			"App",
-            "params", sol::property(&App::getParams),
+			"params", sol::property(&App::getParams),
 			"state", sol::property(&App::getCrntState)
 		);
 #define _cls App

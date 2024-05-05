@@ -50,8 +50,8 @@ public:
  	void createConeShader(
 		SpriteID id, GraphicsLayer layer,
 		const Color4F color, float radius,
-        const Vec2 center, SpaceFloat coneWidth,
-        SpaceFloat initialAngleRad
+		const Vec2 center, SpaceFloat coneWidth,
+		SpaceFloat initialAngleRad
 	);
 
 	void runSpriteAction(SpriteID id, ActionGeneratorType generator);

@@ -162,22 +162,22 @@ class Cursor : public Node
 public:
 	static const Color4F colors[6];
 
-    virtual void onEnter();
-    virtual void update(float dt);
-    void reset();
+	virtual void onEnter();
+	virtual void update(float dt);
+	void reset();
 protected:
-    virtual void drawShape() = 0;
-    //The length of time for the diamond to expand or shrink fully.
-    const float interval = 0.5;
-    //Base size of shape.
-    const int halfSize = 20;
+	virtual void drawShape() = 0;
+	//The length of time for the diamond to expand or shrink fully.
+	const float interval = 0.5;
+	//Base size of shape.
+	const int halfSize = 20;
 
 	int scaledSize();
-        
-    DrawNode * drawNode;
-    bool expanding=false;
-    float scale = 1;
-    int crntColor=0;
+		
+	DrawNode * drawNode;
+	bool expanding=false;
+	float scale = 1;
+	int crntColor=0;
 };
 
 class DiamondCursor : public Cursor
@@ -185,15 +185,15 @@ class DiamondCursor : public Cursor
 public:
 	//Y scale, with is also y/x ratio
 	static const float ratio;
-    virtual void onEnter();
+	virtual void onEnter();
 protected:
-    virtual void drawShape();
+	virtual void drawShape();
 };
 
 class DownTriangleCursor : public Cursor
 {
 public:
-    virtual void drawShape();
+	virtual void drawShape();
 };
 
 struct LinearMeterSettings

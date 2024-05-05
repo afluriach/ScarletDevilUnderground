@@ -35,8 +35,8 @@ public:
 
 	string getExplosionSound() const;
 	virtual shared_ptr<sprite_properties> getSprite() const;
-    
-    void onTouch(GObject* other);
+	
+	void onTouch(GObject* other);
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 protected:
 	local_shared_ptr<bomb_properties> props;

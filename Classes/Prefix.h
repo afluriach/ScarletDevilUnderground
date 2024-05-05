@@ -15,23 +15,23 @@
 #endif
 
 #ifdef CC_TARGET_OS_MAC
-    #import <OpenAL/al.h>
-    #import <OpenAL/alc.h>
-    #define ALuint uint32_t
-    #define use_gamepad 0
+	#import <OpenAL/al.h>
+	#import <OpenAL/alc.h>
+	#define ALuint uint32_t
+	#define use_gamepad 0
 #endif
 
 #ifdef CC_TARGET_OS_IPHONE
-    #import <OpenAL/al.h>
-    #import <OpenAL/alc.h>
-    #define ALuint uint32_t
+	#import <OpenAL/al.h>
+	#import <OpenAL/alc.h>
+	#define ALuint uint32_t
 	#define use_gamepad 0
 #endif
 
 #if defined _WIN32
-    #include "AL/al.h"
-    #include "AL/alc.h"
-    #define use_gamepad 1
+	#include "AL/al.h"
+	#include "AL/alc.h"
+	#define use_gamepad 1
 #endif
 
 #define DEV_MODE 1
@@ -76,11 +76,11 @@
 #include "sndfile.h"
 
 #if use_gamepad
-    #include "gainput/gainput.h"
+	#include "gainput/gainput.h"
 #endif
 
 #if defined(TARGET_OS_IOS) && defined(__OBJC__)
-    #import "platform/ios/CCEAGLView-ios.h"
+	#import "platform/ios/CCEAGLView-ios.h"
 #endif
 
 //Boost modules

@@ -13,42 +13,42 @@
 
 AnimationSpriteSequence AnimationSpriteSequence::loadFromRasterImage(const string& path, int cols, int rows)
 {
-    Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(path);
-    
-    if(!texture){
-        log1("AnimationSpriteSequence: texture %s not loaded!", path.c_str());
-        return AnimationSpriteSequence();
-    }
-    
-    Vector<SpriteFrame*> frames;
-    
-    cocos2d::CCSize size = texture->getContentSize();
-    IntVec2 intSize = toIntVector(size);
-    
-    if(intSize.first % cols != 0 || intSize.second % rows != 0){
-        log5(
-            "texture %s is not evenly divisible! %d,%d px at %d by %d",
-            path.c_str(),
-            intSize.first,
-            intSize.second,
-            cols,
-            rows
-        );
-    }
-    
-    int frameWidth = intSize.first / cols;
-    int frameHeight = intSize.second / rows;
-    
-    for_irange(r,0,rows)
-    {
-        for_irange(c,0,cols)
-        {
-            cocos2d::CCRect rect(c*frameWidth,r*frameHeight,frameWidth,frameHeight);
-            frames.pushBack(SpriteFrame::createWithTexture(texture, rect));
-        }
-    }
-    
-    return AnimationSpriteSequence(frames);
+	Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(path);
+	
+	if(!texture){
+		log1("AnimationSpriteSequence: texture %s not loaded!", path.c_str());
+		return AnimationSpriteSequence();
+	}
+	
+	Vector<SpriteFrame*> frames;
+	
+	cocos2d::CCSize size = texture->getContentSize();
+	IntVec2 intSize = toIntVector(size);
+	
+	if(intSize.first % cols != 0 || intSize.second % rows != 0){
+		log5(
+			"texture %s is not evenly divisible! %d,%d px at %d by %d",
+			path.c_str(),
+			intSize.first,
+			intSize.second,
+			cols,
+			rows
+		);
+	}
+	
+	int frameWidth = intSize.first / cols;
+	int frameHeight = intSize.second / rows;
+	
+	for_irange(r,0,rows)
+	{
+		for_irange(c,0,cols)
+		{
+			cocos2d::CCRect rect(c*frameWidth,r*frameHeight,frameWidth,frameHeight);
+			frames.pushBack(SpriteFrame::createWithTexture(texture, rect));
+		}
+	}
+	
+	return AnimationSpriteSequence(frames);
 }
 
 array<AnimationSpriteSequence, 4> AnimationSpriteSequence::loadPatchconSpriteSheet(const string& path)
@@ -100,9 +100,9 @@ AnimationSpriteSequence::AnimationSpriteSequence(Vector<SpriteFrame*>::iterator 
 
 void TimedLoopAnimation::loadAnimation(const string& name, int length, SpaceFloat animationInterval)
 {
-    setName("TimedLoopAnimation");
-    sequence = AnimationSpriteSequence::loadFromRasterImage("sprites/"+name+".png", length, 1);
-    frameInterval = animationInterval / length;
+	setName("TimedLoopAnimation");
+	sequence = AnimationSpriteSequence::loadFromRasterImage("sprites/"+name+".png", length, 1);
+	frameInterval = animationInterval / length;
 
 	setSpriteFrame(sequence.frames.at(0));
 }
@@ -115,16 +115,16 @@ bool TimedLoopAnimation::init()
 void TimedLoopAnimation::update(float unused)
 {
 	timerIncrement(timeInFrame);
-    
-    while(timeInFrame >= frameInterval){
-        ++crntFrame;
-        timeInFrame -= frameInterval;
-        if(crntFrame >= sequence.frames.size()){
-            crntFrame = 0;
-        }
-    }
-    
-    setSpriteFrame(sequence.frames.at(crntFrame));
+	
+	while(timeInFrame >= frameInterval){
+		++crntFrame;
+		timeInFrame -= frameInterval;
+		if(crntFrame >= sequence.frames.size()){
+			crntFrame = 0;
+		}
+	}
+	
+	setSpriteFrame(sequence.frames.at(crntFrame));
 }
 
 bool PatchConAnimation::init()
@@ -151,17 +151,17 @@ void PatchConAnimation::loadAnimation(shared_ptr<sprite_properties> _sprite)
 
 	useFlipX = !agentAnimation;
 
-    useAntiAliasTexture(false);
-    setCascadeOpacityEnabled(true);
-    setFrame(crntFrame);
+	useAntiAliasTexture(false);
+	setCascadeOpacityEnabled(true);
+	setFrame(crntFrame);
 }
 
 void PatchConAnimation::setDirection(Direction dir)
 {
-    direction = dir;
-    
-    //update sprite frame
-    setFrame(crntFrame);
+	direction = dir;
+	
+	//update sprite frame
+	setFrame(crntFrame);
 }
 
 Direction PatchConAnimation::getDirection()const {
@@ -170,7 +170,7 @@ Direction PatchConAnimation::getDirection()const {
 
 void PatchConAnimation::setFrame(int animFrame)
 {
-    crntFrame = animFrame;
+	crntFrame = animFrame;
 
 	if (direction != Direction::none){
 		setSpriteFrame(walkAnimations.at(to_size_t(direction) - 1).frames.at(animFrame));

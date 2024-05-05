@@ -11,7 +11,7 @@
 #include "LuaAPI.hpp"
 
 namespace Lua{
-    
+	
 struct hashset_gobject_ref
 {
 	unordered_set<gobject_ref> _set;
